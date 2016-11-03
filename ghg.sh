@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# DO NOT MODIFY - its source is in om's repo
+
 cmnd=${1:-up}
 path=$2
 cpwd=`pwd`
