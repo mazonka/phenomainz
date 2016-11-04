@@ -8,9 +8,10 @@ Intallation instruction
 1. Clean installation (Debian)
 ------------------------------
 1.1 
-# What: Initial setup
-# Who: root
-# Where:
+### # What: Initial setup #
+### # Who: root #
+### # Where: #
+```bash
 su
 apt-get update
 apt-get install -y subversion make g++ sudo nginx
@@ -24,4 +25,6 @@ passwd dev [***]
 su dev
 bash
 cd
+```
+
 
