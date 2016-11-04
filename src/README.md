@@ -2,7 +2,7 @@ Intallation instruction
 =======================
 
 1. Clean installation on empty Debian
-2. New installation - make, nginx, g++ are present
+2. New installation - nginx, g++, make exist
 3. Upgrade soft - retain database
 
 1. Clean installation (Debian)
@@ -10,7 +10,7 @@ Intallation instruction
 1.1 
 ### # What: Initial setup #
 ### # Who: root #
-### # Where: #
+\# Where:
 ```bash
 su
 apt-get update
