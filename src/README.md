@@ -79,7 +79,7 @@ nginx
 
 ### 1.5 What: Cook web page files
 \# Who: dev
-\# Where: /home/dev/dev.git/trunk/hasqd/img/jsclient
+\# Where: /home/fdev/src/img/jsclient
 ```bash
 whoami
 |    fdev
