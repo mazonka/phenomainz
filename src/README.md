@@ -55,9 +55,9 @@ chmod 0775 .
 su fdat
 cd /home/fdev
 \# option 1 - run in a separate console
-/home/fdev/bin/fenod 
+/home/fdev/bin/phenod 
 \# option 2 - run in background
-nohup /home/fdev/bin/fenod &
+nohup /home/fdev/bin/phenod &
 \# test that it is running
 telnet localhost 13131
 wget http://localhost:13131/ping -qO -
