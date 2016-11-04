@@ -34,8 +34,8 @@ string Worker2::process(bool * recog)
 
     const cfg::PublicNetCmd & pn = gs->config->publicNetCmd;
 
-    if ( tok.is("admin") && (en || pn.admin) )
-        return admin();
+//    if ( tok.is("admin") && (en || pn.admin) )
+//        return admin();
 
     if ( gs->netdisabled )
         return er::Code(er::DISABLED);
@@ -43,7 +43,7 @@ string Worker2::process(bool * recog)
     if ( ( tok.is("ping") || tok.is("p") ) && (en || pn.ping) )
         return er::Code(er::OK);
 
-    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
+/*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
         return info();
 
     else if ( ( tok.is("job") || tok.is("j") ) && (en || pn.job) )
@@ -117,6 +117,7 @@ string Worker2::process(bool * recog)
 
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
+*/
 
     if ( recog ) *recog = false;
 
