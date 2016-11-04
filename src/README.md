@@ -7,9 +7,8 @@ Intallation instruction
 
 1. Clean installation (Debian)
 ------------------------------
-1.1 
-### # What: Initial setup #
-### # Who: root #
+### 1.1 Initial setup
+\# Who: root
 \# Where:
 ```bash
 su
