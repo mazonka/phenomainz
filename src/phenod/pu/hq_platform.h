@@ -40,7 +40,7 @@
 
 #define VERSION "0.4.2"
 
-#define LOGO "Hasq server " VERSION " (" PLATFORM ") Hasq Technology Pty Ltd (C) 2013-2016"
+#define LOGO "Hasq server (modified for phenomainz) " VERSION " (" PLATFORM ") Hasq Technology Pty Ltd (C) 2013-2016"
 
 #define LICENCE \
 "Copyright (C) 2013-2016 Hasq Technology Pty Ltd\n" \

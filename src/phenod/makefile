@@ -13,16 +13,16 @@ SG=sg
 VI=vi
 
 all: $(TRG) \
-	$(TRG)/hasqd$(EEXT) \
+	$(TRG)/phenod$(EEXT) \
 
 $(TRG):
 	@echo "Usage: make PLAT={msc,unx} [MEMORY=1] [GCOV=1]"
 	@mkdir -p $(TRG)
 
-$(TRG)/hasqd$(EEXT): $(PU)/$(TRG)/hasqd$(EEXT)
+$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
 	cp $< $@
 
-$(PU)/$(TRG)/hasqd$(EEXT): $(PU)/*.cpp $(PU)/*.h $(OS)/*.cpp $(OS)/*.h $(GL)/*.cpp $(GL)/*.h $(OS)/*/*.cpp
+$(PU)/$(TRG)/phenod$(EEXT): $(PU)/*.cpp $(PU)/*.h $(OS)/*.cpp $(OS)/*.h $(GL)/*.cpp $(GL)/*.h $(OS)/*/*.cpp
 	cd $(PU) && make PLAT=$(PLAT)
 
 
