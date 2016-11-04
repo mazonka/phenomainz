@@ -8,6 +8,7 @@ Intallation instruction
 ------------------------------
 ### 1.1 Initial setup
 \# Who: root
+
 \# Where:
 ```bash
 su
@@ -26,6 +27,7 @@ cd
 
 ### 1.2 Checkout and build
 \# Who: fdev
+
 \# Where: /home/fdev
 ```bash
 pwd
