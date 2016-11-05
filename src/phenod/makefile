@@ -12,14 +12,14 @@ PU=pu
 SG=sg
 VI=vi
 
-all: $(TRG) \
-	$(TRG)/phenod$(EEXT) \
+all: ../$(TRG) \
+	../$(TRG)/phenod$(EEXT) \
 
-$(TRG):
+../$(TRG):
 	@echo "Usage: make PLAT={msc,unx} [MEMORY=1] [GCOV=1]"
-	@mkdir -p $(TRG)
+	@mkdir -p ../$(TRG)
 
-$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
+../$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
 	cp $< $@
 
 $(PU)/$(TRG)/phenod$(EEXT): $(PU)/*.cpp $(PU)/*.h $(OS)/*.cpp $(OS)/*.h $(GL)/*.cpp $(GL)/*.h $(OS)/*/*.cpp
