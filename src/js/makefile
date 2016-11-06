@@ -64,21 +64,17 @@ mk_phclnt: $(SRC)/index.html
 done:
 	@echo Done.
 	
-clean: $(CLNT) 
+clean: $(CLNT)
+	@echo Clean all ...
 	@rm -rf $< $(SRC_LIB)/jquery*.*
-	@rm -rf $</css/*.css $</css/*.bak
-	@rm -rf $</eng/*.js $</eng/*.bak
-	@rm -rf $</front/*.js $</front/*.bak
-	@rm -rf $</img/*.*
-	@rm -rf $</lib/*.*
-	@rm -rf $</ui/*.js $</ui/*.bak
 	@rm -rf $(BIN_DIR)/hq.*.lock	
+	@echo Done.
 	
-checkin:
+checkin: $(CLNT)
 	@cp -f $(CLNT)/front/*.js $(SRC)/front/
 	@cp -f $(CLNT)/eng/*.js $(SRC)/eng/
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@cp -f $(CLNT)/*.html $(SRC)/
 	@cp -f $(CLNT)/css/*.css $(SRC)/css/
-#	
-	@chmod 0777 -R $(CLNT)
+	@chmod 0777 -R $(SRC)
+	@echo Done.
