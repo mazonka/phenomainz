@@ -39,7 +39,7 @@ src =   hq_conflict.cpp \
 	
 obj := $(src:%.cpp=$O/%$(OEXT))
 
-srctrg = hasqd.cpp phenod.cpp
+srctrg = phenod.cpp
 trg := $(srctrg:%.cpp=$O/%$(EEXT))
 
 

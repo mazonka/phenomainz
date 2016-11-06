@@ -14,6 +14,7 @@ JQ_FILE_BASE=jquery-ui-*.custom
 JQ_FILE_SUFF=tar.bz2
 JQ_FULL_NAME=$(wildcard $(JQ_DIR)/$(JQ_FILE_BASE).$(JQ_FILE_SUFF))
 JQ_SHRT_NAME=$(shell basename $(JQ_FULL_NAME))
+JQ_TAR_DIR=$(dir $(wildcard $(SRC_DIR)/lib/$(JQ_FILE_BASE)/))
 
 all: mk_dir cp_jq mk_phclnt
 
@@ -37,7 +38,7 @@ cp_jq: $(JQ_FULL_NAME)
 	@cp $< $(SRC_DIR)/lib/
 #	@cd $(SRC_DIR)/lib && make JQ_NAME=$(JQ_SHRT_NAME) JQ_PATH=$(JQ_DIR)
 	tar xjvf $(SRC_DIR)/lib/$(JQ_SHRT_NAME) -C $(SRC_DIR)/lib/
-	JQ_TAR_DIR=$(dir $(wildcard $(SRC_DIR)/lib/$(JQ_FILE_BASE)/))
+#	JQ_TAR_DIR=$(dir $(wildcard $(SRC_DIR)/lib/$(JQ_FILE_BASE)/))
 	@echo $(JQ_TAR_DIR)
 	chmod 0777 -R $(JQ_TAR_DIR)
 	#mv $(JQ_TAR_DIR) $(JQ_TAR_DIR)/lib/jquery-ui
@@ -59,7 +60,7 @@ mk_phclnt: $(SRC_DIR)/index.html
 #	cp $(SRC_DIR)/lib/jquery-ui/images/*.png $(CLNT_DIR)/lib/images
 #	cp $(SRC_DIR)/lib/jquery-ui/external/jquery/jquery.js $(CLNT_DIR)/lib/
 #	chmod
-	@chmod 0777 -R $(CLNT_DIR) || echo "Cannot make chmod on "$(CLNT_DIR)"
+	@chmod 0777 -R $(CLNT_DIR) || echo "Cannot make chmod on $(CLNT_DIR)"
 
 clean:
 	@rm -rf lib/jquery* $(CLNT_DIR) index slice lib/*.tar lib/*.tar.bz2

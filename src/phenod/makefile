@@ -17,10 +17,13 @@ all: ../$(TRG) \
 
 ../$(TRG):
 	@echo "Usage: make PLAT={msc,unx} [MEMORY=1] [GCOV=1]"
+	@echo "removing ../$(TRG)/phenod$(EEXT)"
 	rm -f ../$(TRG)/phenod$(EEXT)
 	@mkdir -p ../$(TRG)
 
 ../$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
+	@echo "updating ../$(TRG)/phenod$(EEXT)"
+	rm -f ../$(TRG)/phenod$(EEXT)
 	cp $< $@
 
 $(PU)/$(TRG)/phenod$(EEXT): $(PU)/*.cpp $(PU)/*.h $(OS)/*.cpp $(OS)/*.h $(GL)/*.cpp $(GL)/*.h $(OS)/*/*.cpp

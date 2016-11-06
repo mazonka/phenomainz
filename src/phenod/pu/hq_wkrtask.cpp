@@ -115,9 +115,9 @@ string Worker2::process(bool * recog)
     else if ( tok.is("drop")  && (en || pn.drop) )
         return drop();
 
+*/
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
-*/
 
     if ( recog ) *recog = false;
 
