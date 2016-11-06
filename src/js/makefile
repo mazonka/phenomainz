@@ -1,24 +1,21 @@
 # (C) 2016
 
 ifeq ($(OS),Windows_NT)
-PLAT=msc
+	PLAT=msc
 else
-PLAT=unx
+	PLAT=unx
 endif
 
 BIN_DIR=_bin_$(PLAT)
 CLNT_DIR=../$(BIN_DIR)/phclnt
-SRC_DIR=./src
-JQ_DIR=../ext/jq
+SRC_DIR=src
+JQ_EXT_DIR=../ext/jq
 JQ_FILE_BASE=jquery-ui-*.custom
 JQ_FILE_SUFF=tar.bz2
-JQ_FULL_NAME=$(wildcard $(JQ_DIR)/$(JQ_FILE_BASE).$(JQ_FILE_SUFF))
+JQ_FULL_NAME=$(wildcard $(JQ_EXT_DIR)/$(JQ_FILE_BASE).$(JQ_FILE_SUFF))
 JQ_SHRT_NAME=$(shell basename $(JQ_FULL_NAME))
-JQ_TAR_DIR=$(dir $(wildcard $(SRC_DIR)/lib/$(JQ_FILE_BASE)/))
 
-all: mk_dir cp_jq mk_phclnt
-
-client: cp_jq mk_phclnt
+all: mk_dir tar_x_jq cp_jq #mk_phclnt
 
 mk_dir:
 	@echo Creating folders tree in $(CLNT_DIR) ...
@@ -32,17 +29,16 @@ mk_dir:
 	@echo -JQ_FILE_BASE: $(JQ_FILE_BASE)
 	@echo -JQ_FULL_NAME: $(JQ_FULL_NAME)
 	@echo -JQ_SHRT_NAME: $(JQ_SHRT_NAME)
-	
-cp_jq: $(JQ_FULL_NAME)
-	@echo Copying $(JQ_SHRT_NAME) to $(SRC_DIR)/lib/ ...
+
+tar_x_jq: $(JQ_FULL_NAME)
+	@echo Unpack $(JQ_SHRT_NAME) to $(SRC_DIR)/lib/ ...
 	@cp $< $(SRC_DIR)/lib/
-#	@cd $(SRC_DIR)/lib && make JQ_NAME=$(JQ_SHRT_NAME) JQ_PATH=$(JQ_DIR)
 	tar xjvf $(SRC_DIR)/lib/$(JQ_SHRT_NAME) -C $(SRC_DIR)/lib/
-#	JQ_TAR_DIR=$(dir $(wildcard $(SRC_DIR)/lib/$(JQ_FILE_BASE)/))
-	@echo $(JQ_TAR_DIR)
-	chmod 0777 -R $(JQ_TAR_DIR)
-	#mv $(JQ_TAR_DIR) $(JQ_TAR_DIR)/lib/jquery-ui
-	#rm $(SRC_DIR)/lib/$(JQ_FILE_BASE)
+	rm $(SRC_DIR)/lib/$(JQ_SHRT_NAME)
+	
+cp_jq: $(SRC_DIR)/lib
+	chmod 0777 -R $(shell echo $</$(JQ_FILE_BASE))
+	mv $(shell echo $</$(JQ_FILE_BASE)) $(SRC_DIR)/lib/jquery-ui
 	
 mk_phclnt: $(SRC_DIR)/index.html 
 #	phclnt
