@@ -17,6 +17,7 @@ all: ../$(TRG) \
 
 ../$(TRG):
 	@echo "Usage: make PLAT={msc,unx} [MEMORY=1] [GCOV=1]"
+	rm -f ../$(TRG)/phenod$(EEXT)
 	@mkdir -p ../$(TRG)
 
 ../$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
