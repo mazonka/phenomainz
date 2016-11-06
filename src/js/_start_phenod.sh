@@ -8,7 +8,7 @@ BIN=_bin_${PLAT}
 
 echo ${BIN}
 
-comm="../$BIN/phenod webroot=. webdir=phclnt tcp_port=16000 dprn=1 dpul=1 dced=1 dwkr=1 cycle=10000"
+comm="./phenod webroot=. webdir=phclnt tcp_port=16000 dprn=1 dpul=1 dced=1 dwkr=1 cycle=10000"
 
 error() {
 	[ -z "$1" ] || echo ">>> $1"
@@ -17,6 +17,8 @@ error() {
 
 
 [ "$?" -eq 0 ] || error
+
+cd "../$BIN/"
 
 if cmd /c ls 2> /dev/null 1> /dev/null
 then
