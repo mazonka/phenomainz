@@ -10,54 +10,54 @@ Intallation instruction
 \# Who: root
 
 \# Where:
-```bash
+```
+# bash
 su
 apt-get update
-apt-get install -y subversion make g++ sudo nginx
-groupadd gfdat
-groupadd gfdev
-useradd -N -m fdat -g gfdat -G gfdev
-passwd fdat [***]
-useradd -N -m fdev -g gfdev
-passwd fdev [***]
-su dev
-bash
-cd
+apt-get install -y subversion make mail g++ sudo nginx 
+useradd -m -s /bin/bash dev
+passwd dev [***]
+useradd -m -s /bin/bash -G dev dat
+passwd dat [***]
+su - dev
+# bash
+# cd
 ```
 
 ### 1.2 Checkout and build
-\# Who: fdev
+\# Who: dev
 
-\# Where: /home/fdev
-```bash
-pwd
-|    /home/fdev
+\# Where: /home/dev
+```
+# bash
+# pwd
+# |    /home/dev
 svn ls https://github.com/mazonka/phenomainz.git/trunk/src
 svn co https://github.com/mazonka/phenomainz.git/trunk/src
-cd src
+cd src/phenod
 make
-make install
-make clean
+# make install
+# make clean
 cd ..
-ls -l ~/bin
+ls -l ~/src/_bin_*
 |    total 3188
-|    -rwxr-xr-x 1 dev sr 1163380 Apr 23 06:33 phenod
+|    -rwxr-xr-x 1 dev sr 1274600 Nov 5 20:50 phenod
 pwd
-|    /home/fdev/src
-cd img/jsclient/
-chmod 0775 .
+|    /home/dev/src
+cd js/
+chmod -R 0775 .
 ```
 
 ### 1.3 Start phenod
-\# Who: hasq
-\# Where: /home/fdev/src/img/jsclient/
+\# Who: dat
+\# Where: /home/dev/src/img/jsclient/
 ```bash
-su fdat
-cd /home/fdev
+su dat
+cd /home/dev
 \# option 1 - run in a separate console
-/home/fdev/bin/phenod 
+/home/dev/bin/phenod 
 \# option 2 - run in background
-nohup /home/fdev/bin/phenod &
+nohup /home/dev/bin/phenod &
 \# test that it is running
 telnet localhost 13131
 wget http://localhost:13131/ping -qO -
@@ -73,16 +73,16 @@ pwd
 |    /etc/nginx
 nginx -s stop
 cp ./nginx.conf ./nginx.conf.ori
-cp /home/fdev/src/img/conf/nginx.conf.deb ./nginx.conf
+cp /home/dev/src/img/conf/nginx.conf.deb ./nginx.conf
 nginx
 ```
 
 ### 1.5 What: Cook web page files
 \# Who: dev
-\# Where: /home/fdev/src/img/jsclient
+\# Where: /home/dev/src/img/jsclient
 ```bash
 whoami
-|    fdev
+|    dev
 pwd
 |    /home/dev/src/img/jsclient
 make
