@@ -10,14 +10,24 @@ body {
     margin: auto;
 }
 
+input {
+    margin: 4px; 
+}
+
+button {
+    height: 24px;
+    padding: 0 5px 0 5px!important;
+    vertical-align: middle !important;
+}
+
 #table_body {
-	width: 100%;
-	border: 1px solid #1376BC;
-	text-align: center;
+    width: 100%;
+    border: 1px solid #1376BC;
+    text-align: center;
 }
 
 #td_email {
-	text-align: right;
+    text-align: right;
 }
 
 #div_modal_window {

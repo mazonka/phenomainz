@@ -5,7 +5,7 @@
 
 
 const PHENOD_CMD = {
-	PING: 'ping'
+    PING: 'ping'
 };
 
 function doc_main_write() {
@@ -19,9 +19,9 @@ function doc_main_init() {
 }
 
 function doc_init() {
-	$('button').button();
-	$('#div_modal_window').css('display', 'none');
-	$('#btn_email_login').prop('disabled', true);
+    $('button').button();
+    $('#div_modal_window').css('display', 'none');
+    $('#btn_email_login').prop('disabled', true);
 }
 
 function doc_main() {
