@@ -4,6 +4,7 @@ Intallation instruction
 2. New installation - nginx, g++, make exist
 3. Upgrade soft - retain database
 
+
 1. Clean installation (Debian)
 ------------------------------
 ### 1.1 Initial setup
@@ -50,8 +51,9 @@ chmod -R 0775 .
 
 ### 1.3 Start phenod
 \# Who: dat
-\# Where: /home/dev/src/img/jsclient/
-```bash
+
+\# Where: /home/dev/src/js/
+```
 su dat
 cd /home/dev
 \# option 1 - run in a separate console
