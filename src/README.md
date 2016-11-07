@@ -54,11 +54,17 @@ chmod -R 0775 .
 ```
 su dat
 cd /home/dev
-# option 1 - run in a separate console
+```
+option 1 - run in a separate console
+```
 /home/dev/bin/phenod 
-# option 2 - run in background
+```
+option 2 - run in background
+```
 nohup /home/dev/bin/phenod &
-# test that it is running
+```
+test that it is running
+```
 telnet localhost 13131
 wget http://localhost:13131/ping -qO -
 |    OK
@@ -79,11 +85,11 @@ nginx
 
 ### 1.5 What: Cook web page files
 \# Who: dev
-\# Where: /home/dev/src/img/jsclient
+\# Where: /home/dev/src/js
 ```bash
 whoami
 |    dev
 pwd
-|    /home/dev/src/img/jsclient
+|    /home/dev/src/js
 make
 ```
