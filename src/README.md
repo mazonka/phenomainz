@@ -1,8 +1,9 @@
 Intallation instruction
 =======================
-1. Clean installation on empty Debian
-2. New installation - nginx, g++, make exist
-3. Upgrade soft - retain database
+1. Clean installation on empty Debian;
+2. New installation - nginx, g++, make exist;
+3. Upgrade soft - retain database;
+
 
 
 1. Clean installation (Debian)
