@@ -2,7 +2,7 @@ Intallation instruction
 =======================
 1. Clean installation on empty Debian;
 2. New installation - nginx, g++, make exist;
-3. Upgrade soft - retain database;
+3. Upgrade soft - retain database.
 
 
 
@@ -55,15 +55,15 @@ chmod -R 0775 .
 su dat
 cd /home/dev
 ```
-option 1 - run in a separate console
+\# option 1 - run in a separate console
 ```
 /home/dev/bin/phenod 
 ```
-option 2 - run in background
+\# option 2 - run in background
 ```
 nohup /home/dev/bin/phenod &
 ```
-test that it is running
+\# test that it is running
 ```
 telnet localhost 13131
 wget http://localhost:13131/ping -qO -
@@ -72,6 +72,7 @@ wget http://localhost:13131/ping -qO -
 
 ### 1.4 What: Restart nginx
 \# Who: root
+
 \# Where: /etc/nginx
 ```bash
 su
@@ -85,6 +86,7 @@ nginx
 
 ### 1.5 What: Cook web page files
 \# Who: dev
+
 \# Where: /home/dev/src/js
 ```bash
 whoami
