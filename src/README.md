@@ -20,9 +20,6 @@ useradd -m -s /bin/bash dev
 passwd dev [***]
 useradd -m -s /bin/bash -G dev dat
 passwd dat [***]
-su - dev
-# bash
-# cd
 ```
 
 ### 1.2 Checkout and build
@@ -30,9 +27,9 @@ su - dev
 
 \# Where: /home/dev
 ```
-# bash
-# pwd
-# |    /home/dev
+su - dev
+pwd
+|    /home/dev
 svn ls https://github.com/mazonka/phenomainz.git/trunk/src
 svn co https://github.com/mazonka/phenomainz.git/trunk/src
 cd src/phenod
