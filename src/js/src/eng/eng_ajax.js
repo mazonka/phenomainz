@@ -1,7 +1,11 @@
 // (C) 2016
 
+
+'use strict';
+
+
 function ajx_send_command(cmd, callback/* , logo */) {
-    logo.wait();
+    //logo.wait();
     cmd = cmd.replace(/\u0025/g, '%25');
 
     $.post(
