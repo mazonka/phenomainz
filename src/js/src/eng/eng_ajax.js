@@ -4,8 +4,8 @@
 'use strict';
 
 
-function ajx_send_command(cmd, callback/* , logo */) {
-    //logo.wait();
+function ajx_send_command(cmd, callback, progress) {
+    progress.wait();
     cmd = cmd.replace(/\u0025/g, '%25');
 
     $.post(
@@ -16,12 +16,12 @@ function ajx_send_command(cmd, callback/* , logo */) {
 
     .done(function (data) {
         callback(data);
-        // logo.done();
+        progress.done();
     })
 
     .fail(function () {
         callback('FAIL');
-        // logo.fail();
+        progress.fail();
     })
 
     .always(function () {});

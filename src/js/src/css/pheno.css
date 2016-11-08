@@ -11,7 +11,7 @@ body {
 }
 
 input {
-    margin: 4px; 
+    margin: 4px;
 }
 
 button {
@@ -26,7 +26,16 @@ button {
     text-align: center;
 }
 
-#td_email {
+#td_logo {
+    text-align: left;
+    width: 20px;
+}
+
+#td_logo img {
+    width: 16px;
+}
+
+#td_login {
     text-align: right;
 }
 
