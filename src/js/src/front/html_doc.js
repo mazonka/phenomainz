@@ -42,7 +42,7 @@ function get_html_td_logo() {
     var r = '';
 
     r += '<td id="td_logo">';
-    r += '<img id="img_logo" src="'+ IMG.LOGO_WAIT + '">';
+    r += '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">';
     return r;
 }
 

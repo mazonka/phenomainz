@@ -76,6 +76,9 @@ checkin: $(CLNT)
 	@echo $(CLNT)/front/ to $(SRC)/front/ - copied.
 	@cp -f $(CLNT)/eng/*.js $(SRC)/eng/
 	@echo $(CLNT)/eng/ to $(SRC)/eng/ - copied.
+	@cp -f $(CLNT)/img/*.png $(SRC)/img/
+	@cp -f $(CLNT)/img/*.gif $(SRC)/img/
+	@echo $(CLNT)/img/ to $(SRC)/img/ - copied.
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/

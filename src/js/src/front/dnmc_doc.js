@@ -7,33 +7,44 @@
 function start_progressbar($Obj)
 {
     var counter = 0;
-
+    
+    
     return {
         wait: function () {
+            let $Logo = $('#img_logo');
+            
             counter++;
-
-            if (counter > 0)
-                return $Obj.attr('src', IMG.LOGO_WORK);
+            
+            if (counter > 0) {
+                console.log('wait');
+                return $Logo.attr('src', IMG.LOGO_WAIT);
+            }
         },
         done: function () {
+            let $Logo = $('#img_logo');
+            
             if (counter > 0)
                 counter--;
 
             if (counter == 0)
                 return setTimeout(function () {
-                    $Obj.attr('src', IMG.LOGO_WAIT)
+                    $Logo.attr('src', IMG.LOGO_DONE);
+                    console.log('done');
                 }, 200);
         },
         fail: function () {
+            let $Logo = $('#img_logo');
+            
             counter = 0;
+            console.log('fail');
 
-            return $Obj.attr('src', IMG.LOGO_FAIL);
+            return $Logo.attr('src', IMG.LOGO_FAIL);
         }
     }
 }
 
 
-var g_progressbar = start_progressbar($('#td_progressbar'));
+var g_progressbar = start_progressbar($('#img_logo'));
 
 function img_preload(container)
 {

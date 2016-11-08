@@ -7,11 +7,11 @@
 function ajx_send_command(cmd, callback, progress) {
     progress.wait();
     cmd = cmd.replace(/\u0025/g, '%25');
-
+    
     $.post(
         '/',
         'command=' + cmd,
-        function (data) {}
+        setTimeout(function (data) {}, 5000)
     )
 
     .done(function (data) {

@@ -10,13 +10,13 @@ const PHENOD_CMD = {
 };
 
 const IMG = {
-    LOGO_WORK: 'img/logo_wk.gif',
-    LOGO_WAIT: 'img/logo_wt.png',
+    LOGO_WAIT: 'img/logo_wt.gif',
+    LOGO_DONE: 'img/logo_dn.png',
     LOGO_FAIL: 'img/logo_fl.png'
 };
 
 var g_img = [
-    IMG.LOGO_WORK, IMG.LOGO_WAIT, IMG.LOGO_FAIL
+    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL
 ];
 
 var g_img_preload = [];
