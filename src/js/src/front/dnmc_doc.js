@@ -89,10 +89,11 @@ function wid_oninput_email($Obj) {
 
 function wid_send_email() {
     var data = $('#input_email').val();
+    var login_cmd = ['login', data].join(' ');
     var cb = function (data) {
         wid_modal_window(data);
     };
 
-    ajx_send_command(data, cb);
+    ajx_send_command(login_cmd, cb);
 
 }
