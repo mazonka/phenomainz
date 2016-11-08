@@ -43,7 +43,7 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
 
     , quiet(false)
     , listDir(true)
-    , webRoot()
+    , webRoot(".")
 
     , logSize(100)
     , console(true)
