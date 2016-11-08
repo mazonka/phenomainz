@@ -3,6 +3,7 @@
 
 'use strict';
 
+
 function wid_modal_window(msg, func) {
     var $Window = $('#div_modal_window');
     var $Content = $('#div_modal_window_content');

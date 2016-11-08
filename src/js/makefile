@@ -49,8 +49,8 @@ cp_jq: $(SRC_LIB)/$(JQ_QI)
 	@cp $</external/jquery/jquery.js $(CLNT_LIB)/
 	@echo Remove $< ...
 	@rm -rf $<
-	
-mk_phclnt: $(SRC)/index.html 
+
+mk_phclnt: $(SRC)/index.html
 	@echo Copy $(SRC) to $(CLNT)...
 	@cp $(SRC)/css/pheno.css $(CLNT)/css/
 	@cp $(SRC)/eng/*.js $(CLNT)/eng/
@@ -63,18 +63,24 @@ mk_phclnt: $(SRC)/index.html
 
 done:
 	@echo Done.
-	
+
 clean: $(CLNT)
-	@echo Clean all ...
+	@echo Remove $< and $(SRC_LIB)/jquery*.*.
 	@rm -rf $< $(SRC_LIB)/jquery*.*
-	@rm -rf $(BIN_DIR)/hq.*.lock	
+	@echo Remove ../$(BIN_DIR)/hq.*.lock if exists.
+	@rm -rf ../$(BIN_DIR)/hq.*.lock
 	@echo Done.
-	
+
 checkin: $(CLNT)
 	@cp -f $(CLNT)/front/*.js $(SRC)/front/
+	@echo $(CLNT)/front/ to $(SRC)/front/ - copied.
 	@cp -f $(CLNT)/eng/*.js $(SRC)/eng/
+	@echo $(CLNT)/eng/ to $(SRC)/eng/ - copied.
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
+	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
+	@echo $(CLNT)/ to $(SRC)/ - copied.
 	@cp -f $(CLNT)/css/*.css $(SRC)/css/
+	@echo $(CLNT)/css/ to $(SRC)/css/ - copied.
 	@chmod 0777 -R $(SRC)
-	@echo Done.
+	@echo All done.
