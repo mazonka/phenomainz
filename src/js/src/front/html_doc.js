@@ -27,7 +27,7 @@ function get_html_tr() {
 function get_html_body() {
     var r = '';
 
-    r += '<table id="table_body" border=1>\n';
+    r += '<table id="table_body" border=0>\n';
     
     r += get_html_tr(get_html_td_logo(), get_html_td_login());
     r += get_html_tr(get_html_td_btn_send_raw());
