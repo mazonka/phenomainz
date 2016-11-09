@@ -122,6 +122,13 @@ string Worker2::process(bool * recog)
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
 
+	{
+		string ts = tok.c_str();
+		string::size_type i = ts.find('?');
+		if( i!=string::npos )
+			return ph_script(ts.substr(0,i),ts.substr(i+1));
+	}
+
     return file(true, false);
 
     if ( recog ) *recog = false;

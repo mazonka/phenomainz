@@ -38,3 +38,17 @@ string Worker2::ph_login()
     return er::Code(er::OK);
 }
 
+string Worker2::ph_script(string cmd, string ag)
+{	
+	os::Cout()<<"Auth request ["<<cmd <<"] ["<<ag<<"]"<<os::endl;
+
+	if( cmd != "au" ) return er::Code(er::REQ_MSG_BAD);
+
+	string file = gl::file2str("au.phd");
+
+	gl::replaceAll(file,"$$$",ag);
+
+    *mime = "text/html";
+	return file;
+}
+
