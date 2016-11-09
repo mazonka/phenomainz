@@ -21,7 +21,7 @@
 
 string Worker2::ph_login()
 {
-    if ( !tok.next() ) return er::Code(er::REQ_JOBID_BAD);
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
 
     string em = tok.sub();
 
@@ -52,3 +52,13 @@ string Worker2::ph_script(string cmd, string ag)
 	return file;
 }
 
+string Worker2::ph_aucmd()
+{
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	string c1 = tok.sub();
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	string c2 = tok.sub();
+//    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+//	string c3 = tok.sub();
+    return er::Code(er::OK).str()+' '+c1+' '+c2;
+}
