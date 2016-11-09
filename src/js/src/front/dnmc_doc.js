@@ -85,15 +85,19 @@ function wid_modal_window(msg, click, func) {
     };
 
     if (click) {
-        $Window.click(function () {
+        $Window
+            .click(function () {
+                close();
+            })
+            .children().click(function () {
             close();
-        })
+            });
     } else {
         $Window.click(function(){
-          close();
-        }).children().click(function(e) {
-          return false;
-        });
+            close();
+            }).children().click(function(e) {
+                return false;
+            });
     }
 
     $(document).keyup(function (event) {
@@ -167,7 +171,7 @@ function wid_send_email() {
     var data = $('#input_email').val();
     var login_cmd = [PHENOD_CMD.LOGIN, data].join(' ');
     var cb = function (data) {
-        wid_modal_window(data);
+        wid_modal_window(data, true);
     };
 
     ajx_send_command(login_cmd, cb, g_progressbar);
