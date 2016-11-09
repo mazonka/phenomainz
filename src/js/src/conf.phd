@@ -1,2 +1,2 @@
-admin	admin@gmail.com
-server	http://server/
+admin	admin@server.com
+server	http://127.0.0.1:16000/
