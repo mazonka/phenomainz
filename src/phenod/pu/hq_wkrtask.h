@@ -47,6 +47,8 @@ struct Worker2
         string slice();
         string drop();
 
+        string ph_login();
+
         er::Code fetchRecord(int dbIndex, db::Dn * dn,
                              gl::intint n, bool first, db::Record * record);
 
