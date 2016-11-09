@@ -30,7 +30,7 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
     , wkrAreaLimSize(1000)  // qlim
     , wkrAreaJobSize(100)   // qwkr
     , cedAreaSize(100)      // qced
-    , binAreaSize(100)      // qbin
+    , binAreaSize(10000)    // qbin and qaut
     , svtAreaSize(200)      // qsvt
     , zeroLimit(-1) // no limit // zlim
 

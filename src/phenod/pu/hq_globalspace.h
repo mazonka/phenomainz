@@ -20,6 +20,8 @@
 #include "hq_gl_wkr.h"
 #include "hq_gl_key.h"
 
+#include "ph_gl_aut.h"
+
 
 class GlobalSpace
 {
@@ -33,6 +35,7 @@ class GlobalSpace
         SvtArea svtArea;
         ConArea conArea;
         KeyArea keyArea;
+        AutArea autArea;
 
         db::Database database;
 

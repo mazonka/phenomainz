@@ -25,7 +25,15 @@ string Worker2::ph_login()
 
     string em = tok.sub();
 
+	AutArea & aa = gs->autArea;
+	sgl::Mutex mutex_aa(aa.access2autArea);
+
+	AutObject ao = aa.newAob(em);
+
 	os::Cout()<<"Email received "<<em<<os::endl;
+
+	//aa.reloadConf();
+	os::Cout()<<"http://127.0.0.1:16000/au?123456"<<os::endl;
 
     return er::Code(er::OK);
 }

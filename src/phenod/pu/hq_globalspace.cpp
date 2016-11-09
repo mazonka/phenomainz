@@ -33,6 +33,7 @@ GlobalSpace::GlobalSpace(const Config * c) :
     , svtArea(c->svtAreaSize)
     , conArea(c->conCloseSize_ini, c->conPotSize_ini, c->conHintSize_ini)
     , keyArea(c->initial_skc_keys, c->skc_seed)
+    , autArea(c->binAreaSize)
     , database(c->dbcfg)
     , stopPublisher(false)
     , publisherState(0)
