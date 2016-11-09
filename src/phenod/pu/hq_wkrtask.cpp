@@ -119,10 +119,12 @@ string Worker2::process(bool * recog)
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
 
+    return file(true, false);
+
     if ( recog ) *recog = false;
 
 //    return er::Code(er::REQ_MSG_HEAD);
-    return string("AAA")+tok.c_str()+er::Code(er::REQ_MSG_HEAD).str();
+    return er::Code(er::REQ_MSG_HEAD).str()+" ["+tok.c_str()+"]";
 }
 
 string Worker2::info()

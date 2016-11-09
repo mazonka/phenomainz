@@ -43,7 +43,7 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
 
     , quiet(false)
     , listDir(true)
-    , webRoot(".")
+    , webRoot("phclnt")
 
     , logSize(100)
     , console(true)
@@ -62,7 +62,7 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
     , rangeMax(100)
 
     , homevalid(false)
-    , webhome("phclnt/phclnt.html")
+    , webhome("/index.html")
 
     , xfwd("0.0.0.0")
 
