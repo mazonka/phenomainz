@@ -87,8 +87,8 @@ checkin: $(CLNT)
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
-	@cp -f $(BIN_DIR)/au.phd $(SRC)/
-	@cp -f $(BIN_DIR)/conf.phd $(SRC)/
+	@cp -f ../$(BIN_DIR)/au.phd $(SRC)/
+	@cp -f ../$(BIN_DIR)/conf.phd $(SRC)/
 	@echo $(CLNT)/ to $(SRC)/ - copied.
 	@chmod 0777 -R $(SRC)
 	@echo All done.
