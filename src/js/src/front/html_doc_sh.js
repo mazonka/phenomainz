@@ -27,7 +27,7 @@ function get_html_tr() {
 function get_html_td(data, id) {
     var r = '';
 
-    r += '<td id="' + id +'">';
+    r += '<td id="' + id +'">\n';
     r += data;
 
     return r;
@@ -37,8 +37,8 @@ function get_html_td(data, id) {
 function get_html_td_logo() {
     var r = '';
 
-    r += '<td id="td_logo">';
-    r += '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">';
+    r += '<td id="td_logo">\n';
+    r += '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">\n';
     return r;
 }
 
@@ -46,7 +46,7 @@ function get_html_td_logo() {
 function get_html_td_modal_window() {
     var r = '';
 
-    r += '<td colspan="2">';
+    r += '<td colspan="2">\n';
     r += '<div id="div_modal_window">\n';
     r += '<div id="div_modal_window_content">\n';
     r += '<div id="div_modal_window_content_header"></div>\n';

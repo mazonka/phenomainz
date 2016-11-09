@@ -157,27 +157,3 @@ function wid_oninput_email($Obj) {
         $Btn.prop('disabled', true);
     }
 }
-
-
-function wid_open_login_window() {
-    var $Window = $('#div_modal_window');
-
-    wid_modal_window(get_html_login_window(), false);
-
-    ph_obj_init($Window);
-}
-
-
-function wid_send_email() {
-    var data = $('#input_email').val();
-    var login_cmd = [PHENOD_CMD.LOGIN, data].join(' ');
-    var cb = function (data) {
-        wid_modal_window(data, true);
-    };
-
-    ajx_send_command(login_cmd, cb, g_progressbar);
-}
-
-function wid_onkeypress_email($Obj, e) {
-    Boolean(e.keyCode === 13) && wid_send_email();
-}

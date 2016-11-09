@@ -6,6 +6,7 @@
 
 const BTN_TEXT = {
     LOGIN: 'Login',
+    PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
     PING: 'Ping',
 };

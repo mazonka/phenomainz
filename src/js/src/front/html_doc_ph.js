@@ -19,12 +19,10 @@ function get_html_body() {
 }
 
 function get_html_td_login() {
-    var r = '';
+    var r = '<button id="btn_login" onclick="wid_open_login_window()">' +
+        BTN_TEXT.LOGIN + '</button>\n';
 
-    r += '<td id="td_login">';
-    r += '<button id="btn_login" onclick="wid_open_login_window()">' + BTN_TEXT.LOGIN + '</button>';
-
-    return r;
+    return get_html_td(r, 'td_login');
 }
 
 
@@ -32,21 +30,22 @@ function get_html_login_window() {
 
     var r = '';
 
-    r += '<td id="td_email">';
-    r += '<label for="input_email">e-mail:<label>';
-    r += '<input id="input_email" oninput="wid_oninput_email($(this))">';
-    r += '<button id="btn_email_login" onclick="wid_send_email()">' + BTN_TEXT.SEND_EMAIL + '</button>';
+    r += '<label for="input_email">e-mail:<label>\n';
+    r += '<input id="input_email" oninput="wid_oninput_email($(this))">\n';
+    r += '<button id="btn_email_login" onclick="wid_send_email()">' +
+        BTN_TEXT.SEND_EMAIL + '</button>\n';
 
 
-    return get_html_tr(r);
+    return get_html_tr(get_html_td(r, 'td_email'));
 }
 
 
 function get_html_td_btn_send_raw() {
     var r = '';
 
-    r += '<td colspan="2">';
-    r += '<button id="btn_send_raw" onclick="wid_send_raw(PHENOD_CMD.PING)">' + BTN_TEXT.PING + '</button>\n';
+    r += '<td colspan="2">\n';
+    r += '<button id="btn_send_raw" onclick="wid_send_raw(PH_CMD.PING)">' +
+        BTN_TEXT.PING + '</button>\n';
 
     return r;
 }
