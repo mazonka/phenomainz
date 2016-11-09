@@ -60,6 +60,7 @@ mk_phclnt: $(SRC)/index.html
 	@cp $(SRC)/phclnt.html $(CLNT)/phclnt.html
 	@cp $(SRC)/index.html $(CLNT)/index.html
 	@cp $(SRC)/au.phd ../$(BIN_DIR)/au.phd
+	@cp $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	@cp $(SRC)/img/*.* $(CLNT)/img/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
 
