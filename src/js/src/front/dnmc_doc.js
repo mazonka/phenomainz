@@ -16,20 +16,17 @@ function start_progressbar($Obj)
             counter++;
             
             if (counter > 0) {
-                console.log('wait');
                 return $Logo.attr('src', IMG.LOGO_WAIT);
             }
         },
         done: function () {
             let $Logo = $('#img_logo');
             
-            if (counter > 0)
-                counter--;
+            Boolean(counter > 0) && counter--;
 
             if (counter == 0)
                 return setTimeout(function () {
                     $Logo.attr('src', IMG.LOGO_DONE);
-                    console.log('done');
                 }, 200);
         },
         fail: function () {
@@ -43,8 +40,6 @@ function start_progressbar($Obj)
     }
 }
 
-
-var g_progressbar = start_progressbar($('#img_logo'));
 
 function img_preload(container)
 {

@@ -20,3 +20,5 @@ var g_img = [
 ];
 
 var g_img_preload = [];
+
+var g_progressbar = start_progressbar($('#img_logo'));
