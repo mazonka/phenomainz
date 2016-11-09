@@ -121,7 +121,8 @@ string Worker2::process(bool * recog)
 
     if ( recog ) *recog = false;
 
-    return er::Code(er::REQ_MSG_HEAD);
+//    return er::Code(er::REQ_MSG_HEAD);
+    return string("AAA")+tok.c_str()+er::Code(er::REQ_MSG_HEAD).str();
 }
 
 string Worker2::info()

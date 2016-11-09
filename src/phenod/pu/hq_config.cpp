@@ -21,7 +21,7 @@ gl::HttpPost Config::clntHttpPost(gl::Protocol::Client);
 Config::Config(int ac, const char * av[], const char * cfgfile)
     :
     createThreads(ALL)
-    , seTimeout(6000)
+    , seTimeout(10000)
     , reorgToutS(60 * 60 * 3)
     , cpuLoadCycle(0)
 
@@ -62,12 +62,12 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
     , rangeMax(100)
 
     , homevalid(false)
-    , webhome("home/index.html")
+    , webhome("phclnt/phclnt.html")
 
     , xfwd("0.0.0.0")
 
     , nWorkers(4)
-    , seIpLink("127.0.0.1", 13131)
+    , seIpLink("127.0.0.1", 16000)
     , amIpLink("224.0.0.1", 13131)
 
     , nodename("@host@port")
@@ -114,13 +114,13 @@ string Config::createThreadsStr() const
 
 cfg::Dbg::Dbg()
     : acceptQuit(false)
-    , ced(false)
-    , wkr(false)
+    , ced(true)
+    , wkr(true)
     , svt(false)
     , sec(false)
-    , prn(false)
+    , prn(true)
     , evt(false)
-    , pul(false)
+    , pul(true)
     , agt(false)
     , id(0)
     , tcp()
