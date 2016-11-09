@@ -75,18 +75,19 @@ clean: $(CLNT)
 	@echo Done.
 
 checkin: $(CLNT)
-	@cp -f $(CLNT)/front/*.js $(SRC)/front/
-	@echo $(CLNT)/front/ to $(SRC)/front/ - copied.
+	@cp -f $(CLNT)/css/*.css $(SRC)/css/
+	@echo $(CLNT)/css/ to $(SRC)/css/ - copied.
 	@cp -f $(CLNT)/eng/*.js $(SRC)/eng/
 	@echo $(CLNT)/eng/ to $(SRC)/eng/ - copied.
+	@cp -f $(CLNT)/front/*.js $(SRC)/front/
+	@echo $(CLNT)/front/ to $(SRC)/front/ - copied.
 	@cp -f $(CLNT)/img/*.png $(SRC)/img/
 	@cp -f $(CLNT)/img/*.gif $(SRC)/img/
 	@echo $(CLNT)/img/ to $(SRC)/img/ - copied.
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
+	@cp -f $(CLNT)/au.phd $(SRC)/
 	@echo $(CLNT)/ to $(SRC)/ - copied.
-	@cp -f $(CLNT)/css/*.css $(SRC)/css/
-	@echo $(CLNT)/css/ to $(SRC)/css/ - copied.
 	@chmod 0777 -R $(SRC)
 	@echo All done.
