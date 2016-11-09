@@ -56,6 +56,7 @@ mk_phclnt: $(SRC)/index.html
 	@cp $(SRC)/eng/*.js $(CLNT)/eng/
 	@cp $(SRC)/front/*.js $(CLNT)/front/
 	@cp $(SRC)/ui/*.js $(CLNT)/ui/
+	@cp $(SRC)/favicon.ico $(CLNT)/favicon.ico
 	@cp $(SRC)/phclnt.html $(CLNT)/phclnt.html
 	@cp $(SRC)/index.html $(CLNT)/index.html
 	@cp $(SRC)/au.phd ../$(BIN_DIR)/au.phd
