@@ -7,21 +7,21 @@
 function start_progressbar($Obj)
 {
     var counter = 0;
-    
-    
+
+
     return {
         wait: function () {
             let $Logo = $('#img_logo');
-            
+
             counter++;
-            
+
             if (counter > 0) {
                 return $Logo.attr('src', IMG.LOGO_WAIT);
             }
         },
         done: function () {
             let $Logo = $('#img_logo');
-            
+
             Boolean(counter > 0) && counter--;
 
             if (counter == 0)
@@ -31,7 +31,7 @@ function start_progressbar($Obj)
         },
         fail: function () {
             let $Logo = $('#img_logo');
-            
+
             counter = 0;
             console.log('fail');
 
@@ -70,7 +70,7 @@ function wid_modal_window(msg, click, func) {
 
         $Window.off('click');
         $Window.children().off('click');
-        
+
         $(document).off('keyup');
         $(window).off('beforeunload');
     };
@@ -143,10 +143,16 @@ function wid_oninput_email($Obj) {
     if (is_email(data)) {
         wid_paint_borders($Obj);
         $Btn.prop('disabled', false);
+        $Obj.on('keypress', function (event) {
+            Boolean(event.keyCode === 13) && wid_send_email();
+            $Obj.off('keypress');
+        });
     } else {
-        Boolean(data)
+        (Boolean(data))
             ? wid_paint_borders($Obj, 'red')
             : wid_paint_borders($Obj);
+
+        $Obj.off('keypress');
 
         $Btn.prop('disabled', true);
     }
@@ -170,4 +176,8 @@ function wid_send_email() {
     };
 
     ajx_send_command(login_cmd, cb, g_progressbar);
+}
+
+function wid_onkeypress_email($Obj, e) {
+    Boolean(e.keyCode === 13) && wid_send_email();
 }

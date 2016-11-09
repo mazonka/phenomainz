@@ -26,10 +26,10 @@ function get_html_tr() {
 
 function get_html_td(data, id) {
     var r = '';
-    
+
     r += '<td id="' + id +'">';
     r += data;
-    
+
     return r;
 }
 

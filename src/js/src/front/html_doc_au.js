@@ -8,7 +8,7 @@ function get_html_body() {
     var r = '';
 
     r += '<table id="table_body" border=0>\n';
-    
+
     r += get_html_tr(get_html_td_logo(), get_html_td('user', 'td_username'));
     r += get_html_tr(get_html_td_btn_send_raw());
     r += get_html_tr(get_html_td_modal_window());
