@@ -158,7 +158,7 @@ function wid_open_login_window() {
 
     wid_modal_window(get_html_login_window(), false);
 
-    doc_obj_init($Window);
+    ph_obj_init($Window);
 }
 
 

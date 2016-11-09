@@ -39,6 +39,10 @@ button {
     text-align: right;
 }
 
+#td_username {
+    text-align: right;
+}
+
 #div_modal_window {
     display: none;
     position: fixed;

@@ -4,30 +4,30 @@
 'use strict';
 
 
-function doc_main_write() {
-    document.write(main_write());
+function doc_ph_write() {
+    document.write(ph_write());
 }
 
 
-function main_write() {
+function ph_write() {
     return get_html_body();
 }
 
 
-function doc_main_init() {
+function doc_ph_init() {
     $(document).ready(function () {
-        main_init();
+        ph_init();
     });
 }
 
 
-function main_init() {
+function ph_init() {
     $('button').button();
     $('#div_modal_window').css('display', 'none');
 }
 
 
-function doc_obj_init ($Obj) {
+function ph_obj_init ($Obj) {
     $Obj.ready(function () {
         obj_init();
     });

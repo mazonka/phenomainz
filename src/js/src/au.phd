@@ -19,14 +19,15 @@
         <script src="eng/eng_is.js"></script>
         <script src="ui/ui_doc_au.js"></script>
         <script src="front/html_doc_au.js"></script>
+        <script src="front/html_doc_sh.js"></script>
         <script src="front/dnmc_doc.js"></script>
         <script src="front/msg_doc.js"></script>
         <script src="front/var_doc.js"></script>
     </head>
     <body onload="img_preload(g_img)">
         <script>
-            au_main_write();
-            au_main_init($$$);
+            doc_au_write();
+            doc_au_init($$$);
         </script>
     </body>
 </html>
