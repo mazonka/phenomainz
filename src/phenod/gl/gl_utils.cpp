@@ -231,3 +231,54 @@ string gl::nextDay(const string & date)
 
     return r;
 }
+
+gl::vstr gl::str2vstr(const string &s, char delim)
+{
+	if( s.size() < 1 ) return vstr();
+
+	const string * ps = &s;
+	string ds; // with delim at the end
+	if( s[s.size()-1] != delim )
+	{
+		ds = s + delim;
+		ps = &ds;
+	}
+	
+	// now ps points to a string with delim at the end
+
+	vstr r;
+	string::size_type i=0;
+	while( 1 )
+	{
+		string::size_type j = ps->find(delim,i);
+		if( j==string::npos ) break;
+		r.push_back(ps->substr(i,j-i));
+		i = j+1;
+	}
+	
+	return r;
+}
+
+const int BUF_SIZE = 100; // for C-string representation
+// of numeric values big enough to store 4 or 8 byte int
+// or double with any precision
+
+string gl::int2str(int x, int pr, char pad)
+{
+	char buf[BUF_SIZE]; 
+	std::sprintf(buf,"%d",x);
+	if( !pr ) return buf;
+	
+	string s = buf;
+	while( s.size() < static_cast<unsigned>(pr) )
+	{
+		if( s.size() && s[0]=='-' )
+		{
+			s[0] = pad;
+			s = '-' + s;
+		}
+		else
+			s = pad+s;
+	}
+	return s;
+}

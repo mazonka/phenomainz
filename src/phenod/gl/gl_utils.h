@@ -26,6 +26,7 @@ intint toii(const string & s);
 
 std::vector<string> tokenise(const string & s);
 
+
 string tosHex(int n, size_t length);
 string tolower(const string & s);
 string unslash(const string & s);
@@ -105,6 +106,11 @@ class Removec
 int calendarDays(int year, int month);
 void nextDay(int & year, int & month, int & day);
 string nextDay(const string & date);
+
+
+typedef std::vector<string> vstr;
+vstr str2vstr(const string &s, char delim);
+string int2str(int x, int width=0, char pad='0');
 
 } // gl
 
