@@ -9,3 +9,7 @@ function is_email(data) {
         ? true
         : false;
 }
+
+function eng_au_cmd(c, p, i) {
+    return [p, i, c].join(' ');
+}

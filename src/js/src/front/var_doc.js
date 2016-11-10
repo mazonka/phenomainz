@@ -4,13 +4,12 @@
 'use strict';
 
 
+var g_uid;
+const g_pfx = 'au';
+
 const PH_CMD = {
     PING: 'ping',
     LOGIN: 'login'
-};
-
-const AU_CMD = {
-    PING: 'au ping',
 };
 
 const IMG = {

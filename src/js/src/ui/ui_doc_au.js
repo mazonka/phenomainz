@@ -24,4 +24,6 @@ function doc_au_init() {
 function au_init() {
     $('button').button();
     $('#div_modal_window').css('display', 'none');
+    g_uid = document.location.search.substr(1);
+    console.log(g_uid)
 }

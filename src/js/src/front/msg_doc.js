@@ -9,6 +9,7 @@ const BTN_TEXT = {
     PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
     PING: 'Ping',
+    UPLOAD: 'Upload file'
 };
 
 
