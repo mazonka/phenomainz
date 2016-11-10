@@ -111,6 +111,7 @@ string nextDay(const string & date);
 typedef std::vector<string> vstr;
 vstr str2vstr(const string &s, char delim);
 string int2str(int x, int width=0, char pad='0');
+void eatEndl(string &s);
 
 } // gl
 

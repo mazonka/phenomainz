@@ -282,3 +282,9 @@ string gl::int2str(int x, int pr, char pad)
 	}
 	return s;
 }
+
+void gl::eatEndl(string &s)
+{
+  while( s.size() && (s[s.size()-1]=='\r' || s[s.size()-1]=='\n') ) 
+	s.erase(s.size()-1,1);
+}

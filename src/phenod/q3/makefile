@@ -20,7 +20,7 @@ OSLIB=$(OSDIR)/$O/htoslib$(LEXT)
 src = dbo.cpp
 obj := $(src:%.cpp=$O/%$(OEXT))
 
-srctrg =
+srctrg = sqlcl.cpp
 trg := $(srctrg:%.cpp=$O/%$(EEXT))
 
 csrc = sqlite3.c
@@ -31,8 +31,9 @@ all: $O $(trg) $O/$(MYLIB)$(LEXT)
 $O:
 	mkdir -p $O
 
-$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT)
-	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) $(LDF) $(EOUT)$@
+$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(OSLIB) $(GLLIB)
+	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) \
+	$(OSLIB) $(GLLIB) $(LDF) $(EOUT)$@
 
 $(obj): $O/%$(OEXT):%.cpp *.h sqlite3.h
 	$(COMPILER) -c $(OPT) $(INC) $(FLAGS) $< $(OOUT)$@
@@ -66,6 +67,7 @@ $O/sqlite/sqlite3.h: $O/$(SQ3F)
 $O/$(SQ3F): $O/$(SQ3FZ)
 	cd $O && bzip2 -d -k $(SQ3FZ) 
 	chmod 0777 $@
+	touch $@
 
 $O/$(SQ3FZ): $(SQPATH)/$(SQ3FZ)
 	cp $< $@

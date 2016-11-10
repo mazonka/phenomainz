@@ -11,5 +11,9 @@ cd pu && make %PL% -j 10 && cd ../
 cd q3 && make %PL% -j 10 && cd ../
 
 make %PL%
+make %PL%
+make %PL%
+make %PL%
 
+pause
 
