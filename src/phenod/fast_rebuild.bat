@@ -8,6 +8,7 @@ cd sg && make %PL% -j 10 && cd ../
 cd ma && make %PL% -j 10 && cd ../
 cd db && make %PL% -j 10 && cd ../
 cd pu && make %PL% -j 10 && cd ../
+cd q3 && make %PL% -j 10 && cd ../
 
 make %PL%
 

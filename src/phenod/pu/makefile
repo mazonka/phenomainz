@@ -27,6 +27,9 @@ SGDIR=../sg
 INC := $(INC) -I$(SGDIR)
 SGLIB=$(SGDIR)/$O/htsglib$(LEXT)
 
+Q3DIR=../q3
+INC := $(INC) -I$(Q3DIR)
+Q3LIB=$(Q3DIR)/$O/q3lib$(LEXT)
 
 src =   hq_conflict.cpp \
 	hq_connector.cpp hq_logger.cpp hq_svttask.cpp hq_servant.cpp \
@@ -48,9 +51,10 @@ all: $O $(trg) $O/$(MYLIB)$(LEXT)
 $O:
 	mkdir -p $O
 
-$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(DBLIB) $(SGLIB) $(OSLIB) $(MALIB) $(GLLIB)
-	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) $(DBLIB) $(SGLIB) $(OSLIB)  \
-	$(MALIB) $(GLLIB) $(LDF) $(EOUT)$@
+$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(DBLIB) $(SGLIB) \
+	$(OSLIB) $(MALIB) $(GLLIB) $(Q3LIB)
+	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) $(DBLIB) \
+	$(SGLIB) $(Q3LIB) $(OSLIB) $(MALIB) $(GLLIB) $(LDF) $(EOUT)$@
 	@rm -f *.obj
 
 $(obj): $O/%$(OEXT):%.cpp *.h
@@ -80,3 +84,6 @@ $(MALIB):
 
 $(SGLIB):
 	cd $(SGDIR) && make PLAT=$(PLAT)
+
+$(Q3LIB):
+	cd $(Q3DIR) && make PLAT=$(PLAT)
