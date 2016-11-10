@@ -3,17 +3,23 @@
 #ifndef _PH_GL_AUT
 #define _PH_GL_AUT
 
+#include <map>
+
+struct Profile
+{
+};
 
 struct AutObject
 {
-    string id;
-    string email;
-    AutObject(string x, string e): id(x), email(e) {}
+    string ses_id;
+    string pro_id;
+    Profile profile;
+    AutObject(string x, string e): ses_id(x), pro_id(e) {}
 };
 
 class AutQueue
 {
-        std::deque<AutObject> aus;
+        std::map<string,AutObject> aus;
 
         unsigned szMax;
         int findAob(gl::intint aid) const;
@@ -32,7 +38,7 @@ struct AutArea
     AutArea(int sz): access2autArea(1), queue(sz) { testConf(); }
     void testConf();
 
-    AutObject newAob(string id, string email);
+    AutObject newAob_email(string id, string email);
 };
 
 #endif
