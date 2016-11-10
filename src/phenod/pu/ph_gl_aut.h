@@ -19,7 +19,7 @@ struct AutObject
 
 class AutQueue
 {
-        std::map<string,AutObject> aus;
+        std::map<string, AutObject> aus;
 
         unsigned szMax;
         int findAob(gl::intint aid) const;

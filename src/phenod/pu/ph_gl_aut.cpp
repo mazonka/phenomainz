@@ -15,14 +15,14 @@ string AutArea::ph_conf = "conf.phd";
 
 void AutArea::testConf()
 {
-	string a = gl::file2str(ph_conf);
-	if( a.empty() ) throw gl::ex("Cannot open: " + ph_conf);
+    string a = gl::file2str(ph_conf);
+    if ( a.empty() ) throw gl::ex("Cannot open: " + ph_conf);
 }
 
 
 AutObject AutArea::newAob_email(string id, string email)
 {
-	AutObject ao(id,email);
-	return ao;
+    AutObject ao(id, email);
+    return ao;
 }
 
