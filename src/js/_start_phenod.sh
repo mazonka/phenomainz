@@ -26,7 +26,7 @@ if cmd /c ls 2> /dev/null 1> /dev/null
 then
 echo $comm > strt.bat
 echo pause >> strt.bat
-#cmd /c start $comm && pause
+#cmd /c start $comm
 cmd /c start cmd /c strt.bat
 else
 ./$comm
