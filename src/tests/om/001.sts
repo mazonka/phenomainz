@@ -1,0 +1,10 @@
+#!/bin/sh
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln s=$cwd/$in.inp

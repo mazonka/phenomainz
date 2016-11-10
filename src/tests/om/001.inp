@@ -1,0 +1,2 @@
+print tcp self [ ping ]
+quit
