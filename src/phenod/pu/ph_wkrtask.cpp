@@ -28,12 +28,17 @@ string Worker2::ph_login()
     AutArea & aa = gs->autArea;
     sgl::Mutex mutex_aa(aa.access2autArea);
 
-    AutObject ao = aa.newAob(em);
+    KeyArea & ka = gs->keyArea;
+    sgl::Mutex mutex_ka(ka.access2keyArea);
 
-    os::Cout() << "Email received " << em << os::endl;
+    string id = ka.newSalt().substr(0,16);
+
+    AutObject ao = aa.newAob(id,em);
+
+    os::Cout() << "Aob: "<<ao.id<<' '<< ao.email<< os::endl;
 
     //aa.reloadConf();
-    os::Cout() << "http://127.0.0.1:16000/au?123456" << os::endl;
+    //os::Cout() << "http://127.0.0.1:16000/au?123456" << os::endl;
 
     return er::Code(er::OK);
 }

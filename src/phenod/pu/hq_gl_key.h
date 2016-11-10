@@ -14,8 +14,10 @@ using std::string;
 
 class KeyArea
 {
+    public:
         os::Semaphore access2keyArea;
 
+    private:
         string salt;
         string ivec;
         std::vector<string> skcKeys;
@@ -25,9 +27,9 @@ class KeyArea
 
         static void digest(string & s);
         string newIvec() { digest(ivec); return ivec; }
-        string newSalt() { digest(salt); return salt; }
 
     public:
+        string newSalt() { digest(salt); return salt; }
 
         std::vector<string> showSkcKeys(bool randomise);
         string peekIvec() const { string x(ivec); digest(x); return x; }

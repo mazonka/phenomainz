@@ -590,6 +590,10 @@ string SvtTaskAddkey::process()
 {
     if ( tasks.size() != 1 ) throw gl::Never("Bad SvtTaskAddkey args");
     string key = tasks[0]->process();
+
+    KeyArea & ka = gs->keyArea;
+    sgl::Mutex mutex_ka(ka.access2keyArea);
+
     gs->keyArea.addSkcKey(key);
     return key;
 }
@@ -641,6 +645,9 @@ SvtTaskSkc::SvtTaskSkc(GlobalSpace * g, const vs & cmd, size_t & i): SvtTask(g)
 
 string SvtTaskSkc::process()
 {
+    KeyArea & ka = gs->keyArea;
+    sgl::Mutex mutex_ka(ka.access2keyArea);
+
     switch (func)
     {
         case Pop: gs->keyArea.popSkcKey(); return "";

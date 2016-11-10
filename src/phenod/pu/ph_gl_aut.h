@@ -6,9 +6,9 @@
 
 struct AutObject
 {
-    gl::intint id;
+    string id;
     string email;
-    AutObject(gl::intint x, string e): id(x), email(e) {}
+    AutObject(string x, string e): id(x), email(e) {}
 };
 
 class AutQueue
@@ -25,14 +25,14 @@ class AutQueue
 
 struct AutArea
 {
-	static string ph_conf;
+    static string ph_conf;
 
     os::Semaphore access2autArea;
     AutQueue queue;
     AutArea(int sz): access2autArea(1), queue(sz) { testConf(); }
-	void testConf();
+    void testConf();
 
-    AutObject newAob(string email);
+    AutObject newAob(string id, string email);
 };
 
 #endif

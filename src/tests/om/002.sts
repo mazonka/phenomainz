@@ -7,4 +7,4 @@ cwd=`pwd`
 test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 
 cd $1
-./phenod -cqln dwkr=0 s=$cwd/$in.inp
+./phenod -cqln skcseed=1 dwkr=0 s=$cwd/$in.inp
