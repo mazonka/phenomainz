@@ -17,11 +17,17 @@
 
 #include "hq_platform.h"
 
+void send_au(string,string);
+
 int main(int ac, const char * av[]) try
 {
-    if( ac != 3 ) throw gl::ex("Usage: phmain cmd arg");
+    if( ac < 3 ) throw gl::ex("Usage: phmain cmd + args");
 
-    os::Cout()<<"AAA";
+    string cmd = av[1];
+
+    if(0);
+    else if( cmd== "au" && ac==4 ) send_au(av[2],av[3]);
+    else throw gl::ex("Command ["+cmd+"] not recognized or wrong number of args");
 
     return 0;
 }
@@ -36,3 +42,10 @@ catch (string s)
     std::cout << s << '\n';
     return 0;
 }
+
+
+void send_au(string email, string url)
+{
+    os::Cout()<<"phmail: Sending to ["+email+"] au ["+url+"]\n";
+}
+
