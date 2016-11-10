@@ -20,9 +20,9 @@ void AutArea::testConf()
 }
 
 
-AutObject AutArea::newAob_email(string id, string email)
+AutObject AutArea::newAob_email(string ses_id, string email)
 {
-    AutObject ao(id, email);
+    AutObject ao(ses_id, email);
     return ao;
 }
 
