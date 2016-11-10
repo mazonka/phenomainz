@@ -12,8 +12,7 @@ PU=pu
 SG=sg
 VI=vi
 
-all: ../$(TRG) \
-	../$(TRG)/phenod$(EEXT) \
+all: ../$(TRG) ../$(TRG)/phenod$(EEXT) ../$(TRG)/phmail$(EEXT) 
 
 ../$(TRG):
 	@echo "Usage: make PLAT={msc,unx} [MEMORY=1] [GCOV=1]"
@@ -24,6 +23,11 @@ all: ../$(TRG) \
 ../$(TRG)/phenod$(EEXT): $(PU)/$(TRG)/phenod$(EEXT)
 	@echo "updating ../$(TRG)/phenod$(EEXT)"
 	rm -f ../$(TRG)/phenod$(EEXT)
+	cp $< $@
+
+../$(TRG)/phmail$(EEXT): $(PU)/$(TRG)/phmail$(EEXT)
+	@echo "updating ../$(TRG)/phmail$(EEXT)"
+	rm -f ../$(TRG)/phmail$(EEXT)
 	cp $< $@
 
 $(PU)/$(TRG)/phenod$(EEXT): $(PU)/*.cpp $(PU)/*.h $(OS)/*.cpp $(OS)/*.h $(GL)/*.cpp $(GL)/*.h $(OS)/*/*.cpp
