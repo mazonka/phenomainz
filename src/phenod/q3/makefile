@@ -53,7 +53,7 @@ sqlite3.h: $O/sqlite/sqlite3.h
 SQ3F=$(SQ3).fcl
 SQ3FZ=$(SQ3F).bz2
 
-$O/sqlite/sqlite2.h: $O/$(SQ3F)
+$O/sqlite/sqlite3.h: $O/$(SQ3F)
 	cd $O && fcl3 extr $(SQ3F)
 
 $O/$(SQ3F): $O/$(SQ3FZ)
