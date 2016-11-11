@@ -28,10 +28,16 @@ AutObject AutArea::newAob_email(string ses_id, string email)
     // 4. Create new Aob
     // 5. Add it to queue
 
-    que.remove_by_email(email);
+    que.remove_by_email(email); // 1
+    Profile pr;
+    if ( !phdb.get_by_email(email, pr) )
+    {
+        phdb.new_email(email);
+        if ( !phdb.get_by_email(email, pr) )
+            throw gl::ex("ph database corrupted or not accessible");
+    }
 
-
-    AutObject ao(ses_id, email);
+    AutObject ao(ses_id, pr);
     return ao;
 }
 
@@ -64,8 +70,7 @@ string AutQueue::dump() const
     for ( const auto & i : aus )
     {
         string ses_id = i.second.ses_id;
-        string pro_id = i.second.pro_id;
-        r += ses_id + ":" + pro_id + " " + i.second.profile.dump();
+        r += ses_id + ": " + i.second.profile.dump();
         r += '\n';
     }
 
@@ -75,7 +80,8 @@ string AutQueue::dump() const
 string Profile::dump() const
 {
     string r;
-    r += "[" + email + "] [" + name + "] [" + au_tm_last + "] [" + gl::tos(au_count) + "]";
+    r += "[" + pro_id + "] [" + email + "] [" + name;
+    r += "] [" + last + "] [" + cnt + "]";
     return r;
 }
 

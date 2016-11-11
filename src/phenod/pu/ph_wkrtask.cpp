@@ -35,7 +35,7 @@ string Worker2::ph_login()
 
     AutObject ao = aa.newAob_email(ses_id, em);
 
-    os::Cout() << "Aob: " << ao.ses_id << ' ' << ao.pro_id << os::endl;
+    os::Cout() << "Aob: " << ao.ses_id << ' ' << ao.profile.pro_id << os::endl;
 
     //aa.reloadConf();
     //os::Cout() << "http://127.0.0.1:16000/au?123456" << os::endl;

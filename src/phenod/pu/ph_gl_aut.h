@@ -3,23 +3,15 @@
 #ifndef _PH_GL_AUT
 #define _PH_GL_AUT
 
-#include <map>
+#include "ph_db.h"
 
-struct Profile
-{
-    string name;
-    string email;
-    string au_tm_last;
-    int au_count;
-    string dump() const;
-};
+#include <map>
 
 struct AutObject
 {
     string ses_id;
-    string pro_id;
     Profile profile;
-    AutObject(string x, string e): ses_id(x), pro_id(e) {}
+    AutObject(string x, Profile e): ses_id(x), profile(e) {}
 };
 
 class AutQueue
@@ -40,6 +32,7 @@ class AutQueue
 struct AutArea
 {
     static string ph_conf;
+    Phdb phdb;
 
     os::Semaphore access2autArea;
     AutQueue que;
