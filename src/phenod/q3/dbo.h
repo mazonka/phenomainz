@@ -30,61 +30,61 @@ typedef std::list< std::vector<string> > Table;
 
 class Dbo
 {
-	sqlite3 *db;
-	char *zErrMsg;
-	int zErrNum;
-	string zErrCmd;
+        sqlite3 * db;
+        char * zErrMsg;
+        int zErrNum;
+        string zErrCmd;
 
-	// forbid copy construction and assigment
-	Dbo& operator=(const Dbo &rhs);
-	Dbo(const Dbo& rhs);
+        // forbid copy construction and assigment
+        Dbo & operator=(const Dbo & rhs);
+        Dbo(const Dbo & rhs);
 
-public:
+    public:
 
-	Table result; 
-
-
-	//! @b function which is called on select. It populates data in result table
-	//! @p o Dbo object
-	//! @p argc number of elements
-	//! @p argv pointer to a vector of strings - calls
-	//! @p azColName pointer to a vector of strings - column names
-	//! @r 0 to proceed, non-0 to abort
-	static int callback(void *o, int argc, char **argv, char **azColName);
+        Table result;
 
 
-	//! @b adds a record to the result table
-	//! @p rc record to add
-	void add2res(const std::vector<string> &rc){ result.push_back(rc); }
+        //! @b function which is called on select. It populates data in result table
+        //! @p o Dbo object
+        //! @p argc number of elements
+        //! @p argv pointer to a vector of strings - calls
+        //! @p azColName pointer to a vector of strings - column names
+        //! @r 0 to proceed, non-0 to abort
+        static int callback(void * o, int argc, char ** argv, char ** azColName);
 
-public:
 
-	//! @b ctor. Thorws the exception if database file is not accessible
-	//! @p name is the name of database file
-	explicit Dbo(const string &name);
+        //! @b adds a record to the result table
+        //! @p rc record to add
+        void add2res(const std::vector<string> & rc) { result.push_back(rc); }
 
-	//! @b dtor
-	~Dbo();
+    public:
 
-	//! @b execute SQL command
-	//! @p cmd command, e.g. "select * from tbl"
-	//! @r true if success, false if not (use err() to get error message)
-	bool exec(const string &cmd);
+        //! @b ctor. Thorws the exception if database file is not accessible
+        //! @p name is the name of database file
+        explicit Dbo(const string & name);
 
-	//! @b obtain last error message
-	//! @r message
-	string err();
+        //! @b dtor
+        ~Dbo();
 
-	//! @b swap the result table. This is useful way to export the result
-	//! to the client execution space
-	//! @p t bogus table
-	void swap(Table& t){ result.swap(t); }
+        //! @b execute SQL command
+        //! @p cmd command, e.g. "select * from tbl"
+        //! @r true if success, false if not (use err() to get error message)
+        bool exec(const string & cmd);
 
-	//! @b this function tries to access maxid table. It reads the couter for
-	//! given value (table name), incrementing it inside
-	//! @p tbl table name. This is a string key in maxid table
-	//! @r id value to be used
-	string getid(string tbl="all");
+        //! @b obtain last error message
+        //! @r message
+        string err();
+
+        //! @b swap the result table. This is useful way to export the result
+        //! to the client execution space
+        //! @p t bogus table
+        void swap(Table & t) { result.swap(t); }
+
+        //! @b this function tries to access maxid table. It reads the couter for
+        //! given value (table name), incrementing it inside
+        //! @p tbl table name. This is a string key in maxid table
+        //! @r id value to be used
+        string getid(string tbl = "all");
 };
 
 #endif
