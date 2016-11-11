@@ -7,10 +7,10 @@
 
 struct Profile
 {
-	string name;
-	string email;
-	string au_tm_last;
-	int au_count;
+    string name;
+    string email;
+    string au_tm_last;
+    int au_count;
 };
 
 struct AutObject
@@ -32,7 +32,7 @@ class AutQueue
         AutObject getAob(gl::intint jid) const;
         AutQueue(unsigned sz): szMax(sz) {}
 
-	void remove_by_email(string);
+        void remove_by_email(string);
 };
 
 struct AutArea

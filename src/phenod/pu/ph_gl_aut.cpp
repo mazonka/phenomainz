@@ -38,15 +38,15 @@ AutObject AutArea::newAob_email(string ses_id, string email)
 
 void AutQueue::remove_by_email(string em)
 {
-	string k;
+    string k;
 
-	for( const auto & i : aus )
-	if( i.second.profile.email == em ) 
-	{
-		k = i.first;
-		break;
-	}
+    for ( const auto & i : aus )
+        if ( i.second.profile.email == em )
+        {
+            k = i.first;
+            break;
+        }
 
-	if( !k.empty() ) aus.erase(k);
+    if ( !k.empty() ) aus.erase(k);
 }
 
