@@ -55,7 +55,7 @@ $(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(DBLIB) $(SGLIB) \
 	$(OSLIB) $(MALIB) $(GLLIB) $(Q3LIB)
 	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) $(DBLIB) \
 	$(SGLIB) $(Q3LIB) $(OSLIB) $(MALIB) $(GLLIB) $(LDF) $(EOUT)$@
-	@rm -f *.obj
+	@rm -f $O/%$(OEXT):%.cpp
 
 $(obj): $O/%$(OEXT):%.cpp *.h
 	$(COMPILER) -c $(OPT) $(INC) $(FLAGS) $< $(OOUT)$@
