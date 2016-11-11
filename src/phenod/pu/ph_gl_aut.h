@@ -11,6 +11,7 @@ struct Profile
     string email;
     string au_tm_last;
     int au_count;
+    string dump() const;
 };
 
 struct AutObject
@@ -33,6 +34,7 @@ class AutQueue
         AutQueue(unsigned sz): szMax(sz) {}
 
         void remove_by_email(string);
+        string dump() const;
 };
 
 struct AutArea
@@ -40,11 +42,13 @@ struct AutArea
     static string ph_conf;
 
     os::Semaphore access2autArea;
-    AutQueue queue;
-    AutArea(int sz): access2autArea(1), queue(sz) { testConf(); }
+    AutQueue que;
+    AutArea(int sz): access2autArea(1), que(sz) { testConf(); }
     void testConf();
 
     AutObject newAob_email(string id, string email);
+
+    static string dump_safe(GlobalSpace * gs);
 };
 
 #endif

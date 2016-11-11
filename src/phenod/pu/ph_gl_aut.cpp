@@ -28,7 +28,7 @@ AutObject AutArea::newAob_email(string ses_id, string email)
     // 4. Create new Aob
     // 5. Add it to queue
 
-    queue.remove_by_email(email);
+    que.remove_by_email(email);
 
 
     AutObject ao(ses_id, email);
@@ -48,5 +48,34 @@ void AutQueue::remove_by_email(string em)
         }
 
     if ( !k.empty() ) aus.erase(k);
+}
+
+string AutArea::dump_safe(GlobalSpace * gs)
+{
+    AutArea & aa = gs->autArea;
+    sgl::Mutex mutex_aa(aa.access2autArea);
+
+    return aa.que.dump();
+}
+
+string AutQueue::dump() const
+{
+    string r;
+    for ( const auto & i : aus )
+    {
+        string ses_id = i.second.ses_id;
+        string pro_id = i.second.pro_id;
+        r += ses_id + ":" + pro_id + " " + i.second.profile.dump();
+        r += '\n';
+    }
+
+    return r;
+}
+
+string Profile::dump() const
+{
+    string r;
+    r += "[" + email + "] [" + name + "] [" + au_tm_last + "] [" + gl::tos(au_count) + "]";
+    return r;
 }
 

@@ -778,6 +778,12 @@ string SvtTaskNet::process()
 
         return set_prot(args[0]);
     }
+    else if ( sub == "auth" )
+    {
+	string r = AutArea::dump_safe(gs);
+	os::Cout()<<r<<os::endl;
+	return r;
+    }
 
     throw gl::ex("Unknown subcommand " + sub);
 }
