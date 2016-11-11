@@ -1,0 +1,3 @@
+print tcp self [ login aaa@bbb ]
+net auth
+quit
