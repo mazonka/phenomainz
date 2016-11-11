@@ -17,7 +17,7 @@ OSDIR=../os
 INC := $(INC) -I$(OSDIR)
 OSLIB=$(OSDIR)/$O/htoslib$(LEXT)
 
-src = dbo.cpp
+src = dbo.cpp ph_db.cpp
 obj := $(src:%.cpp=$O/%$(OEXT))
 
 srctrg = sqlcl.cpp
