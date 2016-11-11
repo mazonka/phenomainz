@@ -40,6 +40,7 @@ class Dbo
         Dbo(const Dbo & rhs);
 
     public:
+        static string dbname;
 
         Table result;
 
@@ -62,6 +63,7 @@ class Dbo
         //! @b ctor. Thorws the exception if database file is not accessible
         //! @p name is the name of database file
         explicit Dbo(const string & name);
+        explicit Dbo() : Dbo(dbname) {}
 
         //! @b dtor
         ~Dbo();

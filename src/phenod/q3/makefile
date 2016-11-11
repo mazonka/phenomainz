@@ -17,6 +17,10 @@ OSDIR=../os
 INC := $(INC) -I$(OSDIR)
 OSLIB=$(OSDIR)/$O/htoslib$(LEXT)
 
+SGDIR=../sg
+INC := $(INC) -I$(SGDIR)
+SGLIB=$(SGDIR)/$O/htsglib$(LEXT)
+
 src = dbo.cpp ph_db.cpp
 obj := $(src:%.cpp=$O/%$(OEXT))
 
@@ -31,9 +35,9 @@ all: $O $(trg) $O/$(MYLIB)$(LEXT)
 $O:
 	mkdir -p $O
 
-$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(OSLIB) $(GLLIB)
+$(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(SGLIB) $(OSLIB) $(GLLIB)
 	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) \
-	$(OSLIB) $(GLLIB) $(LDF) $(EOUT)$@
+	$(OSLIB) $(SGLIB) $(GLLIB) $(LDF) $(EOUT)$@
 
 $(obj): $O/%$(OEXT):%.cpp *.h sqlite3.h
 	$(COMPILER) -c $(OPT) $(INC) $(FLAGS) $< $(OOUT)$@

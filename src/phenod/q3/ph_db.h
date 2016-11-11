@@ -17,6 +17,7 @@ struct Profile
 
 class Phdb
 {
+        void schema();
     public:
         bool get_by_email(string email, Profile & pr);
         bool new_email(string email);

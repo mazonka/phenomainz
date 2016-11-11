@@ -34,7 +34,8 @@ AutObject AutArea::newAob_email(string ses_id, string email)
     {
         phdb.new_email(email);
         if ( !phdb.get_by_email(email, pr) )
-            throw gl::ex("ph database corrupted or not accessible");
+            //throw gl::ex("ph database corrupted or not accessible");
+            os::Cout() << "AAA ph database corrupted or not accessible" << os::endl;
     }
 
     AutObject ao(ses_id, pr);

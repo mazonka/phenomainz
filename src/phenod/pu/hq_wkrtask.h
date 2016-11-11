@@ -48,7 +48,7 @@ struct Worker2
         string drop();
 
         string ph_login();
-        string ph_script(string,string);
+        string ph_script(string, string);
         string ph_aucmd();
 
         er::Code fetchRecord(int dbIndex, db::Dn * dn,

@@ -49,95 +49,95 @@ string Worker2::process(bool * recog)
     if ( tok.is("au") && (en || pn.ping) )
         return ph_aucmd();
 
-/*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
-        return info();
+    /*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
+            return info();
 
-    else if ( ( tok.is("job") || tok.is("j") ) && (en || pn.job) )
-        return job();
+        else if ( ( tok.is("job") || tok.is("j") ) && (en || pn.job) )
+            return job();
 
-    else if ( ( tok.is("add") || tok.is("a") ) && (en || pn.add) )
-        return add(false);
+        else if ( ( tok.is("add") || tok.is("a") ) && (en || pn.add) )
+            return add(false);
 
-    else if ( ( tok.is("zero") || tok.is("z") ) && (en || pn.zero) )
-        return zero();
+        else if ( ( tok.is("zero") || tok.is("z") ) && (en || pn.zero) )
+            return zero();
 
-    else if ( ( tok.is("last") || tok.is("l") ) && (en || pn.last) )
-        return record(true, false, false);
+        else if ( ( tok.is("last") || tok.is("l") ) && (en || pn.last) )
+            return record(true, false, false);
 
-    else if ( tok.is("first") && (en || pn.first) )
-        return record(true, false, true);
+        else if ( tok.is("first") && (en || pn.first) )
+            return record(true, false, true);
 
-    else if ( ( tok.is("record") || tok.is("r") ) && (en || pn.record) )
-        return record(false, false, false);
+        else if ( ( tok.is("record") || tok.is("r") ) && (en || pn.record) )
+            return record(false, false, false);
 
-    else if ( ( tok.is("data") || tok.is("d") ) && (en || pn.data) )
-        return record(true, true, false);
+        else if ( ( tok.is("data") || tok.is("d") ) && (en || pn.data) )
+            return record(true, true, false);
 
-    else if ( tok.is("lastdata") && (en || pn.lastdata) )
-        return lastdata();
+        else if ( tok.is("lastdata") && (en || pn.lastdata) )
+            return lastdata();
 
-    else if ( tok.is("range")  && (en || pn.range) )
-        return range();
+        else if ( tok.is("range")  && (en || pn.range) )
+            return range();
 
-    else if ( tok.is("debug") || tok.is("x") )
-        return er::Code(er::NOT_IMPLEMENTED);
+        else if ( tok.is("debug") || tok.is("x") )
+            return er::Code(er::NOT_IMPLEMENTED);
 
-    else if ( tok.is("error") || tok.is("e") )
-        return er::Code(er::OK);
+        else if ( tok.is("error") || tok.is("e") )
+            return er::Code(er::OK);
 
-    else if ( tok.is("slice") || tok.is("s") )
-        return slice();
+        else if ( tok.is("slice") || tok.is("s") )
+            return slice();
 
-    else if ( ( tok.is("list") || tok.is("t") ) && (en || pn.list) )
-        return er::Code(er::OK);
+        else if ( ( tok.is("list") || tok.is("t") ) && (en || pn.list) )
+            return er::Code(er::OK);
 
-    else if ( ( tok.is("conflict") || tok.is("k") ) && (en || pn.conflict) )
-        return conflict();
+        else if ( ( tok.is("conflict") || tok.is("k") ) && (en || pn.conflict) )
+            return conflict();
 
-    else if ( ( tok.is("file") || tok.is("f") ) && (en || pn.file) )
-        return file(false, true);
+        else if ( ( tok.is("file") || tok.is("f") ) && (en || pn.file) )
+            return file(false, true);
 
-    else if ( ( tok.is("html") || tok.is("h") ) && (en || pn.html) )
-        return file(true, true);
+        else if ( ( tok.is("html") || tok.is("h") ) && (en || pn.html) )
+            return file(true, true);
 
-    else if ( ( tok.is("connect") || tok.is("c") ) && (en || pn.connect) )
-        return conn();
+        else if ( ( tok.is("connect") || tok.is("c") ) && (en || pn.connect) )
+            return conn();
 
-    else if ( ( tok.is("unlink") || tok.is("u") ) && (en || pn.unlink) )
-        return unlink();
+        else if ( ( tok.is("unlink") || tok.is("u") ) && (en || pn.unlink) )
+            return unlink();
 
-    else if ( ( tok.is("note") || tok.is("n") ) && (en || pn.note) )
-        return note();
+        else if ( ( tok.is("note") || tok.is("n") ) && (en || pn.note) )
+            return note();
 
-    else if ( tok.is("quit")  && (en || pn.quit) )
-        return quit();
+        else if ( tok.is("quit")  && (en || pn.quit) )
+            return quit();
 
-    else if ( tok.is("tunnel")  && (en || pn.tunnel) )
-        return tunnel();
+        else if ( tok.is("tunnel")  && (en || pn.tunnel) )
+            return tunnel();
 
-    else if ( tok.is("pleb")  && (en || pn.pleb) )
-        return pleb();
+        else if ( tok.is("pleb")  && (en || pn.pleb) )
+            return pleb();
 
-    else if ( tok.is("drop")  && (en || pn.drop) )
-        return drop();
+        else if ( tok.is("drop")  && (en || pn.drop) )
+            return drop();
 
-*/
+    */
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
 
-	{
-		string ts = tok.c_str();
-		string::size_type i = ts.find('?');
-		if( i!=string::npos )
-			return ph_script(ts.substr(0,i),ts.substr(i+1));
-	}
+    {
+        string ts = tok.c_str();
+        string::size_type i = ts.find('?');
+        if ( i != string::npos )
+            return ph_script(ts.substr(0, i), ts.substr(i + 1));
+    }
 
     return file(true, false);
 
     if ( recog ) *recog = false;
 
 //    return er::Code(er::REQ_MSG_HEAD);
-    return er::Code(er::REQ_MSG_HEAD).str()+" ["+tok.c_str()+"]";
+    return er::Code(er::REQ_MSG_HEAD).str() + " [" + tok.c_str() + "]";
 }
 
 string Worker2::info()

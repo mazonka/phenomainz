@@ -27,7 +27,7 @@ int main(int ac, char * av[])
 
     try
     {
-        string dbname = "phenod.db";
+        string dbname = Dbo::dbname;
 
         if ( dbname == "" ) throw string() + "Empty database name";
 

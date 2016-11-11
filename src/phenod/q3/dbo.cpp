@@ -2,25 +2,28 @@
 
 #include "os_filesys.h"
 #include "gl_utils.h"
+#include "gl_except.h"
 
 #include "dbo.h"
 ///#include "ut.h"
 
 using namespace std;
 
+string Dbo::dbname = "phenod.db";
+
 Dbo::Dbo(const string & name):
     db(), zErrMsg(0), zErrNum(0), zErrCmd(), result()
 {
     if ( name == "" )
-        throw string() + "database not specified";
+        throw gl::ex("database not specified");
 
-    if ( !os::isFile(name) ) throw "Bad database [" + name + "]";
+    if ( !os::isFile(name) ) throw gl::ex("Bad database [" + name + "]");
 
     int rc = sqlite3_open(name.c_str(), &db);
     if ( rc )
     {
         sqlite3_close(db);
-        throw string() + "Can't open database: " + sqlite3_errmsg(db);
+        throw gl::ex(string() + "Can't open database: " + sqlite3_errmsg(db));
     }
 }
 
@@ -95,31 +98,33 @@ int Dbo::callback(void * data, int argc, char ** argv, char ** col)
 string Dbo::getid(string s)
 {
     int rt = sqlite3_exec(db, "begin transaction", 0, 0, 0);
-    if ( rt != SQLITE_OK ) throw string("Dbo::getid") + " - 'begin transaction' failed";
+    if ( rt != SQLITE_OK )
+        throw gl::ex(string("Dbo::getid") + " - 'begin transaction' failed");
 
-    string cmd = string() + "select mid from maxid where tbl='" + s + "'";
+    string cmd = string() + "select val from maxid where tbl='" + s + "'";
 
     if ( !exec(cmd) )
-        throw string("Dbo::getid") + " [" + cmd + "] - failed 1";
+        throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 1");
 
     if ( result.size() != 2 )
-        throw string("Dbo::getid") + " [" + cmd + "] - failed 2";
+        throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 2");
 
     gl::vstr rc = *(++result.begin());
 
     if ( rc.size() != 1 )
-        throw string("Dbo::getid") + " [" + cmd + "] - failed 3";
+        throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 3");
 
     string r = rc[0];
 
     cmd = string() +
-          "update maxid set mid=" + gl::tos(gl::toi(r) + 1) + " where tbl='" + s + "'";
+          "update maxid set val=" + gl::tos(gl::toi(r) + 1) + " where tbl='" + s + "'";
 
     if ( !exec(cmd) )
-        throw string("Dbo::getid") + " failed 4";
+        throw gl::ex(string("Dbo::getid") + " failed 4");
 
     rt = sqlite3_exec(db, "commit transaction", 0, 0, 0);
-    if ( rt != SQLITE_OK ) throw string("Dbo::getid") + " - 'commit transaction' failed";
+    if ( rt != SQLITE_OK )
+        throw gl::ex(string("Dbo::getid") + " - 'commit transaction' failed");
 
     return r;
 }
