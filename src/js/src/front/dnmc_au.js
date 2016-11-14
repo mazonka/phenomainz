@@ -39,3 +39,8 @@ function wid_open_file(files, $Obj) {
 
     eng_open_file(files, cb_main, cb_progress);
 }
+
+
+function wid_upload_file() {
+    return false;
+}

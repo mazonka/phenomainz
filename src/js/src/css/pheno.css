@@ -79,10 +79,27 @@ button {
 	z-index: -1;    
 }
 
-#div_open_file {
+#div_open_file,
+#div_file_properties {
     text-align: left;
 }
 
+#table_file_properties {
+    margin: auto;
+    width: 98%;
+}
+
+#table_file_properties tr td:first-child {
+    width: 76px;
+}
+
+#table_file_properties input {
+    width: 100%;
+}
+
+#table_file_properties td {
+    text-align: left;
+}
 
 /* Modal popup window */
 

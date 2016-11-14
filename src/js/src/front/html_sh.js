@@ -3,6 +3,17 @@
 
 'use strict';
 
+function get_html_table(data, id) {
+    var r = (Boolean(id))
+        ? '<table id="' + id +'">\n'
+        : '<table>\n';
+
+    r += data;
+    r += '</table>\n';
+
+    return r;
+}
+
 
 function get_html_tr() {
     var r = '';
@@ -25,16 +36,17 @@ function get_html_tr() {
 
 
 function get_html_td(data, id) {
-    var r = '';
+    var r = (Boolean(id))
+        ? '<td id="' + id +'">\n'
+        : '<td>\n';
 
-    r += '<td id="' + id +'">\n';
     r += data;
 
     return r;
 }
 
 function get_html_img(img_src) {
-    return '<img src="' + img_src + '">';
+    return '<img src="' + img_src + '">\n';
 }
 
 function get_html_td_logo() {
@@ -61,21 +73,4 @@ function get_html_td_modal_window() {
     return r;
 }
 
-function get_html_open_file(file) {
-    var r = '';
-    
-    r += '<div id="div_open_file">\n';
-    r += 'File: ' + file.name + '\n';
-    r += '</br>\n';
-    r += 'Size: ' + (file.size/1024).toFixed(2) + ' Kbytes\n';
-    r += '</br>\n';
-    r += '</div>';
-    
-    if (file.error !== 0) {
-        
-    }
-    
-    
-    
-    return r;
-}
+

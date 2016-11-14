@@ -12,7 +12,8 @@ const BTN_TEXT = {
 };
 
 const LBL_TEXT = {
-    OPEN_FILE: 'Open file'
+    OPEN_FILE: 'Open file',
+    UPLOAD_FILE: 'Upload'
 };
 
 const MESSAGE = {
