@@ -8,10 +8,12 @@ const BTN_TEXT = {
     LOGIN: 'Login',
     PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
-    PING: 'Ping',
-    UPLOAD: 'Upload file'
+    PING: 'Ping'
 };
 
+const LBL_TEXT = {
+    OPEN_FILE: 'Open file'
+};
 
 const MESSAGE = {
     RELOAD: 'Are you sure?'

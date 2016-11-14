@@ -33,13 +33,14 @@ function get_html_td(data, id) {
     return r;
 }
 
+function get_html_img(img_src) {
+    return '<img src="' + img_src + '">';
+}
 
 function get_html_td_logo() {
-    var r = '';
-
-    r += '<td id="td_logo">\n';
-    r += '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">\n';
-    return r;
+    var r = '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">\n';
+    
+    return get_html_td(r, 'td_logo');
 }
 
 
@@ -57,5 +58,24 @@ function get_html_td_modal_window() {
     r += '</div>\n';
     r += '</div>\n';
 
+    return r;
+}
+
+function get_html_open_file(file) {
+    var r = '';
+    
+    r += '<div id="div_open_file">\n';
+    r += 'File: ' + file.name + '\n';
+    r += '</br>\n';
+    r += 'Size: ' + (file.size/1024).toFixed(2) + ' Kbytes\n';
+    r += '</br>\n';
+    r += '</div>';
+    
+    if (file.error !== 0) {
+        
+    }
+    
+    
+    
     return r;
 }

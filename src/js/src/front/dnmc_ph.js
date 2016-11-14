@@ -4,7 +4,7 @@
 'use strict';
 
 
-function wid_oninput_email($Obj) {
+function wid_oninput_login_email($Obj) {
     var $Btn = $('#btn_email_login');
     var data = $Obj.val();
 
@@ -36,7 +36,7 @@ function wid_open_login_window() {
 }
 
 function wid_send_email() {
-    var data = $('#input_email').val();
+    var data = $('#input_login_email').val();
     var login_cmd = [PH_CMD.LOGIN, data].join(' ');
     var cb = function (data) {
         wid_modal_window(data, true);

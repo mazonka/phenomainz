@@ -30,8 +30,8 @@ function get_html_login_window() {
 
     var r = '';
 
-    r += '<label for="input_email">e-mail:<label>\n';
-    r += '<input id="input_email" oninput="wid_oninput_email($(this))">\n';
+    r += '<label for="input_login_email">e-mail:<label>\n';
+    r += '<input id="input_login_email" oninput="wid_oninput_login_email($(this))">\n';
     r += '<button id="btn_email_login" onclick="wid_send_email()">' +
         BTN_TEXT.SEND_EMAIL + '</button>\n';
 

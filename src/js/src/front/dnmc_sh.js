@@ -136,7 +136,7 @@ function wid_paint_borders($Obj, color) {
 }
 
 
-function wid_oninput_email($Obj) {
+function wid_oninput_login_email($Obj) {
     var $Btn = $('#btn_email_login');
     var data = $Obj.val();
 

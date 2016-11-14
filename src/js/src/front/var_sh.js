@@ -15,11 +15,12 @@ const PH_CMD = {
 const IMG = {
     LOGO_WAIT: 'img/logo_wt.gif',
     LOGO_DONE: 'img/logo_dn.png',
-    LOGO_FAIL: 'img/logo_fl.png'
+    LOGO_FAIL: 'img/logo_fl.png',
+    OPEN_FILE: 'img/fl_op.png'
 };
 
 var g_img = [
-    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL
+    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.FILE_UP
 ];
 
 var g_img_preload = [];

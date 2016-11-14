@@ -14,16 +14,17 @@ function au_write() {
 }
 
 
-function doc_au_init() {
+function doc_au_init(uid) {
     $(document).ready(function () {
-        au_init();
+        au_init(uid);
     });
 }
 
 
-function au_init() {
+function au_init(uid) {
     $('button').button();
     $('#div_modal_window').css('display', 'none');
-    g_uid = document.location.search.substr(1);
-    console.log(g_uid)
+    
+    g_uid = uid;
+    console.log(g_uid);
 }
