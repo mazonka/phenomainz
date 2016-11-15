@@ -5,8 +5,8 @@
 
 
 var g_uid;
-const g_pfx = 'au';
-
+const G_PFX = 'au';
+const G_MAX_FILE_SIZE = 10485760; ///10Mb
 const PH_CMD = {
     PING: 'ping',
     LOGIN: 'login'

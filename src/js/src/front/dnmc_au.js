@@ -13,23 +13,36 @@ function wid_open_profile_window() {
 
 
 function wid_open_file(files, $Obj) {
+    var file;
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+        return false;
+    }
+
     if (!Boolean(files[0])) {
         return false;
     }
 
     var cb_main = function (file) {
-        if (file.error === null) {
-            return;
+        var table;
+        var f;
+
+        if (file.error !== 0) {
+            return wid_modal_window(MSG.FILE_READ_ERROR, true);
         }
 
-        if (typeof(file.error) === 'string' || !file.size) {
-            return wid_modal_window(file.error);
-        }
+        table = eng_is_table(file.raw);
 
+        if (!table.is_table) {
+            return wid_modal_window(MSG.TABLE_ERROR + table.err_row, true);
+        }
         $Obj.click(function () {
             return;
         });
-        
+
         wid_modal_window(get_html_open_file(file), false);
     };
 
@@ -37,7 +50,17 @@ function wid_open_file(files, $Obj) {
         console.log(data + '%');
     };
 
-    eng_open_file(files, cb_main, cb_progress);
+    file = files[0];
+
+    if (file.size > G_MAX_FILE_SIZE ) {
+        return wid_modal_window(MSG.FILE_IS_HUGE, true);
+    }
+
+    if (file.size === 0) {
+        return wid_modal_window(MSG.FILE_IS_EMPTY, true);
+    }
+
+    eng_open_file(file, cb_main, cb_progress);
 }
 
 

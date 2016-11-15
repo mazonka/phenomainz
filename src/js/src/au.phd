@@ -23,8 +23,8 @@
         <script src="front/html_sh.js"></script>
         <script src="front/dnmc_au.js"></script>
         <script src="front/dnmc_sh.js"></script>
-        <script src="front/msg_sh.js"></script>
         <script src="front/var_sh.js"></script>
+        <script src="front/msg_sh.js"></script>
     </head>
     <body onload="img_preload(g_img)">
         <script>

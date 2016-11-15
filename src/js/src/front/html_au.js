@@ -47,7 +47,7 @@ function get_html_td_btn_send_raw() {
 
     r += '<td colspan="2">\n';
     r += '<button id="btn_send_raw" onclick="wid_send_raw(eng_au_cmd' +
-        '(PH_CMD.PING, g_pfx, g_uid))">' + BTN_TEXT.PING + '</button>\n';
+        '(PH_CMD.PING, G_PFX, g_uid))">' + BTN_TEXT.PING + '</button>\n';
 
     return r;
 }
@@ -59,7 +59,8 @@ function get_html_td_btn_open_file() {
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
         'for="input_open_file">' + LBL_TEXT.OPEN_FILE + '</label>\n';
-    r += '<input id="input_open_file" type="file"' +
+    r += '<input id="input_open_file" type="file" ' +
+        'accept=".txt,.csv,.zip" ' +    
         'onchange="return wid_open_file(this.files, $(this))"></input>';
 
     return r;
@@ -72,7 +73,7 @@ function get_html_td_btn_upload_file() {
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
         'for="input_open_file">' + LBL_TEXT.UPLOAD_FILE + '</label>\n';
-    r += '<input id="input_open_file" type="file"' +
+    r += '<input id="input_open_file" type="file" ' +
         'onchange="return wid_upload_file()"></input>';
 
     return r;

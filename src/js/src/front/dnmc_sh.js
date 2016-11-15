@@ -100,7 +100,7 @@ function wid_modal_window(msg, click, func) {
     })
 
     $(window).on('beforeunload', function () {
-        return MESSAGE.RELOAD;
+        return MSG.RELOAD;
     })
 
     $Window.css('display', 'block');
@@ -140,7 +140,7 @@ function wid_oninput_login_email($Obj) {
     var $Btn = $('#btn_email_login');
     var data = $Obj.val();
 
-    if (is_email(data)) {
+    if (eng_is_email(data)) {
         wid_paint_borders($Obj);
         $Btn.prop('disabled', false);
         $Obj.on('keypress', function (event) {
