@@ -35,6 +35,7 @@ function wid_open_login_window() {
     dyn_obj_init($Window);
 }
 
+
 function wid_send_email() {
     var data = $('#input_login_email').val();
     var login_cmd = [PH_CMD.LOGIN, data].join(' ');
@@ -43,4 +44,10 @@ function wid_send_email() {
     };
 
     ajx_send_command(login_cmd, cb, g_progressbar);
+}
+
+
+function wid_au_google() {
+    
+    return false;
 }

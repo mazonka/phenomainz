@@ -10,6 +10,7 @@ function get_html_body() {
     r += '<table id="table_body" border=0>\n';
 
     r += get_html_tr(get_html_td_logo(), get_html_td_login());
+    r += get_html_tr(get_html_td(''), get_html_td_google());
     r += get_html_tr(get_html_td_btn_send_raw());
     r += get_html_tr(get_html_td_modal_window());
 
@@ -25,6 +26,12 @@ function get_html_td_login() {
     return get_html_td(r, 'td_login');
 }
 
+function get_html_td_google() {
+    var r = '<button id="btn_login" onclick="wid_au_google()">' +
+        BTN_TEXT.GOOGLE + '</button>\n';
+
+    return get_html_td(r, 'td_google');
+}
 
 function get_html_login_window() {
 
