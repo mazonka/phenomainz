@@ -108,6 +108,7 @@ function eng_is_table(data) {
     ///console.log('before:\n' + data);
 
     table.data = data
+        .replace(/^\s+|\s+$/g, '')
         .replace(/\r\n/g, '\n')
         .replace(/\r/g, '\n')
         .replace(/\n+/g, '\n')
@@ -120,10 +121,11 @@ function eng_is_table(data) {
 
     for (let i = 0, l = row.length; i < l; i++) {
         col[i] = row[i].split(' ');
+        ///console.log(col[i]);
 
         if (i > 0 && col[i].length !== col[i - 1].length) {
             table.is_table = false;
-            table.err_row = i;
+            table.err_row = i + 1;
             break;
         }
     }
