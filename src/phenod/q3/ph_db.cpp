@@ -36,9 +36,10 @@ bool Phdb::new_email(string email)
 
     Dbo db;
 
+    string ss = "insert into users values (,,"+email+",,)";
+    if ( !db.exec(ss) ) throw "SQL failed ["+ss+"]";
+
     string id;// FIXME = db.getid("users");
-    //string ss = "insert";
-    //if ( !db.exec(ss) ) goto bad;
 
     os::Cout() << "AAA new_email " << id << os::endl;
     return true;
