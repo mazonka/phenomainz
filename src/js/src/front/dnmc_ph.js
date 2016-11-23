@@ -48,6 +48,29 @@ function wid_send_email() {
 
 
 function wid_au_google() {
+    gapi.load('client', start);
     
-    return false;
 }
+
+
+
+
+// Google au
+
+function start() {
+    gapi.client.init({
+        'apiKey': '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com',
+        'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
+    }).then(function () {
+        return gapi.client.language.translations.list({
+            q: 'hello world',
+            source: 'en',
+            target: 'de',
+        });
+    }).then(function (resp) {
+        console.log(resp.result.data.translations[0].translatedText);
+    }, function (reason) {
+        console.log('Error: ' + reason.result.error.message);
+    });
+};
+
