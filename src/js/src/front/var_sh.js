@@ -3,6 +3,7 @@
 
 'use strict';
 
+var g_uid;
 
 const GOOGLE_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com';
 const FACEBOOK_ID = '1519315828096043';
@@ -10,7 +11,6 @@ const FACEBOOK_VER = 'v2.8';
 const LINKEDIN_ID = '785rlivs65jktg'; // secret 'uynr5iTnXCygZkG8'
 const LIVE_ID = '';
 
-var g_uid;
 const G_PFX = 'au';
 const G_MAX_FILE_SIZE = 10485760; ///10Mb
 const PH_CMD = {
