@@ -24,11 +24,11 @@ function doc_ph_init() {
 function ph_init() {
     window.fbAsyncInit = function() {
         FB.init({
-            appId: '1519315828096043',
+            appId: FACEBOOK_ID,
             cookie: true,  // enable cookies to allow the server to access 
                                 // the session
             xfbml: true,  // parse social plugins on this page
-            version: 'v2.8' // use graph api version 2.8
+            version: FACEBOOK_VER // use graph api version 2.8
         });
         
         // Now that we've initialized the JavaScript SDK, we call 
