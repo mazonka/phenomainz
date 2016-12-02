@@ -11,6 +11,7 @@ CLNT=../$(BIN_DIR)/phclnt
 CLNT_LIB=$(CLNT)/lib
 SRC=src
 SRC_LIB=$(SRC)/lib
+
 JQ_QI=jquery-ui
 JQ_EXT_DIR=../ext/jq
 JQ_FILE_BASE=jquery-ui-*.custom
@@ -18,7 +19,14 @@ JQ_FILE_SUFF=tar.bz2
 JQ_FULL_NAME=$(wildcard $(JQ_EXT_DIR)/$(JQ_FILE_BASE).$(JQ_FILE_SUFF))
 JQ_SHRT_NAME=$(shell basename $(JQ_FULL_NAME))
 
-all: mk_dir tar_x_jq cp_jq mk_phclnt done
+HELLO_JS=hello.js
+HL_EXT_DIR=../ext/hello.js
+HL_FILE_BASE=hello.js-master
+HL_FILE_SUFF=tar.bz2
+HL_FULL_NAME=$(wildcard $(HL_EXT_DIR)/$(HL_FILE_BASE).$(HL_FILE_SUFF))
+HL_SHRT_NAME=$(shell basename $(HL_FULL_NAME))
+
+all: mk_dir tar_x_jq cp_jq tar_x_hello.js cp_hello.js mk_phclnt done
 
 mk_dir:
 	@echo Create folders tree in $(CLNT) ...
@@ -50,6 +58,22 @@ cp_jq: $(SRC_LIB)/$(JQ_QI)
 	@echo Remove $< ...
 	@rm -rf $<
 
+tar_x_hello.js: $(HL_FULL_NAME)
+	@echo Unpack $(HL_SHRT_NAME) ...
+	@cp $< $(SRC_LIB)/
+	@tar xjvf $(SRC_LIB)/$(HL_SHRT_NAME) -C $(SRC_LIB)/ >/dev/null
+	@echo Remove $(HL_SHRT_NAME) ...
+	@rm $(SRC_LIB)/$(HL_SHRT_NAME)
+	@chmod 0777 -R $(shell echo $(SRC_LIB)/$(HL_FILE_BASE))
+	@echo Rename $(shell echo $(SRC_LIB)/$(HL_FILE_BASE)) to $(HELLO_JS) ...
+	@mv $(shell echo $(SRC_LIB)/$(HL_FILE_BASE)) $(SRC_LIB)/$(HELLO_JS)
+
+cp_hello.js: $(SRC_LIB)/$(HELLO_JS)
+	@echo Copy $(HELLO_JS) to $(CLNT_LIB) ...
+	@cp $</dist/hello.all.js $(CLNT_LIB)/
+	@echo Remove $< ...
+	@rm -rf $<
+
 mk_phclnt: $(SRC)/index.html
 	@echo Copy $(SRC) to $(CLNT)...
 	@cp $(SRC)/css/pheno.css $(CLNT)/css/
@@ -72,6 +96,8 @@ clean: $(CLNT)
 	@rm -rf $< $(SRC_LIB)/jquery*.*
 	@echo Remove ../$(BIN_DIR)/hq.*.lock if exists.
 	@rm -rf ../$(BIN_DIR)/hq.*.lock
+	@rm -rf ../$(BIN_DIR)/au.phd
+	@rm -rf ../$(BIN_DIR)/conf.phd
 	@echo Done.
 
 checkin: $(CLNT)

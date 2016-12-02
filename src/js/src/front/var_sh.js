@@ -5,7 +5,7 @@
 
 var g_uid;
 
-const GOOGLE_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com';
+const GOOGLE_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com'; // secret 'j8s0_M4Jy_3ahhhSnBsiVS3I'
 const FACEBOOK_ID = '1519315828096043';
 const FACEBOOK_VER = 'v2.8';
 const LINKEDIN_ID = '785rlivs65jktg'; // secret 'uynr5iTnXCygZkG8'
