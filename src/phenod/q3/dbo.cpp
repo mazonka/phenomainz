@@ -101,7 +101,7 @@ string Dbo::getid(string tbl, string fld, string val)
     if ( rt != SQLITE_OK )
         throw gl::ex(string("Dbo::getid") + " - 'begin transaction' failed");
 
-    string cmd = string() + "select id from "+tbl+" where "+fld+"='" + val + "'";
+    string cmd = string() + "select id from " + tbl + " where " + fld + "='" + val + "'";
 
     if ( !exec(cmd) )
         throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 1");

@@ -4,6 +4,7 @@
 #include "os_filesys.h"
 #include "sg_cout.h"
 #include "gl_except.h"
+#include "gl_utils.h"
 
 #include "dbo.h"
 #include "ph_db.h"
@@ -26,6 +27,23 @@ bool Phdb::get_by_email(string email, Profile & pr)
     }
 
     os::Cout() << "Db exec OK " << db.result.size() << os::endl;
+
+    //for ( auto v : db.result ) for ( auto s : v ) os::Cout() << "[" << string(s) << "]" << os::endl;
+
+    if ( db.result.size() != 2 )
+        throw gl::ex(string("Phdb::get_by_email") + " [" + ss + "] - failed 2");
+
+    gl::vstr rc = *(++db.result.begin());
+
+    if ( rc.size() != 5 )
+        throw gl::ex(string("Phdb::get_by_email") + " [" + ss + "] - failed 3");
+
+    pr.pro_id = rc[0];
+    pr.name =   rc[1];
+    pr.email =  rc[2];
+    pr.last =   rc[3];
+    pr.cntr =   rc[4];
+
     return true;
 }
 
@@ -36,10 +54,10 @@ bool Phdb::new_email(string email)
 
     Dbo db;
 
-    string ss = "insert into users (email) values ('"+email+"')";
-    if ( !db.exec(ss) ) throw "SQL failed ["+ss+"]";
+    string ss = "insert into users (email) values ('" + email + "')";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 
-    string id = db.getid("users","email",email);
+    string id = db.getid("users", "email", email);
 
     os::Cout() << "AAA new_email " << id << os::endl;
     return true;
@@ -68,12 +86,9 @@ void Phdb::schema()
     ss = "COMMIT;";
     if ( !db.exec(ss) ) goto bad;
 
-//FIXME    ss = "insert '1', 'users', '1' into maxid;";
-//    if ( !db.exec(ss) ) goto bad;
-
     return;
 bad:
-    throw gl::ex("Database creation failed "+db.err());
+    throw gl::ex("Database creation failed " + db.err());
 
 }
 

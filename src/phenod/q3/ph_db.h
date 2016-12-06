@@ -11,7 +11,7 @@ struct Profile
     string name;
     string email;
     string last;
-    string cnt;
+    string cntr;
     string dump() const;
 };
 

@@ -8,3 +8,4 @@ test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 
 cd $1
 ./phenod -cqln dwkr=0 s=$cwd/$in.inp
+rm -f phenod.db

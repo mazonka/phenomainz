@@ -82,7 +82,7 @@ string Profile::dump() const
 {
     string r;
     r += "[" + pro_id + "] [" + email + "] [" + name;
-    r += "] [" + last + "] [" + cnt + "]";
+    r += "] [" + last + "] [" + cntr + "]";
     return r;
 }
 
