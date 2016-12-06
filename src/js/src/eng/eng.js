@@ -130,6 +130,27 @@ function eng_is_table(data) {
     return table;
 }
 
+
+function eng_get_response_header(data) {
+    var resp = null;
+    var msg = data.replace(/^\s+|\r|\s+$/g, '');
+    var blocks = msg.split(/\s/);
+    var lines = msg.split(/\n/);
+
+    if (lines[0] === 'OK') {
+        resp = 'OK';
+    } else if (blocks[0] === 'OK' ||
+            blocks[0] === 'IDX_NODN' ||
+            blocks[0] === 'JOB_QUEUED') {
+        resp = blocks[0];
+    } else {
+        resp = msg;
+    }
+
+    return resp;
+}
+
+
 function eng_get_profile(data) {
     var profile = {};
     
@@ -137,10 +158,10 @@ function eng_get_profile(data) {
     data = data.split('\u0020');
     
     // profile.name = window.atob(data[0]);
-    profile.name = data[0];
-    profile.email = data[1];
-    profile.lastdate = data[2];
-    profile.counter = data[3];
+    profile.name = data[1];
+    profile.email = data[2];
+    profile.lastdate = data[3];
+    profile.counter = data[4];
     
     return profile;
 }

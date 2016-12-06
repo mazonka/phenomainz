@@ -303,15 +303,15 @@ function wid_send_email() {
 }
 
 function wid_auth(auth_network) {
-        console.log(hello(auth_network).getAuthResponse());
-        hello.on('auth.login', function(auth) {
+    console.log(hello(auth_network).getAuthResponse());
+    hello.on('auth.login', function(auth) {
 
-            // Call user information, for the given network
-            hello(auth.network).api('me').then(function(r) {
-                // Inject it into the container
-                console.log(auth.network + ': ' + r.email);
-            });
+        // Call user information, for the given network
+        hello(auth.network).api('me').then(function(r) {
+            // Inject it into the container
+            console.log(auth.network + ': ' + r.email);
         });
+    });
         
     if (Boolean(hello(auth_network).getAuthResponse())) {
         hello(auth_network).logout().then(function() {
