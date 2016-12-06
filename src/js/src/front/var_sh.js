@@ -5,11 +5,10 @@
 
 var g_uid;
 
-const GOOGLE_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com'; // secret 'j8s0_M4Jy_3ahhhSnBsiVS3I'
-const FACEBOOK_ID = '1519315828096043';
-const FACEBOOK_VER = 'v2.8';
-const LINKEDIN_ID = '785rlivs65jktg'; // secret 'uynr5iTnXCygZkG8'
-const LIVE_ID = '';
+const GOOGLE_CLIENT_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com'; // secret 'j8s0_M4Jy_3ahhhSnBsiVS3I'
+const FACEBOOK_CLIENT_ID = '1519315828096043';
+const LINKEDIN_CLIENT_ID = '785rlivs65jktg'; // secret 'uynr5iTnXCygZkG8'
+const WINDOWS_CLIENT_ID = 'c8cd888b-f0a7-483d-b427-6c058c1c4307';
 
 const G_PFX = 'au';
 const G_MAX_FILE_SIZE = 10485760; ///10Mb

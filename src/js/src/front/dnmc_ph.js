@@ -46,32 +46,24 @@ function wid_send_email() {
     ajx_send_command(login_cmd, cb, g_progressbar);
 }
 
+function wid_auth(auth_network) {
+        console.log(hello(auth_network).getAuthResponse());
+        hello.on('auth.login', function(auth) {
 
-function wid_au_google() {
-    gapi.load('client', start);
-    
-}
-
-
-
-
-// Google au
-
-function start() {
-    gapi.client.init({
-        'apiKey': '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com',
-        'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
-    }).then(function () {
-        return gapi.client.language.translations.list({
-            q: 'hello world',
-            source: 'en',
-            target: 'de',
+            // Call user information, for the given network
+            hello(auth.network).api('me').then(function(r) {
+                // Inject it into the container
+                console.log(auth.network + ': ' + r.email);
+            });
         });
-    }).then(function (resp) {
-        console.log(resp.result.data.translations[0].translatedText);
-    }, function (reason) {
-        console.log('Error: ' + reason.result.error.message);
-    });
-};
-
-
+        
+    if (Boolean(hello(auth_network).getAuthResponse())) {
+        hello(auth_network).logout().then(function() {
+            console.log('Signed out: ' + auth_network);
+        }, function(e) {
+            console.log('Signed out error: ' + e.error.message);
+        });
+    } else {
+        hello(auth_network).login({scope: 'email'});
+    }
+}
