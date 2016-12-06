@@ -82,11 +82,7 @@ class Dbo
         //! @p t bogus table
         void swap(Table & t) { result.swap(t); }
 
-        //! @b this function tries to access maxid table. It reads the couter for
-        //! given value (table name), incrementing it inside
-        //! @p tbl table name. This is a string key in maxid table
-        //! @r id value to be used
-        string getid(string tbl = "all");
+        string getid(string tbl, string fld, string val);
 };
 
 #endif

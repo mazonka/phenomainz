@@ -1,4 +1,7 @@
 // Hasq Technology Pty Ltd (C) 2013-2016
+// Phenomainz modified 2016
+
+#include <iostream>
 
 #include "gl_utils.h"
 #include "gl_err.h"
@@ -19,7 +22,17 @@ void Worker::runOnceUnconditionally()
     string msg = s->getReceivedMessage();
 
     const char ** mime = &s->accessRequest().accessPmd().mime;
-    string reply = workerCore.process(msg, mime, s);
+	string reply;
+	
+	try
+	{
+		reply = workerCore.process(msg, mime, s);
+	}
+	catch (string e)
+	{
+		std::cout << "FATAL ERROR: " << e << '\n';
+	}
+
     s->send_msg(reply);
     string ip = s->getAddr().strIp();
     delete s;

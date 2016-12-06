@@ -95,13 +95,13 @@ int Dbo::callback(void * data, int argc, char ** argv, char ** col)
     return 0; // proceed (not abort)
 }
 
-string Dbo::getid(string s)
+string Dbo::getid(string tbl, string fld, string val)
 {
     int rt = sqlite3_exec(db, "begin transaction", 0, 0, 0);
     if ( rt != SQLITE_OK )
         throw gl::ex(string("Dbo::getid") + " - 'begin transaction' failed");
 
-    string cmd = string() + "select val from maxid where tbl='" + s + "'";
+    string cmd = string() + "select id from "+tbl+" where "+fld+"='" + val + "'";
 
     if ( !exec(cmd) )
         throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 1");
@@ -115,12 +115,6 @@ string Dbo::getid(string s)
         throw gl::ex(string("Dbo::getid") + " [" + cmd + "] - failed 3");
 
     string r = rc[0];
-
-    cmd = string() +
-          "update maxid set val=" + gl::tos(gl::toi(r) + 1) + " where tbl='" + s + "'";
-
-    if ( !exec(cmd) )
-        throw gl::ex(string("Dbo::getid") + " failed 4");
 
     rt = sqlite3_exec(db, "commit transaction", 0, 0, 0);
     if ( rt != SQLITE_OK )
