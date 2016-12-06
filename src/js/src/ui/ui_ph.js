@@ -33,8 +33,8 @@ function ph_init() {
             linkedin: LINKEDIN_CLIENT_ID
         }, 
         {
-            //redirect_uri: 'redirect.html'
-            redirect_uri: ''
+            redirect_uri: 'redirect.html'
+            //redirect_uri: ''
         }
     );
     
