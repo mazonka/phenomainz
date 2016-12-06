@@ -71,6 +71,7 @@ tar_x_hello.js: $(HL_FULL_NAME)
 cp_hello.js: $(SRC_LIB)/$(HELLO_JS)
 	@echo Copy $(HELLO_JS) to $(CLNT_LIB) ...
 	@cp $</dist/hello.all.js $(CLNT_LIB)/
+	@cp $</assets/redirect.css $(CLNT_LIB)/
 	@echo Remove $< ...
 	@rm -rf $<
 
@@ -81,9 +82,8 @@ mk_phclnt: $(SRC)/index.html
 	@cp $(SRC)/front/*.js $(CLNT)/front/
 	@cp $(SRC)/ui/*.js $(CLNT)/ui/
 	@cp $(SRC)/favicon.ico $(CLNT)/favicon.ico
-	@cp $(SRC)/phclnt.html $(CLNT)/phclnt.html
 	@cp $(SRC)/index.html $(CLNT)/index.html
-	@cp $(SRC)/au.phd ../$(BIN_DIR)/au.phd
+	@cp $(SRC)/home.phd ../$(BIN_DIR)/home.phd
 	@cp $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	@cp $(SRC)/img/*.* $(CLNT)/img/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
@@ -96,7 +96,7 @@ clean: $(CLNT)
 	@rm -rf $< $(SRC_LIB)/jquery*.*
 	@echo Remove ../$(BIN_DIR)/hq.*.lock if exists.
 	@rm -rf ../$(BIN_DIR)/hq.*.lock
-	@rm -rf ../$(BIN_DIR)/au.phd
+	@rm -rf ../$(BIN_DIR)/home.phd
 	@rm -rf ../$(BIN_DIR)/conf.phd
 	@echo Done.
 
@@ -113,7 +113,7 @@ checkin: $(CLNT)
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
-	@cp -f ../$(BIN_DIR)/au.phd $(SRC)/
+	@cp -f ../$(BIN_DIR)/home.phd $(SRC)/
 	@cp -f ../$(BIN_DIR)/conf.phd $(SRC)/
 	@echo $(CLNT)/ to $(SRC)/ - copied.
 	@chmod 0777 -R $(SRC)
