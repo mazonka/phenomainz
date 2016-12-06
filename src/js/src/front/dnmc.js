@@ -137,7 +137,7 @@ function wid_paint_borders($Obj, color) {
 
 
 function wid_oninput_login_email($Obj) {
-    var $Btn = $('#btn_email_login');
+    var $Btn = $('#button_send_email');
     var data = $Obj.val();
 
     if (eng_is_email(data)) {
@@ -163,7 +163,7 @@ function wid_open_profile_window() {
     var $Window = $('#div_modal_window');
 
     wid_modal_window(get_html_profile_window(), false);
-    dyn_obj_init($Window);
+    //dyn_obj_init($Window);
 }
 
 
@@ -267,7 +267,7 @@ function wid_upload_file() {
 
 
 function wid_oninput_login_email($Obj) {
-    var $Btn = $('#btn_email_login');
+    var $Btn = $('#button_send_email');
     var data = $Obj.val();
 
     if (eng_is_email(data)) {
@@ -294,7 +294,7 @@ function wid_open_login_window() {
 
     wid_modal_window(get_html_login_window(), false);
 
-    dyn_obj_init($Window);
+    //dyn_obj_init($Window);
 }
 
 

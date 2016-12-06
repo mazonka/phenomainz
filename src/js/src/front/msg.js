@@ -4,9 +4,12 @@
 'use strict';
 
 
-const BTN_TEXT = {
-    LOGIN: 'Login',
-    GOOGLE: 'google',
+const BUTTON_TEXT = {
+    PHENO: 'Phenomainz',
+    GOOGLE: 'Google',
+    FACEBOOK: 'Facebook',
+    LINKEDIN: 'LinkedIn',
+    WINDOWS: 'Windows',
     PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
     PING: 'Ping'

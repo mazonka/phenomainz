@@ -31,9 +31,6 @@ function eng_open_file(file, cb_main, cb_progress) {
         3 - File oversized;
         4 - File not found;
         5 - File not readable;
-        6 - Read operation was aborted;
-        7 - File is in a locked state;
-        8 - The file is too long to encode;
         9 - Read error;
     */
 
