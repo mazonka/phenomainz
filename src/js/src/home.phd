@@ -15,18 +15,19 @@
         <title>Pheno Web Client</title>
         <script src="lib/jquery.js"></script>
         <script src="lib/jquery-ui.min.js"></script>
+        <script src="lib/hello.all.js"></script>
         <script src="eng/eng_ajax.js"></script>
         <script src="eng/eng.js"></script>
         <script src="ui/ui.js"></script>
-        <script src="front/html.js"></script>
         <script src="front/dnmc.js"></script>
-        <script src="front/var.js"></script>
+        <script src="front/html.js"></script>
         <script src="front/msg.js"></script>
+        <script src="front/var.js"></script>
     </head>
     <body onload="img_preload(g_img)">
         <script>
-            doc_au_write();
-            doc_au_init($$$);
+            doc_write();
+            doc_init($$$);
         </script>
     </body>
 </html>
