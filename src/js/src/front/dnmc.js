@@ -159,14 +159,6 @@ function wid_oninput_login_email($Obj) {
 }
 
 
-function wid_open_profile_window() {
-    var $Window = $('#div_modal_window');
-
-    wid_modal_window(get_html_profile_window(), false);
-    dyn_obj_init($Window);
-}
-
-
 function wid_open_file(files, $Obj) {
     var file;
 
@@ -330,4 +322,29 @@ function wid_auth(auth_network) {
     } else {
         hello(auth_network).login({scope: 'email'});
     }
+}
+
+function wid_get_profile(uid) {
+    var cmd = ['au', uid, 'profile'].join(' ');
+    
+    var cb = function (data) {
+        console.log(data);
+        if (data == 'REQ_MSG_BAD') {
+            $('#div_profile').html('<i>session id</i>: ' + uid);
+        } else {
+            $('#div_profile').html(eng_get_profile(data).name);
+        }
+    };
+
+    ajx_send_command(cmd, cb, g_progressbar);
+}
+
+function wid_set_name(uid) {
+    var cmd = ['au', uid, 'name'].join(' ');
+    
+    var cb = function (data) {
+        console.log(data);
+    };
+
+    ajx_send_command(cmd, cb, g_progressbar);
 }

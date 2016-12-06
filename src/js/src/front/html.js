@@ -129,32 +129,16 @@ function get_html_login_window() {
 
 
 function get_html_td_profile() {
-    var r = '<button id="button_profile" onclick="wid_open_profile_window()">' +
-        BUTTON_TEXT.PROFILE + '</button>\n';
+    var r = '<div id="div_profile"></div>\n';
 
     return get_html_td(r, 'td_profile');
-}
-
-
-function get_html_profile_window() {
-
-    var r = '';
-
-    r += '<div id="div_profile">\n';
-    r += '<label for="input_profile_name">Name:<label>\n';
-    r += '<input id="input_profile_name">\n';
-    r += '<label for="input_profile_email">E-mail:<label>\n';
-    r += '<input id="input_profile_email">\n';
-    r += '<div>\n';
-
-    return r;
 }
 
 
 function get_html_td_button_send_raw() {
     var r = '';
 
-    r += '<td colspan="2">\n';
+    r += '<td>\n';
     r += '<button id="button_send_raw" onclick="wid_send_raw(eng_au_cmd' +
         '(PH_CMD.PING, G_PFX, g_uid))">' + BUTTON_TEXT.PING + '</button>\n';
 
@@ -165,7 +149,7 @@ function get_html_td_button_send_raw() {
 function get_html_td_button_open_file() {
     var r = '';
 
-    r += '<td id="td_open_file" colspan="2">\n';
+    r += '<td id="td_open_file">\n';
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
         'for="input_open_file">' + LBL_TEXT.OPEN_FILE + '</label>\n';

@@ -129,3 +129,18 @@ function eng_is_table(data) {
 
     return table;
 }
+
+function eng_get_profile(data) {
+    var profile = {};
+    
+    profile.name =  profile.email = profile.lastdate = profile.counter = '';
+    data = data.split('\u0020');
+    
+    // profile.name = window.atob(data[0]);
+    profile.name = data[0];
+    profile.email = data[1];
+    profile.lastdate = data[2];
+    profile.counter = data[3];
+    
+    return profile;
+}

@@ -38,14 +38,18 @@ function ui_init(uid) {
                 linkedin: LINKEDIN_CLIENT_ID
             }, 
             {
-                redirect_uri: 'redirect.html'
-                //redirect_uri: ''
+                redirect_uri: 'redirect.html',
+                response_type: 'code',
+                force: true,
+                scope: 'email',
+                display: 'page'
             }
         );          
     } else {
         $('#td_profile').show();
         $('#td_open_file').show();
         $('#td_login').hide();
+        wid_get_profile(uid);
     }
     
     $('button').button();
