@@ -163,7 +163,7 @@ function wid_open_profile_window() {
     var $Window = $('#div_modal_window');
 
     wid_modal_window(get_html_profile_window(), false);
-    //dyn_obj_init($Window);
+    dyn_obj_init($Window);
 }
 
 
@@ -294,13 +294,15 @@ function wid_open_login_window() {
 
     wid_modal_window(get_html_login_window(), false);
 
-    //dyn_obj_init($Window);
+    dyn_obj_init($Window);
 }
 
 
 function wid_send_email() {
-    var data = $('#input_login_email').val();
-    var login_cmd = [PH_CMD.LOGIN, data].join(' ');
+    var email = $('#input_login_email').val();
+    var url = document.URL;
+    var login_cmd = [PH_CMD.LOGIN, email, url].join(' ');
+    console.log(login_cmd);
     var cb = function (data) {
         wid_modal_window(data, true);
     };
