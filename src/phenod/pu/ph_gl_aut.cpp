@@ -35,7 +35,7 @@ AutObject AutArea::newAob_email(string ses_id, string email)
         phdb.new_email(email);
         if ( !phdb.get_by_email(email, pr) )
             //throw gl::ex("ph database corrupted or not accessible");
-            os::Cout() << "AAA ph database corrupted or not accessible" << os::endl;
+            os::Cout() << "AAA826 ph database corrupted or not accessible" << os::endl;
     }
 
     AutObject ao(ses_id, pr);
@@ -84,5 +84,18 @@ string Profile::dump() const
     r += "[" + pro_id + "] [" + email + "] [" + name;
     r += "] [" + last + "] [" + cntr + "]";
     return r;
+}
+
+string AutArea::loadConf(string name)
+{
+    std::ifstream in(ph_conf.c_str());
+    while (in)
+    {
+        string k, v;
+        in >> k >> v;
+        if ( k == name ) return v;
+    }
+
+    return "";
 }
 

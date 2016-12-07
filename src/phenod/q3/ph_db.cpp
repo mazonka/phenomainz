@@ -11,9 +11,6 @@
 
 bool Phdb::get_by_email(string email, Profile & pr)
 {
-
-///    os::Cout() << "AAA entering Phdb::get_by_email" << os::endl;
-
     if ( !os::isFile(Dbo::dbname) ) return false;
 
     Dbo db;
@@ -26,9 +23,10 @@ bool Phdb::get_by_email(string email, Profile & pr)
         return false;
     }
 
-    os::Cout() << "Db exec OK " << db.result.size() << os::endl;
-
+    //os::Cout() << "Db exec OK " << db.result.size() << os::endl;
     //for ( auto v : db.result ) for ( auto s : v ) os::Cout() << "[" << string(s) << "]" << os::endl;
+
+    if ( db.result.empty() ) return false; // no record
 
     if ( db.result.size() != 2 )
         throw gl::ex(string("Phdb::get_by_email") + " [" + ss + "] - failed 2");
@@ -59,7 +57,6 @@ bool Phdb::new_email(string email)
 
     string id = db.getid("users", "email", email);
 
-    os::Cout() << "AAA new_email " << id << os::endl;
     return true;
 }
 

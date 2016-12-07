@@ -22,16 +22,16 @@ void Worker::runOnceUnconditionally()
     string msg = s->getReceivedMessage();
 
     const char ** mime = &s->accessRequest().accessPmd().mime;
-	string reply;
-	
-	try
-	{
-		reply = workerCore.process(msg, mime, s);
-	}
-	catch (string e)
-	{
-		std::cout << "FATAL ERROR: " << e << '\n';
-	}
+    string reply;
+
+    try
+    {
+        reply = workerCore.process(msg, mime, s);
+    }
+    catch (string e)
+    {
+        std::cout << "FATAL ERROR: " << e << '\n';
+    }
 
     s->send_msg(reply);
     string ip = s->getAddr().strIp();

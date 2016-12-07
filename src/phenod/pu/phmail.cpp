@@ -26,26 +26,26 @@ int main(int ac, const char * av[]) try
     string cmd = av[1];
 
     if (0);
-    else if ( cmd == "au" && ac == 4 ) send_au(av[2], av[3]);
+    else if ( cmd == "login" && ac == 4 ) send_au(av[2], av[3]);
     else throw gl::ex("Command [" + cmd + "] not recognized or wrong number of args");
 
     return 0;
 }
 catch (gl::Exception e)
 {
-    std::cout << "Error: " << e.str() << '\n';
+    std::cout << "Error (phmail): " << e.str() << '\n';
 
     return 0;
 }
 catch (string s)
 {
-    std::cout << s << '\n';
+    std::cout << "Error (phmail): " << s << '\n';
     return 0;
 }
 
 
 void send_au(string email, string url)
 {
-    os::Cout() << "phmail: Sending to [" + email + "] au [" + url + "]\n";
+    os::Cout() << "[N/I] phmail: Sending to [" + email + "] au [" + url + "]\n";
 }
 

@@ -12,6 +12,7 @@ struct AutObject
     string ses_id;
     Profile profile;
     AutObject(string x, Profile e): ses_id(x), profile(e) {}
+    AutObject() {}
 };
 
 class AutQueue
@@ -42,6 +43,7 @@ struct AutArea
     AutObject newAob_email(string id, string email);
 
     static string dump_safe(GlobalSpace * gs);
+    static string loadConf(string name);
 };
 
 #endif

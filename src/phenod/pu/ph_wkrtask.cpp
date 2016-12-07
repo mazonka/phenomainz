@@ -6,6 +6,7 @@
 #include "gl_utils.h"
 #include "gl_err.h"
 
+#include "os_exec.h"
 #include "os_sysinfo.h"
 #include "sg_mutex.h"
 #include "sg_cout.h"
@@ -25,20 +26,50 @@ string Worker2::ph_login()
 
     string em = tok.sub();
 
-    AutArea & aa = gs->autArea;
-    sgl::Mutex mutex_aa(aa.access2autArea);
+    AutObject ao;
 
-    KeyArea & ka = gs->keyArea;
-    sgl::Mutex mutex_ka(ka.access2keyArea);
+    {
 
-    string ses_id = ka.newSalt().substr(0, 16);
+        AutArea & aa = gs->autArea;
+        sgl::Mutex mutex_aa(aa.access2autArea);
 
-    AutObject ao = aa.newAob_email(ses_id, em);
+        KeyArea & ka = gs->keyArea;
+        sgl::Mutex mutex_ka(ka.access2keyArea);
 
-    os::Cout() << "Aob: " << ao.ses_id << ' ' << ao.profile.pro_id << os::endl;
+        string ses_id = ka.newSalt().substr(0, 16);
 
-    //aa.reloadConf();
-    //os::Cout() << "http://127.0.0.1:16000/au?123456" << os::endl;
+        ao = aa.newAob_email(ses_id, em);
+
+    }
+
+    // url http://localhost:16000/home?0, http://localhost:16000[/]
+    string url;
+    if ( tok.next() ) url = tok.sub();
+    else url = AutArea::loadConf("server");
+
+    if ( url.empty() ) throw "Worker2::ph_login: empty url";
+    auto i = url.find('?');
+
+    if ( i == string::npos )
+    {
+        if ( url[url.size() - 1] != '/' ) url += '/';
+        url += "home?";
+    }
+    else
+        url = url.substr(0, i + 1);
+
+    url += gl::tos(ao.ses_id);
+
+    string cmd = AutArea::loadConf("phmail");
+    if ( cmd.empty() ) cmd = "./phmail";
+
+    cmd += " login " + em + " " + url;
+
+    string out = os::execOut(cmd);
+
+    os::Cout() << "AAA349 Aob: " << ao.ses_id << ' ' << ao.profile.pro_id
+               << "\ncmd: " << cmd
+               << "\nout: " << out << os::endl;
 
     return er::Code(er::OK);
 }
