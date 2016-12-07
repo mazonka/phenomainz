@@ -39,6 +39,9 @@ AutObject AutArea::newAob_email(string ses_id, string email)
     }
 
     AutObject ao(ses_id, pr);
+
+    que.addAob(ao);
+
     return ao;
 }
 
@@ -47,14 +50,14 @@ void AutQueue::remove_by_email(string em)
 {
     string k;
 
-    for ( const auto & i : aus )
+    for ( const auto & i : aos )
         if ( i.second.profile.email == em )
         {
             k = i.first;
             break;
         }
 
-    if ( !k.empty() ) aus.erase(k);
+    if ( !k.empty() ) aos.erase(k);
 }
 
 string AutArea::dump_safe(GlobalSpace * gs)
@@ -68,7 +71,7 @@ string AutArea::dump_safe(GlobalSpace * gs)
 string AutQueue::dump() const
 {
     string r;
-    for ( const auto & i : aus )
+    for ( const auto & i : aos )
     {
         string ses_id = i.second.ses_id;
         r += ses_id + ": " + i.second.profile.dump();
@@ -99,3 +102,20 @@ string AutArea::loadConf(string name)
     return "";
 }
 
+void AutQueue::addAob(const AutObject & ao)
+{
+    aos[ao.ses_id] = ao;
+
+    if ( aos.size() < szMax ) return;
+
+    string tim, id;
+
+    for ( const auto & i : aos )
+        if ( id.empty() || i.second.profile.last < tim )
+        {
+            id = i.first;
+            tim = i.second.profile.last;
+        }
+
+    if ( !id.empty() ) aos.erase(id);
+}

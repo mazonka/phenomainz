@@ -17,13 +17,14 @@ struct AutObject
 
 class AutQueue
 {
-        std::map<string, AutObject> aus;
+        std::map<string, AutObject> aos;
 
         unsigned szMax;
         int findAob(gl::intint aid) const;
     public:
-        void addAob(gl::intint jobId);
-        AutObject getAob(gl::intint jid) const;
+        void addAob(const AutObject & ao);
+        AutObject getAob_sid(string sid) const;
+        AutObject getAob_email(string email) const;
         AutQueue(unsigned sz): szMax(sz) {}
 
         void remove_by_email(string);
