@@ -10,4 +10,8 @@ print [ =================================== name done ]
 print tcp self [ au 96db1e5f246844c9 profile ]
 print [ =================================== profile done ]
 net auth
+print [ xxxxxxxxxxxxxxx ]
+print tcp self [ au 96db1e5f246844c9 logout ]
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+net auth
 quit

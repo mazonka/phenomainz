@@ -12,3 +12,12 @@ OK dmFzaWE= aaa@bbb 20001122001122 1
 =================================== profile done
 96db1e5f246844c9: [1] [aaa@bbb] [vasia] [20001122001122] [1]
 
+xxxxxxxxxxxxxxx
+OK
+AAA349 Aob: 20232512c272da3f 1
+cmd: ./phmail login aaa@bbb http://aaa.bbb/home?20232512c272da3f
+out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?20232512c272da3f]
+
+OK
+20232512c272da3f: [1] [aaa@bbb] [vasia] [20001122001122] [2]
+
