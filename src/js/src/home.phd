@@ -28,7 +28,7 @@
     <body onload="img_preload(g_img)">
         <script>
             doc_write();
-            doc_init($$$);
+            doc_init("$$$");
         </script>
     </body>
 </html>
