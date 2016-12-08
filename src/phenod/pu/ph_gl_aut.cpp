@@ -30,13 +30,15 @@ AutObject AutArea::newAob_email(string ses_id, string email)
 
     que.remove_by_mail(email); // 1
     Profile pr;
+
     if ( !phdb.get_by_email(email, pr) )
-    {
         phdb.new_email(email);
-        if ( !phdb.get_by_email(email, pr) )
-            //throw gl::ex("ph database corrupted or not accessible");
-            os::Cout() << "AAA826 ph database corrupted or not accessible" << os::endl;
-    }
+
+    phdb.access(email);
+
+    if ( !phdb.get_by_email(email, pr) )
+        throw gl::ex("ph database corrupted or not accessible");
+    ///os::Cout() << "AAA826 ph database corrupted or not accessible" << os::endl;
 
     AutObject ao(ses_id, pr);
 
@@ -129,21 +131,19 @@ AutObject AutQueue::getAob_seid(string seid) const
 
 void AutArea::update_name(const AutObject & ao, string newname)
 {
-    Phdb db;
-    if ( !db.update_name(ao.profile, newname) )
+    if ( !phdb.update_name(ao.profile, newname) )
     {
         os::Cout() << "AutArea::update_name error while updating name\n";
         return;
     }
 
     ///que.aos[ao.seid].profile.name = newname;
-    que.refresh(ao);
+    que.refresh(phdb,ao);
 }
 
 
-void AutQueue::refresh(const AutObject & ao)
+void AutQueue::refresh(Phdb & db, const AutObject & ao)
 {
-    Phdb db;
     db.get_by_email(ao.profile.mail, aos[ao.seid].profile);
 }
 

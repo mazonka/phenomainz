@@ -24,6 +24,7 @@ class Phdb
         bool get_by_email(string email, Profile & pr);
         bool new_email(string email);
 	bool update_name(const Profile & pr, string newname);
+	void access(string mail);
 };
 
 #endif

@@ -693,6 +693,7 @@ SvtTaskSet::SvtTaskSet(GlobalSpace * g, const vs & cmd, size_t & i): SvtTask(g)
     string scmd = at(cmd, i++);
 
     if ( scmd == "date" ) ecmd = Date;
+    else if ( scmd == "time" ) ecmd = Time;
     else throw gl::ex("Bad SvtTaskSet args: [" + scmd + "]");
 
     tasks.push_back( parse(g, cmd, i) );
@@ -707,6 +708,12 @@ string SvtTaskSet::process()
     {
         if ( args.size() != 8 ) gl::ex("Bad SvtTaskSet args: date must be of length 8 +[" + args + "]");
         os::Timer::setGmd(args);
+    }
+
+    if ( ecmd == Time )
+    {
+        if ( args.size() != 6 ) gl::ex("Bad SvtTaskSet args: date must be of length 8 +[" + args + "]");
+        os::Timer::setHms(args);
     }
 
     return args;

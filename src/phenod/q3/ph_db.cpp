@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "os_filesys.h"
+#include "os_timer.h"
 #include "sg_cout.h"
 #include "gl_except.h"
 #include "gl_utils.h"
@@ -109,5 +110,16 @@ bool Phdb::update_name(const Profile & pr, string nn)
     string ss = "update users set name='" + nn + "' where id='"+pr.prid+"'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
     return true;
+}
+
+void Phdb::access(string em)
+{
+    Dbo db;
+    string tim  = os::Timer::getGmd()+os::Timer::getHms();
+    string ss = "update users set last='" + tim + "' where mail='"+em+"'";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+
+    ss = "update users set cntr=cntr+1 where mail='"+em+"'";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 

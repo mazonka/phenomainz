@@ -1,3 +1,5 @@
+set date "20001122"
+set time "001122"
 print tcp self [ login aaa@bbb ]
 net auth
 quit

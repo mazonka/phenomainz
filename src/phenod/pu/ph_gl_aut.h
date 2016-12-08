@@ -31,7 +31,7 @@ class AutQueue
 
         void remove_by_seid(string seid) { aos.erase(seid); }
         void remove_by_mail(string);
-        void refresh(const AutObject & ao);
+        void refresh(Phdb & db, const AutObject & ao);
 
         string dump() const;
 };

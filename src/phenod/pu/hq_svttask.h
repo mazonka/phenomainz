@@ -245,7 +245,7 @@ class SvtTaskSave : public SvtTask
 
 class SvtTaskSet : public SvtTask
 {
-        enum Cmd { Date };
+        enum Cmd { Date, Time };
         Cmd ecmd;
     public:
         SvtTaskSet(GlobalSpace * g, const vs & cmd, size_t & i);
