@@ -97,6 +97,13 @@ button {
     text-align: left;
 }
 
+#div_profile {
+    font-weight: bold;
+    cursor: pointer;
+    color: blue;
+    display: inline-block;
+    
+}
 #table_file_properties {
     margin: auto;
     width: 98%;

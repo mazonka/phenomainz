@@ -23,38 +23,11 @@ function doc_init(uid) {
 
 function ui_init(uid) {
     g_uid = uid;
-    console.log(g_uid);
-    
-    if (g_uid == 0) {
-        $('#td_profile').hide();
-        $('#td_open_file').hide();
-        $('#td_login').show();
-
-        hello.init(
-            {
-                facebook: FACEBOOK_CLIENT_ID,
-                windows: WINDOWS_CLIENT_ID,
-                google: GOOGLE_CLIENT_ID,
-                linkedin: LINKEDIN_CLIENT_ID
-            }, 
-            {
-                redirect_uri: 'redirect.html',
-                response_type: 'code',
-                force: true,
-                scope: 'email',
-                display: 'page'
-            }
-        );          
-    } else {
-        $('#td_profile').show();
-        $('#td_open_file').show();
-        $('#td_login').hide();
-        wid_get_profile(uid);
-    }
+    console.log(uid);
     
     $('button').button();
-    $('#button_send_email').prop('disabled', true);
+    $('#button_user_email').prop('disabled', true);
     $('#div_modal_window').css('display', 'none');
     
-  
+    wid_nc_ping();
 }

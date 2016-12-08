@@ -86,7 +86,6 @@ function get_html_body() {
     r += get_html_tr(get_html_td_auth());
     r += get_html_tr(get_html_td_profile());
     r += get_html_tr(get_html_td_button_open_file());
-    r += get_html_tr(get_html_td_button_send_raw());
     r += get_html_tr(get_html_td_modal_window());
 
     r += '</table>\n';
@@ -98,7 +97,7 @@ function get_html_body() {
 function get_html_td_auth() {
     var r = '';
     
-    r += '<button id="button_pheno" onclick="wid_open_login_window()">' +
+    r += '<button id="button_pheno" onclick="wid_open_email_window()">' +
         BUTTON_TEXT.PHENO + '</button>\n';
     r += '<button id="button_google" onclick="wid_auth(\'google\')">' +
         BUTTON_TEXT.GOOGLE + '</button>\n';
@@ -108,19 +107,17 @@ function get_html_td_auth() {
         BUTTON_TEXT.LINKEDIN + '</button>\n';
     r += '<button id="button_windows" onclick="wid_auth(\'windows\')">' +
         BUTTON_TEXT.WINDOWS + '</button>\n';
-    
     return get_html_td(r, 'td_login');
-    
 }
 
 
-function get_html_login_window() {
+function get_html_email_window() {
 
     var r = '';
 
-    r += '<label for="input_login_email">e-mail:<label>\n';
-    r += '<input id="input_login_email" oninput="wid_oninput_login_email($(this))">\n';
-    r += '<button id="button_send_email" onclick="wid_send_email()">' +
+    r += '<label for="input_user_email">e-mail:<label>\n';
+    r += '<input id="input_user_email" oninput="wid_oninput_email($(this))">\n';
+    r += '<button id="button_user_email" onclick="wid_nc_login()">' +
         BUTTON_TEXT.SEND_EMAIL + '</button>\n';
 
 
@@ -128,21 +125,25 @@ function get_html_login_window() {
 }
 
 
-function get_html_td_profile() {
-    var r = '<div id="div_profile"></div>\n';
+function get_html_name_window() {
 
-    return get_html_td(r, 'td_profile');
+    var r = '';
+
+    r += '<label for="input_user_name">Name:<label>\n';
+    r += '<input id="input_user_name" value="*" oninput="wid_oninput_name($(this))">\n';
+    r += '<button id="button_user_name" onclick="wid_nc_name()">' +
+        BUTTON_TEXT.CHANGE + '</button>\n';
+    r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
+        BUTTON_TEXT.LOGOUT + '</button>\n';
+        
+    return get_html_tr(get_html_td(r, 'td_name'));
 }
 
 
-function get_html_td_button_send_raw() {
-    var r = '';
+function get_html_td_profile() {
+    var r = '<a><div id="div_profile" onclick="wid_open_name_window()"></div></a>\n';
 
-    r += '<td>\n';
-    r += '<button id="button_send_raw" onclick="wid_send_raw(eng_au_cmd' +
-        '(PH_CMD.PING, G_PFX, g_uid))">' + BUTTON_TEXT.PING + '</button>\n';
-
-    return r;
+    return get_html_td(r, 'td_profile');
 }
 
 

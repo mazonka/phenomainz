@@ -4,7 +4,7 @@
 'use strict';
 
 
-function start_progressbar($Obj)
+function wid_pulse()
 {
     var counter = 0;
 
@@ -33,7 +33,7 @@ function start_progressbar($Obj)
             let $Logo = $('#img_logo');
 
             counter = 0;
-            console.log('fail');
+            console.log('Server fault!');
 
             return $Logo.attr('src', IMG.LOGO_FAIL);
         }
@@ -108,15 +108,42 @@ function wid_modal_window(msg, click, func) {
 }
 
 
-function wid_send_raw(data) {
-    var cb;
+function wid_ui_auth(uid) {
+    if (uid == 0) {
+        wid_ui_logout();
+    } else {
+        wid_ui_login();
+        wid_nc_profile(uid);
+    }
+}
 
-    cb = function (data) {
-        wid_modal_window(data, true);
-    };
 
-    ajx_send_command(data, cb, g_progressbar);
+function wid_ui_logout() {
+    $('#td_profile').hide();
+    $('#td_open_file').hide();
+    $('#td_login').show();
 
+    hello.init(
+        {
+            facebook: FACEBOOK_CLIENT_ID,
+            windows: WINDOWS_CLIENT_ID,
+            google: GOOGLE_CLIENT_ID,
+            linkedin: LINKEDIN_CLIENT_ID
+        },
+        {
+            redirect_uri: 'redirect.html',
+            response_type: 'code',
+            force: true,
+            scope: 'email',
+            display: 'page'
+        }
+    );
+}
+
+function wid_ui_login() {
+    $('#td_profile').show();
+    $('#td_open_file').show();
+    $('#td_login').hide();
 }
 
 
@@ -132,29 +159,6 @@ function wid_paint_borders($Obj, color) {
         (color !== undefined)
             ? $Obj.css(borders[i], color)
             : $Obj.css(borders[i], '');
-    }
-}
-
-
-function wid_oninput_login_email($Obj) {
-    var $Btn = $('#button_send_email');
-    var data = $Obj.val();
-
-    if (eng_is_email(data)) {
-        wid_paint_borders($Obj);
-        $Btn.prop('disabled', false);
-        $Obj.on('keypress', function (event) {
-            Boolean(event.keyCode === 13) && wid_send_email();
-            $Obj.off('keypress');
-        });
-    } else {
-        (Boolean(data))
-            ? wid_paint_borders($Obj, 'red')
-            : wid_paint_borders($Obj);
-
-        $Obj.off('keypress');
-
-        $Btn.prop('disabled', true);
     }
 }
 
@@ -187,9 +191,9 @@ function wid_open_file(files, $Obj) {
             return wid_modal_window(MSG.TABLE_ERROR + table.err_row, true);
         }
         ///console.log(file);
-        
+
         wid_file_is_open(true);
-        
+
         $Obj.click(function () {
             return wid_file_is_open(false);
         });
@@ -243,7 +247,7 @@ function wid_file_is_open(toggle) {
             }
         );
 
-        return false;        
+        return false;
     }
 }
 
@@ -252,21 +256,25 @@ function wid_upload_file() {
     return false;
 }
 
-// (C) 2016
+
+function wid_open_email_window() {
+    var $Window = $('#div_modal_window');
+
+    wid_modal_window(get_html_email_window(), false);
+
+    dyn_obj_init($Window);
+}
 
 
-'use strict';
-
-
-function wid_oninput_login_email($Obj) {
-    var $Btn = $('#button_send_email');
+function wid_oninput_email($Obj) {
+    var $Btn = $('#button_user_email');
     var data = $Obj.val();
 
     if (eng_is_email(data)) {
         wid_paint_borders($Obj);
         $Btn.prop('disabled', false);
         $Obj.on('keypress', function (event) {
-            Boolean(event.keyCode === 13) && wid_send_email();
+            Boolean(event.keyCode === 13) && wid_nc_login();
             $Obj.off('keypress');
         });
     } else {
@@ -281,27 +289,16 @@ function wid_oninput_login_email($Obj) {
 }
 
 
-function wid_open_login_window() {
+function wid_open_name_window() {
     var $Window = $('#div_modal_window');
 
-    wid_modal_window(get_html_login_window(), false);
+    wid_modal_window(get_html_name_window(), false);
 
     dyn_obj_init($Window);
 }
 
 
-function wid_send_email() {
-    var email = $('#input_login_email').val();
-    var url = document.URL;
-    var login_cmd = [PH_CMD.LOGIN, email, url].join(' ');
-    console.log(login_cmd);
-    var cb = function (data) {
-        wid_modal_window(data, true);
-    };
-
-    ajx_send_command(login_cmd, cb, g_progressbar);
-}
-
+/*
 function wid_auth(auth_network) {
     console.log(hello(auth_network).getAuthResponse());
     hello.on('auth.login', function(auth) {
@@ -312,7 +309,7 @@ function wid_auth(auth_network) {
             console.log(auth.network + ': ' + r.email);
         });
     });
-        
+
     if (Boolean(hello(auth_network).getAuthResponse())) {
         hello(auth_network).logout().then(function() {
             console.log('Signed out: ' + auth_network);
@@ -324,30 +321,92 @@ function wid_auth(auth_network) {
     }
 }
 
-function wid_get_profile(uid) {
-    var cmd = ['au', uid, 'profile'].join(' ');
-    
-    var cb = function (data) {
-        console.log(data);
-        if (data == 'REQ_MSG_BAD') {
-            $('#div_profile').html('<i>session id</i>: ' + uid);
-            console.log(uid);
-        } else {
-            let profile = eng_get_profile(data)
-            $('#div_profile').html(profile.name);
-            console.log(profile);
+*/
+
+function wid_nc_ping() {
+    var cb = function (resp, sign_in) {
+        if (resp !== PHENOD.OK && resp !== PHENOD.AUTH) {
+            return alert(MSG.ERROR + resp);
         }
+
+        wid_ui_auth(g_uid);
     };
 
-    ajx_send_command(cmd, cb, g_progressbar);
+    eng_nc_ping(cb, g_uid, g_pulse);
 }
 
-function wid_set_name(uid, name) {
-    var cmd = ['au', uid, 'name', window.btoa(name)].join(' ');
-    
-    var cb = function (data) {
-        console.log(data);
+
+function wid_nc_login() {
+    var email = $('#input_user_email').val();
+    var url = document.URL;
+
+    var cb = function (resp) {
+        let msg = MSG.EMAIL + email;
+
+        if (resp !== PHENOD.OK) {
+            msg = MSG.ERROR + resp;
+        }
+
+        wid_modal_window(msg, true);
     };
 
-    ajx_send_command(cmd, cb, g_progressbar);
+    eng_nc_login(cb, email, url, g_pulse)
+}
+
+
+function wid_nc_logout() {
+    var $Window = $('#div_modal_window');
+    var cb = function (data) {
+        wid_modal_window(data, true);
+    };
+    
+    $Window.click();
+    eng_nc_logout(cb, g_uid, g_pulse)
+}
+
+
+function wid_nc_profile() {
+    var cb = function (resp, profile) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        }
+
+        if (resp !== PHENOD.OK) {
+            return wid_modal_window(MSG.ERROR + resp, true);
+        }
+
+        $('#div_profile').html(profile.name);
+    };
+
+    eng_nc_profile(cb, g_uid, g_pulse);
+}
+
+
+function wid_oninput_name($Obj) {
+    var $Btn = $('#button_user_name');
+
+    $Obj.on('keypress', function (event) {
+            Boolean(event.keyCode === 13) && wid_nc_name();
+            $Obj.off('keypress');
+    });
+}
+
+
+function wid_nc_name() {
+    var name = $('#input_user_name').val() || '*';
+    var $Window = $('#div_modal_window');
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        }
+
+        if (resp !== PHENOD.OK) {
+            return wid_modal_window(MSG.ERROR + resp, true);
+        }
+        
+        wid_nc_profile();
+    };
+
+    $Window.click();
+    eng_nc_name(cb, g_uid, name, g_pulse);
 }

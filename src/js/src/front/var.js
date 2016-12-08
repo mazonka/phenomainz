@@ -29,4 +29,4 @@ var g_img = [
 
 var g_img_preload = [];
 
-var g_progressbar = start_progressbar($('#img_logo'));
+var g_pulse = wid_pulse();

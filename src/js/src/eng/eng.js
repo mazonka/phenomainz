@@ -10,9 +10,6 @@ function eng_is_email(data) {
         : false;
 }
 
-function eng_au_cmd(c, p, i) {
-    return [p, i, c].join(' ');
-}
 
 function eng_open_file(file, cb_main, cb_progress) {
     var reader;
@@ -131,18 +128,14 @@ function eng_is_table(data) {
 }
 
 
-function eng_get_response_header(data) {
+function eng_get_main_response(data) {
     var resp = null;
     var msg = data.replace(/^\s+|\r|\s+$/g, '');
     var blocks = msg.split(/\s/);
     var lines = msg.split(/\n/);
 
-    if (lines[0] === 'OK') {
-        resp = 'OK';
-    } else if (blocks[0] === 'OK' ||
-            blocks[0] === 'IDX_NODN' ||
-            blocks[0] === 'JOB_QUEUED') {
-        resp = blocks[0];
+    if (lines[0] === PHENOD.OK || blocks[0] === PHENOD.OK) {
+        resp = PHENOD.OK;
     } else {
         resp = msg;
     }
@@ -151,12 +144,11 @@ function eng_get_response_header(data) {
 }
 
 
-function eng_get_profile(data) {
+function eng_get_parsed_profile(data) {
     var profile = {};
-    
     profile.name =  profile.email = profile.lastdate = profile.counter = '';
-    data = data.split('\u0020');
     
+    data = data.split('\u0020');
     profile.name = window.atob(data[1]);
     profile.email = data[2];
     profile.lastdate = data[3];

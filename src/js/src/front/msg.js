@@ -12,6 +12,8 @@ const BUTTON_TEXT = {
     WINDOWS: 'Windows',
     PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
+    CHANGE: 'Change',
+    LOGOUT: 'Logout',
     PING: 'Ping'
 };
 
@@ -23,6 +25,7 @@ const LBL_TEXT = {
 const MSG = {
     ERROR: 'ERROR: ',
     RELOAD: 'Are you sure?',
+    EMAIL: 'An email with link has been sent to ',
     get FILE_IS_HUGE () { 
         return this.ERROR + 'File is too big. Maximum file size is ' + G_MAX_FILE_SIZE + ' bytes';
     },
@@ -39,3 +42,8 @@ const MSG = {
         return this.ERROR + 'Table error in line ';
     } 
 };
+
+const PHENOD = {
+    OK: 'OK',
+    AUTH: 'AUTH'
+}
