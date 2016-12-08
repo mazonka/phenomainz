@@ -63,6 +63,7 @@ enum CodeType
     JOB_NOINFO,
     CON_HIN_BUSY,
     REQ_BUSY,
+    AUTH,
 
     INTERNAL_REC_NO,
     INTERNAL_REC_YES,
