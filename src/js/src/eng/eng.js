@@ -157,8 +157,7 @@ function eng_get_profile(data) {
     profile.name =  profile.email = profile.lastdate = profile.counter = '';
     data = data.split('\u0020');
     
-    // profile.name = window.atob(data[0]);
-    profile.name = data[1];
+    profile.name = window.atob(data[1]);
     profile.email = data[2];
     profile.lastdate = data[3];
     profile.counter = data[4];

@@ -331,16 +331,19 @@ function wid_get_profile(uid) {
         console.log(data);
         if (data == 'REQ_MSG_BAD') {
             $('#div_profile').html('<i>session id</i>: ' + uid);
+            console.log(uid);
         } else {
-            $('#div_profile').html(eng_get_profile(data).name);
+            let profile = eng_get_profile(data)
+            $('#div_profile').html(profile.name);
+            console.log(profile);
         }
     };
 
     ajx_send_command(cmd, cb, g_progressbar);
 }
 
-function wid_set_name(uid) {
-    var cmd = ['au', uid, 'name'].join(' ');
+function wid_set_name(uid, name) {
+    var cmd = ['au', uid, 'name', window.btoa(name)].join(' ');
     
     var cb = function (data) {
         console.log(data);
