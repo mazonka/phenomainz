@@ -36,11 +36,11 @@ bool Phdb::get_by_email(string email, Profile & pr)
     if ( rc.size() != 5 )
         throw gl::ex(string("Phdb::get_by_email") + " [" + ss + "] - failed 3");
 
-    pr.pro_id = rc[0];
-    pr.name =   rc[1];
-    pr.email =  rc[2];
-    pr.last =   rc[3];
-    pr.cntr =   rc[4];
+    pr.prid = rc[0];
+    pr.name = rc[1];
+    pr.mail = rc[2];
+    pr.last = rc[3];
+    pr.cntr = rc[4];
 
     return true;
 }

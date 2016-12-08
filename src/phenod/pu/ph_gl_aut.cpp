@@ -51,7 +51,7 @@ void AutQueue::remove_by_email(string em)
     string k;
 
     for ( const auto & i : aos )
-        if ( i.second.profile.email == em )
+        if ( i.second.profile.mail == em )
         {
             k = i.first;
             break;
@@ -73,7 +73,7 @@ string AutQueue::dump() const
     string r;
     for ( const auto & i : aos )
     {
-        string ses_id = i.second.ses_id;
+        string ses_id = i.second.seid;
         r += ses_id + ": " + i.second.profile.dump();
         r += '\n';
     }
@@ -84,7 +84,7 @@ string AutQueue::dump() const
 string Profile::dump() const
 {
     string r;
-    r += "[" + pro_id + "] [" + email + "] [" + name;
+    r += "[" + prid + "] [" + mail + "] [" + name;
     r += "] [" + last + "] [" + cntr + "]";
     return r;
 }
@@ -104,7 +104,7 @@ string AutArea::loadConf(string name)
 
 void AutQueue::addAob(const AutObject & ao)
 {
-    aos[ao.ses_id] = ao;
+    aos[ao.seid] = ao;
 
     if ( aos.size() < szMax ) return;
 

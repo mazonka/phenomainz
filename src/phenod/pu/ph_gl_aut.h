@@ -9,9 +9,9 @@
 
 struct AutObject
 {
-    string ses_id;
+    string seid;
     Profile profile;
-    AutObject(string x, Profile e): ses_id(x), profile(e) {}
+    AutObject(string x, Profile e): seid(x), profile(e) {}
     AutObject() {}
 };
 

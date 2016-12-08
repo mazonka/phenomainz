@@ -58,7 +58,7 @@ string Worker2::ph_login()
     else
         url = url.substr(0, i + 1);
 
-    url += gl::tos(ao.ses_id);
+    url += gl::tos(ao.seid);
 
     string cmd = AutArea::loadConf("phmail");
     if ( cmd.empty() ) cmd = "./phmail";
@@ -67,7 +67,7 @@ string Worker2::ph_login()
 
     string out = os::execOut(cmd);
 
-    os::Cout() << "AAA349 Aob: " << ao.ses_id << ' ' << ao.profile.pro_id
+    os::Cout() << "AAA349 Aob: " << ao.seid << ' ' << ao.profile.prid
                << "\ncmd: " << cmd
                << "\nout: " << out << os::endl;
 
@@ -78,6 +78,7 @@ string Worker2::ph_script(string cmd, string ag)
 {
     os::Cout() << "Auth request [" << cmd << "] [" << ag << "]" << os::endl;
 
+    // so far support only "home?sid"
     if ( cmd != "home" ) return er::Code(er::REQ_MSG_BAD);
 
     string file = gl::file2str("home.phd");

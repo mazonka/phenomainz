@@ -7,9 +7,9 @@ using std::string;
 
 struct Profile
 {
-    string pro_id;
+    string prid;
     string name;
-    string email;
+    string mail;
     string last;
     string cntr;
     string dump() const;
