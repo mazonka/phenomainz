@@ -102,10 +102,23 @@ string Worker2::ph_aucmd()
         if ( !ao.isok() ) return er::Code(er::AUTH);
 
         if (0) {}
-        else if ( cmd == "ping" ) return er::Code(er::OK);
+
+        else if ( cmd == "ping" )
+            return er::Code(er::OK);
+
         else if ( cmd == "logout" )
         {
             aa.que.remove_by_seid(seid);
+            return er::Code(er::OK);
+        }
+        else if ( cmd == "profile" )
+            return er::Code(er::OK).str() + ' ' + ao.profile.str();
+
+        else if ( cmd == "name" )
+        {
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+            string nn = tok.sub();
+            aa.update_name(ao, nn);
             return er::Code(er::OK);
         }
     }

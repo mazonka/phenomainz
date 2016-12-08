@@ -12,7 +12,9 @@ struct Profile
     string mail;
     string last;
     string cntr;
-    string dump() const;
+
+    string str() const;  // for net comm
+    string dump() const; // for debug output
 };
 
 class Phdb
@@ -21,6 +23,7 @@ class Phdb
     public:
         bool get_by_email(string email, Profile & pr);
         bool new_email(string email);
+	bool update_name(const Profile & pr, string newname);
 };
 
 #endif

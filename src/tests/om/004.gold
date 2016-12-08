@@ -3,7 +3,7 @@ cmd: ./phmail login aaa@bbb http://127.0.0.1:16000/home?96db1e5f246844c9
 out: [N/I] phmail: Sending to [aaa@bbb] au [http://127.0.0.1:16000/home?96db1e5f246844c9]
 
 OK
-96db1e5f246844c9: [1] [aaa@bbb] [] [] []
+96db1e5f246844c9: [1] [aaa@bbb] [] [] [0]
 
 ===================================
 AAA349 Aob: 20232512c272da3f 2
@@ -11,14 +11,14 @@ cmd: ./phmail login aaa@ccc http://127.0.0.1:16000/home?20232512c272da3f
 out: [N/I] phmail: Sending to [aaa@ccc] au [http://127.0.0.1:16000/home?20232512c272da3f]
 
 OK
-20232512c272da3f: [2] [aaa@ccc] [] [] []
-96db1e5f246844c9: [1] [aaa@bbb] [] [] []
+20232512c272da3f: [2] [aaa@ccc] [] [] [0]
+96db1e5f246844c9: [1] [aaa@bbb] [] [] [0]
 
 ===================================
 OK
 OK
 ===================================
 OK
-20232512c272da3f: [2] [aaa@ccc] [] [] []
+20232512c272da3f: [2] [aaa@ccc] [] [] [0]
 
 ===================================

@@ -3,5 +3,5 @@ cmd: ./phmail login aaa@bbb http://127.0.0.1:16000/home?96db1e5f246844c9
 out: [N/I] phmail: Sending to [aaa@bbb] au [http://127.0.0.1:16000/home?96db1e5f246844c9]
 
 OK
-96db1e5f246844c9: [1] [aaa@bbb] [] [] []
+96db1e5f246844c9: [1] [aaa@bbb] [] [] [0]
 

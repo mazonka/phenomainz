@@ -31,6 +31,7 @@ class AutQueue
 
         void remove_by_seid(string seid) { aos.erase(seid); }
         void remove_by_mail(string);
+        void refresh(const AutObject & ao);
 
         string dump() const;
 };
@@ -46,6 +47,7 @@ struct AutArea
     void testConf();
 
     AutObject newAob_email(string id, string email);
+    void update_name(const AutObject & ao, string newname);
     ///AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
 
     static string dump_safe(GlobalSpace * gs);

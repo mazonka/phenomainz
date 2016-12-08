@@ -5,6 +5,7 @@
 #include "sg_cout.h"
 #include "gl_except.h"
 #include "gl_utils.h"
+#include "ma_utils.h"
 
 #include "dbo.h"
 #include "ph_db.h"
@@ -15,7 +16,7 @@ bool Phdb::get_by_email(string email, Profile & pr)
 
     Dbo db;
 
-    string ss = "select * from users where email='" + email + "'";
+    string ss = "select * from users where mail='" + email + "'";
 
     if ( !db.exec(ss) )
     {
@@ -52,10 +53,10 @@ bool Phdb::new_email(string email)
 
     Dbo db;
 
-    string ss = "insert into users (email) values ('" + email + "')";
+    string ss = "insert into users (mail,cntr) values ('" + email + "','0')";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 
-    string id = db.getid("users", "email", email);
+    string id = db.getid("users", "mail", email);
 
     return true;
 }
@@ -74,7 +75,7 @@ void Phdb::schema()
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE users (id INTEGER PRIMARY KEY, "
-         "name TEXT, email TEXT, last TEXT, cnt TEXT);";
+         "name TEXT, mail TEXT, last TEXT, cntr TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE maxid (id INTEGER PRIMARY KEY, tbl TEXT, val TEXT);";
@@ -86,6 +87,27 @@ void Phdb::schema()
     return;
 bad:
     throw gl::ex("Database creation failed " + db.err());
+}
 
+
+string Profile::str() const
+{
+    auto star = [](string s){ return s.empty()?"*":s; };
+
+    if( mail.empty() ) throw "Profile::str name empty";
+
+    string r;
+    r = ma::b64enc(star(name)) + ' ' + mail + ' ' + star(last) + ' ' + star(cntr);
+    return r;
+}
+
+
+bool Phdb::update_name(const Profile & pr, string nn)
+{
+    Dbo db;
+    nn = ma::b64dec(nn);
+    string ss = "update users set name='" + nn + "' where id='"+pr.prid+"'";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    return true;
 }
 

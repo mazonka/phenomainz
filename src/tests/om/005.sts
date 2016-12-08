@@ -1,5 +1,5 @@
 #!/bin/sh
-# test logout
+# test profile and name
 
 in=$(basename $0)
 in=${in%.*} 

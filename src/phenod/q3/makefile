@@ -13,6 +13,10 @@ GLDIR=../gl
 INC := $(INC) -I$(GLDIR)
 GLLIB=$(GLDIR)/$O/htgllib$(LEXT)
 
+MADIR=../ma
+INC := $(INC) -I$(MADIR)
+MALIB=$(MADIR)/$O/htmalib$(LEXT)
+
 OSDIR=../os
 INC := $(INC) -I$(OSDIR)
 OSLIB=$(OSDIR)/$O/htoslib$(LEXT)

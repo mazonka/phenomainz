@@ -127,3 +127,23 @@ AutObject AutQueue::getAob_seid(string seid) const
     return i->second;
 }
 
+void AutArea::update_name(const AutObject & ao, string newname)
+{
+    Phdb db;
+    if ( !db.update_name(ao.profile, newname) )
+    {
+        os::Cout() << "AutArea::update_name error while updating name\n";
+        return;
+    }
+
+    ///que.aos[ao.seid].profile.name = newname;
+    que.refresh(ao);
+}
+
+
+void AutQueue::refresh(const AutObject & ao)
+{
+    Phdb db;
+    db.get_by_email(ao.profile.mail, aos[ao.seid].profile);
+}
+
