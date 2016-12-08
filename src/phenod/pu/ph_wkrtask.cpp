@@ -27,9 +27,7 @@ string Worker2::ph_login()
     string em = tok.sub();
 
     AutObject ao;
-
     {
-
         AutArea & aa = gs->autArea;
         sgl::Mutex mutex_aa(aa.access2autArea);
 
@@ -39,7 +37,6 @@ string Worker2::ph_login()
         string ses_id = ka.newSalt().substr(0, 16);
 
         ao = aa.newAob_email(ses_id, em);
-
     }
 
     // url http://localhost:16000/home?0, http://localhost:16000[/]
@@ -92,10 +89,19 @@ string Worker2::ph_script(string cmd, string ag)
 string Worker2::ph_aucmd()
 {
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-    string c1 = tok.sub();
+    string seid = tok.sub();
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-    string c2 = tok.sub();
-//    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-//  string c3 = tok.sub();
-    return er::Code(er::OK).str() + ' ' + c1 + ' ' + c2;
+    string cmd = tok.sub();
+
+    AutObject ao;
+    {
+        AutArea & aa = gs->autArea;
+        sgl::Mutex mutex_aa(aa.access2autArea);
+        ao = aa.getAob_seid(seid);
+    }
+
+    if ( !ao.isok() ) return er::Code(er::AUTH);
+
+
+    return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
 }

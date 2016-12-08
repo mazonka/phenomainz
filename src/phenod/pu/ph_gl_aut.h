@@ -13,6 +13,8 @@ struct AutObject
     Profile profile;
     AutObject(string x, Profile e): seid(x), profile(e) {}
     AutObject() {}
+
+    bool isok() const { return !seid.empty(); }
 };
 
 class AutQueue
@@ -23,8 +25,8 @@ class AutQueue
         int findAob(gl::intint aid) const;
     public:
         void addAob(const AutObject & ao);
-        AutObject getAob_sid(string sid) const;
-        AutObject getAob_email(string email) const;
+        AutObject getAob_seid(string seid) const;
+        AutObject getAob_mail(string mail) const;
         AutQueue(unsigned sz): szMax(sz) {}
 
         void remove_by_email(string);
@@ -42,6 +44,7 @@ struct AutArea
     void testConf();
 
     AutObject newAob_email(string id, string email);
+    AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
 
     static string dump_safe(GlobalSpace * gs);
     static string loadConf(string name);

@@ -119,3 +119,11 @@ void AutQueue::addAob(const AutObject & ao)
 
     if ( !id.empty() ) aos.erase(id);
 }
+
+AutObject AutQueue::getAob_seid(string seid) const
+{
+    const auto & i = aos.find(seid);
+    if ( i == aos.end() ) return AutObject();
+    return i->second;
+}
+
