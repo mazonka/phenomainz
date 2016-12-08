@@ -29,7 +29,9 @@ class AutQueue
         AutObject getAob_mail(string mail) const;
         AutQueue(unsigned sz): szMax(sz) {}
 
-        void remove_by_email(string);
+        void remove_by_seid(string seid) { aos.erase(seid); }
+        void remove_by_mail(string);
+
         string dump() const;
 };
 
@@ -44,7 +46,7 @@ struct AutArea
     void testConf();
 
     AutObject newAob_email(string id, string email);
-    AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
+    ///AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
 
     static string dump_safe(GlobalSpace * gs);
     static string loadConf(string name);

@@ -28,7 +28,7 @@ AutObject AutArea::newAob_email(string ses_id, string email)
     // 4. Create new Aob
     // 5. Add it to queue
 
-    que.remove_by_email(email); // 1
+    que.remove_by_mail(email); // 1
     Profile pr;
     if ( !phdb.get_by_email(email, pr) )
     {
@@ -46,7 +46,7 @@ AutObject AutArea::newAob_email(string ses_id, string email)
 }
 
 
-void AutQueue::remove_by_email(string em)
+void AutQueue::remove_by_mail(string em)
 {
     string k;
 

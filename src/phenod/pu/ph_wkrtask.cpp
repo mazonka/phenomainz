@@ -97,10 +97,18 @@ string Worker2::ph_aucmd()
     {
         AutArea & aa = gs->autArea;
         sgl::Mutex mutex_aa(aa.access2autArea);
-        ao = aa.getAob_seid(seid);
-    }
+        ao = aa.que.getAob_seid(seid);
 
-    if ( !ao.isok() ) return er::Code(er::AUTH);
+        if ( !ao.isok() ) return er::Code(er::AUTH);
+
+        if (0) {}
+        else if ( cmd == "ping" ) return er::Code(er::OK);
+        else if ( cmd == "logout" )
+        {
+            aa.que.remove_by_seid(seid);
+            return er::Code(er::OK);
+        }
+    }
 
 
     return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
