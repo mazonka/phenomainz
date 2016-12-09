@@ -367,6 +367,7 @@ function wid_nc_logout() {
 
 function wid_nc_profile() {
     var cb = function (resp, profile) {
+        var r, date, time;
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         }
@@ -375,7 +376,15 @@ function wid_nc_profile() {
             return wid_modal_window(MSG.ERROR + resp, true);
         }
 
-        $('#div_profile').html(profile.name);
+        r = eng_get_lastdate(profile.lastdate);
+        date = [r.yyyy, r.mm, r.dd].join('.');
+        time = [r.h, r.m, r.s].join(':');
+
+        $('#div_profile_name').html('Name: ' + profile.name);
+        $('#div_profile_email').html('E-mail: ' + profile.email);
+        
+        $('#div_profile_lastdate').html('Last login: ' + date + ', ' + time);
+        $('#div_profile_counter').html('Count: ' + profile.counter);
     };
 
     eng_nc_profile(cb, g_uid, g_pulse);
@@ -384,11 +393,26 @@ function wid_nc_profile() {
 
 function wid_oninput_name($Obj) {
     var $Btn = $('#button_user_name');
+    var data = $Obj.val();
 
-    $Obj.on('keypress', function (event) {
+    data = data.replace(/^\s+|\s+$/g, '');
+    
+    if (!eng_is_valid_str(data)) {
+        wid_paint_borders($Obj);
+        $Btn.prop('disabled', false);
+        $Obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_name();
             $Obj.off('keypress');
-    });
+        });
+    } else {
+        (Boolean(data))
+            ? wid_paint_borders($Obj, 'red')
+            : wid_paint_borders($Obj);
+
+        $Obj.off('keypress');
+
+        $Btn.prop('disabled', true);
+    }
 }
 
 

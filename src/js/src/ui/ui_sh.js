@@ -13,5 +13,7 @@ function dyn_obj_init ($Obj) {
 
 function obj_init () {
     $('button').button();
-    $('#btn_email_login').prop('disabled', true);
+    $('#button_user_email').prop('disabled', true);
+    $('#button_user_name').prop('disabled', true);
+    $('#input_user_name, #input_user_email').val('').attr('maxlength', '40');
 }

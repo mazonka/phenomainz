@@ -52,31 +52,6 @@ function get_html_img(img_src) {
 }
 
 
-function get_html_td_logo() {
-    var r = '<img id="img_logo" src="'+ IMG.LOGO_DONE + '">\n';
-    
-    return get_html_td(r, 'td_logo');
-}
-
-
-function get_html_td_modal_window() {
-    var r = '';
-
-    r += '<td colspan="2">\n';
-    r += '<div id="div_modal_window">\n';
-    r += '<div id="div_modal_window_content">\n';
-    r += '<div id="div_modal_window_content_header"></div>\n';
-    r += '<div id="div_modal_window_content_body">\n';
-    r += '<p></p>\n';
-    r += '</div>\n';
-    r += '<div id="div_modal_window_content_footer"></div>\n';
-    r += '</div>\n';
-    r += '</div>\n';
-
-    return r;
-}
-
-
 function get_html_body() {
     var r = '';
 
@@ -89,6 +64,33 @@ function get_html_body() {
     r += get_html_tr(get_html_td_modal_window());
 
     r += '</table>\n';
+
+    return r;
+}
+
+
+function get_html_td_logo() {
+    var r = '';
+    
+    r += '<div id="div_logo"><img id="img_logo" src="'+ IMG.LOGO_DONE + '"></div>\n';
+    
+    return get_html_td(r, 'td_logo');
+}
+
+
+function get_html_td_modal_window() {
+    var r = '';
+
+    r += '<td>\n';
+    r += '<div id="div_modal_window">\n';
+    r += '<div id="div_modal_window_content">\n';
+    r += '<div id="div_modal_window_content_header"></div>\n';
+    r += '<div id="div_modal_window_content_body">\n';
+    r += '<p></p>\n';
+    r += '</div>\n';
+    r += '<div id="div_modal_window_content_footer"></div>\n';
+    r += '</div>\n';
+    r += '</div>\n';
 
     return r;
 }
@@ -130,7 +132,7 @@ function get_html_name_window() {
     var r = '';
 
     r += '<label for="input_user_name">Name:<label>\n';
-    r += '<input id="input_user_name" value="*" oninput="wid_oninput_name($(this))">\n';
+    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))">\n';
     r += '<button id="button_user_name" onclick="wid_nc_name()">' +
         BUTTON_TEXT.CHANGE + '</button>\n';
     r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
@@ -141,7 +143,11 @@ function get_html_name_window() {
 
 
 function get_html_td_profile() {
-    var r = '<a><div id="div_profile" onclick="wid_open_name_window()"></div></a>\n';
+    var r = '';
+    r += '<div id="div_profile_name" onclick="wid_open_name_window()"></div></br>\n';
+    r += '<div id="div_profile_email"></div></br>\n';
+    r += '<div id="div_profile_lastdate"></div></br>\n';
+    r += '<div id="div_profile_counter"></div></br>\n';
 
     return get_html_td(r, 'td_profile');
 }
@@ -165,7 +171,7 @@ function get_html_td_button_open_file() {
 function get_html_td_button_upload_file() {
     var r = '';
 
-    r += '<td id="td_open_file" colspan="2">\n';
+    r += '<td id="td_open_file">\n';
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
         'for="input_open_file">' + LBL_TEXT.UPLOAD_FILE + '</label>\n';

@@ -24,6 +24,10 @@ function doc_init(uid) {
 function ui_init(uid) {
     g_uid = uid;
     console.log(uid);
+
+    $('#button_google, #button_facebook, #button_linkedin, #button_windows').hide();
+    
+    $('input, select, textarea').attr('autocomplete', 'off');
     
     $('#td_profile').hide();
     $('#td_open_file').hide();

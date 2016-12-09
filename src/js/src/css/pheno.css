@@ -35,6 +35,10 @@ button {
     width: 20px;
 }
 
+#div_logo {
+    display: inline-block;    
+}
+
 #td_logo img {
     width: 16px;
 }
@@ -97,13 +101,19 @@ button {
     text-align: left;
 }
 
-#div_profile {
+#div_profile_name,
+#div_profile_email,
+#div_profile_lastdate,
+#div_profile_counter {
+    display: inline-block;
+}
+
+#div_profile_name {
     font-weight: bold;
     cursor: pointer;
     color: blue;
-    display: inline-block;
-    
 }
+
 #table_file_properties {
     margin: auto;
     width: 98%;

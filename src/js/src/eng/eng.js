@@ -156,3 +156,35 @@ function eng_get_parsed_profile(data) {
     
     return profile;
 }
+
+function eng_is_valid_str(data) {
+    var v = /[^0-9a-zA-Z_\-\(\)\u0020]+/i;
+    
+    console.log(v.test(data));
+    return v.test(data);    
+}
+
+
+
+function eng_get_lastdate(data) {
+    var lastdate = {};
+    lastdate.ok = false;
+    data = data || '';
+    
+    if (typeof data !== 'string' ||
+            +data === 0 ||
+            data.length !== 14) {
+        return lastdate;
+    }
+    
+    lastdate.yyyy = data.substring(0, 4);
+    lastdate.mm = data.substring(4, 6);
+    lastdate.dd = data.substring(6, 8); 
+    lastdate.h = data.substring(8, 10); 
+    lastdate.m = data.substring(10, 12); 
+    lastdate.s = data.substring(12); 
+
+    lastdate.ok = true;
+    
+    return lastdate;    
+}
