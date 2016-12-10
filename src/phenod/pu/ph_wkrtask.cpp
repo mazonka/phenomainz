@@ -148,8 +148,19 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "create" )
     {
-        aa.phdb.new_dataset(ao.profile.prid);
+        aa.phdb.dataset_new(ao.profile.prid);
         return er::Code(er::OK);
+    }
+
+    else if ( cmd == "list" )
+    {
+		gl::vstr ids, tis;
+        int sz = aa.phdb.dataset_list(ao.profile.prid,ids,tis);
+
+		string s_ids; for( auto s : ids ) s_ids += ' ' + s;
+		string s_tis; for( auto s : tis ) s_tis += ' ' + s;
+
+        return er::Code(er::OK).str() + ' ' + gl::tos(sz) + s_ids + s_tis;
     }
 
     return er::Code(er::OK).str() + " - not implemented";

@@ -5,9 +5,9 @@ out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9
 OK
 =================================== login done
 OK
-OK - not implemented
+OK 1 1 Kg==
 OK
+OK 2 1 2 Kg== Kg==
 OK - not implemented
-OK - not implemented
-OK - not implemented
+OK 2 1 2 Kg== Kg==
 =================================== dataset done

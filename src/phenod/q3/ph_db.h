@@ -2,6 +2,7 @@
 #define __PH_DB__H
 
 #include <string>
+#include "gl_utils.h"
 
 using std::string;
 
@@ -26,7 +27,8 @@ class Phdb
         bool update_name(const Profile & pr, string newname);
         void access(string mail);
 
-        void new_dataset(string prid);
+        void dataset_new(string prid);
+        int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis);
 };
 
 #endif

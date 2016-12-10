@@ -130,10 +130,48 @@ void Phdb::access(string em)
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 
-void Phdb::new_dataset(string prid)
+void Phdb::dataset_new(string prid)
 {
     Dbo db;
     string ss = "insert into dataset (prid) values ('" + prid + "')";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 
+
+int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
+{
+    Dbo db;
+
+    string ss = "select id,title from dataset where prid='" + prid + "'";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+
+    if (0)
+    {
+        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
+        for ( auto v : db.result )
+        {
+            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
+            os::Cout() <<  os::endl;
+        }
+    }
+
+    if ( db.result.empty() ) return 0;
+
+    if ( db.result.size() < 2 )
+        throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 2");
+
+    db.result.erase(db.result.begin());
+
+    for ( auto & rc : db.result )
+    {
+        if ( rc.size() != 2 )
+            throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 3");
+
+        ids.push_back(rc[0]);
+        string x = rc[1];
+        if ( x.empty() ) x = "Kg=="; // *
+        tis.push_back(x);
+    }
+
+    return db.result.size();
+}
