@@ -171,15 +171,18 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK);
     }
 
-    else if ( cmd == "title" )
+    else if ( cmd == "update" )
     {
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
         string daid = tok.sub();
 
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-        string tit = tok.sub();
+        string field = tok.sub();
 
-        aa.phdb.dataset_tit(ao.profile.prid, daid, tit);
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string val = tok.sub();
+
+        aa.phdb.dataset_upd(ao.profile.prid, daid, field, val);
         return er::Code(er::OK);
     }
 

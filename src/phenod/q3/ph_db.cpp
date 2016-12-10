@@ -100,20 +100,26 @@ bad:
 
 string Profile::str() const
 {
-    auto star = [](string s) { return s.empty() ? "*" : s; };
+    auto star = [](string s) { return s.empty() ? "Kg==" : s; };
 
     if ( mail.empty() ) throw "Profile::str name empty";
 
     string r;
-    r = ma::b64enc(star(name)) + ' ' + mail + ' ' + star(last) + ' ' + star(cntr);
+    r = star(name) + ' ' + mail + ' ' + star(last) + ' ' + star(cntr);
     return r;
 }
 
 
 bool Phdb::update_name(const Profile & pr, string nn)
 {
+    if ( !gl::isb64(nn) )
+    {
+        os::Cout() << "Bad name in Phdb::update_name [" << nn << "]" << os::endl;
+        return false;
+    }
+
     Dbo db;
-    nn = ma::b64dec(nn);
+    ///nn = ma::b64dec(nn);
     string ss = "update users set name='" + nn + "' where id='" + pr.prid + "'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
     return true;
@@ -184,11 +190,28 @@ void Phdb::dataset_del(string prid, string daid)
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 
-void Phdb::dataset_tit(string prid, string daid, string tit)
+void Phdb::dataset_upd(string prid, string daid, string field, string val)
 {
+    if ( field != "title" && field != "descr" )
+    {
+        os::Cout() << "Bad field in Phdb::dataset_upd [" << field << "]" << os::endl;
+        return;
+    }
+
+    if ( !gl::isb64(val) )
+    {
+        os::Cout() << "Bad val in Phdb::dataset_upd [" << val << "]" << os::endl;
+        return;
+    }
+
     Dbo db;
-    string ss = "update dataset set title='" + tit
-                + "' where prid='" + prid + "' and id='" + daid + "';";
+    string ss = "update dataset set $1='$2' where prid='$3' and id='$4';";
+
+    gl::replaceAll(ss, "$1", field);
+    gl::replaceAll(ss, "$2", val);
+    gl::replaceAll(ss, "$3", prid);
+    gl::replaceAll(ss, "$4", daid);
+
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 

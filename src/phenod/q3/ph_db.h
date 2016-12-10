@@ -30,7 +30,7 @@ class Phdb
         void dataset_new(string prid);
         int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis);
         void dataset_del(string prid, string daid);
-        void dataset_tit(string prid, string daid, string tit);
+        void dataset_upd(string prid, string daid, string field, string val);
 };
 
 #endif
