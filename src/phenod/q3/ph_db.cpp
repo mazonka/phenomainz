@@ -184,3 +184,11 @@ void Phdb::dataset_del(string prid, string daid)
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 
+void Phdb::dataset_tit(string prid, string daid, string tit)
+{
+    Dbo db;
+    string ss = "update dataset set title='" + tit
+                + "' where prid='" + prid + "' and id='" + daid + "';";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+}
+

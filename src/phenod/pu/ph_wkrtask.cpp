@@ -154,24 +154,36 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "list" )
     {
-		gl::vstr ids, tis;
-        int sz = aa.phdb.dataset_list(ao.profile.prid,ids,tis);
+        gl::vstr ids, tis;
+        int sz = aa.phdb.dataset_list(ao.profile.prid, ids, tis);
 
-		string s_ids; for( auto s : ids ) s_ids += ' ' + s;
-		string s_tis; for( auto s : tis ) s_tis += ' ' + s;
+        string s_ids; for ( auto s : ids ) s_ids += ' ' + s;
+        string s_tis; for ( auto s : tis ) s_tis += ' ' + s;
 
         return er::Code(er::OK).str() + ' ' + gl::tos(sz) + s_ids + s_tis;
     }
 
     else if ( cmd == "delete" )
     {
-	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-	    string daid = tok.sub();
-        aa.phdb.dataset_del(ao.profile.prid,daid);
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+        aa.phdb.dataset_del(ao.profile.prid, daid);
         return er::Code(er::OK);
     }
 
-    return er::Code(er::OK).str() + " - not implemented";
+    else if ( cmd == "title" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string tit = tok.sub();
+
+        aa.phdb.dataset_tit(ao.profile.prid, daid, tit);
+        return er::Code(er::OK);
+    }
+
+    return er::Code(er::REQ_MSG_BAD);
 }
 
 gl::intint Worker2::putfile()
