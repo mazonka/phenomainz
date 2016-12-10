@@ -11,6 +11,8 @@
 #include "hq_record.h"
 #include "hq_globalspace.h"
 
+#include "ph_gl_aut.h"
+
 using std::string;
 
 struct Worker2
@@ -55,7 +57,7 @@ struct Worker2
                              gl::intint n, bool first, db::Record * record);
 
         gl::intint putfile();
-        string dataset();
+        string dataset(AutArea & aa, const AutObject & ao);
 
 
     public:

@@ -117,7 +117,7 @@ string Worker2::ph_aucmd()
             return er::Code(er::OK);
         }
         else if ( cmd == "dataset" )
-            return dataset();
+            return dataset(aa, ao);
     }
 
     if (0) {}
@@ -139,8 +139,19 @@ string Worker2::ph_aucmd()
     ///return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
 }
 
-string Worker2::dataset()
+string Worker2::dataset(AutArea & aa, const AutObject & ao)
 {
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+    string cmd = tok.sub();
+
+    if (0) {}
+
+    else if ( cmd == "create" )
+    {
+        aa.phdb.new_dataset(ao.profile.prid);
+        return er::Code(er::OK);
+    }
+
     return er::Code(er::OK).str() + " - not implemented";
 }
 

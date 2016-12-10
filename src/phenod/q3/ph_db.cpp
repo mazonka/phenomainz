@@ -79,7 +79,14 @@ void Phdb::schema()
          "name TEXT, mail TEXT, last TEXT, cntr TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE maxid (id INTEGER PRIMARY KEY, tbl TEXT, val TEXT);";
+    ///ss = "CREATE TABLE maxid (id INTEGER PRIMARY KEY, tbl TEXT, val TEXT);";
+    ///if ( !db.exec(ss) ) goto bad;
+
+    ss = "CREATE TABLE dataset (id INTEGER PRIMARY KEY, prid TEXT, "
+         "title TEXT, descr TEXT, categ TEXT);";
+    if ( !db.exec(ss) ) goto bad;
+
+    ss = "CREATE TABLE categ (id INTEGER PRIMARY KEY, name TEXT, parent TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "COMMIT;";
@@ -93,9 +100,9 @@ bad:
 
 string Profile::str() const
 {
-    auto star = [](string s){ return s.empty()?"*":s; };
+    auto star = [](string s) { return s.empty() ? "*" : s; };
 
-    if( mail.empty() ) throw "Profile::str name empty";
+    if ( mail.empty() ) throw "Profile::str name empty";
 
     string r;
     r = ma::b64enc(star(name)) + ' ' + mail + ' ' + star(last) + ' ' + star(cntr);
@@ -107,7 +114,7 @@ bool Phdb::update_name(const Profile & pr, string nn)
 {
     Dbo db;
     nn = ma::b64dec(nn);
-    string ss = "update users set name='" + nn + "' where id='"+pr.prid+"'";
+    string ss = "update users set name='" + nn + "' where id='" + pr.prid + "'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
     return true;
 }
@@ -115,11 +122,18 @@ bool Phdb::update_name(const Profile & pr, string nn)
 void Phdb::access(string em)
 {
     Dbo db;
-    string tim  = os::Timer::getGmd()+os::Timer::getHms();
-    string ss = "update users set last='" + tim + "' where mail='"+em+"'";
+    string tim  = os::Timer::getGmd() + os::Timer::getHms();
+    string ss = "update users set last='" + tim + "' where mail='" + em + "'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 
-    ss = "update users set cntr=cntr+1 where mail='"+em+"'";
+    ss = "update users set cntr=cntr+1 where mail='" + em + "'";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+}
+
+void Phdb::new_dataset(string prid)
+{
+    Dbo db;
+    string ss = "insert into dataset (prid) values ('" + prid + "')";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 }
 
