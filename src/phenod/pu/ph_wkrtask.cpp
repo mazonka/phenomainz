@@ -186,6 +186,18 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK);
     }
 
+    else if ( cmd == "get" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        string r = aa.phdb.dataset_get(ao.profile.prid, daid);
+
+	if( r.empty() ) return er::Code(er::REQ_MSG_BAD);
+
+        return er::Code(er::OK).str() + ' ' + r;
+    }
+
     return er::Code(er::REQ_MSG_BAD);
 }
 

@@ -11,6 +11,21 @@
 #include "dbo.h"
 #include "ph_db.h"
 
+inline string star(string s) { return s.empty() ? "Kg==" : s; }
+
+inline void dump(bool y, Dbo & db)
+{
+    if (y)
+    {
+        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
+        for ( auto v : db.result )
+        {
+            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
+            os::Cout() <<  os::endl;
+        }
+    }
+}
+
 bool Phdb::get_by_email(string email, Profile & pr)
 {
     if ( !os::isFile(Dbo::dbname) ) return false;
@@ -100,8 +115,6 @@ bad:
 
 string Profile::str() const
 {
-    auto star = [](string s) { return s.empty() ? "Kg==" : s; };
-
     if ( mail.empty() ) throw "Profile::str name empty";
 
     string r;
@@ -150,16 +163,6 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 
     string ss = "select id,title from dataset where prid='" + prid + "'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
-
-    if (0)
-    {
-        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
-        for ( auto v : db.result )
-        {
-            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
-            os::Cout() <<  os::endl;
-        }
-    }
 
     if ( db.result.empty() ) return 0;
 
@@ -213,5 +216,36 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     gl::replaceAll(ss, "$4", daid);
 
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+}
+
+string Phdb::dataset_get(string prid, string daid)
+{
+    Dbo db;
+    string ss = "select * from dataset where prid='$3' and id='$4';";
+    gl::replaceAll(ss, "$3", prid);
+    gl::replaceAll(ss, "$4", daid);
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+
+    dump(0,db);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::dataset_get failed" << os::endl;
+        return "";
+    }
+
+    gl::vstr rc = *(++db.result.begin());
+
+    // id, prid, title, descr, caid
+    if ( rc.size() != 5 )
+        throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - bad size");
+
+    string r;
+    r += star(rc[0]) + ' ';
+    r += star(rc[2]) + ' ';
+    r += star(rc[3]) + ' ';
+    r += star(rc[4]);
+
+    return r;
 }
 

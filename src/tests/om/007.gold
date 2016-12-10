@@ -3,16 +3,17 @@ cmd: ./phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
 out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
 
 OK
-=================================== login done
+=================================== create/delete
 OK
 OK 1 1 Kg==
 OK
 OK 2 1 2 Kg== Kg==
 OK
 OK 1 2 Kg==
-dataset update
+=================================== update
 OK
 OK
 OK 1 2 YWJj
-REQ_MSG_BAD
-=================================== dataset done
+=================================== get
+OK 2 YWJj MTIzNDU2Nzg5MA== Kg==
+=================================== done

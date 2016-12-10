@@ -27,10 +27,11 @@ class Phdb
         bool update_name(const Profile & pr, string newname);
         void access(string mail);
 
-        void dataset_new(string prid);
         int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis);
+        void dataset_new(string prid);
         void dataset_del(string prid, string daid);
         void dataset_upd(string prid, string daid, string field, string val);
+        string dataset_get(string prid, string daid);
 };
 
 #endif
