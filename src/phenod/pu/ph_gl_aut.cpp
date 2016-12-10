@@ -138,7 +138,7 @@ void AutArea::update_name(const AutObject & ao, string newname)
     }
 
     ///que.aos[ao.seid].profile.name = newname;
-    que.refresh(phdb,ao);
+    que.refresh(phdb, ao);
 }
 
 

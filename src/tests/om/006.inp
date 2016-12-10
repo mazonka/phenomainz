@@ -1,0 +1,8 @@
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== login done ]
+print tcp self [ au 96db1e5f246844c9 file file.txt 0 10 MTIzNDU2Nzg5MA== ]
+print [ =================================== profile done ]
+quit

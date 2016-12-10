@@ -54,6 +54,8 @@ struct Worker2
         er::Code fetchRecord(int dbIndex, db::Dn * dn,
                              gl::intint n, bool first, db::Record * record);
 
+        gl::intint putfile();
+
 
     public:
 

@@ -103,16 +103,11 @@ string Worker2::ph_aucmd()
 
         if (0) {}
 
-        else if ( cmd == "ping" )
-            return er::Code(er::OK);
-
         else if ( cmd == "logout" )
         {
             aa.que.remove_by_seid(seid);
             return er::Code(er::OK);
         }
-        else if ( cmd == "profile" )
-            return er::Code(er::OK).str() + ' ' + ao.profile.str();
 
         else if ( cmd == "name" )
         {
@@ -123,6 +118,27 @@ string Worker2::ph_aucmd()
         }
     }
 
+    if (0) {}
+
+    else if ( cmd == "ping" )
+        return er::Code(er::OK);
+
+    else if ( cmd == "profile" )
+        return er::Code(er::OK).str() + ' ' + ao.profile.str();
+
+    else if ( cmd == "file" )
+    {
+        gl::intint sz = putfile();
+        if ( sz < 0 ) return er::Code(er::REQ_MSG_BAD);
+        return er::Code(er::OK).str() + ' ' + gl::tos(sz);
+    }
 
     return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
 }
+
+gl::intint Worker2::putfile()
+{
+    gl::intint err(-1);
+    return err;
+}
+
