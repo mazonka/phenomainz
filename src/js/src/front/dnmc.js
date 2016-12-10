@@ -108,12 +108,13 @@ function wid_modal_window(msg, click, func) {
 }
 
 
-function wid_ui_auth(uid) {
-    if (uid == 0) {
+function wid_ui_auth() {
+    if (g_uid == 0) {
         wid_ui_logout();
     } else {
         wid_ui_login();
-        wid_nc_profile(uid);
+        wid_nc_profile();
+        wid_nc_dataset_list();
     }
 }
 
@@ -139,6 +140,7 @@ function wid_ui_logout() {
         }
     );
 }
+
 
 function wid_ui_login() {
     $('#td_profile').show();
@@ -198,7 +200,7 @@ function wid_open_file(files, $Obj) {
             return wid_file_is_open(false);
         });
 
-        wid_modal_window(get_html_open_file(file), false);
+        wid_modal_window(html_get_open_file(file), false);
     };
 
     var cb_progress = function (data) {
@@ -217,6 +219,7 @@ function wid_open_file(files, $Obj) {
 
     eng_open_file(file, cb_main, cb_progress);
 }
+
 
 function wid_file_is_open(toggle) {
     var $Input = $('#input_open_file');
@@ -260,7 +263,7 @@ function wid_upload_file() {
 function wid_open_email_window() {
     var $Window = $('#div_modal_window');
 
-    wid_modal_window(get_html_email_window(), false);
+    wid_modal_window(html_get_email_window(), false);
 
     dyn_obj_init($Window);
 }
@@ -292,7 +295,7 @@ function wid_oninput_email($Obj) {
 function wid_open_name_window() {
     var $Window = $('#div_modal_window');
 
-    wid_modal_window(get_html_name_window(), false);
+    wid_modal_window(html_get_name_window(), false);
 
     dyn_obj_init($Window);
 }
@@ -329,7 +332,7 @@ function wid_nc_ping() {
             return alert(MSG.ERROR + resp);
         }
 
-        wid_ui_auth(g_uid);
+        wid_ui_auth();
     };
 
     eng_nc_ping(cb, g_uid, g_pulse);
@@ -433,4 +436,20 @@ function wid_nc_name() {
 
     $Window.click();
     eng_nc_name(cb, g_uid, name, g_pulse);
+}
+
+
+function wid_nc_dataset_list() {
+    var cb = function (list) {
+        let l = '';
+        
+        if (list.n !== 0) {
+            l = html_get_dataset_list(list.n, list.id, list.title);
+        }
+        
+        $('#td_dataset_list').html(l);
+        dyn_dataset_init();
+    }
+ 
+    eng_nc_dataset_list(cb, g_uid);
 }

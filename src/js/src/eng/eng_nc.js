@@ -66,12 +66,34 @@ function eng_nc_name(ext_cb, uid, name, pulse)
 {
     //console.log(window.btoa(name));
     var cmd = ['au', uid, 'name', window.btoa(name)].join(' ');
-    var int_cb = function (data)
-    {
+    var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
 
     ajx_send_command(cmd, int_cb, pulse);
 }
 
+function eng_nc_dataset_list(ext_cb, uid) {
+    var cmd = ['au', uid, 'dataset', 'list' ].join(' ');
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+        let r = {};
 
+        r.n = 0;
+        r.id = [];
+        r.title = [];
+
+        if (resp == PHENOD.OK) {
+            let list = data
+                .replace(/^OK/g, '')
+                .replace(/^\s|\r|\s+$/g, '')
+                .split(/\s/);
+                
+            r = eng_get_list(list);        
+        }
+        
+        ext_cb(r);
+    };
+    
+    ajx_send_command(cmd, int_cb, g_pulse);
+}

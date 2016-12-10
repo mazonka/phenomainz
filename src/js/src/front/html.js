@@ -4,7 +4,7 @@
 'use strict';
 
 
-function get_html_table(data, id) {
+function html_get_table(data, id) {
     var r = (Boolean(id))
         ? '<table id="' + id +'">\n'
         : '<table>\n';
@@ -16,7 +16,7 @@ function get_html_table(data, id) {
 }
 
 
-function get_html_tr() {
+function html_get_tr() {
     var r = '';
     var l = arguments.length;
 
@@ -36,7 +36,7 @@ function get_html_tr() {
 }
 
 
-function get_html_td(data, id) {
+function html_get_td(data, id) {
     var r = (Boolean(id))
         ? '<td id="' + id +'">\n'
         : '<td>\n';
@@ -47,21 +47,22 @@ function get_html_td(data, id) {
 }
 
 
-function get_html_img(img_src) {
+function html_get_img(img_src) {
     return '<img src="' + img_src + '">\n';
 }
 
 
-function get_html_body() {
+function html_get_body() {
     var r = '';
 
     r += '<table id="table_body" border=1>\n';
     
-    r += get_html_tr(get_html_td_logo());
-    r += get_html_tr(get_html_td_auth());
-    r += get_html_tr(get_html_td_profile());
-    r += get_html_tr(get_html_td_button_open_file());
-    r += get_html_tr(get_html_td_modal_window());
+    r += html_get_tr(html_get_td_logo());
+    r += html_get_tr(html_get_td_auth());
+    r += html_get_tr(html_get_td_profile());
+    r += html_get_tr(html_get_td_button_open_file());
+    r += html_get_tr(html_get_td_dataset());
+    r += html_get_tr(html_get_td_modal_window());
 
     r += '</table>\n';
 
@@ -69,16 +70,16 @@ function get_html_body() {
 }
 
 
-function get_html_td_logo() {
+function html_get_td_logo() {
     var r = '';
     
     r += '<div id="div_logo"><img id="img_logo" src="'+ IMG.LOGO_DONE + '"></div>\n';
     
-    return get_html_td(r, 'td_logo');
+    return html_get_td(r, 'td_logo');
 }
 
 
-function get_html_td_modal_window() {
+function html_get_td_modal_window() {
     var r = '';
 
     r += '<td>\n';
@@ -96,7 +97,7 @@ function get_html_td_modal_window() {
 }
 
 
-function get_html_td_auth() {
+function html_get_td_auth() {
     var r = '';
     
     r += '<button id="button_pheno" onclick="wid_open_email_window()">' +
@@ -109,11 +110,11 @@ function get_html_td_auth() {
         BUTTON_TEXT.LINKEDIN + '</button>\n';
     r += '<button id="button_windows" onclick="wid_auth(\'windows\')">' +
         BUTTON_TEXT.WINDOWS + '</button>\n';
-    return get_html_td(r, 'td_login');
+    return html_get_td(r, 'td_login');
 }
 
 
-function get_html_email_window() {
+function html_get_email_window() {
 
     var r = '';
 
@@ -123,11 +124,11 @@ function get_html_email_window() {
         BUTTON_TEXT.SEND_EMAIL + '</button>\n';
 
 
-    return get_html_tr(get_html_td(r, 'td_email'));
+    return html_get_tr(html_get_td(r, 'td_email'));
 }
 
 
-function get_html_name_window() {
+function html_get_name_window() {
 
     var r = '';
 
@@ -138,22 +139,22 @@ function get_html_name_window() {
     r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
         BUTTON_TEXT.LOGOUT + '</button>\n';
         
-    return get_html_tr(get_html_td(r, 'td_name'));
+    return html_get_tr(html_get_td(r, 'td_name'));
 }
 
 
-function get_html_td_profile() {
+function html_get_td_profile() {
     var r = '';
     r += '<div id="div_profile_name" onclick="wid_open_name_window()"></div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
     r += '<div id="div_profile_counter"></div></br>\n';
 
-    return get_html_td(r, 'td_profile');
+    return html_get_td(r, 'td_profile');
 }
 
 
-function get_html_td_button_open_file() {
+function html_get_td_button_open_file() {
     var r = '';
 
     r += '<td id="td_open_file">\n';
@@ -168,7 +169,7 @@ function get_html_td_button_open_file() {
 }
 
 
-function get_html_td_button_upload_file() {
+function html_get_td_button_upload_file() {
     var r = '';
 
     r += '<td id="td_open_file">\n';
@@ -182,7 +183,16 @@ function get_html_td_button_upload_file() {
 }
 
 
-function get_html_open_file(file) {
+function html_get_td_dataset() {
+    var r = '';
+
+    r += '<td id="td_dataset_list">\n';
+    
+    return r;
+}
+
+
+function html_get_open_file(file) {
     var r = '';
     var t = '';
 
@@ -193,28 +203,43 @@ function get_html_open_file(file) {
     r += '</br>\n';
     r += '</div>\n';
 
-    t += get_html_tr(
-        get_html_td('<label for="input_file_title">Title</label>\n'),
-        get_html_td('<input id="input_file_title">\n')
+    t += html_get_tr(
+        html_get_td('<label for="input_file_title">Title</label>\n'),
+        html_get_td('<input id="input_file_title">\n')
     );
 
-    t += get_html_tr(
-        get_html_td('<label for="input_file_author">Author</label>\n'),
-        get_html_td('<input id="input_file_author">\n')
+    t += html_get_tr(
+        html_get_td('<label for="input_file_author">Author</label>\n'),
+        html_get_td('<input id="input_file_author">\n')
     );
 
-    t += get_html_tr(
-        get_html_td('<label for="input_file_theme">Theme</label>\n'),
-        get_html_td('<input id="input_file_theme">\n')
+    t += html_get_tr(
+        html_get_td('<label for="input_file_theme">Theme</label>\n'),
+        html_get_td('<input id="input_file_theme">\n')
     );
 
-    t += get_html_tr(
-        get_html_td('<label for="input_file_keywords">Keywords</label>\n'),
-        get_html_td('<input id="input_file_keywords">\n')
+    t += html_get_tr(
+        html_get_td('<label for="input_file_keywords">Keywords</label>\n'),
+        html_get_td('<input id="input_file_keywords">\n')
     );
 
-    r += get_html_table(t, 'table_file_properties');
-    r += get_html_td_button_upload_file();
+    r += html_get_table(t, 'table_file_properties');
+    r += html_get_td_button_upload_file();
+    
+    return r;
+}
+
+function html_get_dataset_list(l, id, title) {
+    var r = '';
+    
+    r += '<div id="div_dataset_list">\n';
+    
+    for (let i = 0; i < +l;  i++) {
+        r += '<h3>' + title[i] + '</h3>\n';
+        r += '<div id="' + id[i] + '"></div>\n';
+    }
+    
+    r += '</div>\n';
     
     return r;
 }

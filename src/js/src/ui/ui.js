@@ -10,7 +10,7 @@ function doc_write() {
 
 
 function ui_write() {
-    return get_html_body();
+    return html_get_body();
 }
 
 
@@ -34,9 +34,10 @@ function ui_init(uid) {
     $('#td_login').hide();
 
     $('button').button();
+
+    
     $('#button_user_email').prop('disabled', true);
     $('#div_modal_window').css('display', 'none');
-    
     
     wid_nc_ping();
 }

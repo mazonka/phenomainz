@@ -165,7 +165,6 @@ function eng_is_valid_str(data) {
 }
 
 
-
 function eng_get_lastdate(data) {
     var lastdate = {};
     lastdate.ok = false;
@@ -187,4 +186,14 @@ function eng_get_lastdate(data) {
     lastdate.ok = true;
     
     return lastdate;    
+}
+
+function eng_get_list(data) {
+    var r = {};
+    
+    r.n = +data.splice(0, 1)[0];
+    r.id = data.splice(0, r.n/2);
+    r.title = data;
+    
+    return r;
 }
