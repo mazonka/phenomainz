@@ -116,6 +116,8 @@ string Worker2::ph_aucmd()
             aa.update_name(ao, nn);
             return er::Code(er::OK);
         }
+        else if ( cmd == "dataset" )
+            return dataset();
     }
 
     if (0) {}
@@ -133,7 +135,13 @@ string Worker2::ph_aucmd()
         return er::Code(er::OK).str() + ' ' + gl::tos(sz);
     }
 
-    return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
+    return er::Code(er::REQ_MSG_BAD);
+    ///return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
+}
+
+string Worker2::dataset()
+{
+    return er::Code(er::OK).str() + " - not implemented";
 }
 
 gl::intint Worker2::putfile()

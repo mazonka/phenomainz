@@ -55,6 +55,7 @@ struct Worker2
                              gl::intint n, bool first, db::Record * record);
 
         gl::intint putfile();
+        string dataset();
 
 
     public:
