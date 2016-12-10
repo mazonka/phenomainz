@@ -29,6 +29,7 @@ class Phdb
 
         void dataset_new(string prid);
         int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis);
+        void dataset_del(string prid, string daid);
 };
 
 #endif

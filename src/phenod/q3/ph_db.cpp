@@ -175,3 +175,12 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 
     return db.result.size();
 }
+
+void Phdb::dataset_del(string prid, string daid)
+{
+    Dbo db;
+    string ss = "delete from dataset where prid='"
+                + prid + "' and id='" + daid + "';";
+    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+}
+

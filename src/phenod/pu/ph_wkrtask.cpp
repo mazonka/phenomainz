@@ -163,6 +163,14 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK).str() + ' ' + gl::tos(sz) + s_ids + s_tis;
     }
 
+    else if ( cmd == "delete" )
+    {
+	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	    string daid = tok.sub();
+        aa.phdb.dataset_del(ao.profile.prid,daid);
+        return er::Code(er::OK);
+    }
+
     return er::Code(er::OK).str() + " - not implemented";
 }
 
