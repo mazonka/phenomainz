@@ -11,6 +11,26 @@ function eng_is_email(data) {
 }
 
 
+function eng_get_decoded_b64_arr(data) {
+    
+    for (let i = 0, l = data.length; i < l; i++) {
+        data[i] = window.atob(data[i]);
+    }
+    
+    return data;
+}
+
+
+function eng_get_encoded_b64_arr(data) {
+    
+    for (let i = 0, l = data.length; i < l; i++) {
+        data[i] = window.btoa(data[i]);
+    }
+    
+    return data;
+}
+
+
 function eng_open_file(file, cb_main, cb_progress) {
     var reader;
     var output = [];
@@ -157,6 +177,7 @@ function eng_get_parsed_profile(data) {
     return profile;
 }
 
+
 function eng_is_valid_str(data) {
     var v = /[^0-9a-zA-Z_\-\(\)\u0020]+/i;
     
@@ -188,12 +209,34 @@ function eng_get_lastdate(data) {
     return lastdate;    
 }
 
+
 function eng_get_list(data) {
     var r = {};
-    
+    console.log(data);
+    data = data
+        .replace(/^OK/g, '')
+        .replace(/^\s|\r|\s+$/g, '')
+        .split(/\s/);
+
     r.n = +data.splice(0, 1)[0];
     r.id = data.splice(0, r.n);
-    r.title = data;
+    r.title = eng_get_decoded_b64_arr(data);
     
+    return r;
+}
+
+
+function eng_get_get(data) {
+    var r = {};
+    
+    data = data
+        .replace(/^OK/g, '')
+        .replace(/^\s|\r|\s+$/g, '')
+        .split(/\s/);
+    
+    r.id = '';
+    r.title = '';
+    r.descr = '';
+
     return r;
 }

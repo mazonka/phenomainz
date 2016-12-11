@@ -61,8 +61,8 @@ function html_get_body() {
     r += html_get_tr(html_get_td_auth());
     r += html_get_tr(html_get_td_profile());
     r += html_get_tr(html_get_td_button_open_file());
-    r += html_get_tr(html_get_td_dataset_ctrl());
-    r += html_get_tr(html_get_td_dataset());
+    r += html_get_tr(html_get_td_dataset_list_ctrl());
+    r += html_get_tr(html_get_td_dataset_list());
     r += html_get_tr(html_get_td_modal_window());
 
     r += '</table>\n';
@@ -74,7 +74,8 @@ function html_get_body() {
 function html_get_td_logo() {
     var r = '';
     
-    r += '<div id="div_logo"><img id="img_logo" src="'+ IMG.LOGO_DONE + '"></div>\n';
+    r += '<div id="div_logo"><img id="img_logo" src="' 
+        + IMG.LOGO_DONE + '"></div>\n';
     
     return html_get_td(r, 'td_logo');
 }
@@ -120,7 +121,8 @@ function html_get_email_window() {
     var r = '';
 
     r += '<label for="input_user_email">e-mail:<label>\n';
-    r += '<input id="input_user_email" oninput="wid_oninput_email($(this))">\n';
+    r += '<input id="input_user_email" ' +
+        'oninput="wid_oninput_email($(this))">\n';
     r += '<button id="button_user_email" onclick="wid_nc_login()">' +
         B_TXT.SEND_EMAIL + '</button>\n';
 
@@ -146,7 +148,8 @@ function html_get_name_window() {
 
 function html_get_td_profile() {
     var r = '';
-    r += '<div id="div_profile_name" onclick="wid_open_name_window()"></div></br>\n';
+    r += '<div id="div_profile_name" onclick="wid_open_name_window()">' +
+        '</div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
     r += '<div id="div_profile_counter"></div></br>\n';
@@ -184,19 +187,21 @@ function html_get_td_button_upload_file() {
 }
 
 
-function html_get_td_dataset_ctrl() {
+function html_get_td_dataset_list_ctrl() {
     var r = '';
 
     r += '<td id="td_dataset_ctrl">\n';
-    r += '<button id="button_dataset_create" onclick="wid_nc_dataset_create()">' +
+    r += '<button id="button_dataset_create" ' +
+        ' onclick="wid_nc_dataset_create()">' +
         B_TXT.DS_CREATE_NEW + '</button>\n';
-    r += '<button id="button_dataset_update" onclick="wid_nc_dataset_list();">' +
+    r += '<button id="button_dataset_update" ' +
+        'onclick="wid_nc_dataset_list();">' +
         B_TXT.DS_LIST_UPDATE + '</button>\n';
     
     return r;
 }
 
-function html_get_td_dataset() {
+function html_get_td_dataset_list() {
     var r = '';
 
     r += '<td id="td_dataset_list">\n';
@@ -248,8 +253,11 @@ function html_get_dataset_list(l, id, title) {
     r += '<div id="div_dataset_list">\n';
     
     for (let i = 0; i < +l;  i++) {
-        r += '<h3>' + window.atob(title[i]) + '</h3>\n';
-        r += '<div id="' + id[i] + '"></div>\n';
+        r += '<h3>' + id[i] + '. ' + title[i] + '</h3>\n';
+        r += '<div id="ds_' + id[i] + '">\n';
+        r += '<div id="ds_' + id[i] + '_content"></div>';
+        r += '<div id="ds_' + id[i] + '_ctrl"></div>';
+        r += '</div>\n';
     }
     
     r += '</div>\n';

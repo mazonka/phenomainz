@@ -467,3 +467,10 @@ function wid_nc_dataset_create() {
     eng_nc_dataset_create(cb, g_uid);
 }
 
+function wid_nc_dataset_get() {
+    var cb = function (resp) {
+
+    }
+ 
+    eng_nc_dataset_get(cb, g_uid);
+}

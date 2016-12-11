@@ -84,12 +84,7 @@ function eng_nc_dataset_list(ext_cb, uid) {
         r.title = [];
 
         if (resp == PHENOD.OK) {
-            let list = data
-                .replace(/^OK/g, '')
-                .replace(/^\s|\r|\s+$/g, '')
-                .split(/\s/);
-            r = eng_get_list(list);        
-            console.log(r);
+            r = eng_get_list(data);        
         }
         
         ext_cb(r);
@@ -102,6 +97,25 @@ function eng_nc_dataset_create(ext_cb, uid) {
     var cmd = ['au', uid, 'dataset', 'create' ].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
+    };
+    
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function eng_nc_dataset_get(ext_cb, uid, ds_id) {
+    var cmd = ['au', uid, 'dataset', 'get', ds_id].join(' ');
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+        let ds = {};
+        ds.id = '';
+        ds.title = '';
+        ds.descr = '';
+        
+        if (resp = PHENOD.OK) {
+            ds = eng_get_list(resp);
+        }
+        
+        ext_cb(ds);
     };
     
     ajx_send_command(cmd, int_cb, g_pulse);

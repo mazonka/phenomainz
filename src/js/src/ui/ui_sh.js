@@ -20,7 +20,10 @@ function dyn_dataset_init() {
         active: 0,
         heightStyle: 'content',
         collapsible: 'true',
-        header: 'h3'
+        header: 'h3',
+        activate: function(event, ui) {
+            
+        }
     });
 }
 
