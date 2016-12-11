@@ -4,7 +4,7 @@
 'use strict';
 
 
-const BUTTON_TEXT = {
+const B_TXT = {
     PHENO: 'Phenomainz',
     GOOGLE: 'Google',
     FACEBOOK: 'Facebook',
@@ -14,15 +14,17 @@ const BUTTON_TEXT = {
     SEND_EMAIL: 'Send email',
     CHANGE: 'Change',
     LOGOUT: 'Logout',
-    PING: 'Ping'
+    PING: 'Ping',
+    DS_CREATE_NEW: 'Create new dataset',
+    DS_LIST_UPDATE: 'Update list'
 };
 
-const LBL_TEXT = {
+const L_TXT = {
     OPEN_FILE: 'Open file',
     UPLOAD_FILE: 'Upload'
 };
 
-const MSG = {
+const M_TXT = {
     ERROR: 'ERROR: ',
     RELOAD: 'Are you sure?',
     EMAIL: 'An email with link has been sent to ',

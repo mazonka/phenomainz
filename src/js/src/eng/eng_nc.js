@@ -88,11 +88,20 @@ function eng_nc_dataset_list(ext_cb, uid) {
                 .replace(/^OK/g, '')
                 .replace(/^\s|\r|\s+$/g, '')
                 .split(/\s/);
-                
             r = eng_get_list(list);        
+            console.log(r);
         }
         
         ext_cb(r);
+    };
+    
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function eng_nc_dataset_create(ext_cb, uid) {
+    var cmd = ['au', uid, 'dataset', 'create' ].join(' ');
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
     };
     
     ajx_send_command(cmd, int_cb, g_pulse);

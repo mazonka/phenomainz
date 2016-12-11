@@ -192,7 +192,7 @@ function eng_get_list(data) {
     var r = {};
     
     r.n = +data.splice(0, 1)[0];
-    r.id = data.splice(0, r.n/2);
+    r.id = data.splice(0, r.n);
     r.title = data;
     
     return r;

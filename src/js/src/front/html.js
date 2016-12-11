@@ -61,6 +61,7 @@ function html_get_body() {
     r += html_get_tr(html_get_td_auth());
     r += html_get_tr(html_get_td_profile());
     r += html_get_tr(html_get_td_button_open_file());
+    r += html_get_tr(html_get_td_dataset_ctrl());
     r += html_get_tr(html_get_td_dataset());
     r += html_get_tr(html_get_td_modal_window());
 
@@ -101,15 +102,15 @@ function html_get_td_auth() {
     var r = '';
     
     r += '<button id="button_pheno" onclick="wid_open_email_window()">' +
-        BUTTON_TEXT.PHENO + '</button>\n';
+        B_TXT.PHENO + '</button>\n';
     r += '<button id="button_google" onclick="wid_auth(\'google\')">' +
-        BUTTON_TEXT.GOOGLE + '</button>\n';
+        B_TXT.GOOGLE + '</button>\n';
     r += '<button id="button_facebook" onclick="wid_auth(\'facebook\')">' +
-        BUTTON_TEXT.FACEBOOK + '</button>\n';
+        B_TXT.FACEBOOK + '</button>\n';
     r += '<button id="button_linkedin" onclick="wid_auth(\'linkedin\')">' +
-        BUTTON_TEXT.LINKEDIN + '</button>\n';
+        B_TXT.LINKEDIN + '</button>\n';
     r += '<button id="button_windows" onclick="wid_auth(\'windows\')">' +
-        BUTTON_TEXT.WINDOWS + '</button>\n';
+        B_TXT.WINDOWS + '</button>\n';
     return html_get_td(r, 'td_login');
 }
 
@@ -121,7 +122,7 @@ function html_get_email_window() {
     r += '<label for="input_user_email">e-mail:<label>\n';
     r += '<input id="input_user_email" oninput="wid_oninput_email($(this))">\n';
     r += '<button id="button_user_email" onclick="wid_nc_login()">' +
-        BUTTON_TEXT.SEND_EMAIL + '</button>\n';
+        B_TXT.SEND_EMAIL + '</button>\n';
 
 
     return html_get_tr(html_get_td(r, 'td_email'));
@@ -135,9 +136,9 @@ function html_get_name_window() {
     r += '<label for="input_user_name">Name:<label>\n';
     r += '<input id="input_user_name" oninput="wid_oninput_name($(this))">\n';
     r += '<button id="button_user_name" onclick="wid_nc_name()">' +
-        BUTTON_TEXT.CHANGE + '</button>\n';
+        B_TXT.CHANGE + '</button>\n';
     r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
-        BUTTON_TEXT.LOGOUT + '</button>\n';
+        B_TXT.LOGOUT + '</button>\n';
         
     return html_get_tr(html_get_td(r, 'td_name'));
 }
@@ -160,7 +161,7 @@ function html_get_td_button_open_file() {
     r += '<td id="td_open_file">\n';
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
-        'for="input_open_file">' + LBL_TEXT.OPEN_FILE + '</label>\n';
+        'for="input_open_file">' + L_TXT.OPEN_FILE + '</label>\n';
     r += '<input id="input_open_file" type="file" ' +
         'accept=".txt,.csv,.zip" ' +    
         'onchange="return wid_open_file(this.files, $(this))"></input>';
@@ -175,13 +176,25 @@ function html_get_td_button_upload_file() {
     r += '<td id="td_open_file">\n';
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
-        'for="input_open_file">' + LBL_TEXT.UPLOAD_FILE + '</label>\n';
+        'for="input_open_file">' + L_TXT.UPLOAD_FILE + '</label>\n';
     r += '<input id="input_open_file" type="file" ' +
         'onchange="return wid_upload_file()"></input>';
 
     return r;
 }
 
+
+function html_get_td_dataset_ctrl() {
+    var r = '';
+
+    r += '<td id="td_dataset_ctrl">\n';
+    r += '<button id="button_dataset_create" onclick="wid_nc_dataset_create()">' +
+        B_TXT.DS_CREATE_NEW + '</button>\n';
+    r += '<button id="button_dataset_update" onclick="wid_nc_dataset_list();">' +
+        B_TXT.DS_LIST_UPDATE + '</button>\n';
+    
+    return r;
+}
 
 function html_get_td_dataset() {
     var r = '';
@@ -235,7 +248,7 @@ function html_get_dataset_list(l, id, title) {
     r += '<div id="div_dataset_list">\n';
     
     for (let i = 0; i < +l;  i++) {
-        r += '<h3>' + title[i] + '</h3>\n';
+        r += '<h3>' + window.atob(title[i]) + '</h3>\n';
         r += '<div id="' + id[i] + '"></div>\n';
     }
     

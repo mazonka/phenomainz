@@ -100,7 +100,7 @@ function wid_modal_window(msg, click, func) {
     })
 
     $(window).on('beforeunload', function () {
-        return MSG.RELOAD;
+        return M_TXT.RELOAD;
     })
 
     $Window.css('display', 'block');
@@ -184,13 +184,13 @@ function wid_open_file(files, $Obj) {
         var f;
 
         if (file.error !== 0) {
-            return wid_modal_window(MSG.FILE_READ_ERROR, true);
+            return wid_modal_window(M_TXT.FILE_READ_ERROR, true);
         }
 
         table = eng_is_table(file.raw);
 
         if (!table.is_table) {
-            return wid_modal_window(MSG.TABLE_ERROR + table.err_row, true);
+            return wid_modal_window(M_TXT.TABLE_ERROR + table.err_row, true);
         }
         ///console.log(file);
 
@@ -210,11 +210,11 @@ function wid_open_file(files, $Obj) {
     file = files[0];
 
     if (file.size > G_MAX_FILE_SIZE ) {
-        return wid_modal_window(MSG.FILE_IS_HUGE, true);
+        return wid_modal_window(M_TXT.FILE_IS_HUGE, true);
     }
 
     if (file.size === 0) {
-        return wid_modal_window(MSG.FILE_IS_EMPTY, true);
+        return wid_modal_window(M_TXT.FILE_IS_EMPTY, true);
     }
 
     eng_open_file(file, cb_main, cb_progress);
@@ -329,7 +329,7 @@ function wid_auth(auth_network) {
 function wid_nc_ping() {
     var cb = function (resp, sign_in) {
         if (resp !== PHENOD.OK && resp !== PHENOD.AUTH) {
-            return alert(MSG.ERROR + resp);
+            return alert(M_TXT.ERROR + resp);
         }
 
         wid_ui_auth();
@@ -344,10 +344,10 @@ function wid_nc_login() {
     var url = document.URL;
 
     var cb = function (resp) {
-        let msg = MSG.EMAIL + email;
+        let msg = M_TXT.EMAIL + email;
 
         if (resp !== PHENOD.OK) {
-            msg = MSG.ERROR + resp;
+            msg = M_TXT.ERROR + resp;
         }
 
         wid_modal_window(msg, true);
@@ -376,7 +376,7 @@ function wid_nc_profile() {
         }
 
         if (resp !== PHENOD.OK) {
-            return wid_modal_window(MSG.ERROR + resp, true);
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
 
         r = eng_get_lastdate(profile.lastdate);
@@ -428,7 +428,7 @@ function wid_nc_name() {
         }
 
         if (resp !== PHENOD.OK) {
-            return wid_modal_window(MSG.ERROR + resp, true);
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
         
         wid_nc_profile();
@@ -453,3 +453,17 @@ function wid_nc_dataset_list() {
  
     eng_nc_dataset_list(cb, g_uid);
 }
+
+
+function wid_nc_dataset_create() {
+    var cb = function (resp) {
+        if (resp == PHENOD.OK) {
+            wid_nc_dataset_list();
+        } else {
+            wid_modal_window(resp, true);
+        }
+    }
+ 
+    eng_nc_dataset_create(cb, g_uid);
+}
+
