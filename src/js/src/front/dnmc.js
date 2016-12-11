@@ -122,6 +122,8 @@ function wid_ui_auth() {
 function wid_ui_logout() {
     $('#td_profile').hide();
     $('#td_open_file').hide();
+    $('#td_dataset_ctrl').hide();
+    $('#td_dataset_list').hide();
     $('#td_login').show();
 
     hello.init(
@@ -145,7 +147,10 @@ function wid_ui_logout() {
 function wid_ui_login() {
     $('#td_profile').show();
     $('#td_open_file').show();
+    $('#td_dataset_ctrl').show();
+    $('#td_dataset_list').show();
     $('#td_login').hide();
+    
 }
 
 

@@ -32,6 +32,8 @@ function ui_init(uid) {
     $('#td_profile').hide();
     $('#td_open_file').hide();
     $('#td_login').hide();
+    $('#td_dataset_ctrl').hide();
+    $('#td_dataset_list').hide();
 
     $('button').button();
 
