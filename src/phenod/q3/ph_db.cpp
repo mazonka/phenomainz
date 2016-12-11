@@ -182,7 +182,7 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
         tis.push_back(x);
     }
 
-    return db.result.size();
+    return (int)db.result.size();
 }
 
 void Phdb::dataset_del(string prid, string daid)
