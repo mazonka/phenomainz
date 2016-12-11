@@ -58,15 +58,15 @@ string Worker2::ph_login()
     url += gl::tos(ao.seid);
 
     string cmd = AutArea::loadConf("phmail");
-    if ( cmd.empty() ) cmd = "./phmail";
+    if ( cmd.empty() ) cmd = "phmail";
 
     cmd += " login " + em + " " + url;
 
-    string out = os::execOut(cmd);
-
     os::Cout() << "AAA349 Aob: " << ao.seid << ' ' << ao.profile.prid
-               << "\ncmd: " << cmd
-               << "\nout: " << out << os::endl;
+               << "\ncmd: " << cmd << os::endl;
+
+	cmd = os::THISDIR + cmd;
+    system(cmd.c_str());
 
     return er::Code(er::OK);
 }

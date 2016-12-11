@@ -1,7 +1,6 @@
 AAA349 Aob: 96db1e5f246844c9 1
-cmd: ./phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
-out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
-
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
 OK
 =================================== login done
 OK Kg== aaa@bbb 20001122001122 1
@@ -15,9 +14,8 @@ OK vasia aaa@bbb 20001122001122 1
 xxxxxxxxxxxxxxx
 OK
 AAA349 Aob: 20232512c272da3f 1
-cmd: ./phmail login aaa@bbb http://aaa.bbb/home?20232512c272da3f
-out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?20232512c272da3f]
-
+cmd: phmail login aaa@bbb http://aaa.bbb/home?20232512c272da3f
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?20232512c272da3f]
 OK
 20232512c272da3f: [1] [aaa@bbb] [vasia] [20001122001122] [2]
 

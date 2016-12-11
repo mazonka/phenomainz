@@ -1,7 +1,6 @@
 AAA349 Aob: 96db1e5f246844c9 1
-cmd: ./phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
-out: [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
-
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
 OK
 =================================== login done
 REQ_MSG_BAD

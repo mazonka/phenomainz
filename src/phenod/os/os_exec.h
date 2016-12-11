@@ -12,6 +12,8 @@ using std::string;
 namespace os
 {
 
+extern string THISDIR;
+
 namespace ac
 {
 struct Pum;

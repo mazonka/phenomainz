@@ -6,6 +6,8 @@
 
 #include "os_exec.h"
 
+string os::THISDIR = "";
+
 typedef std::istringstream istr;
 typedef std::ostringstream ostr;
 
