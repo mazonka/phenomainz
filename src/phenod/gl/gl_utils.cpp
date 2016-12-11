@@ -291,8 +291,7 @@ void gl::eatEndl(string & s)
 
 bool gl::isb64(const string & s)
 {
-    int sz = s.size();
-    for ( int i = 0; i < sz; i++ )
+    for ( int i = 0; i < (int)s.size(); i++ )
     {
         const char & c = s[i];
 
