@@ -11,7 +11,10 @@
 #include "dbo.h"
 #include "ph_db.h"
 
-inline string star(string s) { return s.empty() ? "Kg==" : s; }
+inline string star(string s, string d="Kg==") 
+{ 
+	return s.empty() ? d : s; 
+}
 
 inline void dump(bool y, Dbo & db)
 {
@@ -241,10 +244,10 @@ string Phdb::dataset_get(string prid, string daid)
         throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - bad size");
 
     string r;
-    r += star(rc[0]) + ' ';
-    r += star(rc[2]) + ' ';
-    r += star(rc[3]) + ' ';
-    r += star(rc[4]);
+    r += star(rc[0]) + ' '; // daid
+    r += star(rc[2]) + ' '; // title
+    r += star(rc[3]) + ' '; // descr
+    r += star(rc[4],"0");
 
     return r;
 }
