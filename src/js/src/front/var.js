@@ -3,7 +3,7 @@
 
 'use strict';
 
-var g_uid;
+var g_user_id;
 
 const GOOGLE_CLIENT_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com';
 const FACEBOOK_CLIENT_ID = '1519315828096043';

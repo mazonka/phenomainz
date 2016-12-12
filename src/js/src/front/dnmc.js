@@ -109,7 +109,7 @@ function wid_modal_window(msg, click, func) {
 
 
 function wid_ui_auth() {
-    if (g_uid == 0) {
+    if (g_user_id == 0) {
         wid_ui_logout();
     } else {
         wid_ui_login();
@@ -340,7 +340,7 @@ function wid_nc_ping() {
         wid_ui_auth();
     };
 
-    eng_nc_ping(cb, g_uid, g_pulse);
+    eng_nc_ping(cb, g_user_id, g_pulse);
 }
 
 
@@ -369,7 +369,7 @@ function wid_nc_logout() {
     };
     
     $Window.click();
-    eng_nc_logout(cb, g_uid, g_pulse)
+    eng_nc_logout(cb, g_user_id, g_pulse)
 }
 
 
@@ -395,7 +395,7 @@ function wid_nc_profile() {
         $('#div_profile_counter').html('Count: ' + profile.counter);
     };
 
-    eng_nc_profile(cb, g_uid, g_pulse);
+    eng_nc_profile(cb, g_user_id, g_pulse);
 }
 
 
@@ -440,7 +440,7 @@ function wid_nc_name() {
     };
 
     $Window.click();
-    eng_nc_name(cb, g_uid, name, g_pulse);
+    eng_nc_name(cb, g_user_id, name, g_pulse);
 }
 
 
@@ -456,7 +456,7 @@ function wid_nc_dataset_list() {
         dyn_dataset_init();
     }
  
-    eng_nc_dataset_list(cb, g_uid);
+    eng_nc_dataset_list(cb, g_user_id);
 }
 
 
@@ -469,15 +469,29 @@ function wid_nc_dataset_create() {
         }
     }
  
-    eng_nc_dataset_create(cb, g_uid);
+    eng_nc_dataset_create(cb, g_user_id);
 }
+
+
+function wid_nc_dataset_delete(dataset_id) {
+    var cb = function (resp) {
+        if (resp == PHENOD.OK) {
+            wid_nc_dataset_list();
+        } else {
+            wid_modal_window(resp, true);
+        }
+    }
+ 
+    eng_nc_dataset_delete(cb, g_user_id, dataset_id);
+}
+
 
 function wid_nc_dataset_get($Obj) {
     var cb = function (resp) {
 
     }
  
-    eng_nc_dataset_get(cb, g_uid);
+    eng_nc_dataset_get(cb, g_user_id);
 }
 
 function uuu(id) {
@@ -489,7 +503,7 @@ function uuu(id) {
         ds_id = ds_id[ds_id.length -1];
         
         l = html_get_dataset_item_ctrl(ds_id);
-        console.log($('#div_dataset_ctrl_' + ds_id).html())
+        
         if ($('#div_dataset_ctrl_' + ds_id).html() == '') {
             $('#div_dataset_ctrl_' + ds_id).html(l);
         }

@@ -248,16 +248,17 @@ function html_get_open_file(file) {
     return r;
 }
 
-function html_get_dataset_list(l, id, title) {
+function html_get_dataset_list(l, dataset_id, title) {
     var r = '';
     
     r += '<div id="div_dataset_list">\n';
     
     for (let i = 0; i < +l;  i++) {
-        r += '<h3 id="h3_dataset_' + id[i] + '">' + id[i] + '. ' + title[i] + '</h3>\n';
-        r += '<div id="div_dataset_' + id[i] + '">\n';
-        r += '<div id="div_dataset_content_' + id[i] + '"></div>';
-        r += '<div id="div_dataset_ctrl_' + id[i] + '"></div>';
+        r += '<h3 id="h3_dataset_' + dataset_id[i] + '">' + dataset_id[i] +
+            '. ' + title[i] + '</h3>\n';
+        r += '<div id="div_dataset_' + dataset_id[i] + '">\n';
+        r += '<div id="div_dataset_content_' + dataset_id[i] + '"></div>';
+        r += '<div id="div_dataset_ctrl_' + dataset_id[i] + '"></div>';
         r += '</div>\n';
     }
     
@@ -266,14 +267,17 @@ function html_get_dataset_list(l, id, title) {
     return r;
 }
 
-function html_get_dataset_item_ctrl(id) {
+function html_get_dataset_item_ctrl(dataset_id) {
     var r = '';
 
-    r += '<button id="button_dataset_edit" onclick="wid_nc_dataset_edit(id)">' +
+    r += '<button id="button_dataset_edit" ' +
+        ' onclick="wid_nc_dataset_edit(' + dataset_id + ')">' +
         B_TXT.DS_EDIT + '</button>\n';
-    r += '<button id="button_dataset_update" onclick="wid_nc_dataset_update(id)">' +
+    r += '<button id="button_dataset_update" ' +
+        'onclick="wid_nc_dataset_update(' + dataset_id + ')">' +
         B_TXT.DS_UPDATE + '</button>\n';
-    r += '<button id="button_dataset_delete" onclick="wid_nc_dataset_delete(id)">' +
+    r += '<button id="button_dataset_delete" ' +
+        'onclick="wid_nc_dataset_delete(' + dataset_id + ')">' +
         B_TXT.DS_DELETE + '</button>\n';
 
     return r;

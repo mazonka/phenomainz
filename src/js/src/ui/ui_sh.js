@@ -32,8 +32,7 @@ function dyn_dataset_init() {
 
 function obj_init () {
     $('button').button();
-    $('#button_user_email').prop('disabled', true);
-    $('#button_user_name').prop('disabled', true);
-    $('#input_user_name, #input_user_email').attr('maxlength', '40');
+    $('button').prop('disabled', true);
+    $('input').attr('maxlength', '40');
 }
 

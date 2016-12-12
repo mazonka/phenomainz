@@ -14,16 +14,16 @@ function ui_write() {
 }
 
 
-function doc_init(uid) {
+function doc_init(user_id) {
     $(document).ready(function () {
-        ui_init(uid);
+        ui_init(user_id);
     });
 }
 
 
-function ui_init(uid) {
-    g_uid = uid;
-    console.log(uid);
+function ui_init(user_id) {
+    g_user_id = user_id;
+    console.log(user_id);
 
     $('#button_google, #button_facebook, #button_linkedin, #button_windows').hide();
     

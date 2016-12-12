@@ -4,9 +4,9 @@
 'use strict';
 
 
-function eng_nc_ping(ext_cb, uid, pulse)
+function eng_nc_ping(ext_cb, user_id, pulse)
 {
-    var cmd = ['au', uid, 'ping'].join(' ');
+    var cmd = ['au', user_id, 'ping'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let sign_in = false;
@@ -33,9 +33,9 @@ function eng_nc_login(ext_cb, email, url, pulse)
 }
 
 
-function eng_nc_logout(ext_cb, uid, pulse)
+function eng_nc_logout(ext_cb, user_id, pulse)
 {
-    var cmd = ['au', uid, 'logout'].join(' ');
+    var cmd = ['au', user_id, 'logout'].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -44,9 +44,9 @@ function eng_nc_logout(ext_cb, uid, pulse)
 }
 
 
-function eng_nc_profile(ext_cb, uid, pulse)
+function eng_nc_profile(ext_cb, user_id, pulse)
 {
-    var cmd = ['au', uid, 'profile'].join(' ');
+    var cmd = ['au', user_id, 'profile'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let profile = null;
@@ -62,10 +62,10 @@ function eng_nc_profile(ext_cb, uid, pulse)
 }
 
 
-function eng_nc_name(ext_cb, uid, name, pulse)
+function eng_nc_name(ext_cb, user_id, name, pulse)
 {
     //console.log(window.btoa(name));
-    var cmd = ['au', uid, 'name', window.btoa(name)].join(' ');
+    var cmd = ['au', user_id, 'name', window.btoa(name)].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -73,8 +73,8 @@ function eng_nc_name(ext_cb, uid, name, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_dataset_list(ext_cb, uid) {
-    var cmd = ['au', uid, 'dataset', 'list' ].join(' ');
+function eng_nc_dataset_list(ext_cb, user_id) {
+    var cmd = ['au', user_id, 'dataset', 'list' ].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let r = {};
@@ -93,8 +93,9 @@ function eng_nc_dataset_list(ext_cb, uid) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_dataset_create(ext_cb, uid) {
-    var cmd = ['au', uid, 'dataset', 'create' ].join(' ');
+
+function eng_nc_dataset_create(ext_cb, user_id) {
+    var cmd = ['au', user_id, 'dataset', 'create' ].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -102,8 +103,19 @@ function eng_nc_dataset_create(ext_cb, uid) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_dataset_get(ext_cb, uid, ds_id) {
-    var cmd = ['au', uid, 'dataset', 'get', ds_id].join(' ');
+
+function eng_nc_dataset_delete(ext_cb, user_id, dataset_id) {
+    var cmd = ['au', user_id, 'dataset', 'delete', dataset_id].join(' ');
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+    
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+
+function eng_nc_dataset_get(ext_cb, user_id, dataset_id) {
+    var cmd = ['au', user_id, 'dataset', 'get', dataset_id].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let ds = {};
@@ -121,3 +133,4 @@ function eng_nc_dataset_get(ext_cb, uid, ds_id) {
     
     ajx_send_command(cmd, int_cb, g_pulse);
 }
+
