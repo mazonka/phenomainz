@@ -297,11 +297,11 @@ function wid_oninput_email($Obj) {
 }
 
 
-function wid_open_name_window() {
+function wid_open_name_window($Obj) {
     var $Window = $('#div_modal_window');
-
-    wid_modal_window(html_get_name_window(), false);
-
+    var name = $Obj.html().substring(6);
+    
+    wid_modal_window(html_get_name_window(name), false);
     dyn_obj_init($Window);
 }
 

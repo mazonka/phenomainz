@@ -132,12 +132,12 @@ function html_get_email_window() {
 }
 
 
-function html_get_name_window() {
+function html_get_name_window(name) {
 
     var r = '';
 
     r += '<label for="input_user_name">Name:<label>\n';
-    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))">\n';
+    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))" value="' + name + '">\n';
     r += '<button id="button_user_name" onclick="wid_nc_name()">' +
         B_TXT.CHANGE + '</button>\n';
     r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
@@ -149,7 +149,7 @@ function html_get_name_window() {
 
 function html_get_td_profile() {
     var r = '';
-    r += '<div id="div_profile_name" onclick="wid_open_name_window()">' +
+    r += '<div id="div_profile_name" onclick="wid_open_name_window($(this))">' +
         '</div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
