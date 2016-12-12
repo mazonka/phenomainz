@@ -116,38 +116,7 @@ function html_get_td_auth() {
     return html_get_td(r, 'td_login');
 }
 
-/* 
-function html_get_email_window() {
 
-    var r = '';
-
-    r += '<label for="input_user_email">e-mail:</label>\n';
-    r += '<input id="input_user_email" ' +
-        'oninput="wid_oninput_email($(this))">\n';
-    r += '<button id="button_user_email" onclick="wid_nc_login()">' +
-        B_TXT.SEND_EMAIL + '</button>\n';
-
-
-    return html_get_tr(html_get_td(r, 'td_email'));
-}
-
-
-function html_get_name_window(name) {
-
-    var r = '';
-
-    r += '<label for="input_user_name">Name:<label>\n';
-    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))" ' +
-        ' value="' + name + '">\n';
-    r += '<button id="button_user_name" onclick="wid_nc_name()">' +
-        B_TXT.CHANGE + '</button>\n';
-    r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
-        B_TXT.LOGOUT + '</button>\n';
-        
-    return html_get_tr(html_get_td(r, 'td_name'));
-}
-
- */
 function html_get_td_profile() {
     var r = '';
     r += '<div id="div_profile_name" ' + 

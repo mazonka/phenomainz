@@ -179,8 +179,13 @@ function eng_get_parsed_profile(data) {
 
 
 function eng_is_valid_str(data) {
-    var v = /[^0-9a-zA-Z_\-\(\)\u0020]+/i;
-    return v.test(data);    
+    var v = /[^0-9a-zA-Z_\-\(\)\u0020\u002a]+/i;
+    
+    if (!Boolean(data)) {
+        return false
+    }
+    
+    return !v.test(data);    
 }
 
 

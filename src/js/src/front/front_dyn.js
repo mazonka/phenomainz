@@ -273,14 +273,14 @@ function wid_open_email_window() {
 }
 
 
-function wid_oninput_email($obj) {
+function wid_input_email($obj) {
     var $Btn = $('#button_user_email');
     var data = $obj.val();
     
     if (eng_is_email(data)) {
-        //$Btn.prop('disabled', false);
-        $Btn.button('option', 'disabled', false);
+        $Btn.button('enabled');
         wid_paint_borders($obj);
+        
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_login();
             $obj.off('keypress');
@@ -290,8 +290,7 @@ function wid_oninput_email($obj) {
             ? wid_paint_borders($obj, 'red')
             : wid_paint_borders($obj);
         
-        $Btn.button('option', 'disabled', true);
-        //$Btn.prop('disabled', true);
+        $Btn.button('disabled');
         $obj.off('keypress');
 
     }
@@ -397,16 +396,19 @@ function wid_nc_profile() {
 }
 
 
-function wid_oninput_name($obj) {
-    var $Btn = $('#button_user_name');
+function wid_input_name($obj) {
+    var $btn = $('#button_user_name');
     var data = $obj.val();
     
-    $Btn.prop('disabled', true);
-
     data = data.replace(/^\s+|\s+$/g, '');
-    console.log(eng_is_valid_str(data));
+    
     if (eng_is_valid_str(data)) {
         wid_paint_borders($obj);
+        $btn.button('enable');
+        // $btn.remoattr({
+            // disabled: false
+        // });
+        
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_name();
             $obj.off('keypress');
@@ -416,8 +418,9 @@ function wid_oninput_name($obj) {
             wid_paint_borders($obj, 'red')
         } else {
             wid_paint_borders($obj);
-            $Btn.prop('disabled', false);
         }
+        
+        $btn.button('disable');
         $obj.off('keypress');
     }
 }
