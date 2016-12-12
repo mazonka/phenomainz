@@ -4,12 +4,6 @@
 'use strict';
 
 
-function dyn_obj_init($obj) {
-    $obj.ready(function () {
-        obj_init();
-    });
-}
-
 function dyn_ds_init($obj) {
     $obj.ready(function () {
         ds_init($obj);
@@ -35,9 +29,4 @@ function ds_init() {
 }
 
 
-function obj_init () {
-    $('button').button();
-    $('button').prop('disabled', true);
-    $('input').attr('maxlength', '40');
-}
 

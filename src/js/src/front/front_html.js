@@ -116,12 +116,12 @@ function html_get_td_auth() {
     return html_get_td(r, 'td_login');
 }
 
-
+/* 
 function html_get_email_window() {
 
     var r = '';
 
-    r += '<label for="input_user_email">e-mail:<label>\n';
+    r += '<label for="input_user_email">e-mail:</label>\n';
     r += '<input id="input_user_email" ' +
         'oninput="wid_oninput_email($(this))">\n';
     r += '<button id="button_user_email" onclick="wid_nc_login()">' +
@@ -147,11 +147,11 @@ function html_get_name_window(name) {
     return html_get_tr(html_get_td(r, 'td_name'));
 }
 
-
+ */
 function html_get_td_profile() {
     var r = '';
     r += '<div id="div_profile_name" ' + 
-        ' onclick="wid_open_name_window($(this))"></div></br>\n';
+        ' onclick="wid_open_profile_window($(this))"></div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
     r += '<div id="div_profile_counter"></div></br>\n';

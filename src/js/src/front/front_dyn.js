@@ -53,12 +53,16 @@ function img_preload(container)
     }
 }
 
-function wid_modal_window(msg, click, func) {
+function wid_modal_window($obj, click, func) {
     var $Window = $('#div_modal_window');
     var $Content = $('#div_modal_window_content');
     var width = $('body').outerWidth();
     var close, esc;
 
+    if (typeof $obj == 'string') {
+        $obj = $('<t>' + $obj + '</t>');
+    }
+    
     $Content.width(width);
 
     close = function () {
@@ -80,19 +84,17 @@ function wid_modal_window(msg, click, func) {
     };
 
     if (click) {
-        $Window
-            .click(function () {
-                close();
-            })
-            .children().click(function () {
-                close();
-            });
-    } else {
-        $Window.click(function(){
+        $Window.click(function () {
             close();
-            }).children().click(function(e) {
-                return false;
-            });
+        }).children().click(function () {
+            close();
+        });
+    } else {
+        $Window.click(function () {
+            close();
+        }).children().click(function (e) {
+            return false;
+        });
     }
 
     $(document).keyup(function (event) {
@@ -104,8 +106,8 @@ function wid_modal_window(msg, click, func) {
     })
 
     $Window.css('display', 'block');
-    //append(msg) instead .html(msg);
-    $Window.find('p').append(msg);
+    $Window.find('p').children().remove();
+    $Window.find('p').append($obj);
 }
 
 
@@ -267,21 +269,18 @@ function wid_upload_file() {
 
 
 function wid_open_email_window() {
-    var $Window = $('#div_modal_window');
-
-    wid_modal_window(html_get_email_window(), false);
-
-    //dyn_obj_init($Window);
+    wid_modal_window(wid_get_jq_user_email(), false);
 }
 
 
 function wid_oninput_email($obj) {
     var $Btn = $('#button_user_email');
     var data = $obj.val();
-
+    
     if (eng_is_email(data)) {
+        //$Btn.prop('disabled', false);
+        $Btn.button('option', 'disabled', false);
         wid_paint_borders($obj);
-        $Btn.prop('disabled', false);
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_login();
             $obj.off('keypress');
@@ -290,20 +289,18 @@ function wid_oninput_email($obj) {
         (Boolean(data))
             ? wid_paint_borders($obj, 'red')
             : wid_paint_borders($obj);
-
+        
+        $Btn.button('option', 'disabled', true);
+        //$Btn.prop('disabled', true);
         $obj.off('keypress');
 
-        $Btn.prop('disabled', true);
     }
 }
 
 
-function wid_open_name_window($obj) {
-    var $Window = $('#div_modal_window');
+function wid_open_profile_window($obj) {
     var name = $obj.html().substring(6);
-    
-    wid_modal_window(html_get_name_window(name), false);
-    //dyn_obj_init($Window);
+    wid_modal_window(wid_get_jq_user_profile(name), false);
 }
 
 
@@ -403,24 +400,25 @@ function wid_nc_profile() {
 function wid_oninput_name($obj) {
     var $Btn = $('#button_user_name');
     var data = $obj.val();
+    
+    $Btn.prop('disabled', true);
 
     data = data.replace(/^\s+|\s+$/g, '');
-    
-    if (!eng_is_valid_str(data)) {
+    console.log(eng_is_valid_str(data));
+    if (eng_is_valid_str(data)) {
         wid_paint_borders($obj);
-        $Btn.prop('disabled', false);
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_name();
             $obj.off('keypress');
         });
     } else {
-        (Boolean(data))
-            ? wid_paint_borders($obj, 'red')
-            : wid_paint_borders($obj);
-
+        if (Boolean(data)) {
+            wid_paint_borders($obj, 'red')
+        } else {
+            wid_paint_borders($obj);
+            $Btn.prop('disabled', false);
+        }
         $obj.off('keypress');
-
-        $Btn.prop('disabled', true);
     }
 }
 
