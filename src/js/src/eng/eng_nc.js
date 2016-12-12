@@ -73,7 +73,7 @@ function eng_nc_name(ext_cb, user_id, name, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_dataset_list(ext_cb, user_id) {
+function eng_nc_ds_list(ext_cb, user_id) {
     var cmd = ['au', user_id, 'dataset', 'list' ].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
@@ -84,7 +84,7 @@ function eng_nc_dataset_list(ext_cb, user_id) {
         r.title = [];
 
         if (resp == PHENOD.OK) {
-            r = eng_get_dataset_list(data);        
+            r = eng_get_ds_list(data);        
         }
         
         ext_cb(r);
@@ -94,7 +94,7 @@ function eng_nc_dataset_list(ext_cb, user_id) {
 }
 
 
-function eng_nc_dataset_create(ext_cb, user_id) {
+function eng_nc_ds_create(ext_cb, user_id) {
     var cmd = ['au', user_id, 'dataset', 'create' ].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
@@ -104,8 +104,8 @@ function eng_nc_dataset_create(ext_cb, user_id) {
 }
 
 
-function eng_nc_dataset_delete(ext_cb, user_id, dataset_id) {
-    var cmd = ['au', user_id, 'dataset', 'delete', dataset_id].join(' ');
+function eng_nc_ds_delete(ext_cb, user_id, ds_id) {
+    var cmd = ['au', user_id, 'dataset', 'delete', ds_id].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -114,8 +114,8 @@ function eng_nc_dataset_delete(ext_cb, user_id, dataset_id) {
 }
 
 
-function eng_nc_dataset_get(ext_cb, user_id, dataset_id) {
-    var cmd = ['au', user_id, 'dataset', 'get', dataset_id].join(' ');
+function eng_nc_ds_get(ext_cb, user_id, ds_id) {
+    var cmd = ['au', user_id, 'dataset', 'get', ds_id].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let ds = {};
@@ -125,7 +125,7 @@ function eng_nc_dataset_get(ext_cb, user_id, dataset_id) {
         ds.descr = '';
         
         if (resp = PHENOD.OK) {
-            ds = eng_get_dataset_get(data);
+            ds = eng_get_ds_get(data);
         }
         
         ext_cb(ds);

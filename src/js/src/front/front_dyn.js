@@ -8,7 +8,6 @@ function wid_pulse()
 {
     var counter = 0;
 
-
     return {
         wait: function () {
             let $Logo = $('#img_logo');
@@ -63,7 +62,8 @@ function wid_modal_window(msg, click, func) {
     $Content.width(width);
 
     close = function () {
-        $Window.find('p').empty();
+        //$Window.find('p').empty();
+        $Window.find('p').children().remove();
         $Window.css('display', 'none');
 
         (Boolean(func)) && func();
@@ -85,7 +85,7 @@ function wid_modal_window(msg, click, func) {
                 close();
             })
             .children().click(function () {
-            close();
+                close();
             });
     } else {
         $Window.click(function(){
@@ -104,7 +104,8 @@ function wid_modal_window(msg, click, func) {
     })
 
     $Window.css('display', 'block');
-    $Window.find('p').html(msg);
+    //append(msg) instead .html(msg);
+    $Window.find('p').append(msg);
 }
 
 
@@ -114,7 +115,7 @@ function wid_ui_auth() {
     } else {
         wid_ui_login();
         wid_nc_profile();
-        wid_nc_dataset_list();
+        wid_nc_ds_list();
     }
 }
 
@@ -122,8 +123,8 @@ function wid_ui_auth() {
 function wid_ui_logout() {
     $('#td_profile').hide();
     $('#td_open_file').hide();
-    $('#td_dataset_ctrl').hide();
-    $('#td_dataset_list').hide();
+    $('#td_ds_ctrl').hide();
+    $('#td_ds_list').hide();
     $('#td_login').show();
 
     hello.init(
@@ -147,14 +148,14 @@ function wid_ui_logout() {
 function wid_ui_login() {
     $('#td_profile').show();
     $('#td_open_file').show();
-    $('#td_dataset_ctrl').show();
-    $('#td_dataset_list').show();
+    $('#td_ds_ctrl').show();
+    $('#td_ds_list').show();
     $('#td_login').hide();
     
 }
 
 
-function wid_paint_borders($Obj, color) {
+function wid_paint_borders($obj, color) {
     var borders = [
         'borderLeftColor',
         'borderTopColor',
@@ -164,13 +165,13 @@ function wid_paint_borders($Obj, color) {
 
     for (let i = 0; i < borders.length; i++) {
         (color !== undefined)
-            ? $Obj.css(borders[i], color)
-            : $Obj.css(borders[i], '');
+            ? $obj.css(borders[i], color)
+            : $obj.css(borders[i], '');
     }
 }
 
 
-function wid_open_file(files, $Obj) {
+function wid_open_file(files, $obj) {
     var file;
 
     if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -200,12 +201,12 @@ function wid_open_file(files, $Obj) {
         ///console.log(file);
 
         wid_file_is_open(true);
-
-        $Obj.click(function () {
+        
+        $obj.click(function () {
             return wid_file_is_open(false);
         });
 
-        wid_modal_window(html_get_open_file(file), false);
+        wid_modal_window(html_get_file_metadata(file), false);
     };
 
     var cb_progress = function (data) {
@@ -270,39 +271,39 @@ function wid_open_email_window() {
 
     wid_modal_window(html_get_email_window(), false);
 
-    dyn_obj_init($Window);
+    //dyn_obj_init($Window);
 }
 
 
-function wid_oninput_email($Obj) {
+function wid_oninput_email($obj) {
     var $Btn = $('#button_user_email');
-    var data = $Obj.val();
+    var data = $obj.val();
 
     if (eng_is_email(data)) {
-        wid_paint_borders($Obj);
+        wid_paint_borders($obj);
         $Btn.prop('disabled', false);
-        $Obj.on('keypress', function (event) {
+        $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_login();
-            $Obj.off('keypress');
+            $obj.off('keypress');
         });
     } else {
         (Boolean(data))
-            ? wid_paint_borders($Obj, 'red')
-            : wid_paint_borders($Obj);
+            ? wid_paint_borders($obj, 'red')
+            : wid_paint_borders($obj);
 
-        $Obj.off('keypress');
+        $obj.off('keypress');
 
         $Btn.prop('disabled', true);
     }
 }
 
 
-function wid_open_name_window($Obj) {
+function wid_open_name_window($obj) {
     var $Window = $('#div_modal_window');
-    var name = $Obj.html().substring(6);
+    var name = $obj.html().substring(6);
     
     wid_modal_window(html_get_name_window(name), false);
-    dyn_obj_init($Window);
+    //dyn_obj_init($Window);
 }
 
 
@@ -399,25 +400,25 @@ function wid_nc_profile() {
 }
 
 
-function wid_oninput_name($Obj) {
+function wid_oninput_name($obj) {
     var $Btn = $('#button_user_name');
-    var data = $Obj.val();
+    var data = $obj.val();
 
     data = data.replace(/^\s+|\s+$/g, '');
     
     if (!eng_is_valid_str(data)) {
-        wid_paint_borders($Obj);
+        wid_paint_borders($obj);
         $Btn.prop('disabled', false);
-        $Obj.on('keypress', function (event) {
+        $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_name();
-            $Obj.off('keypress');
+            $obj.off('keypress');
         });
     } else {
         (Boolean(data))
-            ? wid_paint_borders($Obj, 'red')
-            : wid_paint_borders($Obj);
+            ? wid_paint_borders($obj, 'red')
+            : wid_paint_borders($obj);
 
-        $Obj.off('keypress');
+        $obj.off('keypress');
 
         $Btn.prop('disabled', true);
     }
@@ -444,57 +445,64 @@ function wid_nc_name() {
 }
 
 
-function wid_nc_dataset_list() {
+function wid_nc_ds_list() {
+    var $Parent = $('#td_ds_list');
+    var $obj = $('#div_ds_list');
+    
     var cb = function (list) {
         let l = '';
         
         if (list.n !== 0) {
-            l = html_get_dataset_list(list.n, list.id, list.title);
+            l = html_get_ds_list(list.n, list.id, list.title);
         }
         
-        $('#td_dataset_list').html(l);
-        dyn_dataset_init();
+        wid_write_html($Parent, l);
+        dyn_ds_init($obj);
     }
  
-    eng_nc_dataset_list(cb, g_user_id);
+    eng_nc_ds_list(cb, g_user_id);
+}
+
+function wid_write_html($obj, data) {
+    $obj.html(data);
 }
 
 
-function wid_nc_dataset_create() {
+function wid_nc_ds_create() {
     var cb = function (resp) {
         if (resp == PHENOD.OK) {
-            wid_nc_dataset_list();
+            wid_nc_ds_list();
         } else {
             wid_modal_window(resp, true);
         }
     }
  
-    eng_nc_dataset_create(cb, g_user_id);
+    eng_nc_ds_create(cb, g_user_id);
 }
 
 
-function wid_nc_dataset_delete(dataset_id) {
+function wid_nc_ds_delete(ds_id) {
     var cb = function (resp) {
         if (resp == PHENOD.OK) {
-            wid_nc_dataset_list();
+            wid_nc_ds_list();
         } else {
             wid_modal_window(resp, true);
         }
     }
  
-    eng_nc_dataset_delete(cb, g_user_id, dataset_id);
+    eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
 
 
-function wid_nc_dataset_get($Obj) {
+function wid_nc_ds_get($obj) {
     var cb = function (resp) {
 
     }
  
-    eng_nc_dataset_get(cb, g_user_id);
+    eng_nc_ds_get(cb, g_user_id);
 }
 
-function uuu(id) {
+function wid_ds_init(id) {
     if (typeof id !== 'undefined') {
         let ds_id;
         let l;
@@ -502,10 +510,10 @@ function uuu(id) {
         ds_id= id.split('_');
         ds_id = ds_id[ds_id.length -1];
         
-        l = html_get_dataset_item_ctrl(ds_id);
         
-        if ($('#div_dataset_ctrl_' + ds_id).html() == '') {
-            $('#div_dataset_ctrl_' + ds_id).html(l);
+        if ($('#div_ds_ctrl_' + ds_id).html() == '') {
+            wid_jq_ds_item_ctrl($('#div_ds_ctrl_' + ds_id), ds_id);
+            // $('#div_ds_ctrl_' + ds_id).append(l.button());
         }
     }    
 }

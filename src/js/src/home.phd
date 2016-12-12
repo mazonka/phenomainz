@@ -20,11 +20,12 @@
         <script src="eng/eng.js"></script>
         <script src="eng/eng_nc.js"></script>
         <script src="ui/ui.js"></script>
-        <script src="front/dnmc.js"></script>
-        <script src="front/html.js"></script>
-        <script src="front/msg.js"></script>
-        <script src="front/var.js"></script>
         <script src="ui/ui_sh.js"></script>
+        <script src="front/front_dyn.js"></script>
+        <script src="front/front_html.js"></script>
+        <script src="front/front_jq.js"></script>
+        <script src="front/front_msg.js"></script>
+        <script src="front/front_var.js"></script>
     </head>
     <body onload="img_preload(g_img)">
         <script>

@@ -4,15 +4,20 @@
 'use strict';
 
 
-function dyn_obj_init ($Obj) {
-    $Obj.ready(function () {
+function dyn_obj_init($obj) {
+    $obj.ready(function () {
         obj_init();
     });
 }
 
+function dyn_ds_init($obj) {
+    $obj.ready(function () {
+        ds_init($obj);
+    });
+}
 
-function dyn_dataset_init() {
-    $('#div_dataset_list').accordion({
+function ds_init() {
+    $('#div_ds_list').accordion({
         icons: {
             'header': 'ui-icon-plus',
             'activeHeader': 'ui-icon-minus'
@@ -23,10 +28,10 @@ function dyn_dataset_init() {
         header: 'h3',
         activate: function(event, ui) {
             var id = ($(this).find('.ui-state-active').attr('id'));
-            uuu(id);
-
+            wid_ds_init(id);
         }
     });
+    
 }
 
 

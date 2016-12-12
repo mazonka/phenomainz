@@ -61,8 +61,8 @@ function html_get_body() {
     r += html_get_tr(html_get_td_auth());
     r += html_get_tr(html_get_td_profile());
     r += html_get_tr(html_get_td_button_open_file());
-    r += html_get_tr(html_get_td_dataset_list_ctrl());
-    r += html_get_tr(html_get_td_dataset_list());
+    r += html_get_tr(html_get_td_ds_list_ctrl());
+    r += html_get_tr(html_get_td_ds_list());
     r += html_get_tr(html_get_td_modal_window());
 
     r += '</table>\n';
@@ -137,7 +137,8 @@ function html_get_name_window(name) {
     var r = '';
 
     r += '<label for="input_user_name">Name:<label>\n';
-    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))" value="' + name + '">\n';
+    r += '<input id="input_user_name" oninput="wid_oninput_name($(this))" ' +
+        ' value="' + name + '">\n';
     r += '<button id="button_user_name" onclick="wid_nc_name()">' +
         B_TXT.CHANGE + '</button>\n';
     r += '<button id="button_user_logout" onclick="wid_nc_logout()">' +
@@ -149,8 +150,8 @@ function html_get_name_window(name) {
 
 function html_get_td_profile() {
     var r = '';
-    r += '<div id="div_profile_name" onclick="wid_open_name_window($(this))">' +
-        '</div></br>\n';
+    r += '<div id="div_profile_name" ' + 
+        ' onclick="wid_open_name_window($(this))"></div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
     r += '<div id="div_profile_counter"></div></br>\n';
@@ -166,8 +167,7 @@ function html_get_td_button_open_file() {
     r += '<label id="label_open_file" ' +
         'class="ui-button ui-widget ui-corner-all" ' +
         'for="input_open_file">' + L_TXT.OPEN_FILE + '</label>\n';
-    r += '<input id="input_open_file" type="file" ' +
-        'accept=".txt,.csv,.zip" ' +    
+    r += '<input id="input_open_file" type="file" accept=".txt,.csv,.zip" ' +
         'onchange="return wid_open_file(this.files, $(this))"></input>';
 
     return r;
@@ -188,30 +188,30 @@ function html_get_td_button_upload_file() {
 }
 
 
-function html_get_td_dataset_list_ctrl() {
+function html_get_td_ds_list_ctrl() {
     var r = '';
 
-    r += '<td id="td_dataset_ctrl">\n';
-    r += '<button id="button_dataset_create" ' +
-        ' onclick="wid_nc_dataset_create()">' +
+    r += '<td id="td_ds_ctrl">\n';
+    r += '<button id="button_ds_create" ' +
+        ' onclick="wid_nc_ds_create()">' +
         B_TXT.DS_CREATE_NEW + '</button>\n';
-    r += '<button id="button_dataset_update" ' +
-        'onclick="wid_nc_dataset_list();">' +
+    r += '<button id="button_ds_update" ' +
+        'onclick="wid_nc_ds_list();">' +
         B_TXT.DS_LIST_UPDATE + '</button>\n';
     
     return r;
 }
 
-function html_get_td_dataset_list() {
+function html_get_td_ds_list() {
     var r = '';
 
-    r += '<td id="td_dataset_list">\n';
+    r += '<td id="td_ds_list">\n';
     
     return r;
 }
 
 
-function html_get_open_file(file) {
+function html_get_file_metadata(file) {
     var r = '';
     var t = '';
 
@@ -248,17 +248,17 @@ function html_get_open_file(file) {
     return r;
 }
 
-function html_get_dataset_list(l, dataset_id, title) {
+function html_get_ds_list(l, ds_id, title) {
     var r = '';
     
-    r += '<div id="div_dataset_list">\n';
+    r += '<div id="div_ds_list">\n';
     
     for (let i = 0; i < +l;  i++) {
-        r += '<h3 id="h3_dataset_' + dataset_id[i] + '">' + dataset_id[i] +
+        r += '<h3 id="h3_ds_' + ds_id[i] + '">' + ds_id[i] +
             '. ' + title[i] + '</h3>\n';
-        r += '<div id="div_dataset_' + dataset_id[i] + '">\n';
-        r += '<div id="div_dataset_content_' + dataset_id[i] + '"></div>';
-        r += '<div id="div_dataset_ctrl_' + dataset_id[i] + '"></div>';
+        r += '<div id="div_ds_' + ds_id[i] + '">\n';
+        r += '<div id="div_ds_content_' + ds_id[i] + '"></div>';
+        r += '<div id="div_ds_ctrl_' + ds_id[i] + '"></div>';
         r += '</div>\n';
     }
     
@@ -267,19 +267,21 @@ function html_get_dataset_list(l, dataset_id, title) {
     return r;
 }
 
-function html_get_dataset_item_ctrl(dataset_id) {
+
+function html_get_dataset(l, ds_id, title) {
     var r = '';
 
-    r += '<button id="button_dataset_edit" ' +
-        ' onclick="wid_nc_dataset_edit(' + dataset_id + ')">' +
-        B_TXT.DS_EDIT + '</button>\n';
-    r += '<button id="button_dataset_update" ' +
-        'onclick="wid_nc_dataset_update(' + dataset_id + ')">' +
-        B_TXT.DS_UPDATE + '</button>\n';
-    r += '<button id="button_dataset_delete" ' +
-        'onclick="wid_nc_dataset_delete(' + dataset_id + ')">' +
-        B_TXT.DS_DELETE + '</button>\n';
-
+    for (let i = 0; i < +l;  i++) {
+        r += '<h3 id="h3_ds_' + ds_id[i] + '">' + ds_id[i] +
+            '. ' + title[i] + '</h3>\n';
+        r += '<div id="div_ds_' + ds_id[i] + '">\n';
+        r += '<div id="div_ds_content_' + ds_id[i] + '"></div>';
+        r += '<div id="div_ds_ctrl_' + ds_id[i] + '"></div>';
+        r += '</div>\n';
+    }
+    
     return r;
-}
+}    
+   
+
 

@@ -19,7 +19,7 @@ const B_TXT = {
     DS_LIST_UPDATE: 'Update list',
     DS_DELETE: 'DELETE',
     DS_EDIT: 'EDIT',
-    DS_UPDATE: 'UPDATE',
+    DS_SUBMIT: 'SUBMIT'
 };
 
 const L_TXT = {

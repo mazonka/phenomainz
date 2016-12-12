@@ -210,7 +210,7 @@ function eng_get_lastdate(data) {
 }
 
 
-function eng_get_dataset_list(data) {
+function eng_get_ds_list(data) {
     var r = {};
     
     data = data
@@ -226,7 +226,7 @@ function eng_get_dataset_list(data) {
 }
 
 
-function eng_get_dataset_get(data) {
+function eng_get_ds_get(data) {
     var r = {};
     
     data = data
