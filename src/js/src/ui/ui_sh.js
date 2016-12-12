@@ -17,12 +17,14 @@ function dyn_dataset_init() {
             'header': 'ui-icon-plus',
             'activeHeader': 'ui-icon-minus'
         },
-        active: 0,
+        active: false,
         heightStyle: 'content',
         collapsible: 'true',
         header: 'h3',
         activate: function(event, ui) {
-            
+            var id = ($(this).find('.ui-state-active').attr('id'));
+            uuu(id);
+
         }
     });
 }

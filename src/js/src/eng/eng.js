@@ -210,9 +210,9 @@ function eng_get_lastdate(data) {
 }
 
 
-function eng_get_list(data) {
+function eng_get_dataset_list(data) {
     var r = {};
-    console.log(data);
+    
     data = data
         .replace(/^OK/g, '')
         .replace(/^\s|\r|\s+$/g, '')
@@ -226,7 +226,7 @@ function eng_get_list(data) {
 }
 
 
-function eng_get_get(data) {
+function eng_get_dataset_get(data) {
     var r = {};
     
     data = data
@@ -234,9 +234,11 @@ function eng_get_get(data) {
         .replace(/^\s|\r|\s+$/g, '')
         .split(/\s/);
     
-    r.id = '';
-    r.title = '';
-    r.descr = '';
+    r.id = data[0];
+    r.title = data[1];
+    r.descr = data[2];
+    
+    console.log(r)
 
     return r;
 }

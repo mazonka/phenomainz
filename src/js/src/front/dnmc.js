@@ -472,10 +472,27 @@ function wid_nc_dataset_create() {
     eng_nc_dataset_create(cb, g_uid);
 }
 
-function wid_nc_dataset_get() {
+function wid_nc_dataset_get($Obj) {
     var cb = function (resp) {
 
     }
  
     eng_nc_dataset_get(cb, g_uid);
 }
+
+function uuu(id) {
+    if (typeof id !== 'undefined') {
+        let ds_id;
+        let l;
+        
+        ds_id= id.split('_');
+        ds_id = ds_id[ds_id.length -1];
+        
+        l = html_get_dataset_item_ctrl(ds_id);
+        console.log($('#div_dataset_ctrl_' + ds_id).html())
+        if ($('#div_dataset_ctrl_' + ds_id).html() == '') {
+            $('#div_dataset_ctrl_' + ds_id).html(l);
+        }
+    }    
+}
+

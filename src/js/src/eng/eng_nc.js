@@ -84,7 +84,7 @@ function eng_nc_dataset_list(ext_cb, uid) {
         r.title = [];
 
         if (resp == PHENOD.OK) {
-            r = eng_get_list(data);        
+            r = eng_get_dataset_list(data);        
         }
         
         ext_cb(r);
@@ -107,12 +107,13 @@ function eng_nc_dataset_get(ext_cb, uid, ds_id) {
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let ds = {};
+        
         ds.id = '';
         ds.title = '';
         ds.descr = '';
         
         if (resp = PHENOD.OK) {
-            ds = eng_get_list(resp);
+            ds = eng_get_dataset_get(data);
         }
         
         ext_cb(ds);

@@ -84,7 +84,7 @@ function html_get_td_logo() {
 function html_get_td_modal_window() {
     var r = '';
 
-    r += '<td>\n';
+    r += '<td id="td_modal_window">\n';
     r += '<div id="div_modal_window">\n';
     r += '<div id="div_modal_window_content">\n';
     r += '<div id="div_modal_window_content_header"></div>\n';
@@ -112,6 +112,7 @@ function html_get_td_auth() {
         B_TXT.LINKEDIN + '</button>\n';
     r += '<button id="button_windows" onclick="wid_auth(\'windows\')">' +
         B_TXT.WINDOWS + '</button>\n';
+        
     return html_get_td(r, 'td_login');
 }
 
@@ -253,10 +254,10 @@ function html_get_dataset_list(l, id, title) {
     r += '<div id="div_dataset_list">\n';
     
     for (let i = 0; i < +l;  i++) {
-        r += '<h3>' + id[i] + '. ' + title[i] + '</h3>\n';
-        r += '<div id="ds_' + id[i] + '">\n';
-        r += '<div id="ds_' + id[i] + '_content"></div>';
-        r += '<div id="ds_' + id[i] + '_ctrl"></div>';
+        r += '<h3 id="h3_dataset_' + id[i] + '">' + id[i] + '. ' + title[i] + '</h3>\n';
+        r += '<div id="div_dataset_' + id[i] + '">\n';
+        r += '<div id="div_dataset_content_' + id[i] + '"></div>';
+        r += '<div id="div_dataset_ctrl_' + id[i] + '"></div>';
         r += '</div>\n';
     }
     
@@ -264,3 +265,17 @@ function html_get_dataset_list(l, id, title) {
     
     return r;
 }
+
+function html_get_dataset_item_ctrl(id) {
+    var r = '';
+
+    r += '<button id="button_dataset_edit" onclick="wid_nc_dataset_edit(id)">' +
+        B_TXT.DS_EDIT + '</button>\n';
+    r += '<button id="button_dataset_update" onclick="wid_nc_dataset_update(id)">' +
+        B_TXT.DS_UPDATE + '</button>\n';
+    r += '<button id="button_dataset_delete" onclick="wid_nc_dataset_delete(id)">' +
+        B_TXT.DS_DELETE + '</button>\n';
+
+    return r;
+}
+

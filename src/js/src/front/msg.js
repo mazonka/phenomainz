@@ -16,7 +16,10 @@ const B_TXT = {
     LOGOUT: 'Logout',
     PING: 'Ping',
     DS_CREATE_NEW: 'Create new dataset',
-    DS_LIST_UPDATE: 'Update list'
+    DS_LIST_UPDATE: 'Update list',
+    DS_DELETE: 'DELETE',
+    DS_EDIT: 'EDIT',
+    DS_UPDATE: 'UPDATE',
 };
 
 const L_TXT = {
