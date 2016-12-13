@@ -20,7 +20,6 @@
         <script src="eng/eng.js"></script>
         <script src="eng/eng_nc.js"></script>
         <script src="ui/ui.js"></script>
-        <script src="ui/ui_sh.js"></script>
         <script src="front/front_dyn.js"></script>
         <script src="front/front_html.js"></script>
         <script src="front/front_jq.js"></script>

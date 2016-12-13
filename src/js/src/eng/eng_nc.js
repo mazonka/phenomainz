@@ -9,13 +9,8 @@ function eng_nc_ping(ext_cb, user_id, pulse)
     var cmd = ['au', user_id, 'ping'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
-        let sign_in = false;
         
-        if (resp == PHENOD.OK) {
-            sign_in = true;
-        }
-        
-        ext_cb(eng_get_main_response(data), sign_in);
+        ext_cb(resp);
     };
 
     ajx_send_command(cmd, int_cb, pulse);
@@ -77,17 +72,17 @@ function eng_nc_ds_list(ext_cb, user_id) {
     var cmd = ['au', user_id, 'dataset', 'list' ].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
-        let r = {};
+        let list = {};
 
-        r.n = 0;
-        r.id = [];
-        r.title = [];
+        list.n = 0;
+        list.id = [];
+        list.title = [];
 
         if (resp == PHENOD.OK) {
-            r = eng_get_ds_list(data);        
+            list = eng_get_ds_list(data);        
         }
         
-        ext_cb(r);
+        ext_cb(resp, list);
     };
     
     ajx_send_command(cmd, int_cb, g_pulse);

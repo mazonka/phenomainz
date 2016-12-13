@@ -322,22 +322,15 @@ function wid_auth(auth_network) {
 
 */
 
-function wid_redirect() {
-    
-}
-
-
-function wid_nc_ping(fn) {
-    var cb = function (resp, sign_in) {
-        if (resp !== PHENOD.OK && resp !== PHENOD.AUTH) {
-            return wid_modal_window(M_TXT.ERROR + resp, true);
+function wid_nc_ping() {
+    var cb = function (resp) {
+        if (resp == PHENOD.OK) {
+            wid_ui_login();
+        } else if (resp == PHENOD.AUTH) {
+            wid_ui_logout();
+        } else {
+            wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
-        console.log(resp);
-        
-        (resp == PHENOD.OK)
-            ? fn()
-            : wid_ui_logout();
     };
 
     eng_nc_ping(cb, g_user_id, g_pulse);
@@ -349,11 +342,11 @@ function wid_nc_login() {
     var url = document.URL;
 
     var cb = function (resp) {
-        let msg = M_TXT.EMAIL + email;
+        let msg;
 
-        if (resp !== PHENOD.OK) {
-            msg = M_TXT.ERROR + resp;
-        }
+        (resp == PHENOD.OK)
+            ? msg = M_TXT.EMAIL + email
+            : msg = M_TXT.ERROR + resp;
 
         wid_modal_window(msg, true);
     };
@@ -363,9 +356,7 @@ function wid_nc_login() {
 
 
 function wid_nc_logout() {
-    var $window = $('#div_modal_window');
     var cb = function (data) {
-        $window.click();
         wid_modal_window(data, true);
     };
     
@@ -375,15 +366,14 @@ function wid_nc_logout() {
 
 function wid_nc_profile() {
     var cb = function (resp, profile) {
-        var r, date, time;
+        let r, date, time;
+        
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
-        }
-
-        if (resp !== PHENOD.OK) {
+        } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-
+        
         r = eng_get_lastdate(profile.lastdate);
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
@@ -395,10 +385,7 @@ function wid_nc_profile() {
         $('#div_profile_counter').html('Count: ' + profile.counter);
     };
 
-    var f = function () {
-        eng_nc_profile(cb, g_user_id, g_pulse);
-    };
-    
+    eng_nc_profile(cb, g_user_id, g_pulse);
 }
 
 
@@ -431,55 +418,53 @@ function wid_input_name($obj) {
 
 function wid_nc_name() {
     var name = $('#input_user_name').val() || '*';
-    var $window = $('#div_modal_window');
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
-        }
-
-        if (resp !== PHENOD.OK) {
+        } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
         
         wid_nc_profile();
     };
 
-    $window.click();
     eng_nc_name(cb, g_user_id, name, g_pulse);
 }
 
 
 function wid_nc_ds_list() {
-    var $Parent = $('#td_ds_list');
-    var $obj = $('#div_ds_list');
-    
-    var cb = function (list) {
-        let l = '';
+    var cb = function (resp, list) {
+        let $td_ds_list = $('#td_ds_list');
+        let $div;
         
-        if (list.n !== 0) {
-            l = html_get_ds_list(list.n, list.id, list.title);
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        wid_write_html($Parent, l);
-        dyn_ds_init($obj);
-    }
+        $td_ds_list.children().remove();
+
+        if (list !== null) {
+            $div = wid_get_jq_ds_list(list.n, list.id, list.title);
+            $td_ds_list.append($div);
+        }
+    };
  
     eng_nc_ds_list(cb, g_user_id);
-}
-
-function wid_write_html($obj, data) {
-    $obj.html(data);
 }
 
 
 function wid_nc_ds_create() {
     var cb = function (resp) {
-        if (resp == PHENOD.OK) {
-            wid_nc_ds_list();
-        } else {
-            wid_modal_window(resp, true);
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-    }
+
+        wid_nc_ds_list();
+    };
  
     eng_nc_ds_create(cb, g_user_id);
 }
@@ -487,12 +472,14 @@ function wid_nc_ds_create() {
 
 function wid_nc_ds_delete(ds_id) {
     var cb = function (resp) {
-        if (resp == PHENOD.OK) {
-            wid_nc_ds_list();
-        } else {
-            wid_modal_window(resp, true);
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-    }
+        
+        wid_nc_ds_list();
+    };
  
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
@@ -500,24 +487,31 @@ function wid_nc_ds_delete(ds_id) {
 
 function wid_nc_ds_get($obj) {
     var cb = function (resp) {
-
-    }
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
+        }
+    };
  
     eng_nc_ds_get(cb, g_user_id);
 }
 
 function wid_ds_init(id) {
     if (typeof id !== 'undefined') {
+        let $ds;
+        let $ds_ctrl;
+        let $ds_content;
         let ds_id;
-        let l;
         
         ds_id= id.split('_');
         ds_id = ds_id[ds_id.length -1];
+
+        $ds = $('#div_ds_' + ds_id + '_ctrl');
         
-        
-        if ($('#div_ds_ctrl_' + ds_id).html() == '') {
-            wid_jq_ds_item_ctrl($('#div_ds_ctrl_' + ds_id), ds_id);
-            // $('#div_ds_ctrl_' + ds_id).append(l.button());
+        if ($ds.html() == '') {
+            $ds_ctrl = wid_get_jq_ds_item_ctrl(ds_id);
+            $ds.append($ds_ctrl);
         }
     }    
 }

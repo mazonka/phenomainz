@@ -21,7 +21,10 @@ function wid_get_jq_user_email() {
             text: B_TXT.SEND_EMAIL
         })
         .on('click', function () {
-            wid_nc_login()
+            let $window = $('#div_modal_window');
+            
+            wid_nc_login();
+            $window.click();
         })
         .button()
         .button('disable'));
@@ -55,7 +58,10 @@ function wid_get_jq_user_profile(name) {
             text: B_TXT.CHANGE,
         })
         .on('click', function () {
-            wid_nc_name()
+            let $window = $('#div_modal_window');
+            
+            wid_nc_name();
+            $window.click();
         })
         .button()
         .button('disable'));
@@ -64,7 +70,10 @@ function wid_get_jq_user_profile(name) {
             id: 'button_user_logout',
             text: B_TXT.LOGOUT,
             click: function () {
-                wid_nc_logout()
+                let $window = $('#div_modal_window');
+                
+                wid_nc_logout();
+                $window.click();
             }
         })
         .button());
@@ -73,14 +82,63 @@ function wid_get_jq_user_profile(name) {
 } 
 
 
-function wid_jq_ds_item_ctrl($obj, ds_id) {
+
+function wid_get_jq_ds_list(l, ds_id, title) {
+    var $new = $();
+    
+    $new = $new.add($('<div>', {
+        id: 'div_ds_list'
+    }));
+    
+    for (let i = 0; i < +l;  i++) {
+        let $div_ds = $('<div>', {
+            id: 'div_ds_' + ds_id[i],
+        });
+        
+        $new.append($('<h3>', {
+            id: 'h3_ds_' + ds_id[i],
+            text: ds_id[i] + '. ' + title[i]
+        }));
+       
+        $div_ds.append($('<div>', {
+            id: 'div_ds_' + ds_id[i] + '_content',
+        })); 
+
+        $div_ds.append($('<div>', {
+            id: 'div_ds_' + ds_id[i] + '_ctrl',
+        }));
+        
+        $new.append($div_ds);
+    }
+    
+    $new.accordion({
+        icons: {
+            'header': 'ui-icon-plus',
+            'activeHeader': 'ui-icon-minus'
+        },
+        active: false,
+        heightStyle: 'content',
+        collapsible: 'true',
+        header: 'h3',
+        activate: function(event, ui) {
+            var id = ($(this).find('.ui-state-active').attr('id'));
+            wid_ds_init(id);
+        }
+    });
+    
+    return $new;
+}
+
+
+
+function wid_get_jq_ds_item_ctrl(ds_id) {
     var $new = $();
     
     $new = $new.add('<div>', {
         id: 'div_ds_item_ctrl'
     });
     
-    $obj.append($('<button/>', {
+    $new.append($('<button/>', {
             text: B_TXT.DS_EDIT,
             id: 'button_ds_edit_' + ds_id,
             click: function () {
@@ -88,7 +146,7 @@ function wid_jq_ds_item_ctrl($obj, ds_id) {
             }
         }).button());
     
-    $obj.append($('<button/>', {
+    $new.append($('<button/>', {
             text: B_TXT.DS_SUBMIT,
             id: 'button_ds_submit_' + ds_id,
             click: function () {
@@ -96,13 +154,15 @@ function wid_jq_ds_item_ctrl($obj, ds_id) {
             }
         }).button());
     
-    $obj.append( $('<button/>', {
+    $new.append( $('<button/>', {
         text: B_TXT.DS_DELETE,
         id: 'button_ds_delete_' + ds_id,
         click: function () { 
             wid_nc_ds_delete(ds_id);
         }
     }).button());
+    
+    return $new;
 }
 
 
