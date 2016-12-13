@@ -53,27 +53,33 @@ function img_preload(container)
     }
 }
 
-function wid_modal_window($obj, click, func) {
-    var $Window = $('#div_modal_window');
-    var $Content = $('#div_modal_window_content');
+function wid_modal_window(data, click, func) {
+    var $window = $('#div_modal_window');
+    var $content = $('#div_modal_window_content');
+    var $body = $('#div_modal_window_content_body');
     var width = $('body').outerWidth();
-    var close, esc;
+    var $obj;
+    var close
+    var esc;
 
-    if (typeof $obj == 'string') {
-        $obj = $('<t>' + $obj + '</t>');
+    if (typeof data == 'string') {
+        $obj = $('<p>', {
+            text: data
+        });
+    } else {
+        $obj = data;
     }
     
-    $Content.width(width);
+    $content.width(width);
 
     close = function () {
-        //$Window.find('p').empty();
-        $Window.find('p').children().remove();
-        $Window.css('display', 'none');
+        $body.children().remove();
+        $window.css('display', 'none');
 
         (Boolean(func)) && func();
 
-        $Window.off('click');
-        $Window.children().off('click');
+        $window.off('click');
+        $window.children().off('click');
 
         $(document).off('keyup');
         $(window).off('beforeunload');
@@ -84,13 +90,13 @@ function wid_modal_window($obj, click, func) {
     };
 
     if (click) {
-        $Window.click(function () {
+        $window.click(function () {
             close();
         }).children().click(function () {
             close();
         });
     } else {
-        $Window.click(function () {
+        $window.click(function () {
             close();
         }).children().click(function (e) {
             return false;
@@ -105,55 +111,44 @@ function wid_modal_window($obj, click, func) {
         return M_TXT.RELOAD;
     })
 
-    $Window.css('display', 'block');
-    $Window.find('p').children().remove();
-    $Window.find('p').append($obj);
-}
-
-
-function wid_ui_auth() {
-    if (g_user_id == 0) {
-        wid_ui_logout();
-    } else {
-        wid_ui_login();
-        wid_nc_profile();
-        wid_nc_ds_list();
-    }
+    $window.css('display', 'block');
+    $body.children().remove();
+    $body.append($obj);
 }
 
 
 function wid_ui_logout() {
     $('#td_profile').hide();
-    $('#td_open_file').hide();
+    $('#td_admin').hide();
     $('#td_ds_ctrl').hide();
     $('#td_ds_list').hide();
     $('#td_login').show();
 
-    hello.init(
-        {
-            facebook: FACEBOOK_CLIENT_ID,
-            windows: WINDOWS_CLIENT_ID,
-            google: GOOGLE_CLIENT_ID,
-            linkedin: LINKEDIN_CLIENT_ID
-        },
-        {
-            redirect_uri: 'redirect.html',
-            response_type: 'code',
-            force: true,
-            scope: 'email',
-            display: 'page'
-        }
-    );
+    Boolean(g_user_id !== '0') && wid_modal_window('Session expired', true);
+    
+    hello.init({
+        facebook: FACEBOOK_CLIENT_ID,
+        windows: WINDOWS_CLIENT_ID,
+        google: GOOGLE_CLIENT_ID,
+        linkedin: LINKEDIN_CLIENT_ID
+    }, {
+        redirect_uri: 'redirect.html',
+        response_type: 'code',
+        force: true,
+        scope: 'email',
+        display: 'page'
+    });
 }
 
 
 function wid_ui_login() {
+    $('#td_login').hide();
     $('#td_profile').show();
-    $('#td_open_file').show();
     $('#td_ds_ctrl').show();
     $('#td_ds_list').show();
-    $('#td_login').hide();
     
+    wid_nc_profile();
+    wid_nc_ds_list();    
 }
 
 
@@ -292,7 +287,6 @@ function wid_input_email($obj) {
         
         $btn.button('disable');
         $obj.off('keypress');
-
     }
 }
 
@@ -328,13 +322,22 @@ function wid_auth(auth_network) {
 
 */
 
-function wid_nc_ping() {
+function wid_redirect() {
+    
+}
+
+
+function wid_nc_ping(fn) {
     var cb = function (resp, sign_in) {
         if (resp !== PHENOD.OK && resp !== PHENOD.AUTH) {
-            return alert(M_TXT.ERROR + resp);
+            return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        wid_ui_auth();
+        
+        console.log(resp);
+        
+        (resp == PHENOD.OK)
+            ? fn()
+            : wid_ui_logout();
     };
 
     eng_nc_ping(cb, g_user_id, g_pulse);
@@ -360,12 +363,12 @@ function wid_nc_login() {
 
 
 function wid_nc_logout() {
-    var $Window = $('#div_modal_window');
+    var $window = $('#div_modal_window');
     var cb = function (data) {
+        $window.click();
         wid_modal_window(data, true);
     };
     
-    $Window.click();
     eng_nc_logout(cb, g_user_id, g_pulse)
 }
 
@@ -392,7 +395,10 @@ function wid_nc_profile() {
         $('#div_profile_counter').html('Count: ' + profile.counter);
     };
 
-    eng_nc_profile(cb, g_user_id, g_pulse);
+    var f = function () {
+        eng_nc_profile(cb, g_user_id, g_pulse);
+    };
+    
 }
 
 
@@ -404,11 +410,8 @@ function wid_input_name($obj) {
     
     if (eng_is_valid_str(data)) {
         wid_paint_borders($obj);
+
         $btn.button('enable');
-        // $btn.remoattr({
-            // disabled: false
-        // });
-        
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_name();
             $obj.off('keypress');
@@ -428,7 +431,7 @@ function wid_input_name($obj) {
 
 function wid_nc_name() {
     var name = $('#input_user_name').val() || '*';
-    var $Window = $('#div_modal_window');
+    var $window = $('#div_modal_window');
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
@@ -441,7 +444,7 @@ function wid_nc_name() {
         wid_nc_profile();
     };
 
-    $Window.click();
+    $window.click();
     eng_nc_name(cb, g_user_id, name, g_pulse);
 }
 

@@ -33,10 +33,12 @@ function wid_get_jq_user_email() {
 function wid_get_jq_user_profile(name) {
     var $new = $();
     
-    $new = $new.add('<div>');
+    $new = $new.add('<div>', {
+        id: 'div_user_profile'
+    });
     
     $new.append($('<label/>')
-        .text('Name: ')
+        .text('Name')
         .attr('for', 'input_user_name'));
         
     $new.append($('<input/>', {
@@ -74,7 +76,9 @@ function wid_get_jq_user_profile(name) {
 function wid_jq_ds_item_ctrl($obj, ds_id) {
     var $new = $();
     
-    $new = $new.add('<div>');
+    $new = $new.add('<div>', {
+        id: 'div_ds_item_ctrl'
+    });
     
     $obj.append($('<button/>', {
             text: B_TXT.DS_EDIT,

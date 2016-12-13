@@ -22,6 +22,8 @@ function doc_init(user_id) {
 
 
 function ui_init(user_id) {
+    var login;
+
     g_user_id = user_id;
     console.log(user_id);
 
@@ -40,6 +42,10 @@ function ui_init(user_id) {
     
     $('#button_user_email').prop('disabled', true);
     $('#div_modal_window').css('display', 'none');
+
+    login = function () {
+        wid_ui_login();
+    };
     
-    wid_nc_ping();
+    wid_nc_ping(login);
 }

@@ -59,8 +59,9 @@ function html_get_body() {
     
     r += html_get_tr(html_get_td_logo());
     r += html_get_tr(html_get_td_auth());
+    r += html_get_tr(html_get_td_admin());
     r += html_get_tr(html_get_td_profile());
-    r += html_get_tr(html_get_td_button_open_file());
+    //r += html_get_tr(html_get_td_button_open_file());
     r += html_get_tr(html_get_td_ds_list_ctrl());
     r += html_get_tr(html_get_td_ds_list());
     r += html_get_tr(html_get_td_modal_window());
@@ -87,11 +88,9 @@ function html_get_td_modal_window() {
     r += '<td id="td_modal_window">\n';
     r += '<div id="div_modal_window">\n';
     r += '<div id="div_modal_window_content">\n';
-    r += '<div id="div_modal_window_content_header"></div>\n';
-    r += '<div id="div_modal_window_content_body">\n';
-    r += '<p></p>\n';
-    r += '</div>\n';
-    r += '<div id="div_modal_window_content_footer"></div>\n';
+    r += '<div id="div_modal_window_content_header">\n</div>\n';
+    r += '<div id="div_modal_window_content_body">\n</div>\n';
+    r += '<div id="div_modal_window_content_footer">\n</div>\n';
     r += '</div>\n';
     r += '</div>\n';
 
@@ -114,6 +113,13 @@ function html_get_td_auth() {
         B_TXT.WINDOWS + '</button>\n';
         
     return html_get_td(r, 'td_login');
+}
+
+
+function html_get_td_admin() {
+    var r = '';
+    
+    return html_get_td(r, 'td_admin');
 }
 
 
