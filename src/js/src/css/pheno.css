@@ -102,13 +102,14 @@ button {
 }
 
 #div_profile_name,
+#div_profile_name_name,
 #div_profile_email,
 #div_profile_lastdate,
 #div_profile_counter {
     display: inline-block;
 }
 
-#div_profile_name {
+#div_profile_name_name {
     font-weight: bold;
     cursor: pointer;
     color: blue;

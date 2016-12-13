@@ -113,17 +113,13 @@ function eng_nc_ds_get(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'dataset', 'get', ds_id].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
-        let ds = {};
+        let ds = null;
         
-        ds.id = '';
-        ds.title = '';
-        ds.descr = '';
-        
-        if (resp = PHENOD.OK) {
+        if (resp == PHENOD.OK) {
             ds = eng_get_ds_get(data);
         }
         
-        ext_cb(ds);
+        ext_cb(resp, ds);
     };
     
     ajx_send_command(cmd, int_cb, g_pulse);

@@ -378,11 +378,12 @@ function wid_nc_profile() {
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
 
-        $('#div_profile_name').html('Name: ' + profile.name);
-        $('#div_profile_email').html('E-mail: ' + profile.email);
+        $('#div_profile_name').prepend(L_TXT.USER_NAME);
+        $('#div_profile_name_name').html(profile.name);
+        $('#div_profile_email').html(L_TXT.EMAIL + profile.email);
         
-        $('#div_profile_lastdate').html('Last login: ' + date + ', ' + time);
-        $('#div_profile_counter').html('Count: ' + profile.counter);
+        $('#div_profile_lastdate').html(L_TXT.LAST_LOGIN + date + ', ' + time);
+        $('#div_profile_counter').html(L_TXT.COUNTER + profile.counter);
     };
 
     eng_nc_profile(cb, g_user_id, g_pulse);
@@ -485,26 +486,32 @@ function wid_nc_ds_delete(ds_id) {
 }
 
 
-function wid_nc_ds_get($obj) {
-    var cb = function (resp) {
+function wid_nc_ds_get(ds_id) {
+    var cb = function (resp, ds) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
+        
+        let $ds_content = $('#div_ds_' + ds_id + '_content');
+        let $div = $('<div>', {
+            text: 'title:' + ds.title + '| descr: ' + ds.descr + '| ?: ' + ds.u
+        });
+
+        $ds_content.append($div);
     };
  
-    eng_nc_ds_get(cb, g_user_id);
+    eng_nc_ds_get(cb, g_user_id, ds_id);
 }
 
-function wid_ds_init(id) {
+function wid_activate_ds(id) {
     if (typeof id !== 'undefined') {
         let $ds;
         let $ds_ctrl;
-        let $ds_content;
         let ds_id;
         
-        ds_id= id.split('_');
+        ds_id = id.split('_');
         ds_id = ds_id[ds_id.length -1];
 
         $ds = $('#div_ds_' + ds_id + '_ctrl');
@@ -512,6 +519,7 @@ function wid_ds_init(id) {
         if ($ds.html() == '') {
             $ds_ctrl = wid_get_jq_ds_item_ctrl(ds_id);
             $ds.append($ds_ctrl);
+            wid_nc_ds_get(ds_id);
         }
     }    
 }

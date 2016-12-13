@@ -122,7 +122,7 @@ function wid_get_jq_ds_list(l, ds_id, title) {
         header: 'h3',
         activate: function(event, ui) {
             var id = ($(this).find('.ui-state-active').attr('id'));
-            wid_ds_init(id);
+            wid_activate_ds(id);
         }
     });
     

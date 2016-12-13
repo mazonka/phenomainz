@@ -230,18 +230,17 @@ function eng_get_ds_list(data) {
 
 
 function eng_get_ds_get(data) {
-    var r = {};
+    var ds = {};
     
     data = data
         .replace(/^OK/g, '')
         .replace(/^\s|\r|\s+$/g, '')
         .split(/\s/);
     
-    r.id = data[0];
-    r.title = data[1];
-    r.descr = data[2];
+    ds.id = data[0];
+    ds.title = window.atob(data[1]);
+    ds.descr = window.atob(data[2]);
+    ds.u = data[3];
     
-    console.log(r)
-
-    return r;
+    return ds;
 }

@@ -24,7 +24,11 @@ const B_TXT = {
 
 const L_TXT = {
     OPEN_FILE: 'Open file',
-    UPLOAD_FILE: 'Upload'
+    UPLOAD_FILE: 'Upload',
+    COUNTER: 'Logins counter: ',
+    LAST_LOGIN: 'Last login: ',
+    EMAIL: 'E-mail: ',
+    USER_NAME: 'User name: '    
 };
 
 const M_TXT = {

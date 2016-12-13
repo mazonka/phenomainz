@@ -125,8 +125,10 @@ function html_get_td_admin() {
 
 function html_get_td_profile() {
     var r = '';
-    r += '<div id="div_profile_name" ' + 
-        ' onclick="wid_open_profile_window($(this))"></div></br>\n';
+    r += '<div id="div_profile_name">';
+    r += '<div id="div_profile_name_name" ' + 
+        ' onclick="wid_open_profile_window($(this))"></div>';
+    r += '</div></br>\n';
     r += '<div id="div_profile_email"></div></br>\n';
     r += '<div id="div_profile_lastdate"></div></br>\n';
     r += '<div id="div_profile_counter"></div></br>\n';
@@ -185,7 +187,7 @@ function html_get_td_ds_list() {
     return r;
 }
 
-
+/*
 function html_get_file_metadata(file) {
     var r = '';
     var t = '';
@@ -222,3 +224,5 @@ function html_get_file_metadata(file) {
     
     return r;
 }
+*/
+
