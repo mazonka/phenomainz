@@ -274,11 +274,11 @@ function wid_open_email_window() {
 
 
 function wid_input_email($obj) {
-    var $Btn = $('#button_user_email');
+    var $btn = $('#button_user_email');
     var data = $obj.val();
     
     if (eng_is_email(data)) {
-        $Btn.button('enabled');
+        $btn.button('enable');
         wid_paint_borders($obj);
         
         $obj.on('keypress', function (event) {
@@ -290,7 +290,7 @@ function wid_input_email($obj) {
             ? wid_paint_borders($obj, 'red')
             : wid_paint_borders($obj);
         
-        $Btn.button('disabled');
+        $btn.button('disable');
         $obj.off('keypress');
 
     }
