@@ -1,5 +1,9 @@
 // (C) 2016
 
+
+'use strict';
+
+
 function wid_get_jq_user_email() {
     var $new = $();
     $new = $new.add('<div>');
@@ -98,7 +102,7 @@ function wid_get_jq_ds_list(l, ds_id, title) {
         $new.append($('<h3>', {
             id: 'h3_ds_' + ds_id[i],
             text: ds_id[i] + '. ' + title[i]
-        }));
+        }).attr('data-id', ds_id[i]));
        
         $div_ds.append($('<div>', {
             id: 'div_ds_' + ds_id[i] + '_content',
@@ -120,15 +124,17 @@ function wid_get_jq_ds_list(l, ds_id, title) {
         heightStyle: 'content',
         collapsible: 'true',
         header: 'h3',
-        activate: function(event, ui) {
-            var id = ($(this).find('.ui-state-active').attr('id'));
-            wid_activate_ds(id);
+        activate: function (event, ui) {
+            var ds_id = ($(this).find('.ui-state-active').attr('data-id'));
+            
+            if (typeof ds_id !== 'undefined') {
+                wid_activate_ds(ds_id);
+            }
         }
     });
     
     return $new;
 }
-
 
 
 function wid_get_jq_ds_item_ctrl(ds_id) {
@@ -141,7 +147,7 @@ function wid_get_jq_ds_item_ctrl(ds_id) {
     $new.append($('<button/>', {
             text: B_TXT.DS_EDIT,
             id: 'button_ds_edit_' + ds_id,
-            click: function () {
+            click: function() {
                 wid_nc_ds_edit(ds_id);
             }
         }).button());
@@ -152,7 +158,7 @@ function wid_get_jq_ds_item_ctrl(ds_id) {
             click: function () {
                 wid_nc_ds_submit(ds_id);
             }
-        }).button());
+            }).button());
     
     $new.append( $('<button/>', {
         text: B_TXT.DS_DELETE,

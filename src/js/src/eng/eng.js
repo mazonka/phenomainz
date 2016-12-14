@@ -240,7 +240,7 @@ function eng_get_ds_get(data) {
     ds.id = data[0];
     ds.title = window.atob(data[1]);
     ds.descr = window.atob(data[2]);
-    ds.u = data[3];
+    ds.cat = data[3];
     
     return ds;
 }

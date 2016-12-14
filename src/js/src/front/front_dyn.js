@@ -496,7 +496,7 @@ function wid_nc_ds_get(ds_id) {
         
         let $ds_content = $('#div_ds_' + ds_id + '_content');
         let $div = $('<div>', {
-            text: 'title:' + ds.title + '| descr: ' + ds.descr + '| ?: ' + ds.u
+            text: 'title:' + ds.title + '| descr: ' + ds.descr + '| ?: ' + ds.cat
         });
 
         $ds_content.append($div);
@@ -505,22 +505,17 @@ function wid_nc_ds_get(ds_id) {
     eng_nc_ds_get(cb, g_user_id, ds_id);
 }
 
-function wid_activate_ds(id) {
-    if (typeof id !== 'undefined') {
-        let $ds;
-        let $ds_ctrl;
-        let ds_id;
-        
-        ds_id = id.split('_');
-        ds_id = ds_id[ds_id.length -1];
 
-        $ds = $('#div_ds_' + ds_id + '_ctrl');
-        
-        if ($ds.html() == '') {
-            $ds_ctrl = wid_get_jq_ds_item_ctrl(ds_id);
-            $ds.append($ds_ctrl);
-            wid_nc_ds_get(ds_id);
-        }
-    }    
+function wid_activate_ds(ds_id) {
+    let $ds;
+    let $ds_ctrl;
+    
+    $ds = $('#div_ds_' + ds_id + '_ctrl');
+    
+    if ($ds.html() == '') {
+        $ds_ctrl = wid_get_jq_ds_item_ctrl(ds_id);
+        $ds.append($ds_ctrl);
+        wid_nc_ds_get(ds_id);
+    }
 }
 
