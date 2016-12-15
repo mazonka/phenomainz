@@ -23,7 +23,7 @@ function wid_get_jq_user_email() {
             id: 'button_user_email',
             text: B_TXT.SEND_EMAIL
         })
-        .on('click', function () {
+        .click(function () {
             let $window = $('#div_modal_window');
 
             wid_nc_login();
@@ -59,7 +59,7 @@ function wid_get_jq_user_profile(name) {
             id: 'button_user_name',
             text: B_TXT.CHANGE,
         })
-        .on('click', function () {
+        .click(function () {
             let $window = $('#div_modal_window');
 
             wid_nc_name();
@@ -135,24 +135,25 @@ function wid_get_jq_ds_item_title(ds) {
                 id: 'input_ds_' + ds.id + '_title',
                 value: ds.title
             })
+            .prop('disabled', true)
             .attr('for', 'input_ds_' + ds.id + '_title');
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_title_edit',
-                text: ' e '
+                //id: 'div_ds_' + ds.id + '_title_edit',
+                text: '(e)',
+                title: 'Edit'
             })
-            .addClass('dataset-item-button'))
+            .click(function() { 
+                wid_click_ds(ds, 'edit', $(this));
+            })
+            .addClass('dataset-edit-button'))
         .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_title_submit',
-                text: ' s '
+                text: '(c)',
+                title: 'Cancel'
             })
-            .addClass('dataset-item-button'))
-        .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_title_clear',
-                text: ' c '
-            })
-            .addClass('dataset-item-button'));
+            .prop('disabled', true)
+            .addClass('dataset-cancel-button dataset-disabled-button'));
 
     return obj;
 }
@@ -168,30 +169,30 @@ function wid_get_jq_ds_item_descr(ds) {
         
     obj.$input = $('<input/>', {
                 id: 'input_ds_' + ds.id + '_descr',
-                value: ds.title
+                value: ds.descr
             })
+            .prop('disabled', true)
             .attr('for', 'input_ds_' + ds.id + '_descr');
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_descr_edit',
-                text: ' e '
+                //id: 'div_ds_' + ds.id + '_descr_edit',
+                text: '(e)',
+                title: 'Edit'
             })
-            .addClass('dataset-item-button'))
+            .click(function() {
+                wid_click_ds(ds, 'edit', $(this));
+            })
+            .addClass('dataset-edit-button'))
         .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_descr_submit',
-                text: ' s '
+                text: '(c)',
+                title: 'Cancel'
             })
-            .addClass('dataset-item-button'))
-        .append($('<div/>', {
-                id: 'div_ds_' + ds.id + '_descr_clear',
-                text: ' c '
-            })
-            .addClass('dataset-item-button'));
+            .addClass('dataset-cancel-button dataset-disabled-button')
+            .prop('disabled', true));
 
     return obj;
 }
-
 
 function wid_get_jq_ds_item(ds) {
     var $obj = $('#div_ds_' + ds.id);
@@ -205,38 +206,14 @@ function wid_get_jq_ds_item(ds) {
         })
         .addClass('dataset-item-table');
     
-    $obj_data
-        .append($('<tr/>')
-            .append($('<td/>')
-                .css('width', '80px')
-                .append(title.$label ))
-            .append($('<td/>')
-                .css('width', '160px')
-                .append(title.$input ))
-            .append($('<td/>')
-                .css('width', '60px')
-                .append(title.$ctrl ))
-        );
-
-    $obj_data
-        .append($('<tr/>')
-            .append($('<td/>')
-                .css('width', '80px')
-                .append(descr.$label ))
-            .append($('<td/>')
-                .css('width', '160px')
-                .append(descr.$input ))
-            .append($('<td/>')
-                .css('width', '60px')
-                .append(descr.$ctrl ))
-        );
+    $obj_data = wid_get_ds_item_add_row($obj_data, title);
+    $obj_data = wid_get_ds_item_add_row($obj_data, descr);
 
     $obj_files = $obj_files.add($('<div/>', {
                 id: 'div_ds_' + ds.id + '_files',
             }));
 
     $obj.append($obj_data);
-    //$obj.append($obj_files);
 
     return $obj;
 }

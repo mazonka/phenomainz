@@ -447,6 +447,34 @@ function wid_nc_ds_create() {
     eng_nc_ds_create(cb, g_user_id);
 }
 
+function wid_nc_ds_title(ds_id, title) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
+        }
+
+        wid_nc_ds_list();
+    };
+
+    eng_nc_ds_title(cb, g_user_id, ds_id, title);
+}
+
+function wid_nc_ds_descr(ds_id, descr) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            return wid_modal_window(M_TXT.ERROR + resp, true);
+        }
+
+        wid_nc_ds_list();
+    };
+
+    eng_nc_ds_title(cb, g_user_id, ds_id, descr);
+}
+
 function wid_nc_ds_delete(ds_id) {
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
@@ -478,3 +506,75 @@ function wid_nc_ds_get(ds_id) {
     eng_nc_ds_get(cb, g_user_id, ds_id);
 }
 
+function wid_get_ds_item_add_row($obj, td) {
+    $obj
+        .append($('<tr/>')
+            .append($('<td/>')
+                .css('width', '80px')
+                .append(td.$label ))
+            .append($('<td/>')
+                .css('width', '160px')
+                .append(td.$input ))
+            .append($('<td/>')
+                .css('width', '60px')
+                .append(td.$ctrl ))
+        );
+        
+    return $obj;
+}
+
+function wid_click_ds(ds, cmd, $obj) {
+    let $input = $obj.closest('tr').find('input');
+    let $cancel = $obj.closest('tr').find('.dataset-cancel-button');
+    
+    $obj.off('click');
+    $cancel.off('click');
+    
+    switch (cmd) {
+        case 'edit':
+            
+            console.log('edit');
+            
+            $input.prop('disabled', false);
+            $cancel.removeClass('dataset-disabled-button');
+
+            $obj.html('(s)').attr('title', 'Submit');;
+            $obj.click(function () {
+                    wid_click_ds(ds, 'submit', $obj);
+                });
+
+            $cancel.click(function () {
+                wid_click_ds(ds, 'cancel', $obj);
+            });
+            break;
+        case 'submit':
+            console.log('submit');
+           
+            $input.prop('disabled', true);
+            $cancel.addClass('dataset-disabled-button');
+            
+            $obj.html('(e)').attr('title', 'Edit');
+            $obj.click(function () {
+                wid_click_ds(ds, 'edit', $obj);
+            });
+            
+            wid_nc_ds_title(ds.id, $input.val());
+            
+            break;
+        case 'cancel':
+            console.log('cancel');
+            
+            $cancel.off('click');
+            $input.prop('disabled', true);
+            $cancel.addClass('dataset-disabled-button');
+            
+            $obj.html('(e)').attr('title', 'Edit');;
+            $obj.click(function () {
+                wid_click_ds(ds, 'edit', $obj);
+            });
+            
+            break;
+        default:
+            return;
+    }
+}

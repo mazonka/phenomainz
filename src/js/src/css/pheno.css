@@ -146,12 +146,19 @@ button {
     text-align: left;
 }
 
-.dataset-item-button {
+
+.dataset-edit-button,
+.dataset-cancel-button {
     display: inline;
     cursor: pointer;
     color: red;
 }
     
+.dataset-disabled-button {
+    display: inline;
+    cursor: default;
+    color: gray;
+}
 /* Modal popup window */
 
 #div_modal_window {

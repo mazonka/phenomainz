@@ -96,6 +96,32 @@ function eng_nc_ds_delete(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
+function eng_nc_ds_title(ext_cb, user_id, ds_id, title) {
+    var cmd = [
+        'au', user_id, 'dataset', 'update', ds_id, 'title', window.btoa(title)
+    ].join(' ');
+    
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+
+function eng_nc_ds_descr(ext_cb, user_id, ds_id, descr) {
+    var cmd = [
+        'au', user_id, 'dataset', 'update', ds_id, 'descr', window.btoa(descr)
+    ].join(' ');
+    
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+
 function eng_nc_ds_get(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'dataset', 'get', ds_id].join(' ');
     var int_cb = function (data) {
