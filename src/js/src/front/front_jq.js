@@ -206,8 +206,8 @@ function wid_get_jq_ds_item(ds) {
         })
         .addClass('dataset-item-table');
     
-    $obj_data = wid_get_ds_item_add_row($obj_data, title);
-    $obj_data = wid_get_ds_item_add_row($obj_data, descr);
+    $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
+    $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
 
     $obj_files = $obj_files.add($('<div/>', {
                 id: 'div_ds_' + ds.id + '_files',
