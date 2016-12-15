@@ -132,6 +132,26 @@ button {
     text-align: left;
 }
 
+/* Datasets  */
+
+.dataset-item-table {
+	box-sizing: border-box;
+	border-collapse: collapse;
+    border: 1px solid #DDDDDD;
+	padding: 0;
+	width: auto;
+}
+
+.dataset-item-table td {
+    text-align: left;
+}
+
+.dataset-item-button {
+    display: inline;
+    cursor: pointer;
+    color: red;
+}
+    
 /* Modal popup window */
 
 #div_modal_window {
@@ -188,3 +208,5 @@ button {
     padding: 1px 1px;
     color: white;
 }
+
+

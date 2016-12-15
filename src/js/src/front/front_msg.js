@@ -3,7 +3,6 @@
 
 'use strict';
 
-
 const B_TXT = {
     PHENO: 'Phenomainz',
     GOOGLE: 'Google',
@@ -28,28 +27,28 @@ const L_TXT = {
     COUNTER: 'Logins counter: ',
     LAST_LOGIN: 'Last login: ',
     EMAIL: 'E-mail: ',
-    USER_NAME: 'User name: '    
+    USER_NAME: 'User name: '
 };
 
 const M_TXT = {
     ERROR: 'ERROR: ',
     RELOAD: 'Are you sure?',
     EMAIL: 'An email with link has been sent to ',
-    get FILE_IS_HUGE () { 
+    get FILE_IS_HUGE() {
         return this.ERROR + 'File is too big. Maximum file size is ' + G_MAX_FILE_SIZE + ' bytes';
     },
-    get FILE_IS_EMPTY () {
+    get FILE_IS_EMPTY() {
         return this.ERROR + 'File is empty';
     },
-    get FILE_READ_ERROR () {
+    get FILE_READ_ERROR() {
         return this.ERROR + 'File read error';
     },
-    get FILE_TYPE_ERR () {
+    get FILE_TYPE_ERR() {
         return this.ERROR + 'File type error';
     },
-    get TABLE_ERROR () {
+    get TABLE_ERROR() {
         return this.ERROR + 'Table error in line ';
-    } 
+    }
 };
 
 const PHENOD = {

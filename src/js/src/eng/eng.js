@@ -3,33 +3,29 @@
 
 'use strict';
 
-
 function eng_is_email(data) {
     return (/^[\w\.\d-_]+@[\w\.\d-_]+\.\w{2,6}$/i.test(data))
-        ? true
-        : false;
+     ? true
+     : false;
 }
 
-
 function eng_get_decoded_b64_arr(data) {
-    
+
     for (let i = 0, l = data.length; i < l; i++) {
         data[i] = window.atob(data[i]);
     }
-    
+
     return data;
 }
 
-
 function eng_get_encoded_b64_arr(data) {
-    
+
     for (let i = 0, l = data.length; i < l; i++) {
         data[i] = window.btoa(data[i]);
     }
-    
+
     return data;
 }
-
 
 function eng_open_file(file, cb_main, cb_progress) {
     var reader;
@@ -41,46 +37,46 @@ function eng_open_file(file, cb_main, cb_progress) {
     obj.error = 0;
     obj.raw = '';
     /*
-        file.error list:
-        0 - no error;
-        1 - no such file;
-        2 - empty file;
-        3 - File oversized;
-        4 - File not found;
-        5 - File not readable;
-        9 - Read error;
-    */
+    file.error list:
+    0 - no error;
+    1 - no such file;
+    2 - empty file;
+    3 - File oversized;
+    4 - File not found;
+    5 - File not readable;
+    9 - Read error;
+     */
 
     reader = new FileReader();
 
-    reader.onerror = reader.onabort = function error_handler (evt) {
+    reader.onerror = reader.onabort = function error_handler(evt) {
         // get window.event if evt argument missing (in IE)
         evt = evt || window.event;
 
         switch (evt.target.error.code) {
-            case evt.target.error.NOT_FOUND_ERR:
-                obj.error = 1;
-                break;
-            case evt.target.error.NOT_READABLE_ERR:
-                obj.error = 2;
-                break;
-            case evt.target.error.ABORT_ERR:
-                obj.error = 3;
-                break;
-            case evt.target.error.SECURITY_ERR:
-                obj.error = 4;
-                break;
-            case evt.target.error.ENCODING_ERR:
-                obj.error = 5;
-                break;
-            default:
-                obj.error = 9;
+        case evt.target.error.NOT_FOUND_ERR:
+            obj.error = 1;
+            break;
+        case evt.target.error.NOT_READABLE_ERR:
+            obj.error = 2;
+            break;
+        case evt.target.error.ABORT_ERR:
+            obj.error = 3;
+            break;
+        case evt.target.error.SECURITY_ERR:
+            obj.error = 4;
+            break;
+        case evt.target.error.ENCODING_ERR:
+            obj.error = 5;
+            break;
+        default:
+            obj.error = 9;
         }
         console.log('error');
         cb_main(obj);
     };
 
-    reader.onload = function onload_handler (data) {
+    reader.onload = function onload_handler(data) {
         var bytes = new Uint8Array(data.target.result);
         var len = bytes.byteLength;
 
@@ -91,7 +87,7 @@ function eng_open_file(file, cb_main, cb_progress) {
         cb_main(obj);
     };
 
-    reader.onprogress = function progress_handler (data) {
+    reader.onprogress = function progress_handler(data) {
         if (data.lengthComputable) {
             let loaded = parseInt(((data.loaded / data.total) * 100), 10);
             cb_progress(loaded);
@@ -110,7 +106,6 @@ function eng_open_file(file, cb_main, cb_progress) {
     //reader.readAsArrayBuffer(file.slice(0, size_lim));
     reader.readAsArrayBuffer(file);
 }
-
 
 function eng_is_table(data) {
     var row = [];
@@ -147,7 +142,6 @@ function eng_is_table(data) {
     return table;
 }
 
-
 function eng_get_main_response(data) {
     var resp = null;
     var msg = data.replace(/^\s+|\r|\s+$/g, '');
@@ -163,59 +157,55 @@ function eng_get_main_response(data) {
     return resp;
 }
 
-
 function eng_get_parsed_profile(data) {
     var profile = {};
-    profile.name =  profile.email = profile.lastdate = profile.counter = '';
-    
+    profile.name = profile.email = profile.lastdate = profile.counter = '';
+
     data = data.split('\u0020');
     profile.name = window.atob(data[1]);
     profile.email = data[2];
     profile.lastdate = data[3];
     profile.counter = data[4];
-    
+
     return profile;
 }
 
-
 function eng_is_valid_str(data) {
     var v = /[^0-9a-zA-Z_\-\(\)\u0020\u002a]+/i;
-    
+
     if (!Boolean(data)) {
         return false;
     }
-    
-    return !v.test(data);    
-}
 
+    return !v.test(data);
+}
 
 function eng_get_lastdate(data) {
     var lastdate = {};
     lastdate.ok = false;
     data = data || '';
-    
+
     if (typeof data !== 'string' ||
-            +data === 0 ||
-            data.length !== 14) {
+        +data === 0 ||
+        data.length !== 14) {
         return lastdate;
     }
-    
+
     lastdate.yyyy = data.substring(0, 4);
     lastdate.mm = data.substring(4, 6);
-    lastdate.dd = data.substring(6, 8); 
-    lastdate.h = data.substring(8, 10); 
-    lastdate.m = data.substring(10, 12); 
-    lastdate.s = data.substring(12); 
+    lastdate.dd = data.substring(6, 8);
+    lastdate.h = data.substring(8, 10);
+    lastdate.m = data.substring(10, 12);
+    lastdate.s = data.substring(12);
 
     lastdate.ok = true;
-    
-    return lastdate;    
-}
 
+    return lastdate;
+}
 
 function eng_get_ds_list(data) {
     var r = {};
-    
+
     data = data
         .replace(/^OK/g, '')
         .replace(/^\s|\r|\s+$/g, '')
@@ -224,23 +214,22 @@ function eng_get_ds_list(data) {
     r.n = +data.splice(0, 1)[0];
     r.id = data.splice(0, r.n);
     r.title = eng_get_decoded_b64_arr(data);
-    
+
     return r;
 }
 
-
 function eng_get_ds_get(data) {
     var ds = {};
-    
+
     data = data
         .replace(/^OK/g, '')
         .replace(/^\s|\r|\s+$/g, '')
         .split(/\s/);
-    
+
     ds.id = data[0];
     ds.title = window.atob(data[1]);
     ds.descr = window.atob(data[2]);
     ds.cat = data[3];
-    
+
     return ds;
 }

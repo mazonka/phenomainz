@@ -3,9 +3,7 @@
 
 'use strict';
 
-
-function wid_pulse()
-{
+function wid_pulse() {
     var counter = 0;
 
     return {
@@ -39,13 +37,9 @@ function wid_pulse()
     }
 }
 
-
-function img_preload(container)
-{
-    if (document.images)
-    {
-        for (let i = 0; i < container.length; i++)
-        {
+function img_preload(container) {
+    if (document.images) {
+        for (let i = 0; i < container.length; i++) {
             g_img_preload[i] = new Image();
             g_img_preload[i].onload = function () {};
             g_img_preload[i].src = container[i];
@@ -64,12 +58,12 @@ function wid_modal_window(data, click, func) {
 
     if (typeof data == 'string') {
         $obj = $('<p>', {
-            text: data
-        });
+                text: data
+            });
     } else {
         $obj = data;
     }
-    
+
     $content.width(width);
 
     close = function () {
@@ -116,7 +110,6 @@ function wid_modal_window(data, click, func) {
     $body.append($obj);
 }
 
-
 function wid_ui_logout() {
     $('#td_profile').hide();
     $('#td_admin').hide();
@@ -125,7 +118,7 @@ function wid_ui_logout() {
     $('#td_login').show();
 
     Boolean(g_user_id !== '0') && wid_modal_window('Session expired', true);
-    
+
     hello.init({
         facebook: FACEBOOK_CLIENT_ID,
         windows: WINDOWS_CLIENT_ID,
@@ -140,17 +133,15 @@ function wid_ui_logout() {
     });
 }
 
-
 function wid_ui_login() {
     $('#td_login').hide();
     $('#td_profile').show();
     $('#td_ds_ctrl').show();
     $('#td_ds_list').show();
-    
-    wid_nc_profile();
-    wid_nc_ds_list();    
-}
 
+    wid_nc_profile();
+    wid_nc_ds_list();
+}
 
 function wid_paint_borders($obj, color) {
     var borders = [
@@ -162,11 +153,10 @@ function wid_paint_borders($obj, color) {
 
     for (let i = 0; i < borders.length; i++) {
         (color !== undefined)
-            ? $obj.css(borders[i], color)
-            : $obj.css(borders[i], '');
+         ? $obj.css(borders[i], color)
+         : $obj.css(borders[i], '');
     }
 }
-
 
 function wid_open_file(files, $obj) {
     var file;
@@ -198,7 +188,7 @@ function wid_open_file(files, $obj) {
         ///console.log(file);
 
         wid_file_is_open(true);
-        
+
         $obj.click(function () {
             return wid_file_is_open(false);
         });
@@ -212,7 +202,7 @@ function wid_open_file(files, $obj) {
 
     file = files[0];
 
-    if (file.size > G_MAX_FILE_SIZE ) {
+    if (file.size > G_MAX_FILE_SIZE) {
         return wid_modal_window(M_TXT.FILE_IS_HUGE, true);
     }
 
@@ -223,7 +213,6 @@ function wid_open_file(files, $obj) {
     eng_open_file(file, cb_main, cb_progress);
 }
 
-
 function wid_file_is_open(toggle) {
     var $Input = $('#input_open_file');
     var $Label = $('#label_open_file');
@@ -233,12 +222,11 @@ function wid_file_is_open(toggle) {
         $Label.css('background', '#FF0000');
         $Label.hover(
             function () {
-                $(this).css('background', '#FF0000')
-            },
+            $(this).css('background', '#FF0000')
+        },
             function () {
-                $(this).css('background', '#FF0000')
-            }
-        );
+            $(this).css('background', '#FF0000')
+        });
     } else {
         $Input.attr('type', 'file');
         $Input.val('');
@@ -246,81 +234,75 @@ function wid_file_is_open(toggle) {
         $Label.css('background', '#FCFCFC');
         $Label.hover(
             function () {
-                $(this).css('background', '#87CEEB')
-            },
+            $(this).css('background', '#87CEEB')
+        },
             function () {
-                $(this).css('background', '#FCFCFC')
-            }
-        );
+            $(this).css('background', '#FCFCFC')
+        });
 
         return false;
     }
 }
 
-
 function wid_upload_file() {
     return false;
 }
-
 
 function wid_open_email_window() {
     wid_modal_window(wid_get_jq_user_email(), false);
 }
 
-
 function wid_input_email($obj) {
     var $btn = $('#button_user_email');
     var data = $obj.val();
-    
+
     if (eng_is_email(data)) {
         $btn.button('enable');
         wid_paint_borders($obj);
-        
+
         $obj.on('keypress', function (event) {
             Boolean(event.keyCode === 13) && wid_nc_login();
             $obj.off('keypress');
         });
     } else {
         (Boolean(data))
-            ? wid_paint_borders($obj, 'red')
-            : wid_paint_borders($obj);
-        
+         ? wid_paint_borders($obj, 'red')
+         : wid_paint_borders($obj);
+
         $btn.button('disable');
         $obj.off('keypress');
     }
 }
-
 
 function wid_open_profile_window($obj) {
     var name = $obj.html().substring(6);
     wid_modal_window(wid_get_jq_user_profile(name), false);
 }
 
-
 /*
 function wid_auth(auth_network) {
-    console.log(hello(auth_network).getAuthResponse());
-    hello.on('auth.login', function(auth) {
+console.log(hello(auth_network).getAuthResponse());
+hello.on('auth.login', function(auth) {
 
-        // Call user information, for the given network
-        hello(auth.network).api('me').then(function(r) {
-            // Inject it into the container
-            console.log(auth.network + ': ' + r.email);
-        });
-    });
+// Call user information, for the given network
+hello(auth.network).api('me').then(function(r) {
+// Inject it into the container
+console.log(auth.network + ': ' + r.email);
+});
+});
 
-    if (Boolean(hello(auth_network).getAuthResponse())) {
-        hello(auth_network).logout().then(function() {
-            console.log('Signed out: ' + auth_network);
-        }, function(e) {
-            console.log('Signed out error: ' + e.error.message);
-        });
-    } else {
-        hello(auth_network).login({scope: 'email'});
-    }
+if (Boolean(hello(auth_network).getAuthResponse())) {
+hello(auth_network).logout().then(function() {
+console.log('Signed out: ' + auth_network);
+}, function(e) {
+console.log('Signed out error: ' + e.error.message);
+});
+} else {
+hello(auth_network).login({scope: 'email'});
+}
 }
 
-*/
+ */
 
 function wid_nc_ping() {
     var cb = function (resp) {
@@ -336,7 +318,6 @@ function wid_nc_ping() {
     eng_nc_ping(cb, g_user_id, g_pulse);
 }
 
-
 function wid_nc_login() {
     var email = $('#input_user_email').val();
     var url = document.URL;
@@ -345,8 +326,8 @@ function wid_nc_login() {
         let msg;
 
         (resp == PHENOD.OK)
-            ? msg = M_TXT.EMAIL + email
-            : msg = M_TXT.ERROR + resp;
+         ? msg = M_TXT.EMAIL + email
+             : msg = M_TXT.ERROR + resp;
 
         wid_modal_window(msg, true);
     };
@@ -354,26 +335,26 @@ function wid_nc_login() {
     eng_nc_login(cb, email, url, g_pulse)
 }
 
-
 function wid_nc_logout() {
     var cb = function (data) {
         wid_modal_window(data, true);
     };
-    
+
     eng_nc_logout(cb, g_user_id, g_pulse)
 }
 
-
 function wid_nc_profile() {
     var cb = function (resp, profile) {
-        let r, date, time;
-        
+        let r,
+        date,
+        time;
+
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
+
         r = eng_get_lastdate(profile.lastdate);
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
@@ -381,7 +362,7 @@ function wid_nc_profile() {
         $('#div_profile_name').prepend(L_TXT.USER_NAME);
         $('#div_profile_name_name').html(profile.name);
         $('#div_profile_email').html(L_TXT.EMAIL + profile.email);
-        
+
         $('#div_profile_lastdate').html(L_TXT.LAST_LOGIN + date + ', ' + time);
         $('#div_profile_counter').html(L_TXT.COUNTER + profile.counter);
     };
@@ -389,13 +370,12 @@ function wid_nc_profile() {
     eng_nc_profile(cb, g_user_id, g_pulse);
 }
 
-
 function wid_input_name($obj) {
     var $btn = $('#button_user_name');
     var data = $obj.val();
-    
+
     data = data.replace(/^\s+|\s+$/g, '');
-    
+
     if (eng_is_valid_str(data)) {
         wid_paint_borders($obj);
 
@@ -410,12 +390,11 @@ function wid_input_name($obj) {
         } else {
             wid_paint_borders($obj);
         }
-        
+
         $btn.button('disable');
         $obj.off('keypress');
     }
 }
-
 
 function wid_nc_name() {
     var name = $('#input_user_name').val() || '*';
@@ -425,25 +404,24 @@ function wid_nc_name() {
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
+
         wid_nc_profile();
     };
 
     eng_nc_name(cb, g_user_id, name, g_pulse);
 }
 
-
 function wid_nc_ds_list() {
     var cb = function (resp, list) {
         let $td_ds_list = $('#td_ds_list');
         let $div;
-        
+
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
+
         $td_ds_list.children().remove();
 
         if (list !== null) {
@@ -451,10 +429,9 @@ function wid_nc_ds_list() {
             $td_ds_list.append($div);
         }
     };
- 
+
     eng_nc_ds_list(cb, g_user_id);
 }
-
 
 function wid_nc_ds_create() {
     var cb = function (resp) {
@@ -466,10 +443,9 @@ function wid_nc_ds_create() {
 
         wid_nc_ds_list();
     };
- 
+
     eng_nc_ds_create(cb, g_user_id);
 }
-
 
 function wid_nc_ds_delete(ds_id) {
     var cb = function (resp) {
@@ -478,13 +454,12 @@ function wid_nc_ds_delete(ds_id) {
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
+
         wid_nc_ds_list();
     };
- 
+
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
-
 
 function wid_nc_ds_get(ds_id) {
     var cb = function (resp, ds) {
@@ -493,29 +468,13 @@ function wid_nc_ds_get(ds_id) {
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
+
         
-        let $ds_content = $('#div_ds_' + ds_id + '_content');
-        let $div = $('<div>', {
-            text: 'title:' + ds.title + '| descr: ' + ds.descr + '| ?: ' + ds.cat
-        });
-
-        $ds_content.append($div);
-    };
- 
-    eng_nc_ds_get(cb, g_user_id, ds_id);
-}
-
-
-function wid_activate_ds(ds_id) {
-    let $ds;
-    let $ds_ctrl;
-    
-    $ds = $('#div_ds_' + ds_id + '_ctrl');
-    
-    if ($ds.html() == '') {
-        $ds_ctrl = wid_get_jq_ds_item_ctrl(ds_id);
-        $ds.append($ds_ctrl);
-        wid_nc_ds_get(ds_id);
+        let $ds_div = $('#div_ds_' + ds.id);
+        if ($ds_div.html() == '') {
+           $ds_div.append(wid_get_jq_ds_item(ds));    
+        };
     }
+    eng_nc_ds_get(cb, g_user_id, ds_id);
 }
 
