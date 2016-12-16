@@ -106,8 +106,7 @@ function wid_modal_window(data, click, func) {
     })
 
     $window.css('display', 'block');
-    $body.children().remove();
-    $body.append($obj);
+    $body.html($obj);
 }
 
 function wid_ui_logout() {
@@ -359,12 +358,10 @@ function wid_nc_profile() {
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
 
-        $('#div_profile_name').prepend(L_TXT.USER_NAME);
-        $('#div_profile_name_name').html(profile.name);
-        $('#div_profile_email').html(L_TXT.EMAIL + profile.email);
-
-        $('#div_profile_lastdate').html(L_TXT.LAST_LOGIN + date + ', ' + time);
-        $('#div_profile_counter').html(L_TXT.COUNTER + profile.counter);
+        $('#div_profile_name').find('div').html(profile.name);
+        $('#div_profile_email').find('div').html(profile.email);
+        $('#div_profile_lastdate').find('div').html(date + ', ' + time);
+        $('#div_profile_counter').find('div').html(profile.counter);
     };
 
     eng_nc_profile(cb, g_user_id, g_pulse);
@@ -456,6 +453,8 @@ function wid_nc_ds_title(ds_id, title) {
             wid_nc_ds_list();
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
+        
+        wid_nc_ds_get(ds_id, true);
     };
 
     eng_nc_ds_title(cb, g_user_id, ds_id, title);
@@ -469,6 +468,8 @@ function wid_nc_ds_descr(ds_id, descr) {
             wid_nc_ds_list();
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
+        
+        wid_nc_ds_get(ds_id, true);
     };
 
     eng_nc_ds_descr(cb, g_user_id, ds_id, descr);
@@ -479,30 +480,34 @@ function wid_nc_ds_delete(ds_id) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
-            wid_nc_ds_list();
-            return wid_modal_window(M_TXT.ERROR + resp, true);
+            wid_modal_window(M_TXT.ERROR + resp, true);
         }
 
-        wid_nc_ds_get(ds_id);
+        wid_nc_ds_list();
     };
 
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
 
-function wid_nc_ds_get(ds_id) {
+function wid_nc_ds_get(ds_id, update) {
     var cb = function (resp, ds) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-
         
         let $ds_div = $('#div_ds_' + ds.id);
-        if ($ds_div.html() == '') {
-           $ds_div.append(wid_get_jq_ds_item(ds));
+        
+        if (!Boolean($ds_div.html())) {
+            update = true;
+        }
+        
+        if (update) {
+            $ds_div.html(wid_get_jq_ds_item(ds));
         }
     }
+    
     eng_nc_ds_get(cb, g_user_id, ds_id);
 }
 
@@ -526,15 +531,12 @@ function wid_click_ds(ds, cmd, $obj) {
     var $input = $obj.closest('tr').find('input');
     var $cancel = $obj.closest('tr').find('.dataset-cancel-button');
     var ds_update_cmd = $obj.closest('tr').attr('data-id');
-    console.log(ds_update_cmd);
+
     $obj.off('click');
     $cancel.off('click');
     
     switch (cmd) {
         case 'edit':
-            
-            console.log('edit');
-            
             $input.prop('disabled', false);
             $cancel.removeClass('dataset-disabled-button');
 
@@ -546,10 +548,9 @@ function wid_click_ds(ds, cmd, $obj) {
             $cancel.click(function () {
                 wid_click_ds(ds, 'cancel', $obj);
             });
+            
             break;
         case 'submit':
-            console.log('submit');
-           
             $input.prop('disabled', true);
             $cancel.addClass('dataset-disabled-button');
             
@@ -566,8 +567,6 @@ function wid_click_ds(ds, cmd, $obj) {
             
             break;
         case 'cancel':
-            console.log('cancel');
-            
             $cancel.off('click');
             $input.prop('disabled', true);
             $cancel.addClass('dataset-disabled-button');

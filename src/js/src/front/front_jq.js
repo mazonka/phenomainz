@@ -114,7 +114,7 @@ function wid_get_jq_ds_list(l, ds_id, title) {
             var ds_id = ($(this).find('.ui-state-active').attr('data-id'));
 
             if (typeof ds_id !== 'undefined') {
-                wid_nc_ds_get(ds_id);
+                wid_nc_ds_get(ds_id, false);
             }
         }
     });
@@ -195,13 +195,9 @@ function wid_get_jq_ds_item_descr(ds) {
 }
 
 function wid_get_jq_ds_item(ds) {
-    var $obj = $('#div_ds_' + ds.id);
-    var $obj_data;
-    var $obj_files = $();
     var title = wid_get_jq_ds_item_title(ds);
     var descr = wid_get_jq_ds_item_descr(ds);
-    
-    $obj_data = $('<table/>', {
+    var $obj_data = $('<table/>', {
             id: 'table_ds_' + ds.id
         })
         .addClass('dataset-item-table');
@@ -209,13 +205,7 @@ function wid_get_jq_ds_item(ds) {
     $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
     $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
 
-    $obj_files = $obj_files.add($('<div/>', {
-                id: 'div_ds_' + ds.id + '_files',
-            }));
-
-    $obj.append($obj_data);
-
-    return $obj;
+    return $obj_data;
 }
 
 function wid_get_jq_ds_item_ctrl(ds_id) {
