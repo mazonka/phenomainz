@@ -122,6 +122,22 @@ function wid_get_jq_ds_list(l, ds_id, title) {
     return $obj;
 }
 
+function wid_get_jq_ds_item(ds) {
+    var title = wid_get_jq_ds_item_title(ds);
+    var descr = wid_get_jq_ds_item_descr(ds);
+    var del = wid_get_jq_ds_delete(ds.id);
+    var $obj_data = $('<table/>', {
+            id: 'table_ds_' + ds.id
+        })
+        .addClass('dataset-item-table');
+    
+    $obj_data = wid_get_ds_item_add_row_span($obj_data, del, 'delete');
+    $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
+    $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
+
+    return $obj_data;
+}
+
 function wid_get_jq_ds_item_title(ds) {
     var obj = {};
 
@@ -194,32 +210,14 @@ function wid_get_jq_ds_item_descr(ds) {
     return obj;
 }
 
-function wid_get_jq_ds_item(ds) {
-    var title = wid_get_jq_ds_item_title(ds);
-    var descr = wid_get_jq_ds_item_descr(ds);
-    var $obj_data = $('<table/>', {
-            id: 'table_ds_' + ds.id
-        })
-        .addClass('dataset-item-table');
-    
-    $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
-    $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
-
-    return $obj_data;
-}
-
-function wid_get_jq_ds_item_ctrl(ds_id) {
-    var $obj = $();
-
-    $obj = $obj.add($('<div/>'));
-
-    $obj.append($('<button/>', {
+function wid_get_jq_ds_delete(ds_id) {
+    var $obj = $('<button/>', {
             text: B_TXT.DS_DELETE,
             id: 'button_ds_delete_' + ds_id,
             click: function () {
                 wid_nc_ds_delete(ds_id);
             }
-        }).button());
+        }).button();
 
     return $obj;
 }

@@ -136,11 +136,14 @@ button {
 }
 
 /* Datasets  */
+h3 {
+    text-align: left;
+}
 
 .dataset-item-table {
 	box-sizing: border-box;
 	border-collapse: collapse;
-    border: 1px solid #DDDDDD;
+    /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: auto;
 }

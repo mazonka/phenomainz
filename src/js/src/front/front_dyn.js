@@ -527,6 +527,16 @@ function wid_get_ds_item_add_row($obj, td, data_id) {
     return $obj;
 }
 
+function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
+    $obj.append($('<tr/>')
+        .attr('data-id', data_id)
+        .append($('<td/>')
+            .attr('colspan', '3')
+            .append(td_data)));
+        
+    return $obj;
+}
+
 function wid_click_ds(ds, cmd, $obj) {
     var $input = $obj.closest('tr').find('input');
     var $cancel = $obj.closest('tr').find('.dataset-cancel-button');
