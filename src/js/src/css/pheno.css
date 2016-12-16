@@ -14,7 +14,8 @@ body {
     box-sizing: border-box;
 }
 
-input {
+input,
+textarea {
     margin: 4px;
 }
 
@@ -146,12 +147,20 @@ h3 {
     /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: auto;
+    /* min-width: 600px; */
 }
 
 .dataset-item-table td {
     text-align: left;
+    min-width: auto;
 }
 
+.dataset-item-table input,
+.dataset-item-table textarea {
+    width: 100%;
+    padding: 1px;
+    margin: 0px;
+}
 
 .dataset-edit-button,
 .dataset-cancel-button {

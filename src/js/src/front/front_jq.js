@@ -141,18 +141,17 @@ function wid_get_jq_ds_item(ds) {
 function wid_get_jq_ds_item_title(ds) {
     var obj = {};
 
-    obj.$label = $('<label/>', {
+    obj.$name = $('<label/>', {
                 id: 'label_ds_' + ds.id + '_title',
                 text: 'Title'
             })
             .attr('for', 'input_ds_' + ds.id + '_title');
         
-    obj.$input = $('<input/>', {
+    obj.$val = $('<input/>', {
                 id: 'input_ds_' + ds.id + '_title',
                 value: ds.title
             })
-            .prop('disabled', true)
-            .attr('for', 'input_ds_' + ds.id + '_title');
+            .prop('disabled', true);
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
@@ -161,7 +160,7 @@ function wid_get_jq_ds_item_title(ds) {
                 title: 'Edit'
             })
             .click(function() { 
-                wid_click_ds(ds, 'edit', $(this));
+                wid_click_ds_ctrl(ds, 'edit', $(this));
             })
             .addClass('dataset-edit-button'))
         .append($('<div/>', {
@@ -177,18 +176,17 @@ function wid_get_jq_ds_item_title(ds) {
 function wid_get_jq_ds_item_descr(ds) {
     var obj = {};
 
-    obj.$label = $('<label/>', {
+    obj.$name = $('<label/>', {
                 id: 'label_ds_' + ds.id + '_descr',
                 text: 'Description'
             })
             .attr('for', 'input_ds_' + ds.id + '_descr');
         
-    obj.$input = $('<input/>', {
-                id: 'input_ds_' + ds.id + '_descr',
-                value: ds.descr
+    obj.$val = $('<textarea/>', {
+                id: 'textarea_ds_' + ds.id + '_descr',
+                val: ds.descr
             })
             .prop('disabled', true)
-            .attr('for', 'input_ds_' + ds.id + '_descr');
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
@@ -197,7 +195,7 @@ function wid_get_jq_ds_item_descr(ds) {
                 title: 'Edit'
             })
             .click(function() {
-                wid_click_ds(ds, 'edit', $(this));
+                wid_click_ds_ctrl(ds, 'edit', $(this));
             })
             .addClass('dataset-edit-button'))
         .append($('<div/>', {

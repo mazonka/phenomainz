@@ -489,26 +489,25 @@ function wid_nc_ds_delete(ds_id) {
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
 
-function wid_nc_ds_get(ds_id, update) {
+function wid_nc_ds_get(ds_id, force) {
+    var $ds_div = $('#div_ds_' + ds_id);
     var cb = function (resp, ds) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true);
         }
-        
-        let $ds_div = $('#div_ds_' + ds.id);
-        
-        if (!Boolean($ds_div.html())) {
-            update = true;
-        }
-        
-        if (update) {
-            $ds_div.html(wid_get_jq_ds_item(ds));
-        }
+      
+        $ds_div.html(wid_get_jq_ds_item(ds));
     }
     
-    eng_nc_ds_get(cb, g_user_id, ds_id);
+    if (!Boolean($ds_div.html())) {
+        force = true;
+    }    
+    
+    if (force) {
+        eng_nc_ds_get(cb, g_user_id, ds_id);
+    }
 }
 
 function wid_get_ds_item_add_row($obj, td, data_id) {
@@ -516,10 +515,10 @@ function wid_get_ds_item_add_row($obj, td, data_id) {
         .attr('data-id', data_id)
         .append($('<td/>')
             .css('width', '80px')
-            .append(td.$label))
+            .append(td.$name))
         .append($('<td/>')
             .css('width', '160px')
-            .append(td.$input))
+            .append(td.$val))
         .append($('<td/>')
             .css('width', '60px')
             .append(td.$ctrl)));
@@ -537,54 +536,64 @@ function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
     return $obj;
 }
 
-function wid_click_ds(ds, cmd, $obj) {
+function wid_click_ds_ctrl(ds, cmd, $obj) {
     var $input = $obj.closest('tr').find('input');
+    var $textarea = $obj.closest('tr').find('textarea');
     var $cancel = $obj.closest('tr').find('.dataset-cancel-button');
     var ds_update_cmd = $obj.closest('tr').attr('data-id');
-
+    
     $obj.off('click');
     $cancel.off('click');
     
     switch (cmd) {
         case 'edit':
-            $input.prop('disabled', false);
+            Boolean($input) && $input.prop('disabled', false);
+            Boolean($textarea) && $textarea.prop('disabled', false);
             $cancel.removeClass('dataset-disabled-button');
 
             $obj.html('(s)').attr('title', 'Submit');;
             $obj.click(function () {
-                    wid_click_ds(ds, 'submit', $obj);
+                    wid_click_ds_ctrl(ds, 'submit', $obj);
                 });
 
             $cancel.click(function () {
-                wid_click_ds(ds, 'cancel', $obj);
+                wid_click_ds_ctrl(ds, 'cancel', $obj);
             });
             
             break;
         case 'submit':
-            $input.prop('disabled', true);
+            Boolean($input) && $input.prop('disabled', true);
+            Boolean($textarea) && $textarea.prop('disabled', true);
+            
             $cancel.addClass('dataset-disabled-button');
             
             $obj.html('(e)').attr('title', 'Edit');
+            
             $obj.click(function () {
-                wid_click_ds(ds, 'edit', $obj);
+                wid_click_ds_ctrl(ds, 'edit', $obj);
             });
             
             if (ds_update_cmd == 'title') {
                 wid_nc_ds_title(ds.id, $input.val());
             } else if (ds_update_cmd == 'descr') {
-                wid_nc_ds_descr(ds.id, $input.val());
+                wid_nc_ds_descr(ds.id, $textarea.val());
             }
             
             break;
         case 'cancel':
             $cancel.off('click');
-            $input.prop('disabled', true);
+            Boolean($input) && $input.prop('disabled', true);
+            Boolean($textarea) && $textarea.prop('disabled', true);
             $cancel.addClass('dataset-disabled-button');
             
-            $obj.html('(e)').attr('title', 'Edit');;
+            
+            $obj.html('(e)').attr('title', 'Edit');
+            wid_nc_ds_get(ds.id, true);
+            
             $obj.click(function () {
-                wid_click_ds(ds, 'edit', $obj);
+                wid_click_ds_ctrl(ds, 'edit', $obj);
             });
+            
             
             break;
         default:
