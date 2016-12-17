@@ -258,7 +258,7 @@ string Phdb::dataset_get(string prid, string daid)
 
     string caid = star(rc[4], "0");
 
-    if ( caid == "0" ) r += "*";
+    if ( caid == "0" ) r += ":";
     else
     {
         string cat_names;
@@ -296,7 +296,7 @@ string Phdb::dataset_get(string prid, string daid)
     r += ' ';
 
     if ( result.size() == 0 )
-        r += "*";
+        r += ":";
     else
     {
         result.erase(result.begin());
