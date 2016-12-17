@@ -224,10 +224,6 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     Dbo db;
     string ss = "update datas set $1='$2' where prid='$3' and id='$4';";
 
-    ///gl::replaceAll(ss, "$1", field);
-    ///gl::replaceAll(ss, "$2", val);
-    ///gl::replaceAll(ss, "$3", prid);
-    ///gl::replaceAll(ss, "$4", daid);
     args(ss, field, val, prid, daid);
 
     db.execth(ss);
@@ -237,8 +233,6 @@ string Phdb::dataset_get(string prid, string daid)
 {
     Dbo db;
     string ss = "select * from datas where prid='$1' and id='$2';";
-    ///gl::replaceAll(ss, "$3", prid);
-    ///gl::replaceAll(ss, "$4", daid);
     args(ss, prid, daid);
     db.execth(ss);
 
@@ -260,7 +254,68 @@ string Phdb::dataset_get(string prid, string daid)
     r += star(rc[0]) + ' '; // daid
     r += star(rc[2]) + ' '; // title
     r += star(rc[3]) + ' '; // descr
-    r += star(rc[4], "0");
+    //r += star(rc[4], "0");
+
+    string caid = star(rc[4], "0");
+
+    if ( caid == "0" ) r += "*";
+    else
+    {
+		string cat_names;
+        while (caid != "0")
+        {
+            ss = "select name,caid from categ where id='$1';";
+            args(ss, caid);
+            db.execth(ss);
+		    if ( db.result.size() != 2 )
+		    {
+		        os::Cout() << "Phdb::dataset_get failed - 2" << os::endl;
+				cat_names = "*";
+		        break;
+		    }
+
+		    gl::vstr rc = *(++db.result.begin());
+
+		    if ( rc.size() != 2 ) // name, caid
+		        throw gl::ex("Phdb::dataset_get - bad size");
+
+			caid = star(rc[1],"0");
+		    string name = star(rc[0]);
+			cat_names += ":" + name;	
+        }
+
+		r += cat_names;
+    } // caid
+
+	ss = "select keid from keyds where daid='$1';";
+    args(ss, daid);
+    db.execth(ss);
+
+	auto result = db.result;
+
+	r += ' ';
+
+    if ( result.size() == 0 )
+		r += "*";
+	else
+    {
+	    result.erase(result.begin());
+		
+	    for ( auto & rc : result )
+	    {
+	        if ( rc.size() != 1 )
+	            throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 3");
+
+	        string keid = rc[0];
+
+			ss = "select keyw from klist where id='"+keid+"';";
+		    args(ss, daid);
+		    db.execth(ss);
+		    gl::vstr rx = *(++db.result.begin());
+		    if ( rx.size() != 1 ) continue;
+			r += ":"+rx[0];
+	    }
+    }
 
     return r;
 }

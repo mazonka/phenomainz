@@ -14,7 +14,8 @@ OK
 OK
 OK 1 2 YWJj
 =================================== get
-OK 2 YWJj MTIzNDU2Nzg5MA== 0
+OK 2 YWJj MTIzNDU2Nzg5MA== * *
 OK
-OK 2 YWJj MTIzNDU2Nzg5MA== 1
+Phdb::dataset_get failed - 2
+OK 2 YWJj MTIzNDU2Nzg5MA== * *
 =================================== done
