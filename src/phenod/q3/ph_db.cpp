@@ -270,7 +270,7 @@ string Phdb::dataset_get(string prid, string daid)
             if ( db.result.size() != 2 )
             {
                 os::Cout() << "Phdb::dataset_get failed - 2" << os::endl;
-                cat_names = "*";
+                cat_names = ":";
                 break;
             }
 
