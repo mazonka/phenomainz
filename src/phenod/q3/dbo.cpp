@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "os_filesys.h"
 #include "gl_utils.h"
@@ -30,6 +31,17 @@ Dbo::Dbo(const string & name):
 bool Dbo::exec(const string & cmd)
 {
     gl::vstr arr = gl::str2vstr(cmd, ';');
+
+    if (LOG)
+    {
+        if ( !SEL && arr.size() == 1 && cmd.size() > 6
+                && cmd.substr(0, 6) == "select" ) {}
+        else
+        {
+            std::ofstream of("dbo.log", std::ios::app);
+            of << cmd << '\n';
+        }
+    }
 
     if ( arr.size() == 1 )
     {

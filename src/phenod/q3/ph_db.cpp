@@ -11,9 +11,9 @@
 #include "dbo.h"
 #include "ph_db.h"
 
-inline string star(string s, string d="Kg==") 
-{ 
-	return s.empty() ? d : s; 
+inline string star(string s, string d = "Kg==")
+{
+    return s.empty() ? d : s;
 }
 
 inline void dump(bool y, Dbo & db)
@@ -229,7 +229,7 @@ string Phdb::dataset_get(string prid, string daid)
     gl::replaceAll(ss, "$4", daid);
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
 
-    dump(0,db);
+    dump(0, db);
 
     if ( db.result.size() != 2 )
     {
@@ -247,7 +247,7 @@ string Phdb::dataset_get(string prid, string daid)
     r += star(rc[0]) + ' '; // daid
     r += star(rc[2]) + ' '; // title
     r += star(rc[3]) + ' '; // descr
-    r += star(rc[4],"0");
+    r += star(rc[4], "0");
 
     return r;
 }

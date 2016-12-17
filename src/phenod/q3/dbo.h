@@ -30,6 +30,9 @@ typedef std::list< std::vector<string> > Table;
 
 class Dbo
 {
+        static const bool LOG = true;
+        static const bool SEL = true;
+
         sqlite3 * db;
         char * zErrMsg;
         int zErrNum;
