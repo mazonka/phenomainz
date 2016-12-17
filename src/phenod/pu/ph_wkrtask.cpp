@@ -248,5 +248,19 @@ string Worker2::phadmin(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK);
     }
 
-    return er::Code(er::OK);
+    else if ( cmd == "ping" ) return er::Code(er::OK);
+
+    else if ( cmd == "addcat" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str()+" 255";
+        string cat = tok.sub();
+
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str()+" 258";
+        string par = tok.sub();
+
+        aa.phdb.cat_new(cat, par);
+        return er::Code(er::OK);
+    }
+
+    return er::Code(er::REQ_MSG_BAD).str()+" ["+cmd+"]";
 }

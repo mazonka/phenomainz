@@ -21,6 +21,9 @@ struct Profile
 class Phdb
 {
         void schema();
+        static void args(string & ss, string s1, string s2 = "",
+                         string s3 = "", string s4 = "", string s5="");
+
     public:
         bool get_by_email(string email, Profile & pr);
         bool new_email(string email);
@@ -35,6 +38,7 @@ class Phdb
         string keywords();
         void keyw_new(string kw);
         void keyw_ch(string kwo, string kwn);
+        void cat_new(string cat, string par);
 };
 
 #endif

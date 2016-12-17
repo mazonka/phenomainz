@@ -29,6 +29,15 @@ inline void dump(bool y, Dbo & db)
     }
 }
 
+void Phdb::args(string & ss, string s1, string s2, string s3, string s4, string s5)
+{
+    gl::replaceAll(ss, "$1", s1);
+    if( s2.empty() ) return; gl::replaceAll(ss, "$2", s2);
+    if( s3.empty() ) return; gl::replaceAll(ss, "$3", s3);
+    if( s4.empty() ) return; gl::replaceAll(ss, "$4", s4);
+    if( s5.empty() ) return; gl::replaceAll(ss, "$5", s5);
+}
+
 bool Phdb::get_by_email(string email, Profile & pr)
 {
     if ( !os::isFile(Dbo::dbname) ) return false;
@@ -73,7 +82,7 @@ bool Phdb::new_email(string email)
     Dbo db;
 
     string ss = "insert into users (mail,cntr) values ('" + email + "','0')";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 
     string id = db.getid("users", "mail", email);
 
@@ -97,7 +106,7 @@ void Phdb::schema()
          "name TEXT, mail TEXT, last TEXT, cntr TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE dataset (id INTEGER PRIMARY KEY, prid TEXT, "
+    ss = "CREATE TABLE datas (id INTEGER PRIMARY KEY, prid TEXT, "
          "title TEXT, descr TEXT, categ TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
@@ -107,7 +116,7 @@ void Phdb::schema()
     ss = "CREATE TABLE klist (id INTEGER PRIMARY KEY, keyw TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE keywd (id INTEGER PRIMARY KEY, daid TEXT, keid TEXT);";
+    ss = "CREATE TABLE keyds (id INTEGER PRIMARY KEY, daid TEXT, keid TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "COMMIT;";
@@ -139,7 +148,7 @@ bool Phdb::update_name(const Profile & pr, string nn)
 
     Dbo db;
     string ss = "update users set name='" + nn + "' where id='" + pr.prid + "'";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
     return true;
 }
 
@@ -148,17 +157,17 @@ void Phdb::access(string em)
     Dbo db;
     string tim  = os::Timer::getGmd() + os::Timer::getHms();
     string ss = "update users set last='" + tim + "' where mail='" + em + "'";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 
     ss = "update users set cntr=cntr+1 where mail='" + em + "'";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 }
 
 void Phdb::dataset_new(string prid)
 {
     Dbo db;
-    string ss = "insert into dataset (prid) values ('" + prid + "')";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    string ss = "insert into datas (prid) values ('" + prid + "')";
+    db.execth(ss);
 }
 
 
@@ -166,8 +175,8 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 {
     Dbo db;
 
-    string ss = "select id,title from dataset where prid='" + prid + "'";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    string ss = "select id,title from datas where prid='" + prid + "'";
+    db.execth(ss);
 
     if ( db.result.empty() ) return 0;
 
@@ -193,9 +202,9 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 void Phdb::dataset_del(string prid, string daid)
 {
     Dbo db;
-    string ss = "delete from dataset where prid='"
+    string ss = "delete from datas where prid='"
                 + prid + "' and id='" + daid + "';";
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 }
 
 void Phdb::dataset_upd(string prid, string daid, string field, string val)
@@ -213,23 +222,23 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     }
 
     Dbo db;
-    string ss = "update dataset set $1='$2' where prid='$3' and id='$4';";
+    string ss = "update datas set $1='$2' where prid='$3' and id='$4';";
 
     gl::replaceAll(ss, "$1", field);
     gl::replaceAll(ss, "$2", val);
     gl::replaceAll(ss, "$3", prid);
     gl::replaceAll(ss, "$4", daid);
 
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 }
 
 string Phdb::dataset_get(string prid, string daid)
 {
     Dbo db;
-    string ss = "select * from dataset where prid='$3' and id='$4';";
+    string ss = "select * from datas where prid='$3' and id='$4';";
     gl::replaceAll(ss, "$3", prid);
     gl::replaceAll(ss, "$4", daid);
-    if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
+    db.execth(ss);
 
     dump(0, db);
 
@@ -306,9 +315,30 @@ void Phdb::keyw_ch(string kwo, string kwn)
     Dbo db;
     string ss = "update klist set keyw='$1' where keyw='$2';";
 
-    gl::replaceAll(ss, "$1", kwn);
-    gl::replaceAll(ss, "$2", kwo);
+    ///gl::replaceAll(ss, "$1", kwn);
+    ///gl::replaceAll(ss, "$2", kwo);
+    args(ss,kwn,kwo);
 
+    db.execth(ss);
+}
+
+void Phdb::cat_new(string cat, string par)
+{
+    if ( !gl::isb64(cat) || !gl::isb64(par) )
+    {
+        os::Cout() << "Bad args in Phdb::cat_new[" << cat << "]" << os::endl;
+        return;
+    }
+
+    Dbo db;
+    string ss = "select name from categ where name='$1' and caid='$2'";
+    args(ss, cat, par);
+    db.execth(ss);
+
+    if ( !db.result.empty() ) return;
+
+    ss = "insert into categ (name,caid) values ('$1','$2')";
+    args(ss, cat, par);
     db.execth(ss);
 }
 

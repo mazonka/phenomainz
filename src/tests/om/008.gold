@@ -13,7 +13,10 @@ AAA349 Aob: 20232512c272da3f 2
 cmd: phmail login admin@server.com http://aaa.bbb/home?20232512c272da3f
 [N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?20232512c272da3f]
 OK
-=== admin
+=== admin ping
+REQ_MSG_BAD [xing]
+OK
+=== admin keywords
 OK
 OK
 OK 2 MTIzNDU2Nzg5MA== YWJj
@@ -21,4 +24,14 @@ OK
 OK 2 Kg== YWJj
 OK
 OK 2 Kg== YWJj
+===================================
+=== admin categs
+OK
+===================================
+REQ_MSG_BAD [chcat]
+REQ_MSG_BAD
+REQ_MSG_BAD
+REQ_MSG_BAD
+OK
+REQ_MSG_BAD
 ===================================
