@@ -1,0 +1,22 @@
+set date "20001122"
+set time "001122"
+
+print [ === login ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === admin keywords ]
+print tcp self [ au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 admin addkw YWJj ]
+print tcp self [ au 96db1e5f246844c9 keywords ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds addkw 1 YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds delkw 1 YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print [ =================================== ]
+
+print [ === admin categories ]
+print [ =================================== ]
+
+quit

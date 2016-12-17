@@ -1,0 +1,18 @@
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=== admin keywords
+OK
+OK
+OK 2 MTIzNDU2Nzg5MA== YWJj
+OK
+OK 1 Kg== Kg== * *
+REQ_MSG_BAD
+OK 1 Kg== Kg== * *
+REQ_MSG_BAD
+OK 1 Kg== Kg== * *
+===================================
+=== admin categories
+===================================
