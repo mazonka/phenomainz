@@ -119,16 +119,16 @@ function wid_ui_logout() {
     Boolean(g_user_id !== '0') && wid_modal_window('Session expired', true);
 
     hello.init({
-        facebook: FACEBOOK_CLIENT_ID,
-        windows: WINDOWS_CLIENT_ID,
+        //facebook: FACEBOOK_CLIENT_ID,
+        //windows: WINDOWS_CLIENT_ID,
         google: GOOGLE_CLIENT_ID,
-        linkedin: LINKEDIN_CLIENT_ID
-    }, {
+        //linkedin: LINKEDIN_CLIENT_ID
+    } , {
         redirect_uri: 'redirect.html',
-        response_type: 'code',
-        force: true,
+       /*  //response_type: 'code',
+        //force: true,
         scope: 'email',
-        display: 'page'
+        display: 'popup' */
     });
 }
 
@@ -278,30 +278,31 @@ function wid_open_profile_window($obj) {
     wid_modal_window(wid_get_jq_user_profile(name), false);
 }
 
-/*
+
 function wid_auth(auth_network) {
-console.log(hello(auth_network).getAuthResponse());
-hello.on('auth.login', function(auth) {
+    //console.log(hello(auth_network).getAuthResponse());
+    hello.on('auth', function (auth) {
+        console.log('in cb');
+        console.log(auth_network);
+        // Call user information, for the given network
+        hello(auth_network).api('me').then(function (r) {
+            // Inject it into the container
+            console.log(auth_network + ': ' + r.email);
+        });
+    });
 
-// Call user information, for the given network
-hello(auth.network).api('me').then(function(r) {
-// Inject it into the container
-console.log(auth.network + ': ' + r.email);
-});
-});
-
-if (Boolean(hello(auth_network).getAuthResponse())) {
-hello(auth_network).logout().then(function() {
-console.log('Signed out: ' + auth_network);
-}, function(e) {
-console.log('Signed out error: ' + e.error.message);
-});
-} else {
-hello(auth_network).login({scope: 'email'});
+    if (Boolean(hello(auth_network).getAuthResponse())) {
+        hello(auth_network).logout().then(function () {
+            console.log('Signed out: ' + auth_network);
+        }, function (e) {
+            console.log('Signed out error: ' + e.error.message);
+        });
+    } else {
+        hello(auth_network).login({
+            scope: 'email'
+        });
+    }
 }
-}
-
- */
 
 function wid_nc_ping() {
     var cb = function (resp) {
@@ -508,32 +509,6 @@ function wid_nc_ds_get(ds_id, force) {
     if (force) {
         eng_nc_ds_get(cb, g_user_id, ds_id);
     }
-}
-
-function wid_get_ds_item_add_row($obj, td, data_id) {
-    $obj.append($('<tr/>')
-        .attr('data-id', data_id)
-        .append($('<td/>')
-            .css('width', '80px')
-            .append(td.$name))
-        .append($('<td/>')
-            .css('width', '160px')
-            .append(td.$val))
-        .append($('<td/>')
-            .css('width', '60px')
-            .append(td.$ctrl)));
-        
-    return $obj;
-}
-
-function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
-    $obj.append($('<tr/>')
-        .attr('data-id', data_id)
-        .append($('<td/>')
-            .attr('colspan', '3')
-            .append(td_data)));
-        
-    return $obj;
 }
 
 function wid_click_ds_ctrl(ds, cmd, $obj) {

@@ -125,7 +125,9 @@ function wid_get_jq_ds_list(l, ds_id, title) {
 function wid_get_jq_ds_item(ds) {
     var title = wid_get_jq_ds_item_title(ds);
     var descr = wid_get_jq_ds_item_descr(ds);
+    var cat = wid_get_jq_ds_item_cat(ds);
     var del = wid_get_jq_ds_delete(ds.id);
+    
     var $obj_data = $('<table/>', {
             id: 'table_ds_' + ds.id
         })
@@ -134,8 +136,36 @@ function wid_get_jq_ds_item(ds) {
     $obj_data = wid_get_ds_item_add_row_span($obj_data, del, 'delete');
     $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
     $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
+    $obj_data = wid_get_ds_item_add_row($obj_data, cat, 'cat');
 
     return $obj_data;
+}
+
+
+function wid_get_ds_item_add_row($obj, td, data_id) {
+    $obj.append($('<tr/>')
+        .attr('data-id', data_id)
+        .append($('<td/>')
+            .css('width', '80px')
+            .append(td.$name))
+        .append($('<td/>')
+            .css('width', '160px')
+            .append(td.$val))
+        .append($('<td/>')
+            .css('width', '60px')
+            .append(td.$ctrl)));
+        
+    return $obj;
+}
+
+function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
+    $obj.append($('<tr/>')
+        .attr('data-id', data_id)
+        .append($('<td/>')
+            .attr('colspan', '3')
+            .append(td_data)));
+        
+    return $obj;
 }
 
 function wid_get_jq_ds_item_title(ds) {
@@ -186,7 +216,7 @@ function wid_get_jq_ds_item_descr(ds) {
                 id: 'textarea_ds_' + ds.id + '_descr',
                 val: ds.descr
             })
-            .prop('disabled', true)
+            .prop('disabled', true);
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
@@ -206,6 +236,43 @@ function wid_get_jq_ds_item_descr(ds) {
             .prop('disabled', true));
 
     return obj;
+}
+
+
+function wid_get_jq_ds_item_cat(ds) {
+    var obj = {};
+    var s;
+    
+    obj.$name = $('<label/>', {
+                id: 'label_ds_' + ds.id + '_cat',
+                text: 'Category'
+            });
+    
+    s = '[' + ds.cat.reverse().join('/') + ']';
+    
+    obj.$val = $('<span/>', {
+                id: 'span_ds_' + ds.id + '_cat',
+                text: s
+    })
+
+    obj.$ctrl = $('<div/>')
+        .append($('<div/>', {
+                text: '(e)',
+                title: 'Edit'
+            })
+            .click(function() {
+                wid_click_ds_ctrl(ds, 'edit', $(this));
+            })
+            .addClass('dataset-edit-button'))
+        .append($('<div/>', {
+                text: '(c)',
+                title: 'Cancel'
+            })
+            .addClass('dataset-cancel-button dataset-disabled-button')
+            .prop('disabled', true));
+            
+    return obj;
+    
 }
 
 function wid_get_jq_ds_delete(ds_id) {
