@@ -138,7 +138,6 @@ bool Phdb::update_name(const Profile & pr, string nn)
     }
 
     Dbo db;
-    ///nn = ma::b64dec(nn);
     string ss = "update users set name='" + nn + "' where id='" + pr.prid + "'";
     if ( !db.exec(ss) ) throw "SQL failed [" + ss + "]";
     return true;
@@ -253,5 +252,63 @@ string Phdb::dataset_get(string prid, string daid)
     r += star(rc[4], "0");
 
     return r;
+}
+
+string Phdb::keywords()
+{
+    Dbo db;
+    string r;
+
+    string ss = "select keyw from klist";
+    db.execth(ss);
+
+    if ( db.result.empty() ) return "0";
+
+    if ( db.result.size() < 2 )
+        throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 2");
+
+    db.result.erase(db.result.begin());
+
+    r += gl::tos(db.result.size());
+
+    for ( auto & rc : db.result )
+    {
+        if ( rc.size() != 1 )
+            throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 3");
+
+        r += ' ';
+        r += star(rc[0]);
+    }
+
+    return r;
+}
+
+void Phdb::keyw_new(string kw)
+{
+    if ( !gl::isb64(kw) )
+    {
+        os::Cout() << "Bad kw in Phdb::keyw_new [" << kw << "]" << os::endl;
+        return;
+    }
+
+    Dbo db;
+    string ss = "select keyw from klist where keyw='" + kw + "'";
+    db.execth(ss);
+
+    if ( !db.result.empty() ) return;
+
+    ss = "insert into klist (keyw) values ('" + kw + "')";
+    db.execth(ss);
+}
+
+void Phdb::keyw_ch(string kwo, string kwn)
+{
+    Dbo db;
+    string ss = "update klist set keyw='$1' where keyw='$2';";
+
+    gl::replaceAll(ss, "$1", kwn);
+    gl::replaceAll(ss, "$2", kwo);
+
+    db.execth(ss);
 }
 

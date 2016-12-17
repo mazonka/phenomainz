@@ -32,6 +32,9 @@ class Phdb
         void dataset_del(string prid, string daid);
         void dataset_upd(string prid, string daid, string field, string val);
         string dataset_get(string prid, string daid);
+        string keywords();
+        void keyw_new(string kw);
+        void keyw_ch(string kwo, string kwn);
 };
 
 #endif

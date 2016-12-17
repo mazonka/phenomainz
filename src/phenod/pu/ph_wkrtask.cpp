@@ -122,6 +122,9 @@ string Worker2::ph_aucmd()
         else if ( cmd == "admin" || cmd == "a" )
             return phadmin(aa, ao);
 
+        else if ( cmd == "keywords" )
+            return er::Code(er::OK).str() + ' ' + aa.phdb.keywords();
+
     } // mutex
 
     if (0) {}
@@ -218,6 +221,31 @@ string Worker2::phadmin(AutArea & aa, const AutObject & ao)
                    << tok.c_str() << "]" << os::endl;
 
         return er::Code(er::AUTH);
+    }
+
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+    string cmd = tok.sub();
+
+    if (0) {}
+
+    else if ( cmd == "addkw" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string kw = tok.sub();
+
+        aa.phdb.keyw_new(kw);
+        return er::Code(er::OK);
+    }
+
+    else if ( cmd == "chkw" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string kwo = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string kwn = tok.sub();
+
+        aa.phdb.keyw_ch(kwo, kwn);
+        return er::Code(er::OK);
     }
 
     return er::Code(er::OK);

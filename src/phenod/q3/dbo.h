@@ -75,6 +75,11 @@ class Dbo
         //! @p cmd command, e.g. "select * from tbl"
         //! @r true if success, false if not (use err() to get error message)
         bool exec(const string & cmd);
+        void execth(const string & ss)
+        {
+            if ( !exec(ss) )
+                throw "SQL failed [" + ss + "]";
+        }
 
         //! @b obtain last error message
         //! @r message

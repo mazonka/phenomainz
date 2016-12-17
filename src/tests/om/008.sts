@@ -1,5 +1,5 @@
 #!/bin/sh
-# test categories
+# test admin and keywords
 
 in=$(basename $0)
 in=${in%.*} 
