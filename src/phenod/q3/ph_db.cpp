@@ -261,67 +261,67 @@ string Phdb::dataset_get(string prid, string daid)
     if ( caid == "0" ) r += "*";
     else
     {
-		string cat_names;
+        string cat_names;
         while (caid != "0")
         {
             ss = "select name,caid from categ where id='$1';";
             args(ss, caid);
             db.execth(ss);
-		    if ( db.result.size() != 2 )
-		    {
-		        os::Cout() << "Phdb::dataset_get failed - 2" << os::endl;
-				cat_names = "*";
-		        break;
-		    }
+            if ( db.result.size() != 2 )
+            {
+                os::Cout() << "Phdb::dataset_get failed - 2" << os::endl;
+                cat_names = "*";
+                break;
+            }
 
-		    gl::vstr rc = *(++db.result.begin());
+            gl::vstr rc = *(++db.result.begin());
 
-		    if ( rc.size() != 2 ) // name, caid
-		        throw gl::ex("Phdb::dataset_get - bad size");
+            if ( rc.size() != 2 ) // name, caid
+                throw gl::ex("Phdb::dataset_get - bad size");
 
-			caid = star(rc[1],"0");
-		    string name = star(rc[0]);
-			cat_names += ":" + name;	
+            caid = star(rc[1], "0");
+            string name = star(rc[0]);
+            cat_names += ":" + name;
         }
 
-		r += cat_names;
+        r += cat_names;
     } // caid
 
-	ss = "select keid from keyds where daid='$1';";
+    ss = "select keid from keyds where daid='$1';";
     args(ss, daid);
     db.execth(ss);
 
-	Table result = db.result;
+    Table result = db.result;
 
-	r += ' ';
+    r += ' ';
 
     if ( result.size() == 0 )
-		r += "*";
-	else
+        r += "*";
+    else
     {
-	    result.erase(result.begin());
-		
-	    for ( auto & rc : result )
-	    {
-	        if ( rc.size() != 1 )
-	            throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - failed 31");
+        result.erase(result.begin());
 
-	        string keid = rc[0];
+        for ( auto & rc : result )
+        {
+            if ( rc.size() != 1 )
+                throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - failed 31");
 
-			ss = "select keyw from klist where id='"+keid+"';";
-		    db.execth(ss);
+            string keid = rc[0];
 
-	        if ( db.result.size() != 2 )
-			{
-	            os::Cout()<<"Phdb::dataset_get"<<" [" << ss << "] - failed 41" << os::endl;
-				break;
-	            //throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 4");
-			}
+            ss = "select keyw from klist where id='" + keid + "';";
+            db.execth(ss);
 
-		    gl::vstr rx = *(++db.result.begin());
-		    if ( rx.size() != 1 ) continue;
-			r += ":"+rx[0];
-	    }
+            if ( db.result.size() != 2 )
+            {
+                os::Cout() << "Phdb::dataset_get" << " [" << ss << "] - failed 41" << os::endl;
+                break;
+                //throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 4");
+            }
+
+            gl::vstr rx = *(++db.result.begin());
+            if ( rx.size() != 1 ) continue;
+            r += ":" + rx[0];
+        }
     }
 
     return r;
@@ -470,7 +470,7 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
         return;
     }
 
-	ss = "select id from klist where keyw='$1';";
+    ss = "select id from klist where keyw='$1';";
     args(ss, kname);
     db.execth(ss);
 
@@ -480,17 +480,17 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
         return;
     }
 
-	gl::vstr rc = *(++db.result.begin());
-	if( rc.empty() ) return;
-	string keid = rc[0];
+    gl::vstr rc = *(++db.result.begin());
+    if ( rc.empty() ) return;
+    string keid = rc[0];
 
-	ss = "select * from keyds where daid='$1' and keid='$2';";
+    ss = "select * from keyds where daid='$1' and keid='$2';";
     args(ss, daid, keid);
     db.execth(ss);
 
     if ( db.result.size() > 1 ) return;
 
-	ss = "insert into keyds (daid,keid) values ('$1','$2')";
+    ss = "insert into keyds (daid,keid) values ('$1','$2')";
     args(ss, daid, keid);
     db.execth(ss);
 }
@@ -508,7 +508,7 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
         return;
     }
 
-	ss = "select id from klist where keyw='$1';";
+    ss = "select id from klist where keyw='$1';";
     args(ss, kname);
     db.execth(ss);
 
@@ -518,9 +518,9 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
         return;
     }
 
-	gl::vstr rc = *(++db.result.begin());
-	if( rc.empty() ) return;
-	string keid = rc[0];
+    gl::vstr rc = *(++db.result.begin());
+    if ( rc.empty() ) return;
+    string keid = rc[0];
 
     ss = "delete from keyds where daid='$1' and keid='$2';";
     args(ss, daid, keid);
