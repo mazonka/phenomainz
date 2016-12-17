@@ -314,6 +314,12 @@ void Phdb::keyw_new(string kw)
 
 void Phdb::keyw_ch(string kwo, string kwn)
 {
+    if ( !gl::isb64(kwo) || !gl::isb64(kwn) )
+    {
+        os::Cout() << "Bad args in Phdb::keyw_ch[" << kwn << "]" << os::endl;
+        return;
+    }
+
     Dbo db;
     string ss = "update klist set keyw='$1' where keyw='$2';";
     args(ss, kwn, kwo);
@@ -372,5 +378,19 @@ string Phdb::cat_kids(string parid)
     }
 
     return r;
+}
+
+void Phdb::cat_ch(string catid, string newname)
+{
+    if ( !gl::isb64(catid) || !gl::isb64(newname) )
+    {
+        os::Cout() << "Bad args in Phdb::cat_ch[" << newname << "]" << os::endl;
+        return;
+    }
+
+    Dbo db;
+    string ss = "update categ set name='$1' where id='$2';";
+    args(ss, newname, catid);
+    db.execth(ss);
 }
 

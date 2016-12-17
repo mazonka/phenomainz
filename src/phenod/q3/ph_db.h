@@ -40,6 +40,7 @@ class Phdb
         void keyw_ch(string kwo, string kwn);
         void cat_new(string cat, string par);
         string cat_kids(string parid);
+        void cat_ch(string catid, string newname);
 };
 
 #endif

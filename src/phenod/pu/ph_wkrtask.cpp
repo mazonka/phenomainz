@@ -264,6 +264,18 @@ string Worker2::phadmin(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK);
     }
 
+    else if ( cmd == "chcat" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str() + " 255";
+        string catid = tok.sub();
+
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str() + " 258";
+        string newname = tok.sub();
+
+        aa.phdb.cat_ch(catid, newname);
+        return er::Code(er::OK);
+    }
+
     return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
 }
 

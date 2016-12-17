@@ -28,10 +28,9 @@ OK 2 Kg== YWJj
 === admin categs
 OK
 OK 1 1 MTIzNDU2Nzg5MA== 0
-===================================
-REQ_MSG_BAD [chcat]
-REQ_MSG_BAD [name]
-OK 1 1 MTIzNDU2Nzg5MA== 0
+=== chcat
+OK
+OK 1 1 YWJj 0
 OK 0
 OK
 OK 1 2 YWJj 1
