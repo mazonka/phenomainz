@@ -15,5 +15,7 @@ print tcp self [ au 96db1e5f246844c9 dataset update 2 descr MTIzNDU2Nzg5MA== ]
 print tcp self [ au 96db1e5f246844c9 dataset list ]
 print [ =================================== get ]
 print tcp self [ au 96db1e5f246844c9 dataset get 2 ]
+print tcp self [ au 96db1e5f246844c9 dataset update 2 categ 1 ]
+print tcp self [ au 96db1e5f246844c9 dataset get 2 ]
 print [ =================================== done ]
 quit
