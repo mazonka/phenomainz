@@ -41,6 +41,8 @@ class Phdb
         void cat_new(string cat, string par);
         string cat_kids(string parid);
         void cat_ch(string catid, string newname);
+        void dataset_addkw(string prid, string daid, string kname);
+        void dataset_delkw(string prid, string daid, string kname);
 };
 
 #endif

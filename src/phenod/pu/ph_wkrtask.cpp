@@ -206,6 +206,32 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK).str() + ' ' + r;
     }
 
+    else if ( cmd == "addkw" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string kname = tok.sub();
+
+        aa.phdb.dataset_addkw(ao.profile.prid, daid, kname);
+
+        return er::Code(er::OK).str();
+    }
+
+    else if ( cmd == "delkw" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string kname = tok.sub();
+
+        aa.phdb.dataset_delkw(ao.profile.prid, daid, kname);
+
+        return er::Code(er::OK).str();
+    }
+
     return er::Code(er::REQ_MSG_BAD);
 }
 

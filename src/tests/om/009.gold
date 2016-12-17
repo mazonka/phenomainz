@@ -9,9 +9,9 @@ OK
 OK 2 MTIzNDU2Nzg5MA== YWJj
 OK
 OK 1 Kg== Kg== * *
-REQ_MSG_BAD
-OK 1 Kg== Kg== * *
-REQ_MSG_BAD
+OK
+OK 1 Kg== Kg== * :YWJj
+OK
 OK 1 Kg== Kg== * *
 ===================================
 === admin categories

@@ -291,7 +291,7 @@ string Phdb::dataset_get(string prid, string daid)
     args(ss, daid);
     db.execth(ss);
 
-	auto result = db.result;
+	Table result = db.result;
 
 	r += ' ';
 
@@ -304,13 +304,20 @@ string Phdb::dataset_get(string prid, string daid)
 	    for ( auto & rc : result )
 	    {
 	        if ( rc.size() != 1 )
-	            throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 3");
+	            throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - failed 31");
 
 	        string keid = rc[0];
 
 			ss = "select keyw from klist where id='"+keid+"';";
-		    args(ss, daid);
 		    db.execth(ss);
+
+	        if ( db.result.size() != 2 )
+			{
+	            os::Cout()<<"Phdb::dataset_get"<<" [" << ss << "] - failed 41" << os::endl;
+				break;
+	            //throw gl::ex(string("Phdb::keywords") + " [" + ss + "] - failed 4");
+			}
+
 		    gl::vstr rx = *(++db.result.begin());
 		    if ( rx.size() != 1 ) continue;
 			r += ":"+rx[0];
@@ -449,3 +456,73 @@ void Phdb::cat_ch(string catid, string newname)
     db.execth(ss);
 }
 
+
+void Phdb::dataset_addkw(string prid, string daid, string kname)
+{
+    Dbo db;
+    string ss = "select * from datas where prid='$1' and id='$2';";
+    args(ss, prid, daid);
+    db.execth(ss);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+        return;
+    }
+
+	ss = "select id from klist where keyw='$1';";
+    args(ss, kname);
+    db.execth(ss);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+        return;
+    }
+
+	gl::vstr rc = *(++db.result.begin());
+	if( rc.empty() ) return;
+	string keid = rc[0];
+
+	ss = "select * from keyds where daid='$1' and keid='$2';";
+    args(ss, daid, keid);
+    db.execth(ss);
+
+    if ( db.result.size() > 1 ) return;
+
+	ss = "insert into keyds (daid,keid) values ('$1','$2')";
+    args(ss, daid, keid);
+    db.execth(ss);
+}
+
+void Phdb::dataset_delkw(string prid, string daid, string kname)
+{
+    Dbo db;
+    string ss = "select * from datas where prid='$1' and id='$2';";
+    args(ss, prid, daid);
+    db.execth(ss);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+        return;
+    }
+
+	ss = "select id from klist where keyw='$1';";
+    args(ss, kname);
+    db.execth(ss);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+        return;
+    }
+
+	gl::vstr rc = *(++db.result.begin());
+	if( rc.empty() ) return;
+	string keid = rc[0];
+
+    ss = "delete from keyds where daid='$1' and keid='$2';";
+    args(ss, daid, keid);
+    db.execth(ss);
+}
