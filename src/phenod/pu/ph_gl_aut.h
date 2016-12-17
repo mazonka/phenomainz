@@ -52,6 +52,7 @@ struct AutArea
 
     static string dump_safe(GlobalSpace * gs);
     static string loadConf(string name);
+    static bool matchConf(string name, string val);
 };
 
 #endif

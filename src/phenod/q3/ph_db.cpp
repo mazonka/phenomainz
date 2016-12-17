@@ -97,14 +97,17 @@ void Phdb::schema()
          "name TEXT, mail TEXT, last TEXT, cntr TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ///ss = "CREATE TABLE maxid (id INTEGER PRIMARY KEY, tbl TEXT, val TEXT);";
-    ///if ( !db.exec(ss) ) goto bad;
-
     ss = "CREATE TABLE dataset (id INTEGER PRIMARY KEY, prid TEXT, "
          "title TEXT, descr TEXT, categ TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE categ (id INTEGER PRIMARY KEY, name TEXT, parent TEXT);";
+    ss = "CREATE TABLE categ (id INTEGER PRIMARY KEY, name TEXT, caid TEXT);";
+    if ( !db.exec(ss) ) goto bad;
+
+    ss = "CREATE TABLE klist (id INTEGER PRIMARY KEY, keyw TEXT);";
+    if ( !db.exec(ss) ) goto bad;
+
+    ss = "CREATE TABLE keywd (id INTEGER PRIMARY KEY, daid TEXT, keid TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "COMMIT;";

@@ -104,6 +104,19 @@ string AutArea::loadConf(string name)
     return "";
 }
 
+bool AutArea::matchConf(string name, string val)
+{
+    std::ifstream in(ph_conf.c_str());
+    while (in)
+    {
+        string k, v;
+        in >> k >> v;
+        if ( k == name && v == val ) return true;
+    }
+
+    return false;
+}
+
 void AutQueue::addAob(const AutObject & ao)
 {
     aos[ao.seid] = ao;

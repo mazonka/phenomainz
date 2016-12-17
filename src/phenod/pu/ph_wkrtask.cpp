@@ -65,7 +65,7 @@ string Worker2::ph_login()
     os::Cout() << "AAA349 Aob: " << ao.seid << ' ' << ao.profile.prid
                << "\ncmd: " << cmd << os::endl;
 
-	cmd = os::THISDIR + cmd;
+    cmd = os::THISDIR + cmd;
     system(cmd.c_str());
 
     return er::Code(er::OK);
@@ -116,9 +116,12 @@ string Worker2::ph_aucmd()
             aa.update_name(ao, nn);
             return er::Code(er::OK);
         }
-        else if ( cmd == "dataset" )
+        else if ( cmd == "dataset" || cmd == "ds" )
             return dataset(aa, ao);
-    }
+        else if ( cmd == "admin" || cmd == "a" )
+            return phadmin(aa, ao);
+
+    } // mutex
 
     if (0) {}
 
@@ -136,7 +139,6 @@ string Worker2::ph_aucmd()
     }
 
     return er::Code(er::REQ_MSG_BAD);
-    ///return er::Code(er::OK).str() + ' ' + seid + ' ' + cmd;
 }
 
 string Worker2::dataset(AutArea & aa, const AutObject & ao)
@@ -193,7 +195,7 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
 
         string r = aa.phdb.dataset_get(ao.profile.prid, daid);
 
-	if( r.empty() ) return er::Code(er::REQ_MSG_BAD);
+        if ( r.empty() ) return er::Code(er::REQ_MSG_BAD);
 
         return er::Code(er::OK).str() + ' ' + r;
     }
@@ -207,3 +209,15 @@ gl::intint Worker2::putfile()
     return err;
 }
 
+string Worker2::phadmin(AutArea & aa, const AutObject & ao)
+{
+    if ( !aa.matchConf("admin", ao.profile.mail) )
+    {
+        os::Cout() << "Worker2::phadmin: unathorized access ["
+                   << tok.c_str() << "]" << os::endl;
+
+        return er::Code(er::AUTH);
+    }
+
+    return er::Code(er::OK);
+}
