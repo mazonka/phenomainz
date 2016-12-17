@@ -198,7 +198,7 @@ void Phdb::dataset_del(string prid, string daid)
 
 void Phdb::dataset_upd(string prid, string daid, string field, string val)
 {
-    if ( field != "title" && field != "descr" )
+    if ( field != "title" && field != "descr" && field != "categ" )
     {
         os::Cout() << "Bad field in Phdb::dataset_upd [" << field << "]" << os::endl;
         return;
