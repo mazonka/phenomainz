@@ -119,12 +119,14 @@ string Worker2::ph_aucmd()
         else if ( cmd == "dataset" || cmd == "ds" )
             return dataset(aa, ao);
 
-        else if ( cmd == "admin" || cmd == "a" )
+        else if ( cmd == "admin" )
             return phadmin(aa, ao);
 
         else if ( cmd == "keywords" )
             return er::Code(er::OK).str() + ' ' + aa.phdb.keywords();
 
+        else if ( cmd == "cat" )
+            return categ(aa, ao);
     } // mutex
 
     if (0) {}
@@ -252,15 +254,32 @@ string Worker2::phadmin(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "addcat" )
     {
-        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str()+" 255";
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str() + " 255";
         string cat = tok.sub();
 
-        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str()+" 258";
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD).str() + " 258";
         string par = tok.sub();
 
         aa.phdb.cat_new(cat, par);
         return er::Code(er::OK);
     }
 
-    return er::Code(er::REQ_MSG_BAD).str()+" ["+cmd+"]";
+    return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
+}
+
+string Worker2::categ(AutArea & aa, const AutObject & ao)
+{
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+    string cmd = tok.sub();
+
+    if (0) {}
+
+    else if ( cmd == "kids" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string parid = tok.sub();
+        return er::Code(er::OK).str() + " " + aa.phdb.cat_kids(parid);
+    }
+
+    return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
 }

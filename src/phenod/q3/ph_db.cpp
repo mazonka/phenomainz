@@ -32,10 +32,10 @@ inline void dump(bool y, Dbo & db)
 void Phdb::args(string & ss, string s1, string s2, string s3, string s4, string s5)
 {
     gl::replaceAll(ss, "$1", s1);
-    if( s2.empty() ) return; gl::replaceAll(ss, "$2", s2);
-    if( s3.empty() ) return; gl::replaceAll(ss, "$3", s3);
-    if( s4.empty() ) return; gl::replaceAll(ss, "$4", s4);
-    if( s5.empty() ) return; gl::replaceAll(ss, "$5", s5);
+    if ( s2.empty() ) return; gl::replaceAll(ss, "$2", s2);
+    if ( s3.empty() ) return; gl::replaceAll(ss, "$3", s3);
+    if ( s4.empty() ) return; gl::replaceAll(ss, "$4", s4);
+    if ( s5.empty() ) return; gl::replaceAll(ss, "$5", s5);
 }
 
 bool Phdb::get_by_email(string email, Profile & pr)
@@ -228,7 +228,7 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     ///gl::replaceAll(ss, "$2", val);
     ///gl::replaceAll(ss, "$3", prid);
     ///gl::replaceAll(ss, "$4", daid);
-    args(ss,field,val,prid,daid);
+    args(ss, field, val, prid, daid);
 
     db.execth(ss);
 }
@@ -239,7 +239,7 @@ string Phdb::dataset_get(string prid, string daid)
     string ss = "select * from datas where prid='$1' and id='$2';";
     ///gl::replaceAll(ss, "$3", prid);
     ///gl::replaceAll(ss, "$4", daid);
-    args(ss,prid,daid);
+    args(ss, prid, daid);
     db.execth(ss);
 
     dump(0, db);
@@ -316,7 +316,7 @@ void Phdb::keyw_ch(string kwo, string kwn)
 {
     Dbo db;
     string ss = "update klist set keyw='$1' where keyw='$2';";
-    args(ss,kwn,kwo);
+    args(ss, kwn, kwo);
     db.execth(ss);
 }
 
@@ -338,5 +338,39 @@ void Phdb::cat_new(string cat, string par)
     ss = "insert into categ (name,caid) values ('$1','$2')";
     args(ss, cat, par);
     db.execth(ss);
+}
+
+string Phdb::cat_kids(string parid)
+{
+    Dbo db;
+    string r;
+
+    string ss = "select * from categ where caid='$1'";
+    args(ss, parid);
+    db.execth(ss);
+
+    if ( db.result.empty() ) return "0";
+
+    if ( db.result.size() < 2 )
+        throw gl::ex(string("Phdb::cat_kids") + " [" + ss + "] - failed 2");
+
+    db.result.erase(db.result.begin());
+
+    r += gl::tos(db.result.size());
+
+    for ( auto & rc : db.result )
+    {
+        if ( rc.size() != 3 )
+            throw gl::ex(string("Phdb::cat_kids") + " [" + ss + "] - failed 3");
+
+        r += ' ';
+        r += star(rc[0]);
+        r += ' ';
+        r += star(rc[1]);
+        r += ' ';
+        r += star(rc[2]);
+    }
+
+    return r;
 }
 

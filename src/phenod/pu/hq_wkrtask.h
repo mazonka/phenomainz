@@ -59,6 +59,7 @@ struct Worker2
         gl::intint putfile();
         string dataset(AutArea & aa, const AutObject & ao);
         string phadmin(AutArea & aa, const AutObject & ao);
+        string categ(AutArea & aa, const AutObject & ao);
 
 
     public:

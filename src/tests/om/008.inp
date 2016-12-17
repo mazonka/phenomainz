@@ -26,6 +26,7 @@ print [ =================================== ]
 
 print [ === admin categs ]
 print tcp self [ au 20232512c272da3f admin addcat MTIzNDU2Nzg5MA== 0 ]
+print tcp self [ au 20232512c272da3f cat kids 0 ]
 print [ =================================== ]
 print tcp self [ au 20232512c272da3f admin chcat 1 0 YWJj ]
 print tcp self [ au 20232512c272da3f cat name 1 ]
