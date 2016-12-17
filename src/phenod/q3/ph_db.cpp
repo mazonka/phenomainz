@@ -224,10 +224,11 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     Dbo db;
     string ss = "update datas set $1='$2' where prid='$3' and id='$4';";
 
-    gl::replaceAll(ss, "$1", field);
-    gl::replaceAll(ss, "$2", val);
-    gl::replaceAll(ss, "$3", prid);
-    gl::replaceAll(ss, "$4", daid);
+    ///gl::replaceAll(ss, "$1", field);
+    ///gl::replaceAll(ss, "$2", val);
+    ///gl::replaceAll(ss, "$3", prid);
+    ///gl::replaceAll(ss, "$4", daid);
+    args(ss,field,val,prid,daid);
 
     db.execth(ss);
 }
@@ -235,9 +236,10 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
 string Phdb::dataset_get(string prid, string daid)
 {
     Dbo db;
-    string ss = "select * from datas where prid='$3' and id='$4';";
-    gl::replaceAll(ss, "$3", prid);
-    gl::replaceAll(ss, "$4", daid);
+    string ss = "select * from datas where prid='$1' and id='$2';";
+    ///gl::replaceAll(ss, "$3", prid);
+    ///gl::replaceAll(ss, "$4", daid);
+    args(ss,prid,daid);
     db.execth(ss);
 
     dump(0, db);
@@ -314,11 +316,7 @@ void Phdb::keyw_ch(string kwo, string kwn)
 {
     Dbo db;
     string ss = "update klist set keyw='$1' where keyw='$2';";
-
-    ///gl::replaceAll(ss, "$1", kwn);
-    ///gl::replaceAll(ss, "$2", kwo);
     args(ss,kwn,kwo);
-
     db.execth(ss);
 }
 
