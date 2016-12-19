@@ -53,20 +53,7 @@ function wid_modal_window(data, click, f_close, f_init) {
     var $body = $('#div_modal_window_content_body');
     var width = $('body').outerWidth();
     var $obj;
-    var close;
-    var esc;
-
-    if (typeof data == 'string') {
-        $obj = $('<p>', {
-                text: data
-            });
-    } else {
-        $obj = data;
-    }
-
-    $content.width(width);
-
-    close = function () {
+    var close = function () {
         $body.children().remove();
         $window.css('display', 'none');
 
@@ -78,11 +65,16 @@ function wid_modal_window(data, click, f_close, f_init) {
         $(document).off('keyup');
         $(window).off('beforeunload');
     };
-
-    esc = function (e) {
+    var esc = function (e) {
         e.keyCode == 27 && close();
     };
 
+    if (!Boolean(data)) {
+        return close();
+    }
+        
+    $content.width(width);
+    
     if (click) {
         $window.click(function () {
             close();
@@ -105,6 +97,14 @@ function wid_modal_window(data, click, f_close, f_init) {
         return M_TXT.RELOAD;
     })
 
+    if (typeof data == 'string') {
+        $obj = $('<p>', {
+                text: data
+            });
+    } else {
+        $obj = data;
+    }
+    
     $window.css('display', 'block');
     $body.html($obj);
     Boolean(f_init) && f_init();
@@ -467,7 +467,7 @@ function wid_nc_ds_create() {
     eng_nc_ds_create(cb, g_user_id);
 }
 
-function wid_nc_ds_title(ds_id, title) {
+function wid_nc_ds_upd_title(ds_id, title) {
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
@@ -478,11 +478,13 @@ function wid_nc_ds_title(ds_id, title) {
         
         wid_nc_ds_get(ds_id, true);
     };
-
+    
+    title = title || '*';
+    
     eng_nc_ds_upd_title(cb, g_user_id, ds_id, title);
 }
 
-function wid_nc_ds_descr(ds_id, descr) {
+function wid_nc_ds_upd_descr(ds_id, descr) {
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
@@ -493,8 +495,27 @@ function wid_nc_ds_descr(ds_id, descr) {
         
         wid_nc_ds_get(ds_id, true);
     };
-
+    
+    descr = descr || '*';
+    
     eng_nc_ds_upd_descr(cb, g_user_id, ds_id, descr);
+}
+
+function wid_nc_ds_upd_categ(ds_id, cat_id) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout();
+        } else if (resp != PHENOD.OK) {
+            wid_nc_ds_list();
+            return wid_modal_window(M_TXT.ERROR + resp, true, null, null);
+        }
+        
+        wid_modal_window();
+        wid_nc_ds_get(ds_id, true);
+        
+    };
+    
+    eng_nc_ds_upd_categ(cb, g_user_id, ds_id, cat_id);
 }
 
 function wid_nc_ds_delete(ds_id) {
@@ -570,9 +591,9 @@ function wid_click_ds_ctrl(ds, cmd, $obj) {
             });
             
             if (ds_update_cmd == 'title') {
-                wid_nc_ds_title(ds.id, $input.val());
+                wid_nc_ds_upd_title(ds.id, $input.val());
             } else if (ds_update_cmd == 'descr') {
-                wid_nc_ds_descr(ds.id, $textarea.val());
+                wid_nc_ds_upd_descr(ds.id, $textarea.val());
             }
             
             break;
@@ -616,13 +637,15 @@ function wid_nc_ds_cat(ds, cat_id) {
                     .selectmenu({
                         select: function (event, ui) {
                             wid_nc_ds_cat(ds, ui.item.value);
+                            
+                            $b.click(function () {
+                                wid_nc_ds_upd_categ(ds.id, ui.item.value);
+                                console.log(ui.item.value);
+                            });
                         }
                     });
 
-                $b.button()
-                    .click(function () {
-                        console.log($m);
-                    });
+                $b.button();
             }
 
             wid_modal_window($obj, false, null, f);
