@@ -211,7 +211,7 @@ void Phdb::dataset_del(string prid, string daid)
     // FIXME check that there are no files
 
     Dbo db;
-    string ss = "delete from datas where prid='$1' and id='$2';";
+    string ss = "delete from datas where prid='$1' and id='$2'";
     args(ss, prid, daid);
     db.execth(ss);
 }
@@ -225,7 +225,7 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     }
 
     Dbo db;
-    string ss = "update datas set $1='$2' where prid='$3' and id='$4';";
+    string ss = "update datas set $1='$2' where prid='$3' and id='$4'";
 
     args(ss, field, val, prid, daid);
 
@@ -235,7 +235,7 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
 string Phdb::dataset_get(string prid, string daid)
 {
     Dbo db;
-    string ss = "select * from datas where prid='$1' and id='$2';";
+    string ss = "select * from datas where prid='$1' and id='$2'";
     args(ss, prid, daid);
     db.execth(ss);
 
@@ -267,7 +267,7 @@ string Phdb::dataset_get(string prid, string daid)
         string cat_names;
         while (caid != "0")
         {
-            ss = "select name,caid from categ where id='$1';";
+            ss = "select name,caid from categ where id='$1'";
             args(ss, caid);
             db.execth(ss);
             if ( db.result.size() != 2 )
@@ -290,7 +290,7 @@ string Phdb::dataset_get(string prid, string daid)
         r += cat_names;
     } // caid
 
-    ss = "select keid from keyds where daid='$1';";
+    ss = "select keid from keyds where daid='$1'";
     args(ss, daid);
     db.execth(ss);
 
@@ -311,7 +311,7 @@ string Phdb::dataset_get(string prid, string daid)
 
             string keid = rc[0];
 
-            ss = "select keyw from klist where id='" + keid + "';";
+            ss = "select keyw from klist where id='" + keid + "'";
             db.execth(ss);
 
             if ( db.result.size() != 2 )
@@ -374,7 +374,7 @@ void Phdb::keyw_new(string kw)
 void Phdb::keyw_ch(string kwo, string kwn)
 {
     Dbo db;
-    string ss = "update klist set keyw='$1' where keyw='$2';";
+    string ss = "update klist set keyw='$1' where keyw='$2'";
     args(ss, kwn, kwo);
     db.execth(ss);
 }
@@ -430,7 +430,7 @@ string Phdb::cat_kids(string parid)
 void Phdb::cat_ch(string catid, string newname)
 {
     Dbo db;
-    string ss = "update categ set name='$1' where id='$2';";
+    string ss = "update categ set name='$1' where id='$2'";
     args(ss, newname, catid);
     db.execth(ss);
 }
@@ -438,7 +438,7 @@ void Phdb::cat_ch(string catid, string newname)
 bool Phdb::auth(string prid, string daid)
 {
     Dbo db;
-    string ss = "select * from datas where prid='$1' and id='$2';";
+    string ss = "select * from datas where prid='$1' and id='$2'";
     args(ss, prid, daid);
     db.execth(ss);
 
@@ -468,7 +468,7 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
     if ( !auth(prid, daid) ) return;
 
     Dbo db;
-    string ss = "select id from klist where keyw='$1';";
+    string ss = "select id from klist where keyw='$1'";
     args(ss, kname);
     db.execth(ss);
 
@@ -482,7 +482,7 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
     if ( rc.empty() ) return;
     string keid = rc[0];
 
-    ss = "select * from keyds where daid='$1' and keid='$2';";
+    ss = "select * from keyds where daid='$1' and keid='$2'";
     args(ss, daid, keid);
     db.execth(ss);
 
@@ -511,7 +511,7 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
     if ( !auth(prid, daid) ) return;
 
     Dbo db;
-    string ss = "select id from klist where keyw='$1';";
+    string ss = "select id from klist where keyw='$1'";
     args(ss, kname);
     db.execth(ss);
 
@@ -525,16 +525,20 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
     if ( rc.empty() ) return;
     string keid = rc[0];
 
-    ss = "delete from keyds where daid='$1' and keid='$2';";
+    ss = "delete from keyds where daid='$1' and keid='$2'";
     args(ss, daid, keid);
     db.execth(ss);
 }
 
-string Phdb::ds_file_list(string daid)
+string Phdb::ds_file_list(string daid, string fiid)
 {
     Dbo db;
-    string ss = "select id from files where daid='$1';";
+    string ss = "select id from files where daid='$1'";
     args(ss, daid);
+
+	if( !fiid.empty() )
+		ss += " and id='"+fiid+"'";
+
     db.execth(ss);
 
     if ( db.result.size() < 2 ) return "0";

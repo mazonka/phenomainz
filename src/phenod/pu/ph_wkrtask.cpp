@@ -330,7 +330,7 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "list" )
     {
-        string r = aa.phdb.ds_file_list(daid);
+        string r = aa.phdb.ds_file_list(daid,"");
         return er::Code(er::OK).str() + ' ' + r;
     }
 
@@ -339,6 +339,22 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
         string r = aa.phdb.ds_file_new(ao.profile.prid, daid);
         return er::Code(er::OK).str() + ' ' + r;
     }
+
+    else if ( cmd == "put" )
+    {
+	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	    string fiid = tok.sub();
+	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	    string pos = tok.sub();
+	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	    string len = tok.sub();
+	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+	    string s64 = tok.sub();
+
+		if( !aa.phdb.auth(ao.profile.prid, daid) ) return er::Code(er::REQ_MSG_BAD);
+
+		///gl::intint x = ds_file_put(ao.profile.prid, daid);
+	}
 
     return er::Code(er::REQ_MSG_BAD);
 }
