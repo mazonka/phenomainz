@@ -336,7 +336,7 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "new" )
     {
-        string r = aa.phdb.ds_file_new(daid);
+        string r = aa.phdb.ds_file_new(ao.profile.prid, daid);
         return er::Code(er::OK).str() + ' ' + r;
     }
 

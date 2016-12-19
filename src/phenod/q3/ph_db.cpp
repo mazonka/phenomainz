@@ -211,8 +211,8 @@ void Phdb::dataset_del(string prid, string daid)
     // FIXME check that there are no files
 
     Dbo db;
-    string ss = "delete from datas where prid='"
-                + prid + "' and id='" + daid + "';";
+    string ss = "delete from datas where prid='$1' and id='$2';";
+    args(ss, prid, daid);
     db.execth(ss);
 }
 
@@ -221,12 +221,6 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     if ( field != "title" && field != "descr" && field != "categ" )
     {
         os::Cout() << "Bad field in Phdb::dataset_upd [" << field << "]" << os::endl;
-        return;
-    }
-
-    if ( !gl::isb64(val) )
-    {
-        os::Cout() << "Bad val in Phdb::dataset_upd [" << val << "]" << os::endl;
         return;
     }
 
@@ -367,12 +361,6 @@ string Phdb::keywords()
 
 void Phdb::keyw_new(string kw)
 {
-    if ( !gl::isb64(kw) )
-    {
-        os::Cout() << "Bad kw in Phdb::keyw_new [" << kw << "]" << os::endl;
-        return;
-    }
-
     Dbo db;
     string ss = "select keyw from klist where keyw='" + kw + "'";
     db.execth(ss);
@@ -385,12 +373,6 @@ void Phdb::keyw_new(string kw)
 
 void Phdb::keyw_ch(string kwo, string kwn)
 {
-    if ( !gl::isb64(kwo) || !gl::isb64(kwn) )
-    {
-        os::Cout() << "Bad args in Phdb::keyw_ch[" << kwn << "]" << os::endl;
-        return;
-    }
-
     Dbo db;
     string ss = "update klist set keyw='$1' where keyw='$2';";
     args(ss, kwn, kwo);
@@ -447,20 +429,13 @@ string Phdb::cat_kids(string parid)
 
 void Phdb::cat_ch(string catid, string newname)
 {
-    if ( !gl::isb64(catid) || !gl::isb64(newname) )
-    {
-        os::Cout() << "Bad args in Phdb::cat_ch[" << newname << "]" << os::endl;
-        return;
-    }
-
     Dbo db;
     string ss = "update categ set name='$1' where id='$2';";
     args(ss, newname, catid);
     db.execth(ss);
 }
 
-
-void Phdb::dataset_addkw(string prid, string daid, string kname)
+bool Phdb::auth(string prid, string daid)
 {
     Dbo db;
     string ss = "select * from datas where prid='$1' and id='$2';";
@@ -469,11 +444,31 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
 
     if ( db.result.size() != 2 )
     {
-        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
-        return;
+        os::Cout() << "Phdb::auth failed" << os::endl;
+        return false;
     }
 
-    ss = "select id from klist where keyw='$1';";
+    return true;
+}
+
+void Phdb::dataset_addkw(string prid, string daid, string kname)
+{
+    /* ///
+        Dbo db;
+        string ss = "select * from datas where prid='$1' and id='$2';";
+        args(ss, prid, daid);
+        db.execth(ss);
+
+        if ( db.result.size() != 2 )
+        {
+            os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+            return;
+        }
+    */
+    if ( !auth(prid, daid) ) return;
+
+    Dbo db;
+    string ss = "select id from klist where keyw='$1';";
     args(ss, kname);
     db.execth(ss);
 
@@ -500,18 +495,23 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
 
 void Phdb::dataset_delkw(string prid, string daid, string kname)
 {
+    /*///
+        Dbo db;
+        string ss = "select * from datas where prid='$1' and id='$2';";
+        args(ss, prid, daid);
+        db.execth(ss);
+
+        if ( db.result.size() != 2 )
+        {
+            os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
+            return;
+        }
+    */
+
+    if ( !auth(prid, daid) ) return;
+
     Dbo db;
-    string ss = "select * from datas where prid='$1' and id='$2';";
-    args(ss, prid, daid);
-    db.execth(ss);
-
-    if ( db.result.size() != 2 )
-    {
-        os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
-        return;
-    }
-
-    ss = "select id from klist where keyw='$1';";
+    string ss = "select id from klist where keyw='$1';";
     args(ss, kname);
     db.execth(ss);
 
@@ -557,8 +557,10 @@ string Phdb::ds_file_list(string daid)
 }
 
 
-string Phdb::ds_file_new(string daid)
+string Phdb::ds_file_new(string prid, string daid)
 {
+    if ( !auth(prid, daid) ) return "0";
+
     Dbo db;
     string ss = "insert into files (daid) values ('$1')";
     args(ss, daid);

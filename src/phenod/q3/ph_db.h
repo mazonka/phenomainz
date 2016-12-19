@@ -24,6 +24,8 @@ class Phdb
         static void args(string & ss, string s1, string s2 = "",
                          string s3 = "", string s4 = "", string s5 = "");
 
+        bool auth(string prid, string daid);
+
     public:
         bool get_by_email(string email, Profile & pr);
         bool new_email(string email);
@@ -44,7 +46,7 @@ class Phdb
         void dataset_addkw(string prid, string daid, string kname);
         void dataset_delkw(string prid, string daid, string kname);
         string ds_file_list(string daid);
-        string ds_file_new(string daid);
+        string ds_file_new(string prid, string daid);
 };
 
 #endif
