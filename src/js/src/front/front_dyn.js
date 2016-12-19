@@ -598,22 +598,36 @@ function wid_click_ds_ctrl(ds, cmd, $obj) {
 }
 
 function wid_nc_ds_cat(ds, cat_id) {
-    var cb = function(resp, data) {
+    var cb = function (resp, data) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
-            return wid_modal_window(M_TXT.ERROR + resp, true, null, null);
+            return wid_modal_window(M_TXT.ERROR + resp, true, null,
+                null);
         }
+        
         if (Boolean(data)) {
             let $obj = wid_get_jq_cat_menu(ds, data);
             let f = function () {
-                $obj.find('select').selectmenu();
-                $obj.find('button').button();
+                let $m = $obj.find('select');
+                let $b = $obj.find('button');
+                
+                $m.selectmenu()
+                    .selectmenu({
+                        select: function (event, ui) {
+                            wid_nc_ds_cat(ds, ui.item.value);
+                        }
+                    });
+
+                $b.button()
+                    .click(function () {
+                        console.log($m);
+                    });
             }
-            
+
             wid_modal_window($obj, false, null, f);
         }
     }
-    
+
     eng_nc_cat_kids(cb, g_user_id, cat_id);
 }

@@ -318,10 +318,15 @@ function wid_get_jq_cat_menu(ds, cat) {
     var $button = $('<button/>', {
             text: 'Change',
         });
+    
+    $menu.append($('<option/>', {
+            value: 0,
+            text: '/'
+        }));        
         
     for (let i = 0; i < cat.length; i++) {
         $menu.append($('<option/>', {
-            value: cat[i].name,
+            value: cat[i].id,
             text: cat[i].name
         }));
         //r += cat[i].id + ':' + cat[i].name + '\n';
