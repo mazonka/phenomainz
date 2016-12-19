@@ -119,6 +119,13 @@ void Phdb::schema()
     ss = "CREATE TABLE keyds (id INTEGER PRIMARY KEY, daid TEXT, keid TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
+    ss = "CREATE TABLE files (id INTEGER PRIMARY KEY, daid TEXT);";
+    if ( !db.exec(ss) ) goto bad;
+
+    ss = "CREATE TABLE colmn (id INTEGER PRIMARY KEY, fiid TEXT, "
+         "coln TEXT, xy TEXT, name TEXT, unit TEXT, desc TEXT);";
+    if ( !db.exec(ss) ) goto bad;
+
     ss = "COMMIT;";
     if ( !db.exec(ss) ) goto bad;
 
@@ -201,6 +208,8 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 
 void Phdb::dataset_del(string prid, string daid)
 {
+    // FIXME check that there are no files
+
     Dbo db;
     string ss = "delete from datas where prid='"
                 + prid + "' and id='" + daid + "';";
