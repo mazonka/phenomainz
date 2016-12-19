@@ -1,6 +1,7 @@
 // Hasq Technology Pty Ltd (C) 2013-2016
 
 #include <sstream>
+#include <fstream>
 #include <algorithm>
 
 #include "gl_utils.h"
@@ -8,6 +9,7 @@
 
 #include "os_exec.h"
 #include "os_sysinfo.h"
+#include "os_filesys.h"
 #include "sg_mutex.h"
 #include "sg_cout.h"
 #include "sg_client.h"
@@ -318,6 +320,9 @@ string Worker2::categ(AutArea & aa, const AutObject & ao)
     return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
 }
 
+gl::intint ds_file_put(string daid, string fiid, string pos, const string & s);
+void ds_file_del(string daid, string fiid);
+
 string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 {
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
@@ -330,7 +335,7 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "list" )
     {
-        string r = aa.phdb.ds_file_list(daid,"");
+        string r = aa.phdb.ds_file_list(daid, "");
         return er::Code(er::OK).str() + ' ' + r;
     }
 
@@ -342,19 +347,94 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "put" )
     {
-	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-	    string fiid = tok.sub();
-	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-	    string pos = tok.sub();
-	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-	    string len = tok.sub();
-	    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-	    string s64 = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string fiid = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string pos = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string len = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string s64 = tok.sub();
 
-		if( !aa.phdb.auth(ao.profile.prid, daid) ) return er::Code(er::REQ_MSG_BAD);
+        if ( !aa.phdb.auth(ao.profile.prid, daid) )
+            return er::Code(er::REQ_MSG_BAD);
 
-		///gl::intint x = ds_file_put(ao.profile.prid, daid);
-	}
+        if ( aa.phdb.ds_file_list(daid, fiid) == "0" )
+            return er::Code(er::REQ_MSG_BAD);
+
+        if ( !gl::isb64(s64) )
+            return er::Code(er::REQ_MSG_BAD);
+
+        string s = ma::b64dec(s64);
+
+        if ( (int)s.size() != gl::toi(len) )
+            return er::Code(er::REQ_MSG_BAD);
+
+        gl::intint x = ds_file_put(daid, fiid, pos, s);
+
+        return er::Code(er::OK).str() + ' ' + gl::tos(x);
+    }
+
+    else if ( cmd == "del" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string fiid = tok.sub();
+
+        aa.phdb.ds_file_del(ao.profile.prid, daid, fiid);
+
+        ds_file_del(daid, fiid);
+
+        return er::Code(er::OK);
+    }
 
     return er::Code(er::REQ_MSG_BAD);
 }
+
+os::Path ds_file1(string daid)
+{
+    os::Path f = "files";
+    f += gl::tos(10000 + gl::toi(daid));
+    return f;
+}
+
+os::Path ds_file2(os::Path f, string fiid)
+{
+    f += gl::tos(10000 + gl::toi(fiid));
+    return f;
+}
+
+gl::intint ds_file_put(string daid, string fiid, string pos, const string & s)
+{
+    ///os::Path f = "files";
+    ///f += gl::tos(10000+gl::toi(daid));
+    os::Path f = ds_file1(daid);
+    os::FileSys::trymkdir(f);
+
+    if ( !f.isdir() )
+        return -2;
+
+    ///f += gl::tos(10000+gl::toi(fiid));
+    f = ds_file2(f, fiid);
+
+    if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
+
+    int fsz = f.filesize();
+
+    if ( fsz != gl::toi(pos) )
+        return -1;
+
+    {
+        std::ofstream of(f.str().c_str(), std::ios::app);
+        of << s;
+    }
+
+    return f.filesize();
+}
+
+void ds_file_del(string daid, string fiid)
+{
+    os::Path f = ds_file1(daid);
+    f = ds_file2(f, fiid);
+	f.erase();
+}
+

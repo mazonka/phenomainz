@@ -10,11 +10,12 @@ OK 0
 OK 1
 OK 2
 OK 2 1 2
-===================================
-REQ_MSG_BAD
-REQ_MSG_BAD
-REQ_MSG_BAD
-OK 2 1 2
-REQ_MSG_BAD
-OK 2 1 2
+=== file put
+OK 10
+OK 20
+=== file del
+OK
+OK 1 2
+OK
+OK 0
 =================================== profile done

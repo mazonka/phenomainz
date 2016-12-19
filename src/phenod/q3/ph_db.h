@@ -47,6 +47,7 @@ class Phdb
         void dataset_delkw(string prid, string daid, string kname);
         string ds_file_list(string daid, string fiid);
         string ds_file_new(string prid, string daid);
+        void ds_file_del(string prid, string daid, string fiid);
 };
 
 #endif
