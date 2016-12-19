@@ -1,5 +1,5 @@
 #!/bin/sh
-# test putfile
+# test files
 
 in=$(basename $0)
 in=${in%.*} 

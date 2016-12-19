@@ -535,3 +535,30 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
     args(ss, daid, keid);
     db.execth(ss);
 }
+
+string Phdb::ds_file_list(string daid)
+{
+    Dbo db;
+    string ss = "select id from files where daid='$1';";
+    args(ss, daid);
+    db.execth(ss);
+
+    if ( db.result.size() < 2 ) return "0";
+	
+    db.result.erase(db.result.begin());
+
+	string r;
+
+    r += gl::tos(db.result.size());
+
+    for ( auto & rc : db.result )
+    {
+        if ( rc.size() != 1 )
+            throw gl::ex(string("Phdb::ds_file_list") + " [" + ss + "] - failed 1");
+
+        r += ' ' + star(rc[0]);
+    }
+
+    return r;
+}
+

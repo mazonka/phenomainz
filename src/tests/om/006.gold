@@ -3,5 +3,17 @@ cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
 [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
 OK
 =================================== login done
+OK
+=== file list
+OK 0
+===================================
 REQ_MSG_BAD
+REQ_MSG_BAD
+OK 0
+REQ_MSG_BAD
+REQ_MSG_BAD
+REQ_MSG_BAD
+OK 0
+REQ_MSG_BAD
+OK 0
 =================================== profile done

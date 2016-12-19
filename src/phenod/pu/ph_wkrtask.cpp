@@ -137,13 +137,6 @@ string Worker2::ph_aucmd()
     else if ( cmd == "profile" )
         return er::Code(er::OK).str() + ' ' + ao.profile.str();
 
-    else if ( cmd == "file" )
-    {
-        gl::intint sz = putfile();
-        if ( sz < 0 ) return er::Code(er::REQ_MSG_BAD);
-        return er::Code(er::OK).str() + ' ' + gl::tos(sz);
-    }
-
     return er::Code(er::REQ_MSG_BAD);
 }
 
@@ -232,13 +225,10 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK).str();
     }
 
-    return er::Code(er::REQ_MSG_BAD);
-}
+    else if ( cmd == "file" )
+        return dataset_file(aa, ao);
 
-gl::intint Worker2::putfile()
-{
-    gl::intint err(-1);
-    return err;
+    return er::Code(er::REQ_MSG_BAD);
 }
 
 string Worker2::phadmin(AutArea & aa, const AutObject & ao)
@@ -320,4 +310,23 @@ string Worker2::categ(AutArea & aa, const AutObject & ao)
     }
 
     return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
+}
+
+string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
+{
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+    string daid = tok.sub();
+
+    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+    string cmd = tok.sub();
+
+    if (0) {}
+
+    else if ( cmd == "list" )
+    {
+		string r = aa.phdb.ds_file_list(daid);
+		return er::Code(er::OK).str() + ' ' + r;
+	}
+
+    return er::Code(er::REQ_MSG_BAD);
 }

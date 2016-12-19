@@ -43,6 +43,7 @@ class Phdb
         void cat_ch(string catid, string newname);
         void dataset_addkw(string prid, string daid, string kname);
         void dataset_delkw(string prid, string daid, string kname);
+        string ds_file_list(string daid);
 };
 
 #endif
