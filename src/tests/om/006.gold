@@ -6,14 +6,15 @@ OK
 OK
 === file list
 OK 0
+=== file new & list]
+OK 1
+OK 2
+OK 2 1 2
 ===================================
 REQ_MSG_BAD
 REQ_MSG_BAD
-OK 0
 REQ_MSG_BAD
+OK 2 1 2
 REQ_MSG_BAD
-REQ_MSG_BAD
-OK 0
-REQ_MSG_BAD
-OK 0
+OK 2 1 2
 =================================== profile done

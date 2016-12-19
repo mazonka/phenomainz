@@ -306,3 +306,21 @@ bool gl::isb64(const string & s)
     return true;
 }
 
+bool gl::issql(const string & s)
+{
+    for ( int i = 0; i < (int)s.size(); i++ )
+    {
+        const char & c = s[i];
+
+        if ( c >= 'A' && c <= 'Z' ) continue;
+        if ( c >= 'a' && c <= 'z' ) continue;
+        if ( c >= '0' && c <= '9' ) continue;
+        if ( c == '+' || c == '/' ) continue;
+        if ( c == '=' || c == ' ' ) continue;
+
+        return false;
+    }
+
+    return true;
+}
+

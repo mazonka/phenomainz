@@ -44,6 +44,7 @@ class Phdb
         void dataset_addkw(string prid, string daid, string kname);
         void dataset_delkw(string prid, string daid, string kname);
         string ds_file_list(string daid);
+        string ds_file_new(string daid);
 };
 
 #endif

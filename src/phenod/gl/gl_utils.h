@@ -113,6 +113,7 @@ vstr str2vstr(const string & s, char delim);
 string int2str(int x, int width = 0, char pad = '0');
 void eatEndl(string & s);
 bool isb64(const string & s);
+bool issql(const string & s);
 
 } // gl
 

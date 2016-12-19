@@ -399,12 +399,6 @@ void Phdb::keyw_ch(string kwo, string kwn)
 
 void Phdb::cat_new(string cat, string par)
 {
-    if ( !gl::isb64(cat) || !gl::isb64(par) )
-    {
-        os::Cout() << "Bad args in Phdb::cat_new[" << cat << "]" << os::endl;
-        return;
-    }
-
     Dbo db;
     string ss = "select name from categ where name='$1' and caid='$2'";
     args(ss, cat, par);
@@ -560,5 +554,29 @@ string Phdb::ds_file_list(string daid)
     }
 
     return r;
+}
+
+
+string Phdb::ds_file_new(string daid)
+{
+    Dbo db;
+    string ss = "insert into files (daid) values ('$1')";
+    args(ss, daid);
+    db.execth(ss);
+
+    ss = "select last_insert_rowid()";
+    db.execth(ss);
+
+    dump(0, db);
+
+    if ( db.result.size() != 2 )
+    {
+        os::Cout() << "Phdb::ds_file_new failed" << os::endl;
+        return "0";
+    }
+
+    gl::vstr rc = *(++db.result.begin());
+    if ( rc.empty() ) return "0";
+    return rc[0];
 }
 

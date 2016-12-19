@@ -88,6 +88,12 @@ string Worker2::ph_script(string cmd, string ag)
 
 string Worker2::ph_aucmd()
 {
+    if ( !gl::issql(tok.c_str()) )
+    {
+        os::Cout() << "Bad intput [" << tok.c_str() << "]" << os::endl;
+        return er::Code(er::REQ_MSG_BAD);
+    }
+
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
     string seid = tok.sub();
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
@@ -325,6 +331,12 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
     else if ( cmd == "list" )
     {
         string r = aa.phdb.ds_file_list(daid);
+        return er::Code(er::OK).str() + ' ' + r;
+    }
+
+    else if ( cmd == "new" )
+    {
+        string r = aa.phdb.ds_file_new(daid);
         return er::Code(er::OK).str() + ' ' + r;
     }
 
