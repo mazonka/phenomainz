@@ -17,6 +17,7 @@ function doc_init(user_id) {
     });
 }
 
+
 function ui_init(user_id) {
     g_user_id = user_id;
     console.log(user_id);

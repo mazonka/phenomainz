@@ -59,7 +59,7 @@ function eng_nc_name(ext_cb, user_id, name, pulse) {
 }
 
 function eng_nc_ds_list(ext_cb, user_id) {
-    var cmd = ['au', user_id, 'dataset', 'list'].join(' ');
+    var cmd = ['au', user_id, 'ds', 'list'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let list = {};
@@ -79,7 +79,7 @@ function eng_nc_ds_list(ext_cb, user_id) {
 }
 
 function eng_nc_ds_create(ext_cb, user_id) {
-    var cmd = ['au', user_id, 'dataset', 'create'].join(' ');
+    var cmd = ['au', user_id, 'ds', 'create'].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -88,7 +88,7 @@ function eng_nc_ds_create(ext_cb, user_id) {
 }
 
 function eng_nc_ds_delete(ext_cb, user_id, ds_id) {
-    var cmd = ['au', user_id, 'dataset', 'delete', ds_id].join(' ');
+    var cmd = ['au', user_id, 'ds', 'delete', ds_id].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
     };
@@ -96,9 +96,9 @@ function eng_nc_ds_delete(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_title(ext_cb, user_id, ds_id, title) {
+function eng_nc_ds_upd_title(ext_cb, user_id, ds_id, title) {
     var cmd = [
-        'au', user_id, 'dataset', 'update', ds_id, 'title', window.btoa(title)
+        'au', user_id, 'ds', 'update', ds_id, 'title', window.btoa(title)
     ].join(' ');
     
     var int_cb = function (data) {
@@ -109,9 +109,9 @@ function eng_nc_ds_title(ext_cb, user_id, ds_id, title) {
 }
 
 
-function eng_nc_ds_descr(ext_cb, user_id, ds_id, descr) {
+function eng_nc_ds_upd_descr(ext_cb, user_id, ds_id, descr) {
     var cmd = [
-        'au', user_id, 'dataset', 'update', ds_id, 'descr', window.btoa(descr)
+        'au', user_id, 'ds', 'update', ds_id, 'descr', window.btoa(descr)
     ].join(' ');
     
     var int_cb = function (data) {
@@ -121,9 +121,44 @@ function eng_nc_ds_descr(ext_cb, user_id, ds_id, descr) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
+function eng_nc_ds_upd_categ(ext_cb, user_id, ds_id, cat_id) {
+    var cmd = [
+        'au', user_id, 'ds', 'update', ds_id, 'categ', cat_id
+    ].join(' ');
+    
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function eng_nc_ds_addkw(ext_cb, user_id, ds_id, keyw_id) {
+    var cmd = [
+        'au', user_id, 'ds', 'addkw', ds_id, keyw_id
+    ].join(' ');
+    
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function eng_nc_ds_delkw(ext_cb, user_id, ds_id, keyw_id) {
+    var cmd = [
+        'au', user_id, 'ds', 'delkw', ds_id, keyw_id
+    ].join(' ');
+    
+    var int_cb = function (data) {
+        ext_cb(eng_get_main_response(data));
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
 
 function eng_nc_ds_get(ext_cb, user_id, ds_id) {
-    var cmd = ['au', user_id, 'dataset', 'get', ds_id].join(' ');
+    var cmd = ['au', user_id, 'ds', 'get', ds_id].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         let ds = null;
@@ -133,6 +168,19 @@ function eng_nc_ds_get(ext_cb, user_id, ds_id) {
         }
 
         ext_cb(resp, ds);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function eng_nc_cat_kids(ext_cb, user_id, cat_id) {
+    var cmd = ['au', user_id, 'cat', 'kids', cat_id].join(' ');
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+        
+        data = eng_get_cat_kids(data);
+
+        ext_cb(resp, data);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);

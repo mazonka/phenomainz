@@ -34,6 +34,7 @@ const M_TXT = {
     ERROR: 'ERROR: ',
     RELOAD: 'Are you sure?',
     EMAIL: 'An email with link has been sent to ',
+    SESSION_EXP: 'Session expired',
     get FILE_IS_HUGE() {
         return this.ERROR + 'File is too big. Maximum file size is ' + G_MAX_FILE_SIZE + ' bytes';
     },

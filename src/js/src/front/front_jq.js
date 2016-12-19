@@ -126,6 +126,7 @@ function wid_get_jq_ds_item(ds) {
     var title = wid_get_jq_ds_item_title(ds);
     var descr = wid_get_jq_ds_item_descr(ds);
     var cat = wid_get_jq_ds_item_cat(ds);
+    var keyw = wid_get_jq_ds_item_keyw(ds);
     var del = wid_get_jq_ds_delete(ds.id);
     
     var $obj_data = $('<table/>', {
@@ -137,6 +138,7 @@ function wid_get_jq_ds_item(ds) {
     $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
     $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
     $obj_data = wid_get_ds_item_add_row($obj_data, cat, 'cat');
+    $obj_data = wid_get_ds_item_add_row($obj_data, keyw, 'keyw');
 
     return $obj_data;
 }
@@ -172,16 +174,16 @@ function wid_get_jq_ds_item_title(ds) {
     var obj = {};
 
     obj.$name = $('<label/>', {
-                id: 'label_ds_' + ds.id + '_title',
-                text: 'Title'
-            })
-            .attr('for', 'input_ds_' + ds.id + '_title');
-        
+            id: 'label_ds_' + ds.id + '_title',
+            text: 'Title'
+        })
+        .attr('for', 'input_ds_' + ds.id + '_title');
+
     obj.$val = $('<input/>', {
-                id: 'input_ds_' + ds.id + '_title',
-                value: ds.title
-            })
-            .prop('disabled', true);
+            id: 'input_ds_' + ds.id + '_title',
+            value: ds.title
+        })
+        .prop('disabled', true);
 
     obj.$ctrl = $('<div/>')
         .append($('<div/>', {
@@ -189,7 +191,7 @@ function wid_get_jq_ds_item_title(ds) {
                 text: '(e)',
                 title: 'Edit'
             })
-            .click(function() { 
+            .click(function () {
                 wid_click_ds_ctrl(ds, 'edit', $(this));
             })
             .addClass('dataset-edit-button'))
@@ -241,18 +243,18 @@ function wid_get_jq_ds_item_descr(ds) {
 
 function wid_get_jq_ds_item_cat(ds) {
     var obj = {};
-    var s;
+    var cat = '[' + ds.cat.join('/') + ']';
+    
     
     obj.$name = $('<label/>', {
                 id: 'label_ds_' + ds.id + '_cat',
                 text: 'Category'
             });
     
-    s = '[' + ds.cat.reverse().join('/') + ']';
     
     obj.$val = $('<span/>', {
                 id: 'span_ds_' + ds.id + '_cat',
-                text: s
+                text: cat
     })
 
     obj.$ctrl = $('<div/>')
@@ -261,16 +263,37 @@ function wid_get_jq_ds_item_cat(ds) {
                 title: 'Edit'
             })
             .click(function() {
-                wid_click_ds_ctrl(ds, 'edit', $(this));
+                wid_nc_ds_cat(ds, 0);
             })
-            .addClass('dataset-edit-button'))
-        .append($('<div/>', {
-                text: '(c)',
-                title: 'Cancel'
-            })
-            .addClass('dataset-cancel-button dataset-disabled-button')
-            .prop('disabled', true));
+            .addClass('dataset-edit-button'));
             
+    return obj;
+    
+}
+
+function wid_get_jq_ds_item_keyw(ds) {
+    var obj = {};
+    
+    obj.$name = $('<label/>', {
+                id: 'label_ds_' + ds.id + '_keyw',
+                text: 'Keywords'
+            });
+            
+    obj.$val = $('<span/>', {
+                id: 'span_ds_' + ds.id + '_keyw',
+                text: '[' + ds.keyw.join('/') + ']'
+    })
+
+    obj.$ctrl = $('<div/>')
+        .append($('<div/>', {
+                text: '(e)',
+                title: 'Edit'
+            })
+            .click(function() {
+                wid_click_ds_modal(ds, $(this));
+            })
+            .addClass('dataset-edit-button'));
+ 
     return obj;
     
 }
@@ -285,4 +308,26 @@ function wid_get_jq_ds_delete(ds_id) {
         }).button();
 
     return $obj;
+}
+
+function wid_get_jq_cat_menu(ds, cat) {
+    var $span = $('<span/>');
+    var $menu = $('<select/>', {
+            id: 'select_ds_cat'
+        });
+    var $button = $('<button/>', {
+            text: 'Change',
+        });
+        
+    for (let i = 0; i < cat.length; i++) {
+        $menu.append($('<option/>', {
+            value: cat[i].name,
+            text: cat[i].name
+        }));
+        //r += cat[i].id + ':' + cat[i].name + '\n';
+    }
+    
+    $span.append($menu).append($button);
+    
+    return $span;
 }
