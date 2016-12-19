@@ -544,10 +544,10 @@ string Phdb::ds_file_list(string daid)
     db.execth(ss);
 
     if ( db.result.size() < 2 ) return "0";
-	
+
     db.result.erase(db.result.begin());
 
-	string r;
+    string r;
 
     r += gl::tos(db.result.size());
 

@@ -324,9 +324,9 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "list" )
     {
-		string r = aa.phdb.ds_file_list(daid);
-		return er::Code(er::OK).str() + ' ' + r;
-	}
+        string r = aa.phdb.ds_file_list(daid);
+        return er::Code(er::OK).str() + ' ' + r;
+    }
 
     return er::Code(er::REQ_MSG_BAD);
 }
