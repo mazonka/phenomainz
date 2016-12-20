@@ -122,7 +122,7 @@ void Phdb::schema()
     ss = "CREATE TABLE files (id INTEGER PRIMARY KEY, daid TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE colmn (id INTEGER PRIMARY KEY, fiid TEXT, "
+    ss = "CREATE TABLE colmn (id INTEGER PRIMARY KEY, daid TEXT, "
          "coln TEXT, xy TEXT, name TEXT, unit TEXT, desc TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
