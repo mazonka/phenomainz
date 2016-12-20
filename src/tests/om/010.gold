@@ -5,10 +5,10 @@ cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
 OK
 === columns
 OK
-REQ_MSG_BAD
+OK 0
 setc <dsN> <cN> xy name unit desc ... <cN> xy name unit desc
-REQ_MSG_BAD
-REQ_MSG_BAD
-REQ_MSG_BAD
-REQ_MSG_BAD
+OK
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
+OK
+OK 2 1 x YWJj YWJj YWJj 3 y YWJj YWJj MTIzNDU2Nzg5MA==
 ===================================
