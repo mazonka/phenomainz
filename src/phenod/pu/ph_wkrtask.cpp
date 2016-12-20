@@ -236,6 +236,45 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
     else if ( cmd == "file" )
         return dataset_file(aa, ao);
 
+    else if ( cmd == "cols" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        string r = aa.phdb.dataset_cols(daid);
+        return er::Code(er::OK).str() + ' ' + r;
+    }
+
+    else if ( cmd == "setc" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string daid = tok.sub();
+
+        std::vector<Phdb::ColDesc> v;
+
+        while (1)
+        {
+            Phdb::ColDesc c;
+            if ( !tok.next() ) break;
+            c.n = tok.sub();
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+            c.xy = tok.sub();
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+            c.name = tok.sub();
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+            c.unit = tok.sub();
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+            c.desc = tok.sub();
+	    v.push_back(c);
+        }
+
+        if ( !aa.phdb.auth(ao.profile.prid, daid) )
+            return er::Code(er::REQ_MSG_BAD);
+
+        aa.phdb.dataset_setc(daid,v);
+        return er::Code(er::OK);
+    }
+
     return er::Code(er::REQ_MSG_BAD);
 }
 
@@ -435,6 +474,6 @@ void ds_file_del(string daid, string fiid)
 {
     os::Path f = ds_file1(daid);
     f = ds_file2(f, fiid);
-	f.erase();
+    f.erase();
 }
 

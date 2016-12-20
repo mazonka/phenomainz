@@ -1,3 +1,4 @@
+#include <iostream>
 
 #include <fstream>
 
@@ -29,13 +30,15 @@ inline void dump(bool y, Dbo & db)
     }
 }
 
-void Phdb::args(string & ss, string s1, string s2, string s3, string s4, string s5)
+void Phdb::args(string & ss, string s1, string s2,
+                string s3, string s4, string s5, string s6)
 {
     gl::replaceAll(ss, "$1", s1);
     if ( s2.empty() ) return; gl::replaceAll(ss, "$2", s2);
     if ( s3.empty() ) return; gl::replaceAll(ss, "$3", s3);
     if ( s4.empty() ) return; gl::replaceAll(ss, "$4", s4);
     if ( s5.empty() ) return; gl::replaceAll(ss, "$5", s5);
+    if ( s6.empty() ) return; gl::replaceAll(ss, "$6", s6);
 }
 
 bool Phdb::get_by_email(string email, Profile & pr)
@@ -596,3 +599,64 @@ void Phdb::ds_file_del(string prid, string daid, string fiid)
     args(ss, daid, fiid);
     db.execth(ss);
 }
+
+string Phdb::dataset_cols(string daid)
+{
+    Dbo db;
+    string ss = "select * from colmn where daid='$1'";
+    args(ss, daid);
+
+    db.execth(ss);
+
+    if ( db.result.size() < 2 ) return "0";
+
+    db.result.erase(db.result.begin());
+
+    string r;
+
+    r += gl::tos(db.result.size());
+
+    // id, daid, coln, xy, name, unit, desc
+    for ( auto & rc : db.result )
+    {
+        if ( rc.size() != 7 )
+            throw gl::ex(string("Phdb::ds_file_list") + " [" + ss + "] - failed 1");
+
+        r += ' ' + star(rc[2]);
+        r += ' ' + star(rc[3]);
+        r += ' ' + star(rc[4]);
+        r += ' ' + star(rc[5]);
+        r += ' ' + star(rc[6]);
+    }
+
+    return r;
+}
+
+
+void Phdb::dataset_setc(string daid, const std::vector<ColDesc> & v)
+{
+    for ( auto c : v )
+    {
+        Dbo db;
+        string ss = "select id from colmn where daid='$1' and coln='$2'";
+        args(ss, daid, c.n);
+        db.execth(ss);
+
+        if ( db.result.size() < 2 )
+        {
+            // no record
+            ss = "insert into colmn (daid,coln,xy,name,unit,desc) "
+                 "values ('$1','$2','$3','$4','$5','$6')";
+        }
+        else
+        {
+            // record exists
+            ss = "update colmn set xy='$3',name='$4',unit='$5',"
+		"desc='$6' where daid='$1' and coln='$2'";
+        }
+
+        args(ss, daid, c.n, c.xy, c.name, c.unit, c.desc);
+        db.execth(ss);
+    }
+}
+

@@ -2,6 +2,7 @@
 #define __PH_DB__H
 
 #include <string>
+#include <vector>
 #include "gl_utils.h"
 
 using std::string;
@@ -22,7 +23,8 @@ class Phdb
 {
         void schema();
         static void args(string & ss, string s1, string s2 = "",
-                         string s3 = "", string s4 = "", string s5 = "");
+                         string s3 = "", string s4 = "",
+                         string s5 = "", string s6 = "");
 
     public:
         bool auth(string prid, string daid);
@@ -48,6 +50,10 @@ class Phdb
         string ds_file_list(string daid, string fiid);
         string ds_file_new(string prid, string daid);
         void ds_file_del(string prid, string daid, string fiid);
+        string dataset_cols(string daid);
+
+        struct ColDesc { string n, xy, name, unit, desc; };
+        void dataset_setc(string daid, const std::vector<ColDesc> & v);
 };
 
 #endif
