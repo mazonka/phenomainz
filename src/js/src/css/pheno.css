@@ -102,18 +102,18 @@ button {
     text-align: left;
 }
 
-#div_profile_name,
-#div_profile_name div,
-#div_profile_email,
-#div_profile_email div,
-#div_profile_lastdate,
-#div_profile_lastdate div,
-#div_profile_counter,
-#div_profile_counter div{
+#span_profile_name,
+#span_profile_name span,
+#span_profile_email,
+#span_profile_email span,
+#span_profile_lastdate,
+#span_profile_lastdate span,
+#span_profile_counter,
+#span_profile_counter span {
     display: inline-block;
 }
 
-#div_profile_name div {
+#span_profile_name span {
     font-weight: bold;
     cursor: pointer;
     color: blue;
@@ -231,32 +231,4 @@ h3 {
     color: white;
 }
 
-.ui-selectmenu, .ui-selectmenu-menu-dropdown { width: 400px !important; }
 
-/* Selectmenu
-----------------------------------*/
-.ui-selectmenu { display: block; display: inline-block; position: relative; height: 2.2em; vertical-align: middle; text-decoration: none; overflow: hidden; zoom: 1; }
-.ui-selectmenu-icon { position:absolute; right:6px; margin-top:-8px; top: 50%; }
-.ui-selectmenu-menu { padding:0; margin:0; position:absolute; top: 0; display: none; z-index: 1005;} /* z-index: 1005 to make selectmenu work with dialog */
-.ui-selectmenu-menu  ul { padding:0; margin:0; list-style:none; position: relative; overflow: auto; overflow-y: auto ; overflow-x: hidden; } 
-.ui-selectmenu-open { display: block; }
-.ui-selectmenu-menu-popup { margin-top: -1px; }
-.ui-selectmenu-menu li { padding:0; margin:0; display: block; border-top: 1px dotted transparent; border-bottom: 1px dotted transparent; border-right-width: 0 !important; border-left-width: 0 !important; font-weight: normal !important; }
-.ui-selectmenu-menu li a,.ui-selectmenu-status { line-height: 1.4em; display: block; padding: .405em 2.1em .405em 1em; outline:none; text-decoration:none; }
-.ui-selectmenu-menu li.ui-state-disabled a, .ui-state-disabled { cursor: default; }
-.ui-selectmenu-menu li.ui-selectmenu-hasIcon a,
-.ui-selectmenu-hasIcon .ui-selectmenu-status { padding-left: 20px; position: relative; margin-left: 5px; }
-.ui-selectmenu-menu li .ui-icon, .ui-selectmenu-status .ui-icon { position: absolute; top: 1em; margin-top: -8px; left: 0; }
-.ui-selectmenu-status { line-height: 1.4em; }
-.ui-selectmenu-menu li span,.ui-selectmenu-status span { display:block; margin-bottom: .2em; }
-.ui-selectmenu-menu li .ui-selectmenu-item-header { font-weight: bold; }
-.ui-selectmenu-menu li .ui-selectmenu-item-footer { opacity: .8; }
-/* for optgroups */
-.ui-selectmenu-menu .ui-selectmenu-group { font-size: 1em; }
-.ui-selectmenu-menu .ui-selectmenu-group .ui-selectmenu-group-label { line-height: 1.4em; display:block; padding: .6em .5em 0; font-weight: bold; }
-.ui-selectmenu-menu .ui-selectmenu-group ul { margin: 0; padding: 0; }
-/* IE6 workaround (dotted transparent borders) */
-* html .ui-selectmenu-menu li { border-color: pink; filter:chroma(color=pink); width:100%; }
-* html .ui-selectmenu-menu li a { position: relative }
-/* IE7 workaround (opacity disabled) */
-*+html .ui-state-disabled, *+html .ui-state-disabled a { color: silver; }

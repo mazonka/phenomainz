@@ -4,71 +4,60 @@
 'use strict';
 
 function wid_get_jq_user_email() {
-    var $obj = $();
-    $obj = $obj.add('<div/>');
+    var $obj = $('<div/>');
+    //$obj = $obj.add('<div/>');
 
     $obj.append($('<label/>')
-        .text('E-mail: ')
-        .attr('for', 'input_user_email'));
+            .text('E-mail: ')
+            .attr('for', 'input_user_email'))
+        .append($('<input/>', {
+                id: 'input_user_email'
+            })
+            .on('input', function () {
+                wid_input_email($(this))
+            })
+            .attr('maxlength', '40'))
+        .append($('<button/>', {
+                id: 'button_user_email',
+                text: B_TXT.SEND_EMAIL
+            })
+            .click(function () {
+                let $window = $('#div_modal_window');
 
-    $obj.append($('<input/>', {
-            id: 'input_user_email'
-        })
-        .on('input', function () {
-            wid_input_email($(this))
-        })
-        .attr('maxlength', '40'));
-
-    $obj.append($('<button/>', {
-            id: 'button_user_email',
-            text: B_TXT.SEND_EMAIL
-        })
-        .click(function () {
-            let $window = $('#div_modal_window');
-
-            wid_nc_login();
-            $window.click();
-        })
-        .button()
-        .button('disable'));
-
+                wid_nc_login();
+                $window.click();
+            }));
+            
     return $obj;
 }
 
 function wid_get_jq_user_profile(name) {
-    var $obj = $();
-
-    $obj = $obj.add('<div/>', {
-            id: 'div_user_profile'
-        });
-
+    var $obj = $('<div/>', {
+        id: 'div_user_profile'
+    });
+    console.log('name: ' + name)
     $obj.append($('<label/>')
-        .text('Name')
-        .attr('for', 'input_user_name'));
+            .text('Name')
+            .attr('for', 'input_user_name'))
+        .append($('<input/>', {
+                id: 'input_user_name',
+                value: name
+            })
+            .on('input', function () {
+                wid_input_name($(this))
+            })
+            .attr('maxlength', '40'))
+        .append($('<button/>', {
+                id: 'button_user_name',
+                text: B_TXT.CHANGE,
+            })
+            .click(function () {
+                let $window = $('#div_modal_window');
 
-    $obj.append($('<input/>', {
-            id: 'input_user_name',
-            value: name
-        })
-        .on('input', function () {
-            wid_input_name($(this))
-        })
-        .attr('maxlength', '40'));
-
-    $obj.append($('<button/>', {
-            id: 'button_user_name',
-            text: B_TXT.CHANGE,
-        })
-        .click(function () {
-            let $window = $('#div_modal_window');
-
-            wid_nc_name();
-            $window.click();
-        })
-        .button()
-        .button('disable'));
-
-    $obj.append($('<button/>', {
+                wid_nc_name();
+                $window.click();
+            }))
+        .append($('<button/>', {
             id: 'button_user_logout',
             text: B_TXT.LOGOUT,
             click: function () {
@@ -77,8 +66,7 @@ function wid_get_jq_user_profile(name) {
                 wid_nc_logout();
                 $window.click();
             }
-        })
-        .button());
+        }));
 
     return $obj;
 }
@@ -246,26 +234,20 @@ function wid_get_jq_ds_item_cat(ds) {
     var cat = '[' + ds.cat.join('/') + ']';
     
     
-    obj.$name = $('<label/>', {
-                id: 'label_ds_' + ds.id + '_cat',
-                text: 'Category'
-            });
+    obj.$name = $('<button/>', {
+            id: 'button_ds_' + ds.id + '_cat',
+            text: 'Category'
+        }).click(function () {
+            wid_nc_ds_cat(ds, 0);
+        });
     
     
     obj.$val = $('<span/>', {
-                id: 'span_ds_' + ds.id + '_cat',
-                text: cat
-    })
+            id: 'span_ds_' + ds.id + '_cat',
+            text: cat
+        })
 
-    obj.$ctrl = $('<div/>')
-        .append($('<div/>', {
-                text: '(e)',
-                title: 'Edit'
-            })
-            .click(function() {
-                wid_nc_ds_cat(ds, 0);
-            })
-            .addClass('dataset-edit-button'));
+    obj.$ctrl = $('<div/>');
             
     return obj;
     
@@ -274,25 +256,19 @@ function wid_get_jq_ds_item_cat(ds) {
 function wid_get_jq_ds_item_keyw(ds) {
     var obj = {};
     
-    obj.$name = $('<label/>', {
-                id: 'label_ds_' + ds.id + '_keyw',
-                text: 'Keywords'
-            });
+    obj.$name = $('<button/>', {
+            id: 'button_ds_' + ds.id + '_keyw',
+            text: 'Keywords'
+        }).click(function () {
+            wid_click_ds_modal(ds, $(this));
+        });
             
     obj.$val = $('<span/>', {
                 id: 'span_ds_' + ds.id + '_keyw',
                 text: '[' + ds.keyw.join('/') + ']'
     })
 
-    obj.$ctrl = $('<div/>')
-        .append($('<div/>', {
-                text: '(e)',
-                title: 'Edit'
-            })
-            .click(function() {
-                wid_click_ds_modal(ds, $(this));
-            })
-            .addClass('dataset-edit-button'));
+    obj.$ctrl = $('<div/>');
  
     return obj;
     

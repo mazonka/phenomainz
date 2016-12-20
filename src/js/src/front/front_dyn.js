@@ -250,7 +250,12 @@ function wid_upload_file() {
 }
 
 function wid_open_email_window() {
-    wid_modal_window(wid_get_jq_user_email(), false, null, null);
+    var $obj = wid_get_jq_user_email();
+    var ui_init = function () {
+        $obj.find('button').button().button('disable');
+    }
+    
+    wid_modal_window($obj, false, null, ui_init);
 }
 
 function wid_input_email($obj) {
@@ -277,7 +282,13 @@ function wid_input_email($obj) {
 
 function wid_open_profile_window($obj) {
     var name = $obj.html().substring(6);
-    wid_modal_window(wid_get_jq_user_profile(name), false, null, null);
+    var $obj = wid_get_jq_user_profile(name);
+    var ui_init = function () {
+        $('#button_user_name').button().button('disable');
+        $('#button_user_logout').button();
+    }
+    
+    wid_modal_window($obj, false, null, ui_init);
 }
 
 
@@ -380,10 +391,10 @@ function wid_nc_profile() {
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
 
-        $('#div_profile_name').find('div').html(profile.name);
-        $('#div_profile_email').find('div').html(profile.email);
-        $('#div_profile_lastdate').find('div').html(date + ', ' + time);
-        $('#div_profile_counter').find('div').html(profile.counter);
+        $('#span_profile_name').find('span').html(profile.name);
+        $('#span_profile_email').find('span').html(profile.email);
+        $('#span_profile_lastdate').find('span').html(date + ', ' + time);
+        $('#span_profile_counter').find('span').html(profile.counter);
     };
 
     eng_nc_profile(cb, g_user_id, g_pulse);
@@ -535,13 +546,18 @@ function wid_nc_ds_delete(ds_id) {
 function wid_nc_ds_get(ds_id, force) {
     var $ds_div = $('#div_ds_' + ds_id);
     var cb = function (resp, ds) {
+        let $ds_item;
+        
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout();
         } else if (resp != PHENOD.OK) {
             return wid_modal_window(M_TXT.ERROR + resp, true, null, null);
         }
-      
-        $ds_div.html(wid_get_jq_ds_item(ds));
+        
+        $ds_item = wid_get_jq_ds_item(ds);
+        $ds_div.html($ds_item);
+        $ds_item.find('button').button();
+        
     }
     
     if (!Boolean($ds_div.html())) {
