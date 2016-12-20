@@ -35,7 +35,7 @@ function wid_get_jq_user_profile(name) {
     var $obj = $('<div/>', {
         id: 'div_user_profile'
     });
-    console.log('name: ' + name)
+
     $obj.append($('<label/>')
             .text('Name')
             .attr('for', 'input_user_name'))

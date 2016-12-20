@@ -280,8 +280,7 @@ function wid_input_email($obj) {
     }
 }
 
-function wid_open_profile_window($obj) {
-    var name = $obj.html().substring(6);
+function wid_open_profile_window(name) {
     var $obj = wid_get_jq_user_profile(name);
     var ui_init = function () {
         $('#button_user_name').button().button('disable');

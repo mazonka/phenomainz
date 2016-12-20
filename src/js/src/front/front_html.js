@@ -126,7 +126,7 @@ function html_get_td_admin() {
 function html_get_td_profile() {
     var r = '';
     r += '<span id="span_profile_name">' + L_TXT.USER_NAME +
-        '<span onclick="wid_open_profile_window($(this))"></span></span></br>\n';
+        '<span onclick="wid_open_profile_window($(this).html())"></span></span></br>\n';
     r += '<span id="span_profile_email">' + L_TXT.EMAIL +
         '<span></span></span></br>\n';
     r += '<span id="span_profile_lastdate">' + L_TXT.LAST_LOGIN +
