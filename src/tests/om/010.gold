@@ -1,0 +1,14 @@
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=== columns
+OK
+REQ_MSG_BAD
+setc <dsN> <cN> xy name unit desc ... <cN> xy name unit desc
+REQ_MSG_BAD
+REQ_MSG_BAD
+REQ_MSG_BAD
+REQ_MSG_BAD
+===================================

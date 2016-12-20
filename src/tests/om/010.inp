@@ -1,0 +1,17 @@
+set date "20001122"
+set time "001122"
+
+print [ === login ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === columns ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print [ setc <dsN> <cN> xy name unit desc ... <cN> xy name unit desc  ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 1 YWJj YWJj MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 3 YWJj YWJj MTIzNDU2Nzg5MA== 1 YWJj YWJj YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print [ =================================== ]
+
+quit
