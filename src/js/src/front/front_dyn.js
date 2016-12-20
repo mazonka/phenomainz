@@ -166,7 +166,7 @@ function wid_ui_logout(msg) {
         let init = function () {
             ui_init(0);
         };
-        
+
         wid_open_modal_window(M_TXT.S_EXPIRED, true);
     } else {
         wid_open_modal_window(M_TXT.BYE, true);
