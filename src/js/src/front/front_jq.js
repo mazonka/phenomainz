@@ -7,27 +7,18 @@ function wid_get_jq_user_email() {
     var $obj = $('<div/>');
     //$obj = $obj.add('<div/>');
 
-    $obj.append($('<label/>')
-            .text('E-mail: ')
-            .attr('for', 'input_user_email'))
+    $obj.append($('<label/>', {
+            text: 'E-mail: '
+        }))
         .append($('<input/>', {
                 id: 'input_user_email'
             })
-            .on('input', function () {
-                wid_input_email($(this))
-            })
-            .attr('maxlength', '40'))
+            .attr('maxlength', INPUT_MAX))
         .append($('<button/>', {
-                id: 'button_user_email',
-                text: B_TXT.SEND_EMAIL
-            })
-            .click(function () {
-                let $window = $('#div_modal_window');
+            id: 'button_user_email',
+            text: B_TXT.SEND_EMAIL
+        }));
 
-                wid_nc_login();
-                $window.click();
-            }));
-            
     return $obj;
 }
 
@@ -36,37 +27,37 @@ function wid_get_jq_user_profile(name) {
         id: 'div_user_profile'
     });
 
-    $obj.append($('<label/>')
-            .text('Name')
-            .attr('for', 'input_user_name'))
+    $obj.append($('<label/>', {
+            text: 'Name'
+            }))
         .append($('<input/>', {
                 id: 'input_user_name',
                 value: name
             })
-            .on('input', function () {
-                wid_input_name($(this))
-            })
-            .attr('maxlength', '40'))
+            .attr('maxlength', INPUT_MAX))
         .append($('<button/>', {
                 id: 'button_user_name',
-                text: B_TXT.CHANGE,
-            })
-            .click(function () {
-                let $window = $('#div_modal_window');
+                text: B_TXT.SUBMIT
+            }));
 
-                wid_nc_name();
-                $window.click();
+    return $obj;
+}
+
+function wid_get_jq_yes_no(msg) {
+    var $obj = $('<div/>');
+    
+    $obj.append($('<div/>', {
+                text: msg
             }))
         .append($('<button/>', {
-            id: 'button_user_logout',
-            text: B_TXT.LOGOUT,
-            click: function () {
-                let $window = $('#div_modal_window');
-
-                wid_nc_logout();
-                $window.click();
-            }
-        }));
+                text: 'No'
+            })
+            .addClass('button-no-button'))
+        .append($('<button/>', {
+                text: 'Yes'
+            })
+            .addClass('button-yes-button')
+        );
 
     return $obj;
 }
@@ -88,24 +79,6 @@ function wid_get_jq_ds_list(l, ds_id, title) {
                 id: 'div_ds_' + ds_id[i],
             }));
     }
-
-    $obj.accordion({
-        icons: {
-            'header': 'ui-icon-plus',
-            'activeHeader': 'ui-icon-minus'
-        },
-        active: false,
-        heightStyle: 'content',
-        collapsible: 'true',
-        header: 'h3',
-        activate: function (event, ui) {
-            var ds_id = ($(this).find('.ui-state-active').attr('data-id'));
-
-            if (typeof ds_id !== 'undefined') {
-                wid_nc_ds_get(ds_id, false);
-            }
-        }
-    });
 
     return $obj;
 }
@@ -277,11 +250,10 @@ function wid_get_jq_ds_item_keyw(ds) {
 function wid_get_jq_ds_delete(ds_id) {
     var $obj = $('<button/>', {
             text: B_TXT.DS_DELETE,
-            id: 'button_ds_delete_' + ds_id,
-            click: function () {
-                wid_nc_ds_delete(ds_id);
-            }
-        }).button();
+        })
+        .click(function () {
+            wid_nc_ds_delete(ds_id)
+        });
 
     return $obj;
 }
@@ -289,26 +261,26 @@ function wid_get_jq_ds_delete(ds_id) {
 function wid_get_jq_cat_menu(ds, cat) {
     var $span = $('<span/>');
     var $menu = $('<select/>', {
-            id: 'select_ds_cat'
-        });
+        id: 'select_ds_cat'
+    });
     var $button = $('<button/>', {
-            text: 'Change',
-        });
-    
+        text: 'Change',
+    });
+
     $menu.append($('<option/>', {
-            value: 0,
-            text: '/'
-        }));        
-        
+        value: 0,
+        text: '/'
+    }));
+
     for (let i = 0; i < cat.length; i++) {
         $menu.append($('<option/>', {
             value: cat[i].id,
             text: cat[i].name
         }));
-        //r += cat[i].id + ':' + cat[i].name + '\n';
     }
-    
-    $span.append($menu).append($button);
-    
+
+    $span.append($menu)
+        .append($button);
+
     return $span;
 }

@@ -17,6 +17,8 @@ const PH_CMD = {
     LOGIN: 'login'
 };
 
+const INPUT_MAX = '40';
+
 const IMG = {
     LOGO_WAIT: 'img/logo_wt.gif',
     LOGO_DONE: 'img/logo_dn.png',

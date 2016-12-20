@@ -12,6 +12,7 @@ const B_TXT = {
     PROFILE: 'Profile',
     SEND_EMAIL: 'Send email',
     CHANGE: 'Change',
+    SUBMIT: 'Submit',
     LOGOUT: 'Logout',
     PING: 'Ping',
     DS_CREATE_NEW: 'Create new dataset',
@@ -31,10 +32,12 @@ const L_TXT = {
 };
 
 const M_TXT = {
-    ERROR: 'ERROR: ',
+    ERROR: 'ERROR!\n',
     RELOAD: 'Are you sure?',
     EMAIL: 'An email with link has been sent to ',
-    SESSION_EXP: 'Session expired',
+    BYE: 'Bye!',
+    SURE: 'Are your sure?',
+    S_EXPIRED: 'Session expired',
     get FILE_IS_HUGE() {
         return this.ERROR + 'File is too big. Maximum file size is ' + G_MAX_FILE_SIZE + ' bytes';
     },
