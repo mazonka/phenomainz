@@ -62,28 +62,37 @@ function wid_get_jq_yes_no(msg) {
     return $obj;
 }
 
+function wid_get_jq_ds_h3(ds_id, title) {
+    var $obj = $('<h3/>', {
+            id: 'h3_ds_' + ds_id,
+            text: ds_id + '. ' + title
+        })
+        .attr('data-id', ds_id);
+
+    return $obj;
+}
+
 function wid_get_jq_ds_list(l, ds_id, title) {
     var $obj = $();
 
     $obj = $obj.add($('<div/>', {
-                id: 'div_ds_list'
-            }));
+        id: 'div_ds_list'
+    }));
 
     for (let i = 0; i < +l; i++) {
-        $obj.append($('<h3/>', {
-                id: 'h3_ds_' + ds_id[i],
-                text: ds_id[i] + '. ' + title[i]
-            }).attr('data-id', ds_id[i]));
+        let $h3 = wid_get_jq_ds_h3(ds_id[i], title[i]);
+
+        $obj.append($h3);
 
         $obj.append($('<div/>', {
-                id: 'div_ds_' + ds_id[i],
-            }));
+            id: 'div_ds_' + ds_id[i],
+        }));
     }
 
     return $obj;
 }
 
-function wid_get_jq_ds_item(ds) {
+function wid_get_jq_ds_div(ds) {
     var title = wid_get_jq_ds_item_title(ds);
     var descr = wid_get_jq_ds_item_descr(ds);
     var cat = wid_get_jq_ds_item_cat(ds);
@@ -93,26 +102,30 @@ function wid_get_jq_ds_item(ds) {
     var $obj_data = $('<table/>', {
             id: 'table_ds_' + ds.id
         })
-        .addClass('dataset-item-table');
+        .addClass('ds-item-table');
     
-    $obj_data = wid_get_ds_item_add_row_span($obj_data, del, 'delete');
-    $obj_data = wid_get_ds_item_add_row($obj_data, title, 'title');
-    $obj_data = wid_get_ds_item_add_row($obj_data, descr, 'descr');
-    $obj_data = wid_get_ds_item_add_row($obj_data, cat, 'cat');
-    $obj_data = wid_get_ds_item_add_row($obj_data, keyw, 'keyw');
-
+    $obj_data = wid_get_ds_item_row($obj_data, title, 'title');
+    $obj_data = wid_get_ds_item_row($obj_data, descr, 'descr');
+    $obj_data = wid_get_ds_item_row($obj_data, cat, 'cat');
+    $obj_data = wid_get_ds_item_row($obj_data, keyw, 'keyw');
+    $obj_data = wid_get_ds_item_row_span($obj_data, del, 'delete');
+    
+    $obj_data
+        .find('button')
+        .css('width', '100');
+        
     return $obj_data;
 }
 
 
-function wid_get_ds_item_add_row($obj, td, data_id) {
+function wid_get_ds_item_row($obj, td, data_id) {
     $obj.append($('<tr/>')
         .attr('data-id', data_id)
         .append($('<td/>')
             .css('width', '80px')
             .append(td.$name))
         .append($('<td/>')
-            .css('width', '160px')
+            .css('width', '240px')
             .append(td.$val))
         .append($('<td/>')
             .css('width', '60px')
@@ -121,7 +134,7 @@ function wid_get_ds_item_add_row($obj, td, data_id) {
     return $obj;
 }
 
-function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
+function wid_get_ds_item_row_span($obj, td_data, data_id) {
     $obj.append($('<tr/>')
         .attr('data-id', data_id)
         .append($('<td/>')
@@ -134,11 +147,12 @@ function wid_get_ds_item_add_row_span($obj, td_data, data_id) {
 function wid_get_jq_ds_item_title(ds) {
     var obj = {};
 
-    obj.$name = $('<label/>', {
-            id: 'label_ds_' + ds.id + '_title',
+    obj.$name = $('<button/>', {
             text: 'Title'
         })
-        .attr('for', 'input_ds_' + ds.id + '_title');
+        .attr('data-text', 'Title')
+        .attr('data-cmd', 'title')
+        .addClass('ds-prop-button');
 
     obj.$val = $('<input/>', {
             id: 'input_ds_' + ds.id + '_title',
@@ -146,34 +160,24 @@ function wid_get_jq_ds_item_title(ds) {
         })
         .prop('disabled', true);
 
-    obj.$ctrl = $('<div/>')
-        .append($('<div/>', {
-                //id: 'div_ds_' + ds.id + '_title_edit',
-                text: '(e)',
-                title: 'Edit'
-            })
-            .click(function () {
-                wid_click_ds_ctrl(ds, 'edit', $(this));
-            })
-            .addClass('dataset-edit-button'))
-        .append($('<div/>', {
-                text: '(c)',
-                title: 'Cancel'
-            })
-            .prop('disabled', true)
-            .addClass('dataset-cancel-button dataset-disabled-button'));
-
+    obj.$ctrl = $('<button/>', {
+            text: 'Cancel'
+        })
+        .addClass('ds-cancel-button')
+        .hide();
+        
     return obj;
 }
 
 function wid_get_jq_ds_item_descr(ds) {
     var obj = {};
 
-    obj.$name = $('<label/>', {
-                id: 'label_ds_' + ds.id + '_descr',
+    obj.$name = $('<button/>', {
                 text: 'Description'
             })
-            .attr('for', 'input_ds_' + ds.id + '_descr');
+            .attr('data-text', 'Description')
+            .attr('data-cmd', 'descr')
+            .addClass('ds-prop-button');
         
     obj.$val = $('<textarea/>', {
                 id: 'textarea_ds_' + ds.id + '_descr',
@@ -181,22 +185,11 @@ function wid_get_jq_ds_item_descr(ds) {
             })
             .prop('disabled', true);
 
-    obj.$ctrl = $('<div/>')
-        .append($('<div/>', {
-                //id: 'div_ds_' + ds.id + '_descr_edit',
-                text: '(e)',
-                title: 'Edit'
-            })
-            .click(function() {
-                wid_click_ds_ctrl(ds, 'edit', $(this));
-            })
-            .addClass('dataset-edit-button'))
-        .append($('<div/>', {
-                text: '(c)',
-                title: 'Cancel'
-            })
-            .addClass('dataset-cancel-button dataset-disabled-button')
-            .prop('disabled', true));
+    obj.$ctrl = $('<button/>', {
+            text: 'Cancel'
+        })
+        .addClass('ds-cancel-button')
+        .hide();
 
     return obj;
 }

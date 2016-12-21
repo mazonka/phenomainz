@@ -163,18 +163,11 @@ function wid_ui_logout(msg) {
     }
     
     if (msg === PHENOD.AUTH) {
-        let init = function () {
-            ui_init(0);
-        };
-
         wid_open_modal_window(M_TXT.S_EXPIRED, true);
     } else {
         wid_open_modal_window(M_TXT.BYE, true);
     }
-
-
 }
-
 
 function wid_ui_login() {
     $('#td_login')
@@ -531,277 +524,54 @@ function wid_input_name($obj) {
     }
 }
 
-function wid_nc_name() {
-    var name = $('#input_user_name')
-        .val() || '*';
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
 
-        wid_nc_profile();
-    };
-
-    eng_nc_name(cb, g_user_id, name, g_pulse);
-}
-
-function wid_nc_ds_list() {
-    var cb = function (resp, list) {
-        let $td_ds_list = $('#td_ds_list');
-        let $div;
-
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        $td_ds_list.children()
-            .remove();
-
-        if (list !== null) {
-            $div = wid_get_jq_ds_list(list.n, list.id, list.title);
-            $td_ds_list.append($div.accordion({
-                icons: {
-                    'header': 'ui-icon-plus',
-                    'activeHeader': 'ui-icon-minus'
-                },
-                active: false,
-                heightStyle: 'content',
-                collapsible: 'true',
-                header: 'h3',
-                activate: function (event, ui) {
-                    var ds_id = ($(this)
-                        .find('.ui-state-active')
-                        .attr('data-id'));
-
-                    if (typeof ds_id !== 'undefined') {
-                        wid_nc_ds_get(ds_id, false);
-                    }
-                }
-            }));
-        }
-    };
-
-    eng_nc_ds_list(cb, g_user_id);
-}
-
-function wid_nc_ds_create() {
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            wid_nc_ds_list();
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        wid_nc_ds_list();
-    };
-
-    eng_nc_ds_create(cb, g_user_id);
-}
-
-function wid_nc_ds_upd_title(ds_id, title) {
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            wid_nc_ds_list();
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        wid_nc_ds_get(ds_id, true);
-    };
-
-    title = title || '*';
-
-    eng_nc_ds_upd_title(cb, g_user_id, ds_id, title);
-}
-
-function wid_nc_ds_upd_descr(ds_id, descr) {
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            wid_nc_ds_list();
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        wid_nc_ds_get(ds_id, true);
-    };
-
-    descr = descr || '*';
-
-    eng_nc_ds_upd_descr(cb, g_user_id, ds_id, descr);
-}
-
-function wid_nc_ds_upd_categ(ds_id, cat_id) {
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            wid_nc_ds_list();
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        wid_open_modal_window();
-        wid_nc_ds_get(ds_id, true);
-
-    };
-
-    eng_nc_ds_upd_categ(cb, g_user_id, ds_id, cat_id);
-}
-
-function wid_nc_ds_delete(ds_id) {
-    var cb = function (resp) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        wid_nc_ds_list();
-    };
-
-    eng_nc_ds_delete(cb, g_user_id, ds_id);
-}
-
-function wid_nc_ds_get(ds_id, force) {
-    var $ds_div = $('#div_ds_' + ds_id);
-    var cb = function (resp, ds) {
-        let $ds_item;
-
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        $ds_item = wid_get_jq_ds_item(ds);
-        $ds_div.html($ds_item);
-        $ds_item.find('button')
-            .button();
-
-    }
-
-    if (!Boolean($ds_div.html())) {
-        force = true;
-    }
-
-    if (force) {
-        eng_nc_ds_get(cb, g_user_id, ds_id);
-    }
-}
-
-function wid_click_ds_ctrl(ds, cmd, $obj) {
-    var $input = $obj.closest('tr')
-        .find('input');
-    var $textarea = $obj.closest('tr')
-        .find('textarea');
-    var $cancel = $obj.closest('tr')
-        .find('.dataset-cancel-button');
-    var ds_update_cmd = $obj.closest('tr')
-        .attr('data-id');
-
-    $obj.off('click');
-    $cancel.off('click');
-
-    switch (cmd) {
-    case 'edit':
-        Boolean($input) && $input.prop('disabled', false);
-        Boolean($textarea) && $textarea.prop('disabled', false);
-        $cancel.removeClass('dataset-disabled-button');
-
-        $obj.html('(s)')
-            .attr('title', 'Submit');;
-        $obj.click(function () {
-            wid_click_ds_ctrl(ds, 'submit', $obj);
-        });
-
-        $cancel.click(function () {
-            wid_click_ds_ctrl(ds, 'cancel', $obj);
-        });
-
-        break;
-    case 'submit':
-        Boolean($input) && $input.prop('disabled', true);
-        Boolean($textarea) && $textarea.prop('disabled', true);
-
-        $cancel.addClass('dataset-disabled-button');
-
-        $obj.html('(e)')
-            .attr('title', 'Edit');
-
-        $obj.click(function () {
-            wid_click_ds_ctrl(ds, 'edit', $obj);
-        });
-
-        if (ds_update_cmd == 'title') {
-            wid_nc_ds_upd_title(ds.id, $input.val());
-        } else if (ds_update_cmd == 'descr') {
-            wid_nc_ds_upd_descr(ds.id, $textarea.val());
-        }
-
-        break;
-    case 'cancel':
-        $cancel.off('click');
-        Boolean($input) && $input.prop('disabled', true);
-        Boolean($textarea) && $textarea.prop('disabled', true);
-        $cancel.addClass('dataset-disabled-button');
-
-
-        $obj.html('(e)')
-            .attr('title', 'Edit');
-        wid_nc_ds_get(ds.id, true);
-
-        $obj.click(function () {
-            wid_click_ds_ctrl(ds, 'edit', $obj);
-        });
-
-
-        break;
-    default:
-        return;
-    }
-}
-
-function wid_nc_ds_cat(ds, cat_id) {
-    var cb = function (resp, data) {
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        if (Boolean(data)) {
-            let $obj = wid_get_jq_cat_menu(ds, data);
-            let f = function () {
-                let $m = $obj.find('select');
-                let $b = $obj.find('button');
-
-                $m.selectmenu()
-                    .selectmenu({
-                        select: function (event, ui) {
-                            wid_nc_ds_cat(ds, ui.item.value);
-
-                            $b.click(function () {
-                                wid_nc_ds_upd_categ
-                                    (ds.id, ui.item
-                                        .value);
-                                console.log(ui.item
-                                    .value);
-                            });
-                        }
-                    });
-
-                $b.button();
-            }
-
-            wid_open_modal_window($obj, false, null, f);
+function wid_click_ds_prop_button($btn, ds, submit) {
+    var $cnl;
+    var $fld;
+    var val;
+    var cmd;
+    var toggle = function ($b, $f, $c, turn) {
+        if (turn) {
+            $f.prop('disabled', false) 
+            $f.focus();
+            $b.text(B_TXT.SUBMIT);
+            $c.show();
+        } else {
+            $f.prop('disabled', true);
+            $b.text($btn.attr('data-text'));
+            $c.hide();            
         }
     }
+    
+    if (submit) {
+        $fld = $btn.parent('td').next('td').children();
+        $cnl = $fld.parent('td').next('td').children();
+    } else {
+        $cnl = $btn;
+        $fld = $cnl.parent('td').prev('td').children();
+        $btn = $fld.parent('td').prev('td').children();
+    }
+    
+    if ($fld.prop('disabled') && !submit) {
+        toggle($btn, $fld, $cnl, false);
+        return alert('don\'t do that again!');
+    }
+    else if ($fld.prop('disabled')) {
+        toggle($btn, $fld, $cnl, true)
+    } else {
+        toggle($btn, $fld, $cnl, false);
+        
+        if (!submit) {
+            wid_nc_ds_get(ds.id, true);
+        } else {
+            cmd = $btn.attr('data-cmd');
+            val = $fld.val();
+            console.log('upd');
 
-    eng_nc_cat_kids(cb, g_user_id, cat_id);
+            wid_nc_ds_upd_cmd(cmd, ds.id, val);
+        }
+    }
+   
+
 }
+
