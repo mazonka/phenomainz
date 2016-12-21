@@ -18,6 +18,7 @@ const B_TXT = {
     CREATE_NEW: 'Create new dataset',
     UPDATE_LIST: 'Update list',
     DELETE: 'Delete',
+    FILE: 'New file'
 };
 
 const L_TXT = {

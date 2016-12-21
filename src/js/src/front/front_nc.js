@@ -125,7 +125,7 @@ function wid_nc_ds_list() {
             .remove();
 
         if (list !== null) {
-            $div = wid_get_jq_ds_list(list.n, list.id, list.title);
+            $div = jq_get_ds_list(list.n, list.id, list.title);
             $td_ds_list.append($div);
             wid_jq_ui_init_ds_accordion($div);
         }
@@ -145,38 +145,9 @@ function wid_nc_ds_get(ds_id, force) {
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        $ds_item = wid_get_jq_ds_div(ds);
-        $ds_item
-            .find('.ds-title-button, .ds-descr-button')
-            .click(function () {
-                wid_click_ds_prop_button($(this), ds, true);
-            });
-
-        $ds_item
-            .find('.ds-cancel-button')
-            .click(function () {
-                wid_click_ds_prop_button($(this), ds, false);
-            });
-
-        $ds_item
-            .find('.ds-categ-button')
-            .click(function () {
-                wid_nc_ds_cat(ds, 0);
-            });        
         
-        $ds_item
-            .find('.ds-keywd-button')
-            .click(function () {
-                
-            });
-            
-        $ds_item
-            .find('.ds-delete-button')
-            .click(function () {
-                wid_window_ds_delete(ds.id);
-            });       
-            
+        $ds_item = jq_get_ds_div(ds);
+           
         $ds_div
             .html($ds_item);
 
@@ -221,16 +192,16 @@ function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
         wid_nc_ds_get(ds_id, true);
     };
 
-    data = data || '*';
+    data = data || window.btoa('*');
 
     if (cmd == 'title') {
         eng_nc_ds_upd_title(cb, g_user_id, ds_id, data);
     } else if (cmd == 'descr') {
         eng_nc_ds_upd_descr(cb, g_user_id, ds_id, data);
     } else if (cmd == 'categ') {
-        eng_nc_ds_upd_categ(cb, g_user_id, ds_id, cat_id);
+        eng_nc_ds_upd_categ(cb, g_user_id, ds_id, data);
     } else if (cmd == 'keywd') {
-        eng_nc_ds_upd_keywd(cb, g_user_id, ds_id, data);
+        //eng_nc_ds_upd_keywd(cb, g_user_id, ds_id, data);
     }
 }
 
@@ -258,7 +229,7 @@ function wid_nc_ds_cat(ds, cat_id) {
 
         console.log(data);
         if (Boolean(data.length)) {
-            let $obj = wid_get_jq_cat_menu(ds, data);
+            let $obj = jq_get_cat_menu(ds, data);
             console.log($obj)
             let f = function () {
                 let $m = $obj.find('select');
@@ -278,7 +249,7 @@ function wid_nc_ds_cat(ds, cat_id) {
                 $b.button();
             }
 
-            wid_open_modal_window($obj, false, null, f);
+            //wid_open_modal_window($obj, false, null, f);
         }
     }
 

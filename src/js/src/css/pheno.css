@@ -76,7 +76,7 @@ button {
     vertical-align: middle;
 }
 
-#label_open_file {
+label .ds-add-file {
     overflow: hidden;
     position: relative;
     height: 24px;
@@ -84,12 +84,12 @@ button {
     vertical-align: middle !important;
 }
 
-#label_open_file:hover {
+label .ds-add-file:hover {
     background-color: #87CEEB;
     cursor: pointer;  
 }
 
-#input_open_file {
+input[type='file'] {
     /* display: none; */
 	width: 0.1px;
 	height: 0.1px;
@@ -164,6 +164,13 @@ h3 {
     margin: 0px;
 }
 
+
+.ds-add-file {
+    height: 24px !important;
+    padding: 0 5px 0 5px !important;
+    vertical-align: middle !important;
+    min-width: 100px !important;
+}
 /* Modal popup window */
 
 #div_modal_window {

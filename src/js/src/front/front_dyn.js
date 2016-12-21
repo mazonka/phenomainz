@@ -125,7 +125,7 @@ function wid_close_modal_window(f) {
 
 
 function wid_window_logout() {
-    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
+    var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -226,7 +226,6 @@ function wid_open_file(files, $obj) {
             return wid_open_modal_window(M_TXT.TABLE_ERROR + table.err_row,
                 true, null, null);
         }
-        ///console.log(file);
 
         wid_file_is_open(true);
 
@@ -234,8 +233,7 @@ function wid_open_file(files, $obj) {
             return wid_file_is_open(false);
         });
 
-        wid_open_modal_window(html_get_file_metadata(file), false, null,
-            null);
+        console.log(file);
     };
 
     var cb_progress = function (data) {
@@ -295,7 +293,7 @@ function wid_upload_file() {
 }
 
 function wid_open_email_window() {
-    var $obj = wid_get_jq_user_email();
+    var $obj = jq_get_user_email();
     var ui_init = function () {
         $obj.find('input')
             .on('input', function () {
@@ -334,7 +332,7 @@ function wid_input_email($obj) {
 }
 
 function wid_open_profile_window(name) {
-    var $obj = wid_get_jq_user_profile(name);
+    var $obj = jq_get_user_profile(name);
     var ui_init = function () {
         $obj.find('input')
             .on('input', function () {
@@ -357,53 +355,6 @@ function wid_open_profile_window(name) {
 
 
 function wid_auth(auth_network) {
-    //console.log(hello(auth_network).getAuthResponse());
-    hello.on('auth', function (auth) {
-        // Call user information, for the given network
-        console.log(auth);
-        hello(auth.network)
-            .api('me')
-            .then(function (r) {
-                // Inject it into the container
-                var label = document.getElementById('profile_' +
-                    auth.network);
-                if (!label) {
-                    label = document.createElement('div');
-                    label.id = 'profile_' + auth.network;
-                    document.getElementById('profile')
-                        .appendChild(label);
-                }
-                label.innerHTML = '<img src="' + r.thumbnail +
-                    '" /> Hey ' + r.name;
-            });
-    });
-
-    hello(auth_network)
-        .login();
-
-    console.log('hello.on');
-
-    /*    hello.on('auth', function (auth) {
-            console.log('in cb');
-            console.log(auth_network);
-            // Call user information, for the given network
-            hello(auth_network).api('me').then(function (r) {
-                // Inject it into the container
-                console.log(auth_network + ': ' + r.email);
-            });
-        });
-
-        if (Boolean(hello(auth_network).getAuthResponse())) {
-            hello(auth_network).logout().then(function () {
-                console.log('Signed out: ' + auth_network);
-            }, function (e) {
-                console.log('Signed out error: ' + e.error.message);
-            });
-        } else {
-            hello(auth_network).login({
-                scope: 'email'
-            });
-        } */
 }
 
 
@@ -434,18 +385,29 @@ function wid_input_name($obj) {
 }
 
 
-function wid_click_ds_prop_button($btn, ds, submit) {
+function wid_click_ds_button($btn, ds_id, submit) {
     var $cnl;
     var $fld;
 
     var toggle = function ($b, $f, $c, turn) {
         if (turn) {
-            $f.prop('disabled', false) 
-            $f.focus();
+            let cmd = $b.attr('data-cmd');
+            
+            $f.prop('readonly', false) 
             $b.text(B_TXT.SUBMIT);
             $c.show();
+            if (cmd == 'title' || cmd == 'descr') {
+                $f.focus();
+            } else if (cmd == 'categ') {
+                let cat = $f.html();
+                console.log(cat);
+                console.log(cat.length);
+                //wid_open_cat_window(ds_id, );
+            } else if (cmd == 'keywd') {
+                
+            }
         } else {
-            $f.prop('disabled', true);
+            $f.prop('readonly', true);
             $b.text($btn.attr('data-text'));
             $c.hide();            
         }
@@ -460,27 +422,33 @@ function wid_click_ds_prop_button($btn, ds, submit) {
         $btn = $fld.parent('td').prev('td').children();
     }
     
-    if ($fld.prop('disabled') && !submit) {
+    if ($fld.prop('readonly') && !submit) {
         toggle($btn, $fld, $cnl, false);
         return alert('don\'t do that again!');
-    } else if ($fld.prop('disabled')) {
+    } else if ($fld.prop('readonly')) {
         toggle($btn, $fld, $cnl, true)
     } else {
         toggle($btn, $fld, $cnl, false);
         
         if (!submit) {
-            wid_nc_ds_get(ds.id, true);
+            wid_nc_ds_get(ds_id, true);
         } else {
             let cmd = $btn.attr('data-cmd');
-            let val = $fld.val();
-
-            wid_nc_ds_upd_cmd(cmd, ds.id, val);
+            let val;
+            if (cmd == 'title' || cmd == 'discr') {
+                val = $fld.val();
+            } else if (cmd == 'categ') {
+                val = '';
+            } else if (cmd == 'keywd') {
+                val = '';
+            }
+            wid_nc_ds_upd_cmd(cmd, ds_id, val);
         }
     }
 }
 
-function wid_window_ds_delete(ds_id) {
-    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
+function wid_click_ds_del_button(ds_id) {
+    var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -497,4 +465,24 @@ function wid_window_ds_delete(ds_id) {
     }
 
     wid_open_modal_window($obj, false, init);
+}
+
+function wid_click_ds_cat_button($btn, ds) {
+    var $fld = $btn.parent('td').next('td').children();
+    var $cnl = $fld.parent('td').next('td').children();
+    var toggle = function ($b, $f, $c, turn) {
+        if (turn) {
+            $b.text(B_TXT.SUBMIT);
+            $c.show();
+        } else {
+            $b.text($btn.attr('data-text'));
+            $c.hide();            
+        }
+    };
+    
+    if ($fld.prop('disabled')) {
+        toggle($btn, $fld, $cnl, true)
+    } else {
+        toggle($btn, $fld, $cnl, false);    
+    }
 }
