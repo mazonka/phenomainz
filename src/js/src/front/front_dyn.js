@@ -406,97 +406,6 @@ function wid_auth(auth_network) {
         } */
 }
 
-function wid_nc_ping() {
-    var cb = function (resp) {
-        if (resp == PHENOD.OK) {
-            wid_ui_login();
-        } else if (resp == PHENOD.AUTH) {
-            wid_ui_logout(resp);
-        } else {
-            wid_open_modal_window(M_TXT.ERROR + resp, true, null, null);
-        }
-    };
-
-    eng_nc_ping(cb, g_user_id, g_pulse);
-}
-
-function wid_nc_login() {
-    var email = $('#input_user_email')
-        .val();
-    var url = document.URL;
-
-    var cb = function (resp) {
-        let msg;
-
-        resp == PHENOD.OK
-            ? msg = M_TXT.EMAIL + email
-            : msg = M_TXT.ERROR + resp;
-
-        wid_open_modal_window(msg, true, null, null);
-    };
-
-    eng_nc_login(cb, email, url, g_pulse)
-}
-
-function wid_nc_logout() {
-    var cb = function (resp) {
-        let msg = Boolean(resp === PHENOD.OK)
-            ? M_TXT.BYE
-            : resp;
-
-        wid_ui_logout(msg);
-    };
-
-    eng_nc_logout(cb, g_user_id, g_pulse)
-}
-
-function wid_nc_profile() {
-    var cb = function (resp, profile) {
-        let r;
-        let date;
-        let time;
-
-        if (resp == PHENOD.AUTH) {
-            return wid_ui_logout(resp);
-        } else if (resp != PHENOD.OK) {
-            return wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-
-        r = eng_get_lastdate(profile.lastdate);
-        date = [r.yyyy, r.mm, r.dd].join('.');
-        time = [r.h, r.m, r.s].join(':');
-
-        $('#span_profile_name')
-            .find('span')
-            .html(profile.name)
-            .click(function () {
-                wid_open_profile_window($(this)
-                    .html());
-            });
-
-        $('#span_profile_logout')
-            .find('button')
-            .button()
-            .click(function () {
-                wid_window_logout();
-            });
-
-        $('#span_profile_email')
-            .find('span')
-            .html(profile.email);
-
-        $('#span_profile_lastdate')
-            .find('span')
-            .html(date + ', ' + time);
-
-        $('#span_profile_counter')
-            .find('span')
-            .html(profile.counter);
-    };
-
-    eng_nc_profile(cb, g_user_id, g_pulse);
-}
-
 
 function wid_input_name($obj) {
     var $btn = $('#button_user_name');
@@ -528,8 +437,7 @@ function wid_input_name($obj) {
 function wid_click_ds_prop_button($btn, ds, submit) {
     var $cnl;
     var $fld;
-    var val;
-    var cmd;
+
     var toggle = function ($b, $f, $c, turn) {
         if (turn) {
             $f.prop('disabled', false) 
@@ -541,7 +449,7 @@ function wid_click_ds_prop_button($btn, ds, submit) {
             $b.text($btn.attr('data-text'));
             $c.hide();            
         }
-    }
+    };
     
     if (submit) {
         $fld = $btn.parent('td').next('td').children();
@@ -555,8 +463,7 @@ function wid_click_ds_prop_button($btn, ds, submit) {
     if ($fld.prop('disabled') && !submit) {
         toggle($btn, $fld, $cnl, false);
         return alert('don\'t do that again!');
-    }
-    else if ($fld.prop('disabled')) {
+    } else if ($fld.prop('disabled')) {
         toggle($btn, $fld, $cnl, true)
     } else {
         toggle($btn, $fld, $cnl, false);
@@ -564,14 +471,30 @@ function wid_click_ds_prop_button($btn, ds, submit) {
         if (!submit) {
             wid_nc_ds_get(ds.id, true);
         } else {
-            cmd = $btn.attr('data-cmd');
-            val = $fld.val();
-            console.log('upd');
+            let cmd = $btn.attr('data-cmd');
+            let val = $fld.val();
 
             wid_nc_ds_upd_cmd(cmd, ds.id, val);
         }
     }
-   
-
 }
 
+function wid_window_ds_delete(ds_id) {
+    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
+    var init = function () {
+        $obj.find('.button-yes-button')
+            .button()
+            .click(function () {
+                wid_nc_ds_delete(ds_id);
+                wid_close_modal_window()
+            });
+        $obj.find('.button-no-button')
+            .button()
+            .click(function () {
+                wid_close_modal_window();
+            });
+
+    }
+
+    wid_open_modal_window($obj, false, init);
+}

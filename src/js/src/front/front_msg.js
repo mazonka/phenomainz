@@ -15,11 +15,9 @@ const B_TXT = {
     SUBMIT: 'Submit',
     LOGOUT: 'Logout',
     PING: 'Ping',
-    DS_CREATE_NEW: 'Create new dataset',
-    DS_LIST_UPDATE: 'Update list',
-    DS_DELETE: 'DELETE',
-    DS_EDIT: 'EDIT',
-    DS_SUBMIT: 'SUBMIT'
+    CREATE_NEW: 'Create new dataset',
+    UPDATE_LIST: 'Update list',
+    DELETE: 'Delete',
 };
 
 const L_TXT = {
@@ -28,7 +26,8 @@ const L_TXT = {
     COUNTER: 'Logins counter: ',
     LAST_LOGIN: 'Last login: ',
     EMAIL: 'E-mail: ',
-    USER_NAME: 'User name: '
+    USER_NAME: 'User name: ',
+    VOLUME: 'Volume: '
 };
 
 const M_TXT = {

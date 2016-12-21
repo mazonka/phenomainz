@@ -140,6 +140,9 @@ function html_get_td_profile() {
     r += '<span id="span_profile_counter">' + L_TXT.COUNTER +
         '<span></span></span>';
     r += '</br>\n';
+    r += '<span id="span_profile_quote">' + L_TXT.VOLUME + 
+        '<span></span></span>';
+    r += '</br>\n';
 
     return html_get_td(r, 'td_profile');
 }
@@ -179,10 +182,10 @@ function html_get_td_ds_list_ctrl() {
     r += '<td id="td_ds_ctrl">\n';
     r += '<button id="button_ds_create" ' +
         ' onclick="wid_nc_ds_create()">' +
-        B_TXT.DS_CREATE_NEW + '</button>\n';
+        B_TXT.CREATE_NEW + '</button>\n';
     r += '<button id="button_ds_update" ' +
         'onclick="wid_nc_ds_list();">' +
-        B_TXT.DS_LIST_UPDATE + '</button>\n';
+        B_TXT.UPDATE_LIST + '</button>\n';
     
     return r;
 }

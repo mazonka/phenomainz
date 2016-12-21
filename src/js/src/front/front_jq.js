@@ -194,11 +194,9 @@ function wid_get_jq_ds_item_descr(ds) {
     return obj;
 }
 
-
 function wid_get_jq_ds_item_cat(ds) {
     var obj = {};
     var cat = '[' + ds.cat.join('/') + ']';
-    
     
     obj.$name = $('<button/>', {
             id: 'button_ds_' + ds.id + '_cat',
@@ -242,11 +240,9 @@ function wid_get_jq_ds_item_keyw(ds) {
 
 function wid_get_jq_ds_delete(ds_id) {
     var $obj = $('<button/>', {
-            text: B_TXT.DS_DELETE,
+            text: B_TXT.DELETE,
         })
-        .click(function () {
-            wid_nc_ds_delete(ds_id)
-        });
+        .addClass('ds-delete-button');
 
     return $obj;
 }

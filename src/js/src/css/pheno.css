@@ -1,6 +1,6 @@
 
 body {
-    font: normal 1em Arial, Verdana, Consolas, "Courier New", monospace;
+    font: normal 1em Tahoma, Verdana, Arial, Consolas, "Courier New", monospace;
     background: #FEFEFA;
     color: black;
     width: 80%;
@@ -195,7 +195,7 @@ h3 {
     animation-duration: 0.4s;
     cursor: pointer;
     text-align: center;
-    font: 16px Consolas;
+    font: 16px Tahoma;
 }
 
 #div_modal_window_content:hover,
