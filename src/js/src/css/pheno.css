@@ -162,6 +162,7 @@ h3 {
     width: 100%;
     padding: 1px;
     margin: 0px;
+    min-width: 240px;
 }
 
 

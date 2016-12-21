@@ -272,7 +272,7 @@ function jq_get_ds_add(ds_id) {
                 .append($('<td/>')
                     .html(jq_get_ds_files_load()))
                 .append($('<td/>')
-                    .html())//jq_get_ds_files_descr()
+                    .html(jq_get_ds_files_descr()))
                 .append($('<td/>')
                     .html()))//jq_get_ds_files_del()
     });
@@ -288,22 +288,27 @@ function jq_get_ds_files(ds_id) {
 
 function jq_get_ds_files_load() {
     var $label = $('<label/>', {
-        text: '+'
-    });
+            text: '+'
+        })
+        .addClass('ui-button ui-widget ui-corner-all ds-add-file');
+        
     var $input = $('<input>', {
-        type: 'file',
-        accept: '.txt,.csv'
-    });
-    
-    $label
-        .addClass('ui-button ui-widget ui-corner-all ds-add-file')
-        .click(function(){ 
-            console.log('click');
+            type: 'file',
+            accept: '.txt,.csv'
+        })
+        .change(function () {
+            wid_open_file(this.files, $(this));
+        })
+        .appendTo($label);
+
+    return $label;
+}
+
+function jq_get_ds_files_descr() {
+    var $input = $('<input/>', {
         });
 
-    $input.appendTo($label);
-    return $label;
-    
+    return $input;
 }
 
 function jq_get_ds_delete() {
