@@ -148,7 +148,7 @@ function wid_nc_ds_get(ds_id, force) {
 
         $ds_item = wid_get_jq_ds_div(ds);
         $ds_item
-            .find('.ds-prop-button')
+            .find('.ds-title-button, .ds-descr-button')
             .click(function () {
                 wid_click_ds_prop_button($(this), ds, true);
             });
@@ -160,11 +160,23 @@ function wid_nc_ds_get(ds_id, force) {
             });
 
         $ds_item
+            .find('.ds-categ-button')
+            .click(function () {
+                wid_nc_ds_cat(ds, 0);
+            });        
+        
+        $ds_item
+            .find('.ds-keywd-button')
+            .click(function () {
+                
+            });
+            
+        $ds_item
             .find('.ds-delete-button')
             .click(function () {
                 wid_window_ds_delete(ds.id);
-            });
-
+            });       
+            
         $ds_div
             .html($ds_item);
 

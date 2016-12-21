@@ -123,13 +123,13 @@ function wid_get_ds_item_row($obj, td, data_id) {
         .attr('data-id', data_id)
         .append($('<td/>')
             .css('width', '80px')
-            .append(td.$name))
+            .append(td.$b))
         .append($('<td/>')
             .css('width', '240px')
-            .append(td.$val))
+            .append(td.$f))
         .append($('<td/>')
             .css('width', '60px')
-            .append(td.$ctrl)));
+            .append(td.$c)));
         
     return $obj;
 }
@@ -147,20 +147,19 @@ function wid_get_ds_item_row_span($obj, td_data, data_id) {
 function wid_get_jq_ds_item_title(ds) {
     var obj = {};
 
-    obj.$name = $('<button/>', {
+    obj.$b = $('<button/>', {
             text: 'Title'
         })
         .attr('data-text', 'Title')
         .attr('data-cmd', 'title')
-        .addClass('ds-prop-button');
+        .addClass('ds-title-button');
 
-    obj.$val = $('<input/>', {
-            id: 'input_ds_' + ds.id + '_title',
+    obj.$f = $('<input/>', {
             value: ds.title
         })
         .prop('disabled', true);
 
-    obj.$ctrl = $('<button/>', {
+    obj.$c = $('<button/>', {
             text: 'Cancel'
         })
         .addClass('ds-cancel-button')
@@ -172,20 +171,19 @@ function wid_get_jq_ds_item_title(ds) {
 function wid_get_jq_ds_item_descr(ds) {
     var obj = {};
 
-    obj.$name = $('<button/>', {
+    obj.$b = $('<button/>', {
                 text: 'Description'
             })
             .attr('data-text', 'Description')
             .attr('data-cmd', 'descr')
-            .addClass('ds-prop-button');
+            .addClass('ds-descr-button');
         
-    obj.$val = $('<textarea/>', {
-                id: 'textarea_ds_' + ds.id + '_descr',
+    obj.$f = $('<textarea/>', {
                 val: ds.descr
             })
             .prop('disabled', true);
 
-    obj.$ctrl = $('<button/>', {
+    obj.$c = $('<button/>', {
             text: 'Cancel'
         })
         .addClass('ds-cancel-button')
@@ -197,42 +195,46 @@ function wid_get_jq_ds_item_descr(ds) {
 function wid_get_jq_ds_item_cat(ds) {
     var obj = {};
     var cat = '[' + ds.cat.join('/') + ']';
-    
-    obj.$name = $('<button/>', {
-            id: 'button_ds_' + ds.id + '_cat',
-            text: 'Category'
-        }).click(function () {
-            wid_nc_ds_cat(ds, 0);
-        });
-    
-    
-    obj.$val = $('<span/>', {
-            id: 'span_ds_' + ds.id + '_cat',
-            text: cat
-        })
 
-    obj.$ctrl = $('<div/>');
-            
+    obj.$b = $('<button/>', {
+            text: 'Category'
+        })
+        .attr('data-text', 'Category')
+        .attr('data-cmd', 'categ')        
+        .addClass('ds-categ-button');
+
+    obj.$f = $('<span/>', {
+        text: cat
+    })
+
+    obj.$c = $('<button/>', {
+            text: 'Cancel'
+        })
+        .addClass('ds-cancel-button')
+        .hide();
+
     return obj;
-    
 }
 
 function wid_get_jq_ds_item_keyw(ds) {
     var obj = {};
     
-    obj.$name = $('<button/>', {
-            id: 'button_ds_' + ds.id + '_keyw',
+    obj.$b = $('<button/>', {
             text: 'Keywords'
-        }).click(function () {
-            wid_click_ds_modal(ds, $(this));
-        });
+        })
+        .attr('data-text', 'Keywords')
+        .attr('data-cmd', 'keywd')          
+        .addClass('ds-keywd-button');
             
-    obj.$val = $('<span/>', {
-                id: 'span_ds_' + ds.id + '_keyw',
-                text: '[' + ds.keyw.join('/') + ']'
+    obj.$f = $('<span/>', {
+            text: '[' + ds.keyw.join('/') + ']'
     })
 
-    obj.$ctrl = $('<div/>');
+    obj.$c = $('<button/>', {
+            text: 'Cancel'
+        })
+        .addClass('ds-cancel-button')
+        .hide();
  
     return obj;
     
