@@ -295,16 +295,10 @@ function wid_upload_file() {
 function wid_open_email_window() {
     var $obj = jq_get_user_email();
     var ui_init = function () {
-        $obj.find('input')
-            .on('input', function () {
-                wid_input_email($(this))
-            });
         $obj.find('button')
             .button()
-            .button('disable')
-            .click(function () {
-                wid_nc_login();
-            });
+            .button('disable');
+        $obj.find('input').focus();
     };
 
     wid_open_modal_window($obj, false, ui_init);
@@ -334,20 +328,10 @@ function wid_input_email($obj) {
 function wid_open_profile_window(name) {
     var $obj = jq_get_user_profile(name);
     var ui_init = function () {
-        $obj.find('input')
-            .on('input', function () {
-                wid_input_name($(this))
-            });
-
-        $obj.find('#button_user_name')
+        $obj.find('button')
             .button()
-            .button('disable')
-            .click(function () {
-                let $window = $('#div_modal_window');
-
-                wid_nc_name();
-                $window.click();
-            });
+            .button('disable');
+        $obj.find('input').focus();
     }
 
     wid_open_modal_window($obj, false, ui_init);
@@ -369,7 +353,7 @@ function wid_input_name($obj) {
 
         $btn.button('enable');
         $obj.on('keypress', function (event) {
-            Boolean(event.keyCode === 13) && wid_nc_name();
+            Boolean(event.keyCode === 13) && wid_nc_name($obj);
             $obj.off('keypress');
         });
     } else {
@@ -385,25 +369,16 @@ function wid_input_name($obj) {
 }
 
 
-function wid_click_ds_button($btn, ds, submit) {
+function wid_click_ds_button($btn, ds_id, submit) {
     var $cnl;
     var $fld;
 
     var toggle = function ($b, $f, $c, turn) {
         if (turn) {
-            let cmd = $b.attr('data-cmd');
-            
             $f.prop('readonly', false) 
             $b.text(B_TXT.SUBMIT);
             $c.show();
-            if (cmd == 'title' || cmd == 'descr') {
-                $f.focus();
-            } else if (cmd == 'categ') {
-                console.log(ds.categ)
-            //wid_open_cat_window(ds_id, );
-            } else if (cmd == 'keywd') {
-                
-            }
+            $f.focus();
         } else {
             $f.prop('readonly', true);
             $b.text($btn.attr('data-text'));
@@ -426,21 +401,15 @@ function wid_click_ds_button($btn, ds, submit) {
     } else if ($fld.prop('readonly')) {
         toggle($btn, $fld, $cnl, true)
     } else {
+        let cmd = $btn.attr('data-cmd');
         toggle($btn, $fld, $cnl, false);
         
-        if (!submit) {
-            wid_nc_ds_get(ds.id, true);
-        } else {
-            let cmd = $btn.attr('data-cmd');
-            let val;
-            if (cmd == 'title' || cmd == 'descr') {
-                val = $fld.val();
-            } else if (cmd == 'categ') {
-                val = '';
-            } else if (cmd == 'addkw') {
-                val = '';
-            }
-            wid_nc_ds_upd_cmd(cmd, ds.id, val);
+        if (cmd !== 'title' && cmd !== 'descr') {
+            return;
+        } else if (submit) {
+            wid_nc_ds_upd_cmd(cmd, ds_id, $fld.val());
+        } else if (!submit) {
+            wid_nc_ds_get(ds_id, true);
         }
     }
 }
@@ -452,7 +421,7 @@ function wid_click_ds_del_button(ds_id) {
             .button()
             .click(function () {
                 wid_nc_ds_delete(ds_id);
-                wid_close_modal_window()
+                wid_close_modal_window();
             });
         $obj.find('.button-no-button')
             .button()

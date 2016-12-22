@@ -8,16 +8,22 @@ function jq_get_user_email() {
     //$obj = $obj.add('<div/>');
 
     $obj.append($('<label/>', {
-            text: 'E-mail: '
+            text: L_TXT.EMAIL
         }))
         .append($('<input/>', {
                 id: 'input_user_email'
             })
-            .attr('maxlength', INPUT_MAX))
+            .attr('maxlength', INPUT_MAX)
+            .on('input', function () {
+                wid_input_email($(this))
+            }))
         .append($('<button/>', {
-            id: 'button_user_email',
-            text: B_TXT.SEND_EMAIL
-        }));
+                id: 'button_user_email',
+                text: B_TXT.SEND_EMAIL
+            })
+            .click(function () {
+                wid_nc_login();
+            }));
 
     return $obj;
 }
@@ -31,13 +37,18 @@ function jq_get_user_profile(name) {
             text: 'Name'
             }))
         .append($('<input/>', {
-                id: 'input_user_name',
-                value: name
+                val: name
             })
-            .attr('maxlength', INPUT_MAX))
+            .attr('maxlength', INPUT_MAX)
+            .on('input', function () {
+                wid_input_name($(this))
+            }))
         .append($('<button/>', {
                 id: 'button_user_name',
                 text: B_TXT.SUBMIT
+            })
+            .click(function () {
+                wid_nc_name($(this));
             }));
 
     return $obj;
@@ -108,9 +119,9 @@ function jq_get_ds_div(ds) {
     $obj_data = wid_get_ds_item_row($obj_data, descr);
     $obj_data = wid_get_ds_item_row($obj_data, categ);
     $obj_data = wid_get_ds_item_row($obj_data, keywd);
-    $obj_data = wid_get_ds_item_row_span($obj_data, add);
+    $obj_data = wid_get_ds_item_row($obj_data, add);
     $obj_data = wid_get_ds_item_row_span($obj_data, files);
-    $obj_data = wid_get_ds_item_row_span($obj_data, del);
+    $obj_data = wid_get_ds_item_row($obj_data, del);
     
     $obj_data
         .find('button')
@@ -152,7 +163,7 @@ function jq_get_ds_title(ds) {
         .attr('data-text', 'Title')
         .attr('data-cmd', 'title')
         .click(function () {
-            wid_click_ds_button($(this), ds, true);
+            wid_click_ds_button($(this), ds.id, true);
         });
 
     obj.$f = $('<input/>', {
@@ -164,7 +175,7 @@ function jq_get_ds_title(ds) {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds, false);
+            wid_click_ds_button($(this), ds.id, false);
         })
         .hide();
 
@@ -180,7 +191,7 @@ function jq_get_ds_descr(ds) {
         .attr('data-text', 'Description')
         .attr('data-cmd', 'descr')
         .click(function () {
-            wid_click_ds_button($(this), ds, true);
+            wid_click_ds_button($(this), ds.id, true);
         });
 
     obj.$f = $('<textarea/>', {
@@ -192,7 +203,7 @@ function jq_get_ds_descr(ds) {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds, false);
+            wid_click_ds_button($(this), ds.id, false);
         })
         .hide();
 
@@ -209,7 +220,7 @@ function jq_get_ds_cat(ds) {
         .attr('data-text', 'Category')
         .attr('data-cmd', 'categ')
         .click(function () {
-            wid_click_ds_button($(this), ds, true);
+            wid_click_ds_categ_button($(this), ds);
         });
 
     obj.$f = $('<input/>', {
@@ -227,13 +238,7 @@ function jq_get_ds_cat(ds) {
             })
         .prop('readonly', true);
     
-    obj.$c = $('<button/>', {
-            text: 'Cancel'
-        })
-        .click(function () {
-            wid_click_ds_button($(this), ds, false);
-        })
-        .hide();
+    obj.$c = $();
 
     return obj;
 }
@@ -245,9 +250,9 @@ function jq_get_ds_keyw(ds) {
             text: 'Keywords'
         })
         .attr('data-text', 'Keywords')
-        .attr('data-cmd', 'keywd')
+        .attr('data-cmd', 'addkw')
         .click(function () {
-            wid_click_ds_button($(this), ds, true);
+            wid_click_ds_keywd_button($(this), ds);
         });
     
     obj.$f = $('<textarea/>', {
@@ -255,39 +260,35 @@ function jq_get_ds_keyw(ds) {
         })
         .prop('readonly', true);
 
-    obj.$c = $('<button/>', {
-            text: 'Cancel'
-        })
-        .click(function () {
-            wid_click_ds_button($(this), ds, false);
-        })
-        .hide();
+    obj.$c = $();
 
     return obj;
-
 }
 
 function jq_get_ds_add(ds_id) {
-    var $btn = $('<button/>', {
-        text: B_TXT.FILE,
-    });
+    var obj = {};
 
-    $btn.click(function () {
-        
-        $(this)
-            .closest('tr')
-            .next('tr')
-            .find('table')
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html(jq_get_ds_files_load()))
-                .append($('<td/>')
-                    .html(jq_get_ds_files_descr()))
-                .append($('<td/>')
-                    .html()))//jq_get_ds_files_del()
-    });
+    obj.$b = $('<button/>', {
+            text: B_TXT.FILE,
+        })
+        .click(function () {
+            $(this)
+                .closest('tr')
+                .next('tr')
+                .find('table')
+                .append($('<tr/>')
+                    .append($('<td/>')
+                        .html(jq_get_ds_files_load()))
+                    .append($('<td/>')
+                        .html(jq_get_ds_files_descr()))
+                    .append($('<td/>')
+                        .html()))
+        });
 
-    return $btn;
+    obj.$f = $();
+    obj.$c = $();
+
+    return obj;
 }
 
 function jq_get_ds_files(ds_id) {
@@ -322,14 +323,18 @@ function jq_get_ds_files_descr() {
 }
 
 function jq_get_ds_delete(ds_id) {
-    var $obj = $('<button/>', {
+    var obj = {};
+    
+    obj.$b = $('<button/>', {
             text: B_TXT.DELETE,
         })
         .click(function () {
             wid_click_ds_del_button(ds_id);
         });
+    obj.$f = $();
+    obj.$c = $();
 
-    return $obj;
+    return obj;
 }
 
 function jq_get_cat_menu(ds, cat) {

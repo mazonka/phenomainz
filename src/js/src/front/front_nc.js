@@ -94,9 +94,8 @@ function wid_nc_profile() {
     eng_nc_profile(cb, g_user_id, g_pulse);
 }
 
-function wid_nc_name() {
-    var name = $('#input_user_name')
-        .val() || '*';
+function wid_nc_name($obj) {
+    var name = $obj.parent('div').find('input').val() || '*';
     var cb = function (resp) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
@@ -105,6 +104,7 @@ function wid_nc_name() {
         }
 
         wid_nc_profile();
+        wid_close_modal_window();
     };
 
     eng_nc_name(cb, g_user_id, name, g_pulse);
