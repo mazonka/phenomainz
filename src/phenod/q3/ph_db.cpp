@@ -286,9 +286,10 @@ string Phdb::dataset_get(string prid, string daid)
             if ( rc.size() != 2 ) // name, caid
                 throw gl::ex("Phdb::dataset_get - bad size");
 
-            caid = star(rc[1], "0");
+            string ptid = star(rc[1], "0");
             string name = star(rc[0]);
-            cat_names += ":" + name;
+            cat_names += ":" + caid + ":" + name;
+			caid = ptid;
         }
 
         r += cat_names;
