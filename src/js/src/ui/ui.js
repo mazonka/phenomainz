@@ -23,7 +23,6 @@ function ui_init(user_id) {
     console.log(user_id);
 
     // $('#button_google, #button_facebook, #button_linkedin, #button_windows').hide();
-    
     $('input, select, textarea').attr('autocomplete', 'off');
 
     $('#td_profile').hide();

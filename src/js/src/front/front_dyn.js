@@ -414,10 +414,16 @@ function wid_click_ds_button($btn, ds_id, submit) {
 }
 
 function wid_click_ds_categ_button($obj, ds) {
-    var c = {}
-    c.id = ds.categ[ds.categ.length - 1].id;
-    c.path = eng_get_cat_path(ds.categ);
-    console.log(c);
+    var c = {};
+    
+    if (Boolean(ds.categ.length)) {
+        c.id = ds.categ[ds.categ.length - 1].id;
+        c.path = eng_get_cat_path(ds.categ);
+    } else {
+        c.id = '0';
+        c.path = '\u005c';
+    }
+
     wid_nc_cat_kids(c);
 }
 

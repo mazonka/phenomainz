@@ -265,17 +265,13 @@ function eng_get_cat_kids(data) {
     data = eng_clear_data(data);
     l = +data.splice(0, 1)[0];
     
-    if (!Boolean(l)) {
-        cat = null;
-    } else {
-        for (let i = 0; i < l; i++) {
-            let arr = data.splice(0, 3);
+    for (let i = 0; i < l; i++) {
+        let arr = data.splice(0, 3);
 
-            cat[i] = {};
-            cat[i].id = arr[0];
-            cat[i].name = window.atob(arr[1]);
-            cat[i].parent = arr[2];
-        }
+        cat[i] = {};
+        cat[i].id = arr[0];
+        cat[i].name = window.atob(arr[1]);
+        cat[i].parent = arr[2];
     }
     
     return cat;

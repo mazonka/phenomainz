@@ -226,32 +226,43 @@ function wid_nc_cat_kids(cat) {
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        console.log(sub_cat);
-
-        if (Boolean(sub_cat.length)) {
-            let $obj = jq_get_cat_menu(cat, sub_cat);
-
-            /* let f = function () {
-                let $m = $obj.find('select');
-                let $b = $obj.find('button');
-
-                $m.selectmenu({
+console.log(sub_cat);
+        
+        let $obj = jq_get_cat_menu(cat, sub_cat);
+        let f = function () {
+            $obj
+                .find('button')
+                .button();
+                
+            $obj
+                .find('select')    
+                .selectmenu({
                     select: function (event, ui) {
-                        wid_nc_cat_kids(ds, ui.item.value);
+                        //console.log(ui.item);
 
+                        let new_cat = {};
+                        new_cat.id = ui.item.value;
+
+                        if (new_cat.id === '0') {
+                            new_cat.path = '\u005c';
+                        } else if (new_cat.id == cat.id){
+                            new_cat.path = cat.path;
+                        } else {
+                            new_cat.path = cat.path + ui.item.label;
+                        }
+                        console.log(new_cat);
+                        return;
+                        wid_nc_cat_kids(ds, ui.item.value);
+            
                         $b.click(function () {
                             wid_nc_ds_upd_categ(ds.id, ui.item.value);
                             console.log(ui.item.value);
                         });
                     }
                 });
+        };
 
-                $b.button();
-            } */
-
-            wid_open_modal_window($obj, false);//, null, f);
-        }
+        wid_open_modal_window($obj, false, f, null);
     };
 
     eng_nc_cat_kids(cb, g_user_id, cat.id);
