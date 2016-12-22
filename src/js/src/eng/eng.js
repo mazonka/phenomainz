@@ -226,18 +226,39 @@ function eng_get_ds_get(data) {
     var ds = {};
 
     data = eng_clear_data(data);
-
+    console.log(data);
     ds.id = data[0];
     ds.title = window.atob(data[1]);
     ds.descr = window.atob(data[2]);
     
-    ds.cat = data[3].split(':').filter(Boolean).reverse();
-    ds.cat = eng_get_decoded_b64_arr(ds.cat);
+    ds.cat = [];
+    data[3] = data[3].split(':').filter(Boolean);
+    
+    for (let i = 0, l = data[3].length/2; i < l; i++) {
+        ds.cat[i] = {};
+        
+        ds.cat[i].id = data[3].splice(0,1)[0];
+        ds.cat[i].name = window.atob(data[3].splice(0,1)[0]);
+        
+        console.log(ds.cat[i]);
+        //ds.cat = eng_get_decoded_b64_arr(ds.cat);
+    }
+    ds.cat.reverse();
     
     ds.keyw = data[4].split(':').filter(Boolean);
     ds.keyw = eng_get_decoded_b64_arr(ds.keyw);
     
     return ds;
+}
+
+function eng_get_cat_path(cat) {
+    var path = '';
+    
+    for (let i = 0, l = cat.length; i < l; i++) {
+        path += cat[i].name + '\u005c';
+    }
+    
+    return path;
 }
 
 function eng_get_cat_kids(data) {

@@ -201,8 +201,10 @@ function jq_get_ds_descr(ds) {
 
 function jq_get_ds_cat(ds) {
     var obj = {};
-    var cat = '[ ' + ds.cat.join('/') + ' ]';
-
+    var cat = '[ ' + eng_get_cat_path(ds.cat) + ' ]';
+    
+    console.log('cat = ' + cat);
+    
     obj.$b = $('<button/>', {
             text: 'Category'
         })

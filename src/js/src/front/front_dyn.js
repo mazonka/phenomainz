@@ -435,7 +435,7 @@ function wid_click_ds_button($btn, ds_id, submit) {
         } else {
             let cmd = $btn.attr('data-cmd');
             let val;
-            if (cmd == 'title' || cmd == 'discr') {
+            if (cmd == 'title' || cmd == 'descr') {
                 val = $fld.val();
             } else if (cmd == 'categ') {
                 val = '';
