@@ -61,9 +61,8 @@ function html_get_body() {
     r += html_get_tr(html_get_td_auth());
     r += html_get_tr(html_get_td_admin());
     r += html_get_tr(html_get_td_profile());
-    //r += html_get_tr(html_get_td_button_open_file());
-    r += html_get_tr(html_get_td_ds_list_ctrl());
     r += html_get_tr(html_get_td_ds_list());
+    r += html_get_tr(html_get_td_ds_list_ctrl());
     r += html_get_tr(html_get_td_modal_window());
 
     r += '</table>\n';
@@ -147,21 +146,6 @@ function html_get_td_profile() {
     return html_get_td(r, 'td_profile');
 }
 
-
-function html_get_td_button_open_file() {
-    var r = '';
-
-    r += '<td id="td_open_file">\n';
-    r += '<label id="label_open_file" ' +
-        'class="ui-button ui-widget ui-corner-all" ' +
-        'for="input_open_file">' + L_TXT.OPEN_FILE + '</label>\n';
-    r += '<input id="input_open_file" type="file" accept=".txt,.csv,.zip" ' +
-        'onchange="return wid_open_file(this.files, $(this))"></input>';
-
-    return r;
-}
-
-
 function html_get_td_button_upload_file() {
     var r = '';
 
@@ -183,9 +167,6 @@ function html_get_td_ds_list_ctrl() {
     r += '<button id="button_ds_create" ' +
         ' onclick="wid_nc_ds_create()">' +
         B_TXT.CREATE_NEW + '</button>\n';
-    r += '<button id="button_ds_update" ' +
-        'onclick="wid_nc_ds_list();">' +
-        B_TXT.UPDATE_LIST + '</button>\n';
     
     return r;
 }

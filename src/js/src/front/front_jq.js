@@ -214,7 +214,7 @@ function jq_get_ds_cat(ds) {
             wid_click_ds_button($(this), ds.id, true);
         });
 
-    obj.$f = $('<input/>', {
+    obj.$f = $('<textarea/>', {
             value: cat
         })
         .prop('readonly', true);
@@ -241,9 +241,9 @@ function jq_get_ds_keyw(ds) {
         .click(function () {
             wid_click_ds_button($(this), ds.id, true);
         });
-
-    obj.$f = $('<span/>', {
-            text: '[' + ds.keyw.join('/') + ']'
+    
+    obj.$f = $('<textarea/>', {
+            value: '[' + ds.keyw.join('/') + ']'
         })
         .prop('readonly', true);
 
