@@ -1,0 +1,17 @@
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== create ]
+print tcp self [ au 96db1e5f246844c9 dataset create ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print [ =================================== get ]
+print tcp self [ au 96db1e5f246844c9 dataset get 1 ]
+print [ =================================== update ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 title Kg== ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 descr Kg== ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 categ Kg== ]
+print [ =================================== get ]
+print tcp self [ au 96db1e5f246844c9 dataset get 1 ]
+print [ =================================== done ]
+quit
