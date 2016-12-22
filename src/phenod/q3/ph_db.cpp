@@ -261,19 +261,19 @@ string Phdb::dataset_get(string prid, string daid)
         return "";
     }
 
-    gl::vstr rc = *(++db.result.begin());
+    gl::vstr rz = *(++db.result.begin());
 
     // id, prid, title, descr, caid
-    if ( rc.size() != 5 )
+    if ( rz.size() != 5 )
         throw gl::ex(string("Phdb::dataset_get") + " [" + ss + "] - bad size");
 
     string r;
-    r += star(rc[0]) + ' '; // daid
-    r += star(rc[2]) + ' '; // title
-    r += star(rc[3]) + ' '; // descr
+    r += star(rz[0]) + ' '; // daid
+    r += star(rz[2]) + ' '; // title
+    r += star(rz[3]) + ' '; // descr
     //r += star(rc[4], "0");
 
-    string caid = star(rc[4], "0");
+    string caid = star(rz[4], "0");
 
     if ( caid == "0" ) r += ":";
     else

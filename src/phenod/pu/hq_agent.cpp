@@ -583,9 +583,9 @@ void Agent::sorti()
 
     os::Dir dr = os::FileSys::readDirEx(dir, true, true);
 
-    for ( size_t i = 0; i < dr.files.size(); i++ )
+    for ( size_t j = 0; j < dr.files.size(); j++ )
     {
-        string file = dr.files[i].first;
+        string file = dr.files[j].first;
         string path = (dir + file).str();
 
         std::map<gl::intint, string> content;

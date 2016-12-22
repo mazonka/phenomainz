@@ -135,7 +135,8 @@ class Protocol
         Protocol(Side s): side(s) {}
 
         virtual string msg2raw(const string & s, const Pmd * p) const = 0;
-        virtual ProtocolPacketStatus extractMsg(string & msg, const string & raw, Pmd * p) const = 0;
+        virtual ProtocolPacketStatus extractMsg(
+            string & msg, const string & raw, Pmd * p) const = 0;
 };
 
 class Http_base : virtual public Protocol
@@ -146,7 +147,8 @@ class Http_base : virtual public Protocol
         static string httpHeaderHead(const char * mime);
         static string httpHeader(size_t sz, const char * mime);
 
-        ProtocolPacketStatus extrMsgClient(string & msg, const string & raw, Pmd * p) const;
+        ProtocolPacketStatus extrMsgClient(
+            string & msg, const string & raw, Pmd * p) const;
 
         // extractMsg intentionally not in the base class (with virtual extrMsg*)
         // because direct call is required for each particular subclass
