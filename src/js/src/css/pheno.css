@@ -154,8 +154,8 @@ h3 {
     border-width: 1px;
     border-style: solid;
     display:block;
+    font-size: 1em;
 }
-
 
 .ds-add-file {
     height: 24px !important;

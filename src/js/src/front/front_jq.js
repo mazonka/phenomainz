@@ -202,9 +202,7 @@ function jq_get_ds_descr(ds) {
 function jq_get_ds_cat(ds) {
     var obj = {};
     var cat = '[ ' + eng_get_cat_path(ds.cat) + ' ]';
-    
-    console.log('cat = ' + cat);
-    
+  
     obj.$b = $('<button/>', {
             text: 'Category'
         })
@@ -214,11 +212,23 @@ function jq_get_ds_cat(ds) {
             wid_click_ds_button($(this), ds.id, true);
         });
 
-    obj.$f = $('<textarea/>', {
-            value: cat
+    obj.$f = $('<input/>', {
+            val: cat + 'qwertyuiopalsdjdjdjcncjfjfjfjdfnn fnddnfnfjyur34734h348924hfc92f'
         })
+        .hover(function() {
+                $(this).animate({
+                    'scrollLeft': this.scrollWidth
+                }, 
+                this.value.length * 50)
+            },
+            function() {
+                $(this).stop();
+                this.scrollLeft = 0;
+            })
         .prop('readonly', true);
-
+        
+    
+    
     obj.$c = $('<button/>', {
             text: 'Cancel'
         })
@@ -313,12 +323,12 @@ function jq_get_ds_files_descr() {
     return $input;
 }
 
-function jq_get_ds_delete() {
+function jq_get_ds_delete(ds_id) {
     var $obj = $('<button/>', {
             text: B_TXT.DELETE,
         })
         .click(function () {
-            wid_click_ds_del_button(ds.id);
+            wid_click_ds_del_button(ds_id);
         });
 
     return $obj;
