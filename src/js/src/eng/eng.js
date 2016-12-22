@@ -249,10 +249,12 @@ function eng_get_ds_get(data) {
 }
 
 function eng_get_cat_path(cat) {
-    var path = '';
+    var path = '\u005c';
     
     for (let i = 0, l = cat.length; i < l; i++) {
-        path += cat[i].name + '\u005c';
+        path += (i < l - 1)
+            ? cat[i].name + '\u005c'
+            : cat[i].name;
     }
     
     return path;
