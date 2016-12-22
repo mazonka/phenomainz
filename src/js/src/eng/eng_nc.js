@@ -133,7 +133,7 @@ function eng_nc_ds_upd_categ(ext_cb, user_id, ds_id, cat_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_addkw(ext_cb, user_id, ds_id, keyw_id) {
+function eng_nc_ds_addkw(ext_cb, user_id, ds_id, keyw) {
     var cmd = [
         'au', user_id, 'ds', 'addkw', ds_id, keyw_id
     ].join(' ');

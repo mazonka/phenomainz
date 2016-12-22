@@ -201,7 +201,7 @@ function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
     } else if (cmd == 'categ') {
         eng_nc_ds_upd_categ(cb, g_user_id, ds_id, data);
     } else if (cmd == 'keywd') {
-        //eng_nc_ds_upd_keywd(cb, g_user_id, ds_id, data);
+        //eng_nc_ds_addkw(cb, g_user_id, ds_id, data);
     }
 }
 

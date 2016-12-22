@@ -226,27 +226,24 @@ function eng_get_ds_get(data) {
     var ds = {};
 
     data = eng_clear_data(data);
-    console.log(data);
     ds.id = data[0];
     ds.title = window.atob(data[1]);
     ds.descr = window.atob(data[2]);
-    
-    ds.cat = [];
+
+    ds.categ = [];
     data[3] = data[3].split(':').filter(Boolean);
     
     for (let i = 0, l = data[3].length/2; i < l; i++) {
-        ds.cat[i] = {};
+        ds.categ[i] = {};
         
-        ds.cat[i].id = data[3].splice(0,1)[0];
-        ds.cat[i].name = window.atob(data[3].splice(0,1)[0]);
-        
-        console.log(ds.cat[i]);
-        //ds.cat = eng_get_decoded_b64_arr(ds.cat);
+        ds.categ[i].id = data[3].splice(0,1)[0];
+        ds.categ[i].name = window.atob(data[3].splice(0,1)[0]);
     }
-    ds.cat.reverse();
-    
-    ds.keyw = data[4].split(':').filter(Boolean);
-    ds.keyw = eng_get_decoded_b64_arr(ds.keyw);
+
+    ds.categ.reverse();
+
+    ds.keywd = data[4].split(':').filter(Boolean);
+    ds.keywd = eng_get_decoded_b64_arr(ds.keywd);
     
     return ds;
 }

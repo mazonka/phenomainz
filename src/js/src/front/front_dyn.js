@@ -385,7 +385,7 @@ function wid_input_name($obj) {
 }
 
 
-function wid_click_ds_button($btn, ds_id, submit) {
+function wid_click_ds_button($btn, ds, submit) {
     var $cnl;
     var $fld;
 
@@ -399,10 +399,8 @@ function wid_click_ds_button($btn, ds_id, submit) {
             if (cmd == 'title' || cmd == 'descr') {
                 $f.focus();
             } else if (cmd == 'categ') {
-                let cat = $f.html();
-                console.log(cat);
-                console.log(cat.length);
-                //wid_open_cat_window(ds_id, );
+                console.log(ds.categ)
+            //wid_open_cat_window(ds_id, );
             } else if (cmd == 'keywd') {
                 
             }
@@ -431,7 +429,7 @@ function wid_click_ds_button($btn, ds_id, submit) {
         toggle($btn, $fld, $cnl, false);
         
         if (!submit) {
-            wid_nc_ds_get(ds_id, true);
+            wid_nc_ds_get(ds.id, true);
         } else {
             let cmd = $btn.attr('data-cmd');
             let val;
@@ -439,10 +437,10 @@ function wid_click_ds_button($btn, ds_id, submit) {
                 val = $fld.val();
             } else if (cmd == 'categ') {
                 val = '';
-            } else if (cmd == 'keywd') {
+            } else if (cmd == 'addkw') {
                 val = '';
             }
-            wid_nc_ds_upd_cmd(cmd, ds_id, val);
+            wid_nc_ds_upd_cmd(cmd, ds.id, val);
         }
     }
 }

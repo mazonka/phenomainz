@@ -152,7 +152,7 @@ function jq_get_ds_title(ds) {
         .attr('data-text', 'Title')
         .attr('data-cmd', 'title')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
 
     obj.$f = $('<input/>', {
@@ -164,7 +164,7 @@ function jq_get_ds_title(ds) {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
@@ -180,7 +180,7 @@ function jq_get_ds_descr(ds) {
         .attr('data-text', 'Description')
         .attr('data-cmd', 'descr')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
 
     obj.$f = $('<textarea/>', {
@@ -192,7 +192,7 @@ function jq_get_ds_descr(ds) {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
@@ -201,7 +201,7 @@ function jq_get_ds_descr(ds) {
 
 function jq_get_ds_cat(ds) {
     var obj = {};
-    var cat = '[ ' + eng_get_cat_path(ds.cat) + ' ]';
+    var cat = eng_get_cat_path(ds.categ);
   
     obj.$b = $('<button/>', {
             text: 'Category'
@@ -209,11 +209,11 @@ function jq_get_ds_cat(ds) {
         .attr('data-text', 'Category')
         .attr('data-cmd', 'categ')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
 
     obj.$f = $('<input/>', {
-            val: cat + 'qwertyuiopalsdjdjdjcncjfjfjfjdfnn fnddnfnfjyur34734h348924hfc92f'
+            val: cat
         })
         .hover(function() {
                 $(this).animate({
@@ -226,14 +226,12 @@ function jq_get_ds_cat(ds) {
                 this.scrollLeft = 0;
             })
         .prop('readonly', true);
-        
-    
     
     obj.$c = $('<button/>', {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
@@ -249,11 +247,11 @@ function jq_get_ds_keyw(ds) {
         .attr('data-text', 'Keywords')
         .attr('data-cmd', 'keywd')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
     
     obj.$f = $('<textarea/>', {
-            value: '[' + ds.keyw.join('/') + ']'
+            val: ds.keywd.join(';')
         })
         .prop('readonly', true);
 
@@ -261,7 +259,7 @@ function jq_get_ds_keyw(ds) {
             text: 'Cancel'
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
