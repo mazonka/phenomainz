@@ -372,7 +372,6 @@ function wid_input_name($obj) {
 function wid_click_ds_button($btn, ds_id, submit) {
     var $cnl;
     var $fld;
-
     var toggle = function ($b, $f, $c, turn) {
         if (turn) {
             $f.prop('readonly', false) 
@@ -412,6 +411,14 @@ function wid_click_ds_button($btn, ds_id, submit) {
             wid_nc_ds_get(ds_id, true);
         }
     }
+}
+
+function wid_click_ds_categ_button($obj, ds) {
+    var c = {}
+    c.id = ds.categ[ds.categ.length - 1].id;
+    c.path = eng_get_cat_path(ds.categ);
+    console.log(c);
+    wid_nc_cat_kids(c);
 }
 
 function wid_click_ds_del_button(ds_id) {

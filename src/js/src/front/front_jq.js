@@ -337,28 +337,45 @@ function jq_get_ds_delete(ds_id) {
     return obj;
 }
 
-function jq_get_cat_menu(ds, cat) {
+function jq_get_cat_menu(cat, sub_cat) {
+
     var $span = $('<span/>');
-    var $menu = $('<select/>', {
+    var $select = $('<select/>', {
         id: 'select_ds_cat'
     });
     var $button = $('<button/>', {
-        text: 'Change',
+        text: 'View',
+    });
+    var $r_cat = $('<optgroup/>', {
+            label: 'Root category'
+        })
+        .append($('<option/>', {
+            value: 0,
+            text: '\\'
+        }));
+    var $c_cat = $('<optgroup/>', {
+            label: 'Current category'
+        })
+        .append($('<option/>', {
+            value: cat.id,
+            text: cat.path
+        }));
+    var $s_cat = $('<optgroup/>', {
+        label: 'Subcategory'
     });
 
-    $menu.append($('<option/>', {
-        value: 0,
-        text: '/'
-    }));
-
-    for (let i = 0; i < cat.length; i++) {
-        $menu.append($('<option/>', {
-            value: cat[i].id,
-            text: cat[i].name
+    for (let i = 0; i < sub_cat.length; i++) {
+        $s_cat.append($('<option/>', {
+            value: sub_cat[i].id,
+            text: sub_cat[i].name
         }));
     }
 
-    $span.append($menu)
+    $span
+        .append($select
+            .append($r_cat)
+            .append($c_cat)
+            .append($s_cat))
         .append($button);
 
     return $span;

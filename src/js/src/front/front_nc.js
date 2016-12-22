@@ -219,25 +219,26 @@ function wid_nc_ds_delete(ds_id) {
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
 
-function wid_nc_ds_cat(ds, cat_id) {
-    var cb = function (resp, data) {
+function wid_nc_cat_kids(cat) {
+    var cb = function (resp, sub_cat) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
 
-        console.log(data);
-        if (Boolean(data.length)) {
-            let $obj = jq_get_cat_menu(ds, data);
-            console.log($obj)
-            let f = function () {
+        console.log(sub_cat);
+
+        if (Boolean(sub_cat.length)) {
+            let $obj = jq_get_cat_menu(cat, sub_cat);
+
+            /* let f = function () {
                 let $m = $obj.find('select');
                 let $b = $obj.find('button');
 
                 $m.selectmenu({
                     select: function (event, ui) {
-                        wid_nc_ds_cat(ds, ui.item.value);
+                        wid_nc_cat_kids(ds, ui.item.value);
 
                         $b.click(function () {
                             wid_nc_ds_upd_categ(ds.id, ui.item.value);
@@ -247,11 +248,11 @@ function wid_nc_ds_cat(ds, cat_id) {
                 });
 
                 $b.button();
-            }
+            } */
 
-            //wid_open_modal_window($obj, false, null, f);
+            wid_open_modal_window($obj, false);//, null, f);
         }
-    }
+    };
 
-    eng_nc_cat_kids(cb, g_user_id, cat_id);
+    eng_nc_cat_kids(cb, g_user_id, cat.id);
 }
