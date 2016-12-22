@@ -229,6 +229,16 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     }
 
     Dbo db;
+
+    // first check if category is correct
+    if ( field == "categ" )
+    {
+        string ss = "select id from categ where id='$1'";
+        args(ss, val);
+        db.execth(ss);
+        if ( db.result.size() < 2 ) return;
+    }
+
     string ss = "update datas set $1='$2' where prid='$3' and id='$4'";
 
     args(ss, field, val, prid, daid);
@@ -289,7 +299,7 @@ string Phdb::dataset_get(string prid, string daid)
             string ptid = star(rc[1], "0");
             string name = star(rc[0]);
             cat_names += ":" + caid + ":" + name;
-			caid = ptid;
+            caid = ptid;
         }
 
         r += cat_names;
@@ -653,7 +663,7 @@ void Phdb::dataset_setc(string daid, const std::vector<ColDesc> & v)
         {
             // record exists
             ss = "update colmn set xy='$3',name='$4',unit='$5',"
-		"desc='$6' where daid='$1' and coln='$2'";
+                 "desc='$6' where daid='$1' and coln='$2'";
         }
 
         args(ss, daid, c.n, c.xy, c.name, c.unit, c.desc);
