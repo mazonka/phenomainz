@@ -12,24 +12,6 @@
 #include "dbo.h"
 #include "ph_db.h"
 
-inline string star(string s, string d = "Kg==")
-{
-    return s.empty() ? d : s;
-}
-
-inline void dump(bool y, Dbo & db)
-{
-    if (y)
-    {
-        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
-        for ( auto v : db.result )
-        {
-            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
-            os::Cout() <<  os::endl;
-        }
-    }
-}
-
 void Phdb::args(string & ss, string s1, string s2,
                 string s3, string s4, string s5, string s6)
 {

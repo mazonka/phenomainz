@@ -25,7 +25,7 @@ SGDIR=../sg
 INC := $(INC) -I$(SGDIR)
 SGLIB=$(SGDIR)/$O/htsglib$(LEXT)
 
-src = dbo.cpp ph_db.cpp
+src = dbo.cpp ph_db1.cpp ph_db2.cpp
 obj := $(src:%.cpp=$O/%$(OEXT))
 
 srctrg = sqlcl.cpp
