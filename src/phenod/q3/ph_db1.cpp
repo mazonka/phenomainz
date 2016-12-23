@@ -203,9 +203,7 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
             throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 3");
 
         ids.push_back(rc[0]);
-        string x = rc[1];
-        if ( x.empty() ) x = "Kg=="; // *
-        tis.push_back(x);
+        tis.push_back(star(rc[1]));
     }
 
     return (int)db.result.size();
