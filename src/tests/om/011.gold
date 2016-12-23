@@ -12,10 +12,11 @@ OK 1 Kg== Kg== : :
 OK
 OK
 OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
+OK
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
 ===================================
 OK
-Phdb::dataset_get failed
-REQ_MSG_BAD
 OK
 OK 1 Kg== Kg== : :
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
 ===================================
