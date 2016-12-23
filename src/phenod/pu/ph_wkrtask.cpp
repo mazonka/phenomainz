@@ -22,6 +22,8 @@
 #include "hq_connector.h"
 #include "hq_netenv.h"
 
+#include "ph_files.h"
+
 string Worker2::ph_login()
 {
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
@@ -164,12 +166,16 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
     else if ( cmd == "list" )
     {
         gl::vstr ids, tis;
-        int sz = aa.phdb.dataset_list(ao.profile.prid, ids, tis);
+        std::map<string, gl::vstr> fnames;
+        int sz = aa.phdb.dataset_list(ao.profile.prid, ids, tis, fnames);
 
         string s_ids; for ( auto s : ids ) s_ids += ' ' + s;
         string s_tis; for ( auto s : tis ) s_tis += ' ' + s;
 
-        return er::Code(er::OK).str() + ' ' + gl::tos(sz) + s_ids + s_tis;
+        gl::intint us = calc_usage(fnames);
+
+        return er::Code(er::OK).str() + ' ' + gl::tos(sz)
+               + s_ids + s_tis + ' ' + gl::tos(us);
     }
 
     else if ( cmd == "delete" )
@@ -359,9 +365,6 @@ string Worker2::categ(AutArea & aa, const AutObject & ao)
     return er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
 }
 
-gl::intint ds_file_put(string daid, string fiid, string pos, const string & s);
-void ds_file_del(string daid, string fiid);
-
 string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 {
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
@@ -449,53 +452,5 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
     }
 
     return er::Code(er::REQ_MSG_BAD);
-}
-
-os::Path ds_file1(string daid)
-{
-    os::Path f = "files";
-    f += gl::tos(10000 + gl::toi(daid));
-    return f;
-}
-
-os::Path ds_file2(os::Path f, string fiid)
-{
-    f += gl::tos(10000 + gl::toi(fiid));
-    return f;
-}
-
-gl::intint ds_file_put(string daid, string fiid, string pos, const string & s)
-{
-    ///os::Path f = "files";
-    ///f += gl::tos(10000+gl::toi(daid));
-    os::Path f = ds_file1(daid);
-    os::FileSys::trymkdir(f);
-
-    if ( !f.isdir() )
-        return -2;
-
-    ///f += gl::tos(10000+gl::toi(fiid));
-    f = ds_file2(f, fiid);
-
-    if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
-
-    int fsz = f.filesize();
-
-    if ( fsz != gl::toi(pos) )
-        return -1;
-
-    {
-        std::ofstream of(f.str().c_str(), std::ios::app);
-        of << s;
-    }
-
-    return f.filesize();
-}
-
-void ds_file_del(string daid, string fiid)
-{
-    os::Path f = ds_file1(daid);
-    f = ds_file2(f, fiid);
-    f.erase();
 }
 

@@ -31,7 +31,7 @@ Q3DIR=../q3
 INC := $(INC) -I$(Q3DIR)
 Q3LIB=$(Q3DIR)/$O/q3lib$(LEXT)
 
-src =   hq_conflict.cpp \
+src = ph_files.cpp hq_conflict.cpp \
 	hq_connector.cpp hq_logger.cpp hq_svttask.cpp hq_servant.cpp \
 	hq_wkrtask.cpp hq_publisher.cpp hq_config.cpp hq_reorgan.cpp \
 	hq_secretary.cpp hq_chiefeditor.cpp hq_automachine.cpp hq_worker.cpp \

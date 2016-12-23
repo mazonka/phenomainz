@@ -183,7 +183,8 @@ void Phdb::dataset_new(string prid)
 }
 
 
-int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
+int Phdb::dataset_list(string prid, gl::vstr & ids, 
+	gl::vstr & tis, std::map<string,gl::vstr> & fnames)
 {
     Dbo dbx;
 
@@ -207,6 +208,10 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 		string daid = rc[0];
         ids.push_back(daid);
         tis.push_back(star(rc[1]));
+
+		gl::vstr fiids, des;
+		ds_file_list(daid,"",fiids,des);
+		fnames[daid] = fiids;
     }
 
     return (int)dbr.size();

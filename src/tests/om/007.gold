@@ -4,15 +4,15 @@ cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
 OK
 =================================== create/delete
 OK
-OK 1 1 Kg==
+OK 1 1 Kg== 0
 OK
-OK 2 1 2 Kg== Kg==
+OK 2 1 2 Kg== Kg== 0
 OK
-OK 1 2 Kg==
+OK 1 2 Kg== 0
 =================================== update
 OK
 OK
-OK 1 2 YWJj
+OK 1 2 YWJj 0
 =================================== get
 OK 2 YWJj MTIzNDU2Nzg5MA== : :
 OK
