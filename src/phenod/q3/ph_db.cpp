@@ -110,7 +110,7 @@ void Phdb::schema()
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE datas (id INTEGER PRIMARY KEY, prid TEXT, "
-         "title TEXT, descr TEXT, categ TEXT);";
+         "titl TEXT, desc TEXT, catg TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE categ (id INTEGER PRIMARY KEY, name TEXT, caid TEXT);";
@@ -185,7 +185,7 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 {
     Dbo db;
 
-    string ss = "select id,title from datas where prid='" + prid + "'";
+    string ss = "select id,titl from datas where prid='" + prid + "'";
     db.execth(ss);
 
     if ( db.result.empty() ) return 0;
@@ -222,7 +222,13 @@ void Phdb::dataset_del(string prid, string daid)
 
 void Phdb::dataset_upd(string prid, string daid, string field, string val)
 {
-    if ( field != "title" && field != "descr" && field != "categ" )
+	if(0){}
+	else if ( field == "title" ) field = "titl";
+	else if ( field == "descr" ) field = "desc";
+	else if ( field == "categ" ) field = "catg";
+
+	else
+    //if ( field != "title" && field != "descr" && field != "categ" )
     {
         os::Cout() << "Bad field in Phdb::dataset_upd [" << field << "]" << os::endl;
         return;
@@ -231,7 +237,7 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     Dbo db;
 
     // first check if category is correct
-    if ( field == "categ" )
+    if ( field == "catg" )
     {
         string ss = "select id from categ where id='$1'";
         args(ss, val);
