@@ -260,7 +260,7 @@ void Phdb::dataset_upd(string prid, string daid, string field, string val)
     Dbo db;
 
     // first check if category is correct
-    if ( field == "catg" )
+    if ( field == "catg" && val != "0" )
     {
         string ss = "select id from categ where id='$1'";
         args(ss, val);
