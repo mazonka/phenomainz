@@ -1,5 +1,5 @@
 #!/bin/sh
-# test that deletion DS removes associated keywords
+# test that deletion DS
 
 in=$(basename $0)
 in=${in%.*} 

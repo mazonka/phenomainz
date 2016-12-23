@@ -208,13 +208,15 @@ void Phdb::dataset_del(string prid, string daid)
 {
     if ( !auth(prid, daid) ) return;
 
-    // FIXME check that there are no files
-    // FIXME remove colmn records
-
     Dbo db;
 
+    string ss = "select id from files where daid='$1'";
+    args(ss, daid);
+    db.execth(ss);
+    if ( db.result.size() > 1 ) return;
+
     // removing keywords
-    string ss = "delete from keyds where daid='$1'";
+    ss = "delete from keyds where daid='$1'";
     args(ss, daid);
     db.execth(ss);
 
