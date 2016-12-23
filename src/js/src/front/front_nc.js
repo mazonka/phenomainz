@@ -60,6 +60,9 @@ function wid_nc_profile() {
         }
 
         r = eng_get_lastdate(profile.lastdate);
+        
+        Boolean(profile.tail) && alert('profile tail:\n' + list.tail);
+        
         date = [r.yyyy, r.mm, r.dd].join('.');
         time = [r.h, r.m, r.s].join(':');
 
@@ -88,7 +91,11 @@ function wid_nc_profile() {
 
         $('#span_profile_counter')
             .find('span')
-            .html(profile.counter);
+            .html(profile.counter);    
+
+        $('#span_profile_quote')
+            .find('span')
+            .html('0/' + profile.quote + ' Mb');
     };
 
     eng_nc_profile(cb, g_user_id, g_pulse);
@@ -130,7 +137,7 @@ function wid_nc_ds_list() {
             $td_ds_list.append($div);
             wid_jq_ui_init_ds_accordion($div);
             //debug part
-            Boolean(list.tail.length > 0) && alert('ds list contains tail' + list.tail);
+            Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
         } else {
             return wid_open_modal_window(M_TXT.HELLO, true);
         }
@@ -197,15 +204,18 @@ function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
         wid_nc_ds_get(ds_id, true);
     };
 
-    data = data || window.btoa('*');
+        data = data || window.btoa('*');
 
     if (cmd == 'title') {
         eng_nc_ds_upd_title(cb, g_user_id, ds_id, data);
     } else if (cmd == 'descr') {
         eng_nc_ds_upd_descr(cb, g_user_id, ds_id, data);
     } else if (cmd == 'categ') {
+        data = (data == '*')
+            ? '0'
+            : data;
         eng_nc_ds_upd_categ(cb, g_user_id, ds_id, data);
-    } else if (cmd == 'keywd') {
+    } else if (cmd == 'addkw') {
         //eng_nc_ds_addkw(cb, g_user_id, ds_id, data);
     }
 }

@@ -173,7 +173,10 @@ function eng_get_parsed_profile(data) {
     profile.email = data[2];
     profile.lastdate = data[3];
     profile.counter = data[4];
-
+    profile.quote = data[5];
+    profile.tail = data[6] || null;
+    console.log(profile.quote);
+    console.log(profile.tail);
     return profile;
 }
 
@@ -221,7 +224,9 @@ function eng_get_ds_list(data) {
     list.usage = data.splice(0, 1)[0];
     
     /// debug part
-    list.tail = data.splice(0); 
+    list.tail = Boolean(data.length)
+        ? data
+        : null; 
 
     return list;
 }
