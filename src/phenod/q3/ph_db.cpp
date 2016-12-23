@@ -122,7 +122,7 @@ void Phdb::schema()
     ss = "CREATE TABLE keyds (id INTEGER PRIMARY KEY, daid TEXT, keid TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
-    ss = "CREATE TABLE files (id INTEGER PRIMARY KEY, daid TEXT);";
+    ss = "CREATE TABLE files (id INTEGER PRIMARY KEY, daid TEXT, desc TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE colmn (id INTEGER PRIMARY KEY, daid TEXT, "
@@ -474,18 +474,6 @@ bool Phdb::auth(string prid, string daid)
 
 void Phdb::dataset_addkw(string prid, string daid, string kname)
 {
-    /* ///
-        Dbo db;
-        string ss = "select * from datas where prid='$1' and id='$2';";
-        args(ss, prid, daid);
-        db.execth(ss);
-
-        if ( db.result.size() != 2 )
-        {
-            os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
-            return;
-        }
-    */
     if ( !auth(prid, daid) ) return;
 
     Dbo db;
@@ -516,19 +504,6 @@ void Phdb::dataset_addkw(string prid, string daid, string kname)
 
 void Phdb::dataset_delkw(string prid, string daid, string kname)
 {
-    /*///
-        Dbo db;
-        string ss = "select * from datas where prid='$1' and id='$2';";
-        args(ss, prid, daid);
-        db.execth(ss);
-
-        if ( db.result.size() != 2 )
-        {
-            os::Cout() << "Phdb::dataset_addkw failed" << os::endl;
-            return;
-        }
-    */
-
     if ( !auth(prid, daid) ) return;
 
     Dbo db;
@@ -554,7 +529,7 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
 string Phdb::ds_file_list(string daid, string fiid)
 {
     Dbo db;
-    string ss = "select id from files where daid='$1'";
+    string ss = "select id,desc from files where daid='$1'";
     args(ss, daid);
 
     if ( !fiid.empty() )
@@ -572,10 +547,11 @@ string Phdb::ds_file_list(string daid, string fiid)
 
     for ( auto & rc : db.result )
     {
-        if ( rc.size() != 1 )
+        if ( rc.size() != 2 )
             throw gl::ex(string("Phdb::ds_file_list") + " [" + ss + "] - failed 1");
 
         r += ' ' + star(rc[0]);
+        r += ' ' + star(rc[1]);
     }
 
     return r;
