@@ -56,11 +56,10 @@ struct Worker2
         er::Code fetchRecord(int dbIndex, db::Dn * dn,
                              gl::intint n, bool first, db::Record * record);
 
-        ///gl::intint putfile();
         string dataset(AutArea & aa, const AutObject & ao);
         string phadmin(AutArea & aa, const AutObject & ao);
         string categ(AutArea & aa, const AutObject & ao);
-        string Worker2::dataset_file(AutArea & aa, const AutObject & ao);
+        string dataset_file(AutArea & aa, const AutObject & ao);
 
     public:
 
