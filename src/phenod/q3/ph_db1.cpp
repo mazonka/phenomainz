@@ -12,6 +12,19 @@
 #include "dbo.h"
 #include "ph_db.h"
 
+void dump(bool y, Dbo & db)
+{
+    if (y)
+    {
+        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
+        for ( auto v : db.result )
+        {
+            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
+            os::Cout() <<  os::endl;
+        }
+    }
+}
+
 void Phdb::args(string & ss, string s1, string s2,
                 string s3, string s4, string s5, string s6)
 {
@@ -204,13 +217,13 @@ void Phdb::dataset_del(string prid, string daid)
 
 void Phdb::dataset_upd(string prid, string daid, string field, string val)
 {
-	if(0){}
-	else if ( field == "title" ) field = "titl";
-	else if ( field == "descr" ) field = "desc";
-	else if ( field == "categ" ) field = "catg";
+    if (0) {}
+    else if ( field == "title" ) field = "titl";
+    else if ( field == "descr" ) field = "desc";
+    else if ( field == "categ" ) field = "catg";
 
-	else
-    //if ( field != "title" && field != "descr" && field != "categ" )
+    else
+        //if ( field != "title" && field != "descr" && field != "categ" )
     {
         os::Cout() << "Bad field in Phdb::dataset_upd [" << field << "]" << os::endl;
         return;

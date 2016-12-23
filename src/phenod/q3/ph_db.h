@@ -54,6 +54,9 @@ class Phdb
 
         struct ColDesc { string n, xy, name, unit, desc; };
         void dataset_setc(string daid, const std::vector<ColDesc> & v);
+
+        string ds_file_descr(string daid, string fiid);
+        void ds_file_descr(string daid, string fiid, string descr);
 };
 
 inline string star(string s, string d = "Kg==")
@@ -61,17 +64,7 @@ inline string star(string s, string d = "Kg==")
     return s.empty() ? d : s;
 }
 
-inline void dump(bool y, Dbo & db)
-{
-    if (y)
-    {
-        os::Cout() << "Db exec OK " << db.result.size() << os::endl;
-        for ( auto v : db.result )
-        {
-            for ( auto s : v ) os::Cout() << " [" << string(s) << "]" << os::flush;
-            os::Cout() <<  os::endl;
-        }
-    }
-}
+class Dbo;
+void dump(bool y, Dbo & db);
 
 #endif

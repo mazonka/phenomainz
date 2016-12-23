@@ -11,9 +11,9 @@ OK 1
 OK 2
 OK 2 1 Kg== 2 Kg==
 === file put
-REQ_MSG_BAD
-OK 2 1 Kg== 2 Kg==
-REQ_MSG_BAD
+OK
+OK 2 1 MTIzNDU2Nzg5MA== 2 Kg==
+OK MTIzNDU2Nzg5MA==
 === file put
 OK 10
 OK 20
