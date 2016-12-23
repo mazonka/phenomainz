@@ -185,28 +185,31 @@ void Phdb::dataset_new(string prid)
 
 int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 {
-    Dbo db;
+    Dbo dbx;
 
     string ss = "select id,titl from datas where prid='" + prid + "'";
-    db.execth(ss);
+    dbx.execth(ss);
 
-    if ( db.result.empty() ) return 0;
+	auto dbr = dbx.result;
 
-    if ( db.result.size() < 2 )
+    if ( dbr.empty() ) return 0;
+
+    if ( dbr.size() < 2 )
         throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 2");
 
-    db.result.erase(db.result.begin());
+    dbr.erase(dbr.begin());
 
-    for ( auto & rc : db.result )
+    for ( const auto & rc : dbr )
     {
         if ( rc.size() != 2 )
             throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 3");
 
-        ids.push_back(rc[0]);
+		string daid = rc[0];
+        ids.push_back(daid);
         tis.push_back(star(rc[1]));
     }
 
-    return (int)db.result.size();
+    return (int)dbr.size();
 }
 
 void Phdb::dataset_del(string prid, string daid)
@@ -541,7 +544,7 @@ void Phdb::dataset_delkw(string prid, string daid, string kname)
     db.execth(ss);
 }
 
-string Phdb::ds_file_list(string daid, string fiid)
+int Phdb::ds_file_list(string daid, string fiid, gl::vstr & ids, gl::vstr & des)
 {
     Dbo db;
     string ss = "select id,desc from files where daid='$1'";
@@ -552,24 +555,45 @@ string Phdb::ds_file_list(string daid, string fiid)
 
     db.execth(ss);
 
-    if ( db.result.size() < 2 ) return "0";
+    if ( db.result.size() < 2 ) return 0;
 
     db.result.erase(db.result.begin());
 
-    string r;
+    ///string r;
 
-    r += gl::tos(db.result.size());
+    ///r += gl::tos(db.result.size());
 
     for ( auto & rc : db.result )
     {
         if ( rc.size() != 2 )
             throw gl::ex(string("Phdb::ds_file_list") + " [" + ss + "] - failed 1");
 
-        r += ' ' + star(rc[0]);
-        r += ' ' + star(rc[1]);
+        ///r += ' ' + star(rc[0]);
+        ///r += ' ' + star(rc[1]);
+		ids.push_back(star(rc[0]));
+		des.push_back(star(rc[1]));
     }
 
-    return r;
+    return int(db.result.size());
+}
+
+string Phdb::ds_file_list(string daid, string fiid)
+{
+	gl::vstr ids, des;
+	int sz = ds_file_list(daid,fiid,ids,des);
+    string r;
+    r += gl::tos(sz);
+
+	if( ids.size() != des.size() ) return "";
+	if( (int)ids.size() != sz ) return "";
+
+	for( int i=0; i<sz; i++ )
+	{
+		r += ' ' + ids[i];
+		r += ' ' + des[i];
+	}
+
+	return r;
 }
 
 

@@ -49,6 +49,7 @@ class Phdb
         void dataset_addkw(string prid, string daid, string kname);
         void dataset_delkw(string prid, string daid, string kname);
         string ds_file_list(string daid, string fiid);
+        int ds_file_list(string daid, string fiid, gl::vstr & ids, gl::vstr & des);
         string ds_file_new(string prid, string daid);
         void ds_file_del(string prid, string daid, string fiid);
         string dataset_cols(string daid);
