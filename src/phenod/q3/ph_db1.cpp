@@ -213,12 +213,12 @@ void Phdb::dataset_del(string prid, string daid)
 
     Dbo db;
 
-	// removing keywords
+    // removing keywords
     string ss = "delete from keyds where daid='$1'";
     args(ss, daid);
     db.execth(ss);
 
-	// removing columns
+    // removing columns
     ss = "delete from colmn where daid='$1'";
     args(ss, daid);
     db.execth(ss);
