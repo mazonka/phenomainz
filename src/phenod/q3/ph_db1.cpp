@@ -218,6 +218,11 @@ void Phdb::dataset_del(string prid, string daid)
     args(ss, daid);
     db.execth(ss);
 
+	// removing columns
+    ss = "delete from colmn where daid='$1'";
+    args(ss, daid);
+    db.execth(ss);
+
     ss = "delete from datas where prid='$1' and id='$2'";
     args(ss, prid, daid);
     db.execth(ss);
