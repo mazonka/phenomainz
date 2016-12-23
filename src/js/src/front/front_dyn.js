@@ -369,7 +369,7 @@ function wid_input_name($obj) {
 }
 
 
-function wid_click_ds_button($btn, ds_id, submit) {
+function wid_click_ds_button($btn, ds, submit) {
     var $cnl;
     var $fld;
     var toggle = function ($b, $f, $c, turn) {
@@ -406,9 +406,9 @@ function wid_click_ds_button($btn, ds_id, submit) {
         if (cmd !== 'title' && cmd !== 'descr') {
             return;
         } else if (submit) {
-            wid_nc_ds_upd_cmd(cmd, ds_id, $fld.val());
+            wid_nc_ds_upd_cmd(cmd, ds.id, $fld.val());
         } else if (!submit) {
-            wid_nc_ds_get(ds_id, true);
+            wid_nc_ds_get(ds.id, true);
         }
     }
 }
@@ -421,7 +421,7 @@ function wid_click_ds_categ_button($obj, ds) {
         c.path = eng_get_cat_path(ds.categ);
     } else {
         c.id = '0';
-        c.path = '\u005c';
+        c.path = '\u002f';
     }
 
     wid_nc_cat_kids(c, ds);
@@ -447,22 +447,8 @@ function wid_click_ds_del_button(ds_id) {
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_click_ds_cat_button($btn, ds) {
-    var $fld = $btn.parent('td').next('td').children();
-    var $cnl = $fld.parent('td').next('td').children();
-    var toggle = function ($b, $f, $c, turn) {
-        if (turn) {
-            $b.text(B_TXT.SUBMIT);
-            $c.show();
-        } else {
-            $b.text($btn.attr('data-text'));
-            $c.hide();            
-        }
-    };
-    
-    if ($fld.prop('disabled')) {
-        toggle($btn, $fld, $cnl, true)
-    } else {
-        toggle($btn, $fld, $cnl, false);    
-    }
+function wid_click_ds_addkw_button($obj, ds) {
+
+    wid_nc_cat_kids(ds);
 }
+

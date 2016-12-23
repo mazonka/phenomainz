@@ -113,21 +113,26 @@ function wid_nc_name($obj) {
 function wid_nc_ds_list() {
     var cb = function (resp, list) {
         let $td_ds_list = $('#td_ds_list');
-        let $div;
-
+        
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
 
-        $td_ds_list.children()
+        $td_ds_list
+            .children()
             .remove();
 
-        if (list !== null) {
-            $div = jq_get_ds_list(list.n, list.id, list.title);
+        if (list.n != '0') {
+            let $div = jq_get_ds_list(list.n, list.id, list.title);
+            
             $td_ds_list.append($div);
             wid_jq_ui_init_ds_accordion($div);
+            //debug part
+            Boolean(list.tail.length > 0) && alert('ds list contains tail' + list.tail);
+        } else {
+            return wid_open_modal_window(M_TXT.HELLO, true);
         }
     };
 
@@ -248,13 +253,13 @@ function wid_nc_cat_kids(cat, ds) {
                         new_cat.id = ui.item.value;
                         
                         if (new_cat.id == '0') {
-                            new_cat.path = '\u005c';
+                            new_cat.path = '\u002f';
                         } else if (new_cat.id == cat.id){
                             new_cat.path = cat.path;
                         } else {
                             new_cat.path = (cat.id == '0') 
                                 ? cat.path + ui.item.label
-                                : cat.path + '\u005c' + ui.item.label;
+                                : cat.path + '\u002f' + ui.item.label;
                             
                         }
                         
@@ -282,4 +287,32 @@ function wid_nc_ds_upd_categ(ds_id, cat_id) {
     };
 
     eng_nc_ds_upd_categ(cb, g_user_id, ds_id, cat_id);
+}
+
+function wid_nc_ds_addkw(ds_id, keywd) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout(resp);
+        } else if (resp != PHENOD.OK) {
+            wid_open_modal_window(M_TXT.ERROR + resp, true);
+        }
+
+        wid_nc_ds_list();
+    };
+
+    eng_nc_ds_addkw(cb, g_user_id, ds_id, cat_id);
+}
+
+function wid_nc_ds_delkw(ds_id, keywd) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout(resp);
+        } else if (resp != PHENOD.OK) {
+            wid_open_modal_window(M_TXT.ERROR + resp, true);
+        }
+
+        wid_nc_ds_list();
+    };
+
+    eng_nc_ds_delkw(cb, g_user_id, ds_id, cat_id);
 }

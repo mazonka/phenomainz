@@ -18,7 +18,16 @@ const B_TXT = {
     CREATE_NEW: 'Create new dataset',
     UPDATE_LIST: 'Update list',
     DELETE: 'Delete',
-    FILE: 'New file'
+    FILE: 'New file',
+    TITLE: 'Title',
+    DESCR: 'Description',
+    CANCEL: 'Cancel',
+    SET: 'Set',
+    YES: 'Yes',
+    NO: 'No',
+    UPDATE: 'Update',
+    CATEG: 'Category',
+    KEYWD: 'Keywords'
 };
 
 const L_TXT = {
@@ -28,7 +37,10 @@ const L_TXT = {
     LAST_LOGIN: 'Last login: ',
     EMAIL: 'E-mail: ',
     USER_NAME: 'User name: ',
-    VOLUME: 'Volume: '
+    VOLUME: 'Volume: ',
+    NSPCAT: 'Not specified category',
+    CURCAT: 'Current category',
+    SUBCAT: 'Subcategories',
 };
 
 const M_TXT = {
@@ -36,6 +48,7 @@ const M_TXT = {
     RELOAD: 'Are you sure?',
     EMAIL: 'An email with link has been sent to ',
     BYE: 'Bye!',
+    HELLO: 'Hello!\nYou could create your first dataset',
     SURE: 'Are your sure?',
     S_EXPIRED: 'Session expired',
     get FILE_IS_HUGE() {

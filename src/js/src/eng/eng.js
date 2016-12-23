@@ -211,15 +211,19 @@ function eng_get_lastdate(data) {
 }
 
 function eng_get_ds_list(data) {
-    var r = {};
+    var list = {};
 
     data = eng_clear_data(data);
 
-    r.n = +data.splice(0, 1)[0];
-    r.id = data.splice(0, r.n);
-    r.title = eng_get_decoded_b64_arr(data);
+    list.n = +data.splice(0, 1)[0];
+    list.id = data.splice(0, list.n);
+    list.title = eng_get_decoded_b64_arr(data.splice(0, list.n));
+    list.usage = data.splice(0, 1)[0];
+    
+    /// debug part
+    list.tail = data.splice(0); 
 
-    return r;
+    return list;
 }
 
 function eng_get_ds_get(data) {
@@ -249,11 +253,11 @@ function eng_get_ds_get(data) {
 }
 
 function eng_get_cat_path(cat) {
-    var path = '\u005c';
+    var path = '\u002f';
     
     for (let i = 0, l = cat.length; i < l; i++) {
         path += (i < l - 1)
-            ? cat[i].name + '\u005c'
+            ? cat[i].name + '\u002f'
             : cat[i].name;
     }
     

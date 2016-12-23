@@ -22,7 +22,7 @@ textarea {
 }
 
 button {
-    height: 24px;
+    height: 1.5em;
     padding: 0 5px 0 5px !important;
     vertical-align: middle !important;
     min-width: 80px;
@@ -31,7 +31,7 @@ button {
 label .ds-add-file {
     overflow: hidden;
     position: relative;
-    height: 24px;
+    height: 1.5em;
     padding: 2px 5px 10px 5px !important;
     vertical-align: middle !important;
 }
@@ -53,8 +53,9 @@ input[type='file'] {
 
 #table_body {
     width: 100%;
-    border: 1px solid #1376BC;
+    border: 1px solid #DCDCDC;
     text-align: center;
+    background-color: rgb(248, 248, 248);
 }
 
 #td_logo {
@@ -80,6 +81,8 @@ input[type='file'] {
 
 #td_profile {
     text-align: right;
+    border: 1px solid #DCDCDC;
+    background-color: #F8F8FF;
 }
 
 #td_ds_ctrl {
@@ -157,6 +160,10 @@ h3 {
     font-size: 1em;
 }
 
+.ds-item-table textarea {
+    height: 3em;
+}
+
 .ds-add-file {
     height: 24px !important;
     padding: 0 5px 0 5px !important;
@@ -196,6 +203,9 @@ h3 {
     font: 16px Tahoma;
 }
 
+#div_modal_window_content_body {
+    white-space: pre;
+}
 #div_modal_window_content:hover,
 #div_modal_window_content:focus {
     color: black;
@@ -219,4 +229,41 @@ h3 {
     color: white;
 }
 
+/* jquery-ui*/
+
+.ui-selectmenu-button {
+    height: 1.5em;
+    padding-bottom: 2px  !important;
+    padding-top: 2px !important;
+}
+
+.ui-menu-item {
+    text-align: left;
+}
+
+.ui-accordion .ui-accordion-content
+{
+	padding: 0.25em;
+}
+
+.ui-accordion-content {
+    background-color: rgb(248, 248, 248) !important;
+}
+.ui-accordion .ui-accordion-header
+{
+	font-size: 1em;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+	vertical-align: middle;
+}
+
+.ui-button
+{
+	font-weight: bold !important;
+}
+
+.ui-widget
+{
+	font-size: 1em;
+}
 

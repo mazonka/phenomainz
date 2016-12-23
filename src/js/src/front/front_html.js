@@ -55,7 +55,7 @@ function html_get_img(img_src) {
 function html_get_body() {
     var r = '';
 
-    r += '<table id="table_body" border=1>\n';
+    r += '<table id="table_body">\n';
     
     r += html_get_tr(html_get_td_logo());
     r += html_get_tr(html_get_td_auth());

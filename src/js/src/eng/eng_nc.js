@@ -49,7 +49,6 @@ function eng_nc_profile(ext_cb, user_id, pulse) {
 }
 
 function eng_nc_name(ext_cb, user_id, name, pulse) {
-    //console.log(window.btoa(name));
     var cmd = ['au', user_id, 'name', window.btoa(name)].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
@@ -62,12 +61,8 @@ function eng_nc_ds_list(ext_cb, user_id) {
     var cmd = ['au', user_id, 'ds', 'list'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
-        let list = {};
-
-        list.n = 0;
-        list.id = [];
-        list.title = [];
-
+        let list = null;
+        
         if (resp == PHENOD.OK) {
             list = eng_get_ds_list(data);
         }

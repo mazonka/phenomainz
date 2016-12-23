@@ -61,11 +61,11 @@ function jq_get_yes_no(msg) {
                 text: msg
             }))
         .append($('<button/>', {
-                text: 'No'
+                text: B_TXT.NO
             })
             .addClass('button-no-button'))
         .append($('<button/>', {
-                text: 'Yes'
+                text: B_TXT.YES
             })
             .addClass('button-yes-button')
         );
@@ -76,9 +76,14 @@ function jq_get_yes_no(msg) {
 function jq_get_ds_h3(ds_id, title) {
     var $obj = $('<h3/>', {
             id: 'h3_ds_' + ds_id,
-            text: ds_id + '. ' + title
         })
         .attr('data-id', ds_id);
+    
+    $obj
+        .append($('<span/>', {
+                text: ds_id + '. ' + title
+            })
+            .addClass('accordion-header'));
 
     return $obj;
 }
@@ -158,12 +163,12 @@ function jq_get_ds_title(ds) {
     var obj = {};
 
     obj.$b = $('<button/>', {
-            text: 'Title'
+            text: B_TXT.TITLE
         })
-        .attr('data-text', 'Title')
+        .attr('data-text', B_TXT.TITLE)
         .attr('data-cmd', 'title')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
 
     obj.$f = $('<input/>', {
@@ -172,10 +177,10 @@ function jq_get_ds_title(ds) {
         .prop('readonly', true);
 
     obj.$c = $('<button/>', {
-            text: 'Cancel'
+            text: B_TXT.CANCEL
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
@@ -186,12 +191,12 @@ function jq_get_ds_descr(ds) {
     var obj = {};
 
     obj.$b = $('<button/>', {
-            text: 'Description'
+            text: B_TXT.DESCR
         })
-        .attr('data-text', 'Description')
+        .attr('data-text', B_TXT.DESCR)
         .attr('data-cmd', 'descr')
         .click(function () {
-            wid_click_ds_button($(this), ds.id, true);
+            wid_click_ds_button($(this), ds, true);
         });
 
     obj.$f = $('<textarea/>', {
@@ -200,10 +205,10 @@ function jq_get_ds_descr(ds) {
         .prop('readonly', true);
 
     obj.$c = $('<button/>', {
-            text: 'Cancel'
+            text: B_TXT.CANCEL
         })
         .click(function () {
-            wid_click_ds_button($(this), ds.id, false);
+            wid_click_ds_button($(this), ds, false);
         })
         .hide();
 
@@ -215,9 +220,9 @@ function jq_get_ds_cat(ds) {
     var cat = eng_get_cat_path(ds.categ);
   
     obj.$b = $('<button/>', {
-            text: 'Category'
+            text: B_TXT.CATEG
         })
-        .attr('data-text', 'Category')
+        .attr('data-text', B_TXT.CATEG)
         .attr('data-cmd', 'categ')
         .click(function () {
             wid_click_ds_categ_button($(this), ds);
@@ -247,9 +252,9 @@ function jq_get_ds_keyw(ds) {
     var obj = {};
 
     obj.$b = $('<button/>', {
-            text: 'Keywords'
+            text: B_TXT.KEYWD
         })
-        .attr('data-text', 'Keywords')
+        .attr('data-text', B_TXT.KEYWD)
         .attr('data-cmd', 'addkw')
         .click(function () {
             wid_click_ds_keywd_button($(this), ds);
@@ -343,18 +348,17 @@ function jq_get_cat_menu(cat, sub_cat) {
         id: 'select_ds_cat'
     });
     var $button = $('<button/>', {
-            text: 'Set',
+            text: B_TXT.UPDATE,
         });
-        //.prop('disabled', true);
     var $r_cat = $('<optgroup/>', {
-            label: 'Root category'
+            label: L_TXT.NSPCAT
         })
         .append($('<option/>', {
             value: '0',
-            text: '\u005c'
+            text: '\u002f'
         }));
     var $c_cat = $('<optgroup/>', {
-            label: 'Current category'
+            label: L_TXT.CURCAT
         })
         .append($('<option/>', {
                 value: cat.id,
@@ -362,7 +366,7 @@ function jq_get_cat_menu(cat, sub_cat) {
             })
             .prop('selected', true));
     var $s_cat = $('<optgroup/>', {
-            label: 'Subcategories'
+            label: L_TXT.SUBCAT
         });
 
     for (let i = 0; i < sub_cat.length; i++) {
@@ -388,4 +392,8 @@ function jq_get_cat_menu(cat, sub_cat) {
         .append($button);
 
     return $span;
+}
+
+function jq_get_keywd_menu(cat, sub_cat) {
+    
 }
