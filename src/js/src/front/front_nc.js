@@ -219,7 +219,7 @@ function wid_nc_ds_delete(ds_id) {
     eng_nc_ds_delete(cb, g_user_id, ds_id);
 }
 
-function wid_nc_cat_kids(cat) {
+function wid_nc_cat_kids(cat, ds) {
     var cb = function (resp, sub_cat) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
@@ -229,17 +229,24 @@ function wid_nc_cat_kids(cat) {
         
         let $obj = jq_get_cat_menu(cat, sub_cat);
         let f = function () {
-            $obj
-                .find('button')
-                .button();
-                
-            $obj
-                .find('select')    
-                .selectmenu({
+            let $b = $obj
+                .find('button');
+            let $m = $obj
+                .find('select');
+
+            $b
+                .button()
+                .click(function () {
+                    let cat_id = $(this).parent().find('select :selected').attr('value');
+                    wid_nc_ds_upd_categ(ds.id, cat_id);
+                    wid_close_modal_window();
+            });
+            
+            $m.selectmenu({
                     select: function (event, ui) {
                         let new_cat = {};
                         new_cat.id = ui.item.value;
-
+                        
                         if (new_cat.id == '0') {
                             new_cat.path = '\u005c';
                         } else if (new_cat.id == cat.id){
@@ -248,16 +255,11 @@ function wid_nc_cat_kids(cat) {
                             new_cat.path = (cat.id == '0') 
                                 ? cat.path + ui.item.label
                                 : cat.path + '\u005c' + ui.item.label;
+                            
                         }
                         
-                        console.log(new_cat);
+                        wid_nc_cat_kids(new_cat, ds);
                         
-                        wid_nc_cat_kids(new_cat);
-            
-/*                         $b.click(function () {
-                            wid_nc_ds_upd_categ(ds.id, ui.item.value);
-                            console.log(ui.item.value);
-                        }); */
                     }
                 });
         };
@@ -266,4 +268,18 @@ function wid_nc_cat_kids(cat) {
     };
 
     eng_nc_cat_kids(cb, g_user_id, cat.id);
+}
+
+function wid_nc_ds_upd_categ(ds_id, cat_id) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout(resp);
+        } else if (resp != PHENOD.OK) {
+            wid_open_modal_window(M_TXT.ERROR + resp, true);
+        }
+
+        wid_nc_ds_list();
+    };
+
+    eng_nc_ds_upd_categ(cb, g_user_id, ds_id, cat_id);
 }

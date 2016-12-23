@@ -424,7 +424,7 @@ function wid_click_ds_categ_button($obj, ds) {
         c.path = '\u005c';
     }
 
-    wid_nc_cat_kids(c);
+    wid_nc_cat_kids(c, ds);
 }
 
 function wid_click_ds_del_button(ds_id) {

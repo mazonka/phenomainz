@@ -343,9 +343,9 @@ function jq_get_cat_menu(cat, sub_cat) {
         id: 'select_ds_cat'
     });
     var $button = $('<button/>', {
-            text: 'View',
-        })
-        .prop('disabled', true);
+            text: 'Set',
+        });
+        //.prop('disabled', true);
     var $r_cat = $('<optgroup/>', {
             label: 'Root category'
         })
