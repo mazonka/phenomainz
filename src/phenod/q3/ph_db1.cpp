@@ -12,6 +12,8 @@
 #include "dbo.h"
 #include "ph_db.h"
 
+const char * const QUOTA = "10";
+
 void dump(bool y, Dbo & db)
 {
     if (y)
@@ -60,7 +62,7 @@ bool Phdb::get_by_email(string email, Profile & pr)
 
     gl::vstr rc = *(++db.result.begin());
 
-    if ( rc.size() != 5 )
+    if ( rc.size() != 6 )
         throw gl::ex(string("Phdb::get_by_email") + " [" + ss + "] - failed 3");
 
     pr.prid = rc[0];
@@ -68,6 +70,7 @@ bool Phdb::get_by_email(string email, Profile & pr)
     pr.mail = rc[2];
     pr.last = rc[3];
     pr.cntr = rc[4];
+    pr.quot = rc[5];
 
     return true;
 }
@@ -79,7 +82,8 @@ bool Phdb::new_email(string email)
 
     Dbo db;
 
-    string ss = "insert into users (mail,cntr) values ('" + email + "','0')";
+    string ss = "insert into users (mail,cntr,quot) values ('$1','0','$2')";
+	args(ss,email,QUOTA);
     db.execth(ss);
 
     string id = db.getid("users", "mail", email);
@@ -101,7 +105,7 @@ void Phdb::schema()
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE users (id INTEGER PRIMARY KEY, "
-         "name TEXT, mail TEXT, last TEXT, cntr TEXT);";
+         "name TEXT, mail TEXT, last TEXT, cntr TEXT, quot TEXT);";
     if ( !db.exec(ss) ) goto bad;
 
     ss = "CREATE TABLE datas (id INTEGER PRIMARY KEY, prid TEXT, "
@@ -138,7 +142,10 @@ string Profile::str() const
     if ( mail.empty() ) throw "Profile::str name empty";
 
     string r;
-    r = star(name) + ' ' + mail + ' ' + star(last) + ' ' + star(cntr);
+
+    r = star(name) + ' ' + mail + ' ' + star(last) 
+		+ ' ' + star(cntr)+ ' ' + star(quot);
+
     return r;
 }
 

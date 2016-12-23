@@ -14,6 +14,7 @@ struct Profile
     string mail;
     string last;
     string cntr;
+    string quot;
 
     string str() const;  // for net comm
     string dump() const; // for debug output

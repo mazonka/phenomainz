@@ -3,11 +3,11 @@ cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
 [N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
 OK
 =================================== login done
-OK Kg== aaa@bbb 20001122001122 1
+OK Kg== aaa@bbb 20001122001122 1 10
 =================================== profile done
 OK
 =================================== name done
-OK vasia aaa@bbb 20001122001122 1
+OK vasia aaa@bbb 20001122001122 1 10
 =================================== profile done
 96db1e5f246844c9: [1] [aaa@bbb] [vasia] [20001122001122] [1]
 
