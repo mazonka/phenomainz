@@ -14,6 +14,8 @@ OK
 OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
 ===================================
 OK
+Phdb::dataset_get failed
+REQ_MSG_BAD
 OK
-OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
+OK 1 Kg== Kg== : :
 ===================================

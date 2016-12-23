@@ -16,6 +16,7 @@ print tcp self [ au 96db1e5f246844c9 ds get 1 ]
 
 print [ =================================== ]
 print tcp self [ au 96db1e5f246844c9 ds delete 1 ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
 print tcp self [ au 96db1e5f246844c9 ds create ]
 print tcp self [ au 96db1e5f246844c9 ds get 1 ]
 print [ =================================== ]

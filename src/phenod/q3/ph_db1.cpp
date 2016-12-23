@@ -206,11 +206,19 @@ int Phdb::dataset_list(string prid, gl::vstr & ids, gl::vstr & tis)
 
 void Phdb::dataset_del(string prid, string daid)
 {
+    if ( !auth(prid, daid) ) return;
+
     // FIXME check that there are no files
     // FIXME remove colmn records
 
     Dbo db;
-    string ss = "delete from datas where prid='$1' and id='$2'";
+
+	// removing keywords
+    string ss = "delete from keyds where daid='$1'";
+    args(ss, daid);
+    db.execth(ss);
+
+    ss = "delete from datas where prid='$1' and id='$2'";
     args(ss, prid, daid);
     db.execth(ss);
 }
