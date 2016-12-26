@@ -27,8 +27,8 @@ const B_TXT = {
     NO: 'No',
     UPDATE: 'Update',
     CATEG: 'Category',
-    KEYWD: 'Keywords',
-    ADD_KEYWD: 'Add keyword'
+    KWD: 'Keywords',
+    ADD_KWD: 'Add keyword'
 };
 
 const L_TXT = {
@@ -42,6 +42,7 @@ const L_TXT = {
     NSPCAT: 'Not specified category',
     CURCAT: 'Current category',
     SUBCAT: 'Subcategories',
+    KWD_SEL: 'Select keyword',
 };
 
 const M_TXT = {
@@ -52,6 +53,7 @@ const M_TXT = {
     HELLO: 'Hello!\nYou could create your first dataset',
     SURE: 'Are your sure?',
     S_EXPIRED: 'Session expired',
+    DEL_KWD: 'Delete keyword?',
     get FILE_IS_HUGE() {
         return this.ERROR + 'File is too big. Maximum file size is ' + G_MAX_FILE_SIZE + ' bytes';
     },

@@ -145,7 +145,7 @@ function wid_close_modal_window(f) {
 
 
 function wid_window_logout() {
-    var $obj = jq_get_yes_no(M_TXT.SURE);
+    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -313,7 +313,7 @@ function wid_upload_file() {
 }
 
 function wid_open_email_window() {
-    var $obj = jq_get_user_email();
+    var $obj = wid_get_jq_user_email();
     var ui_init = function () {
         $obj.find('button')
             .button()
@@ -346,7 +346,7 @@ function wid_input_email($obj) {
 }
 
 function wid_open_profile_window(name) {
-    var $obj = jq_get_user_profile(name);
+    var $obj = wid_get_jq_user_profile(name);
     var ui_init = function () {
         $obj.find('button')
             .button()
@@ -448,7 +448,7 @@ function wid_click_ds_categ_button($obj, ds) {
 }
 
 function wid_click_ds_del_button(ds_id) {
-    var $obj = jq_get_yes_no(M_TXT.SURE);
+    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -467,23 +467,50 @@ function wid_click_ds_del_button(ds_id) {
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_click_ds_keywd_button($obj, ds) {
 
+function wid_click_ds_del_kwd(ds_id, kwd) {
+    var $obj = wid_get_jq_yes_no(M_TXT.DEL_KWD);
+    var init = function () {
+        $obj.find('.button-yes-button')
+            .button()
+            .click(function () {
+                wid_nc_ds_del_kwd(ds_id, kwd);
+                wid_close_modal_window();
+            });
+        $obj.find('.button-no-button')
+            .button()
+            .click(function () {
+                wid_close_modal_window();
+            });
+
+    };
+
+    wid_open_modal_window($obj, false, init);
+}
+
+function wid_click_ds_kwd_button(ds) {
+    var list = eng_compare_lists(g_keywords, ds.kwd);
+    var $obj = wid_get_jq_kwd_add(ds, list);
     var init = function() {
-        wid_jq_init_button($kw);
-        wid_jq_init_autocomplete($kw.find('input'), g_keywords);
+        wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
     };
     var f = function () {
-        wid_open_modal_window($kw, false, init);
+        wid_open_modal_window($obj, false, init);
     };
     
     if (!Boolean(g_keywords.length)) {
-        wid_nc_add_keywd(ds.id, f);
+        wid_nc_keywords(f)
     } else {
         f();
     }
 }
 
-function wid_open_keywd_add_window($obj) {
-    var $kw = jq_get_keywd_obj(ds, g_keywords);
+function wid_input_kwd($inp) {
+    var $b = $inp.parent().find('button');
+    var val = $inp.val();
+    var list = $inp.autocomplete('option', 'source' );
+    
+    (list.indexOf(val) == '-1' || val == '')
+        ? $b.button('disable')
+        : $b.button('enable');
 }

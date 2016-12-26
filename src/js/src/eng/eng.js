@@ -16,7 +16,7 @@ function eng_get_data(data) {
         .split(/\s/);
 }
 
-function eng_get_decoded_b64_arr(data) {
+function eng_get_b64dec_list(data) {
 
     data.forEach(function (item, i, arr) {
         arr[i] = window.atob(arr[i]);
@@ -25,7 +25,7 @@ function eng_get_decoded_b64_arr(data) {
     return data;
 }
 
-function eng_get_encoded_b64_arr(data) {
+function eng_get_b64enc_list(data) {
 
     data.forEach(function (item, i, arr) {
         arr[i] = window.btoa(arr[i]);
@@ -37,6 +37,10 @@ function eng_get_encoded_b64_arr(data) {
 */
  
     return data;
+}
+
+function eng_compare_lists(list, exclude) {
+    return list.filter(val => !exclude.includes(val));
 }
 
 function eng_get_accordion_header(ds_id, title) {
@@ -184,8 +188,7 @@ function eng_get_parsed_profile(data) {
     profile.counter = data[4];
     profile.quote = data[5];
     profile.tail = data[6] || null;
-    console.log(profile.quote);
-    console.log(profile.tail);
+
     return profile;
 }
 
@@ -229,7 +232,7 @@ function eng_get_ds_list(data) {
 
     list.n = +data.splice(0, 1)[0];
     list.id = data.splice(0, list.n);
-    list.title = eng_get_decoded_b64_arr(data.splice(0, list.n));
+    list.title = eng_get_b64dec_list(data.splice(0, list.n));
     list.usage = data.splice(0, 1)[0];
     
     /// debug part
@@ -260,8 +263,8 @@ function eng_get_ds_get(data) {
 
     ds.categ.reverse();
 
-    ds.keywd = data[4].split(':').filter(Boolean);
-    ds.keywd = eng_get_decoded_b64_arr(ds.keywd);
+    ds.kwd = data[4].split(':').filter(Boolean);
+    ds.kwd = eng_get_b64dec_list(ds.kwd);
     
     return ds;
 }
@@ -300,7 +303,7 @@ function eng_get_cat_kids(data) {
 function eng_get_keywords(data) {
     data = eng_get_data(data);
     data = data.splice(1);
-    data = eng_get_decoded_b64_arr(data);
+    data = eng_get_b64dec_list(data);
 
     return data;
 }

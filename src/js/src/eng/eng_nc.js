@@ -57,7 +57,7 @@ function eng_nc_name(ext_cb, user_id, name, pulse) {
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_ds_list(ext_cb, user_id) {
+function eng_nc_ds_item_list(ext_cb, user_id) {
     var cmd = ['au', user_id, 'ds', 'list'].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
@@ -73,7 +73,7 @@ function eng_nc_ds_list(ext_cb, user_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_create(ext_cb, user_id) {
+function eng_nc_ds_item_create(ext_cb, user_id) {
     var cmd = ['au', user_id, 'ds', 'create'].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
@@ -82,7 +82,7 @@ function eng_nc_ds_create(ext_cb, user_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_delete(ext_cb, user_id, ds_id) {
+function eng_nc_ds_item_delete(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'delete', ds_id].join(' ');
     var int_cb = function (data) {
         ext_cb(eng_get_main_response(data));
@@ -116,7 +116,7 @@ function eng_nc_ds_upd_descr(ext_cb, user_id, ds_id, descr) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_upd_categ(ext_cb, user_id, ds_id, cat_id) {
+function eng_nc_ds_upd_cat(ext_cb, user_id, ds_id, cat_id) {
     var cmd = [
         'au', user_id, 'ds', 'update', ds_id, 'categ', cat_id
     ].join(' ');
@@ -128,9 +128,9 @@ function eng_nc_ds_upd_categ(ext_cb, user_id, ds_id, cat_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_addkw(ext_cb, user_id, ds_id, keyw) {
+function eng_nc_ds_add_kwd(ext_cb, user_id, ds_id, kwd) {
     var cmd = [
-        'au', user_id, 'ds', 'addkw', ds_id, keyw_id
+        'au', user_id, 'ds', 'addkw', ds_id, window.btoa(kwd)
     ].join(' ');
     
     var int_cb = function (data) {
@@ -140,9 +140,9 @@ function eng_nc_ds_addkw(ext_cb, user_id, ds_id, keyw) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_delkw(ext_cb, user_id, ds_id, keyw_id) {
+function eng_nc_ds_del_kwd(ext_cb, user_id, ds_id, kwd) {
     var cmd = [
-        'au', user_id, 'ds', 'delkw', ds_id, keyw_id
+        'au', user_id, 'ds', 'delkw', ds_id, window.btoa(kwd)
     ].join(' ');
     
     var int_cb = function (data) {

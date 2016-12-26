@@ -107,7 +107,18 @@ input[type='file'] {
 
 #span_profile_name span {
     font-weight: bold;
+    color: blue;
+}
+
+#span_profile_name span:hover {
     cursor: pointer;
+    color: blue;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+#span_profile_name span:active {
+    cursor: pointer;
+    text-shadow: 0 0 0;
     color: blue;
 }
 
@@ -160,29 +171,44 @@ h3 {
     font-size: 1em;
 }
 
-.ds-item-table textarea,
-.ds-item-div-keywords {
+.ds-item-table textarea {
     height: 3em;
 }
 
-.ds-item-span-keyword {
-    cursor: pointer;
-    display:inline-block;
-}
-
 .ds-item-div-keywords {
+    box-sizing: border-box;
+	border-collapse: collapse;
     white-space: pre-wrap;
     float: left;
     resize: both;
     overflow: auto;
+    min-height: 1.5em;
+    height: auto;
+    width: 100%;
 }
+
+.ds-item-span-keyword {
+    display: inline-block;
+}
+
+
+.ds-item-span-keyword:hover {
+    cursor: pointer;
+    color: blue;
+    text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+.ds-item-span-keyword:active {
+    cursor: pointer;
+    text-shadow: 0 0 0;
+}
+
 .ds-add-file {
     height: 24px !important;
     padding: 0 5px 0 5px !important;
     vertical-align: middle !important;
     min-width: 100px !important;
 }
-
 
 /* Modal popup window */
 
