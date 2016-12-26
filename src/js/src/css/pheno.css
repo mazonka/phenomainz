@@ -147,7 +147,7 @@ h3 {
 .ds-item-table {
 	box-sizing: border-box;
 	border-collapse: collapse;
-    /* border: 1px solid #DDDDDD; */
+    border: 1px solid #DDDDDD;
 	padding: 0;
 	width: auto;
     /* min-width: 600px; */
@@ -159,47 +159,70 @@ h3 {
     vertical-align: top;
 }
 
-.ds-item-table input,
-.ds-item-table textarea,
-.ds-item-div-keywords {
-    padding: 1px !important;
-    margin: 0px !important;
-    min-width: 240px !important;
-    border: 1px solid;
-    font-size: 1em;
+.ds-item-table button {
+    width: 6.25em;
 }
 
-.ds-item-table textarea,
-.ds-item-div-keywords {
-    white-space: pre-wrap;
-    height: 3em;
-    display: inline-block;
+.ds-item-table-td-b {
+    width: 6.5em;
+}
+
+.ds-item-table-td-f {
+    width: 15em;
+}
+
+.ds-item-table-td-c {
+    width: 6.5em;
+}
+
+.ds-item-table input,
+.ds-item-textarea-dsc,
+.ds-item-div-kwd {
+	box-sizing: border-box;
+	border-collapse: collapse;    
+    font-size: 1em;
+    padding: 1px !important;
+    margin: 0px !important;
+    border: 1px solid;
+    min-width: 15em !important;
+    width: 100%;
+}
+
+.ds-item-textarea-dsc {
+    display: inline;
+}
+
+.ds-item-textarea-dsc,
+.ds-item-div-kwd {
+/*     white-space: pre-wrap; */
+    min-height: 1.5em; 
+    height: 3em; 
+    
 }
 
 .ds-item-table input {
     height: 1.5em;
-    display: block;
 }
 
-
-.ds-item-div-keywords {
+.ds-item-div-kwd {
     float: left;
     resize: both;
     overflow: auto;
+    display: table-cell !important;
+    width: 100%;
 }
 
-.ds-item-span-keyword {
-    display: inline-block;
+.ds-item-span-kwd {
+    white-space: pre-wrap;
 }
 
-
-.ds-item-span-keyword:hover {
+.ds-item-span-kwd:hover {
     cursor: pointer;
     color: blue;
     text-shadow: 0.1em 0.1em 0.2em black;
 }
 
-.ds-item-span-keyword:active {
+.ds-item-span-kwd:active {
     cursor: pointer;
     text-shadow: 0 0 0;
 }

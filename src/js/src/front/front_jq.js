@@ -128,10 +128,6 @@ function wid_get_jq_ds_div(ds) {
     $obj_data = wid_get_ds_item_row_span($obj_data, files);
     $obj_data = wid_get_ds_item_row($obj_data, del);
     
-    $obj_data
-        .find('button')
-        .css('width', '100');
-        
     return $obj_data;
 }
 
@@ -139,13 +135,13 @@ function wid_get_jq_ds_div(ds) {
 function wid_get_ds_item_row($obj, td) {
     $obj.append($('<tr/>')
         .append($('<td/>')
-            .css('width', '80px')
+            .addClass('ds-item-table-td-b')
             .append(td.$b))
         .append($('<td/>')
-            .css('width', '240px')
+            .addClass('ds-item-table-td-f')
             .append(td.$f))
         .append($('<td/>')
-            .css('width', '60px')
+            .addClass('ds-item-table-td-c')
             .append(td.$c)));
         
     return $obj;
@@ -191,9 +187,9 @@ function wid_get_jq_ds_descr(ds) {
     var obj = {};
 
     obj.$b = $('<button/>', {
-            text: B_TXT.DESCR
+            text: B_TXT.DSC
         })
-        .attr('data-text', B_TXT.DESCR)
+        .attr('data-text', B_TXT.DSC)
         .attr('data-cmd', 'descr')
         .click(function () {
             wid_click_ds_button($(this), ds, true);
@@ -202,7 +198,8 @@ function wid_get_jq_ds_descr(ds) {
     obj.$f = $('<textarea/>', {
             val: ds.descr
         })
-        .prop('readonly', true);
+        .prop('readonly', true)
+        .addClass('ds-item-textarea-dsc');
 
     obj.$c = $('<button/>', {
             text: B_TXT.CANCEL
@@ -220,9 +217,9 @@ function wid_get_jq_ds_cat(ds) {
     var cat = eng_get_cat_path(ds.categ);
   
     obj.$b = $('<button/>', {
-            text: B_TXT.CATEG
+            text: B_TXT.CAT
         })
-        .attr('data-text', B_TXT.CATEG)
+        .attr('data-text', B_TXT.CAT)
         .attr('data-cmd', 'categ')
         .click(function () {
             wid_click_ds_categ_button($(this), ds);
@@ -241,7 +238,8 @@ function wid_get_jq_ds_cat(ds) {
                 $(this).stop();
                 this.scrollLeft = 0;
             })
-        .prop('readonly', true);
+        .prop('readonly', true)
+        .addClass('ds-item-div-cat');
     
     obj.$c = $();
 
@@ -264,7 +262,8 @@ function wid_get_jq_ds_kwd(ds) {
         });
  
     obj.$f = $('<div/>')
-        .html(wid_get_jq_span_keywords(ds, ds.kwd));
+        .html(wid_get_jq_span_keywords(ds, ds.kwd))
+        .addClass('ds-item-div-kwd');
         
     obj.$c = $();
 
@@ -292,12 +291,10 @@ function wid_get_jq_span_keywords(ds, list) {
     for (let i = 0, l = list.length; i < l; i++) {
         $div.append($('<span/>')
                 .html('[' + list[i] + ']')
-                .addClass('ds-item-span-keyword')
+                .addClass('ds-item-span-kwd')
                 .click(function(){
                     wid_click_ds_del_kwd(ds.id, list[i]);
-                })
-            )
-            .addClass('ds-item-div-keywords');
+                }));
     }
     
     return $div;    

@@ -20,13 +20,13 @@ const B_TXT = {
     DELETE: 'Delete',
     FILE: 'New file',
     TITLE: 'Title',
-    DESCR: 'Description',
+    DSC: 'Description',
     CANCEL: 'Cancel',
     SET: 'Set',
     YES: 'Yes',
     NO: 'No',
     UPDATE: 'Update',
-    CATEG: 'Category',
+    CAT: 'Category',
     KWD: 'Keywords',
     ADD_KWD: 'Add keyword'
 };
