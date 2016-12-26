@@ -81,7 +81,7 @@ function jq_get_ds_h3(ds_id, title) {
     
     $obj
         .append($('<span/>', {
-                text: ds_id + '. ' + title
+                text: eng_get_accordion_header(ds_id, title)
             })
             .addClass('accordion-header'));
 
@@ -394,6 +394,16 @@ function jq_get_cat_menu(cat, sub_cat) {
     return $span;
 }
 
-function jq_get_keywd_menu(cat, sub_cat) {
+function jq_get_keywd_inp(ds) {
+    var $s = $('<span/>');
+    var $i = $('<input/>');
+    var $b = $('<button/>', {
+            text: B_TXT.ADD_KEYWD,
+        }).click(function () {
+            wid_click_ds_addkw_button($(this), ds);
+        });
     
+    $s.append($i).append($b)
+    
+    return $s;
 }

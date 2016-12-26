@@ -34,6 +34,10 @@ function eng_get_encoded_b64_arr(data) {
     return data;
 }
 
+function eng_get_accordion_header(ds_id, title) {
+    return ds_id + '. ' + title;
+}
+
 function eng_open_file(file, cb_main, cb_progress) {
     var reader;
     var output = [];

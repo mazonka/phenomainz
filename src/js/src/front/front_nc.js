@@ -150,16 +150,18 @@ function wid_nc_ds_get(ds_id, force) {
     var $ds_div = $('#div_ds_' + ds_id);
     var cb = function (resp, ds) {
         let $ds_item;
-        let $ds_h3 = $('#h3_ds_' + ds_id);
-
+        let $ds_h3_header;
+        
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
+        $ds_h3_header = $('#h3_ds_' + ds.id).find('.accordion-header');
+        $ds_h3_header.html(eng_get_accordion_header(ds.id, ds.title))
         $ds_item = jq_get_ds_div(ds);
-           
+        
         $ds_div
             .html($ds_item);
 

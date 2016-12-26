@@ -448,7 +448,9 @@ function wid_click_ds_del_button(ds_id) {
 }
 
 function wid_click_ds_addkw_button($obj, ds) {
-
-    wid_nc_cat_kids(ds);
+    var $kw = jq_get_keywd_menu(ds);
+    
+    
+    ;
 }
 

@@ -27,7 +27,8 @@ const B_TXT = {
     NO: 'No',
     UPDATE: 'Update',
     CATEG: 'Category',
-    KEYWD: 'Keywords'
+    KEYWD: 'Keywords',
+    ADD_KEYWD: 'Add keyword'
 };
 
 const L_TXT = {
