@@ -171,20 +171,21 @@ h3 {
     font-size: 1em;
 }
 
-.ds-item-table textarea {
+.ds-item-table textarea,
+.ds-item-div-keywords {
+    box-sizing: border-box;
+	border-collapse: collapse;    
     height: 3em;
 }
 
 .ds-item-div-keywords {
     box-sizing: border-box;
-	border-collapse: collapse;
+	border-collapse: collapse;    
     white-space: pre-wrap;
     float: left;
     resize: both;
     overflow: auto;
-    min-height: 1.5em;
-    height: auto;
-    width: 100%;
+    
 }
 
 .ds-item-span-keyword {

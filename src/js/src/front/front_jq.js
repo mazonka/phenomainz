@@ -270,12 +270,12 @@ function wid_get_jq_ds_kwd(ds) {
 function wid_get_jq_kwd_add() {
     //wid_nc_add_kwd(ds.id, $i.val());
     var $s = $('<span/>');
-    var $p = $('<p/>')
-        .html(L_TXT.KWD_SEL + '</br>');
+    var $d = $('<div/>')
+        .html(L_TXT.KWD_SEL);
     var $i = $('<input/>');
     
     $s
-        .append($p)
+        .append($d)
         .append($i);
     return $s;
 }
