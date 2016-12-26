@@ -488,7 +488,7 @@ function wid_click_ds_del_kwd(ds_id, kwd) {
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_click_ds_kwd_button(ds) {
+function wid_click_ds_kwd_button(ds, force) {
     var list = eng_compare_lists(g_keywords, ds.kwd);
     var $obj = wid_get_jq_kwd_add(ds, list);
     var init = function() {
@@ -498,8 +498,8 @@ function wid_click_ds_kwd_button(ds) {
         wid_open_modal_window($obj, false, init);
     };
     
-    if (!Boolean(g_keywords.length)) {
-        wid_nc_keywords(f)
+    if (!Boolean(g_keywords.length) || force) {
+        wid_nc_keywords(f);
     } else {
         f();
     }

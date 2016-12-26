@@ -255,11 +255,16 @@ function wid_get_jq_ds_kwd(ds) {
     obj.$b = $('<button/>', {
             text: B_TXT.KWD
         })
-        .click(function () {
-            wid_click_ds_kwd_button(ds);
+        .click(function (e) {
+            if (e.shiftKey) {
+                wid_click_ds_kwd_button(ds, true);
+            } else {
+                wid_click_ds_kwd_button(ds, false);
+            }
         });
  
-    obj.$f = $('<div/>').html(wid_get_jq_span_keywords(ds, ds.kwd));
+    obj.$f = $('<div/>')
+        .html(wid_get_jq_span_keywords(ds, ds.kwd));
         
     obj.$c = $();
 
