@@ -162,30 +162,30 @@ h3 {
 .ds-item-table input,
 .ds-item-table textarea,
 .ds-item-div-keywords {
-    height: 1.5em;
     padding: 1px !important;
     margin: 0px !important;
     min-width: 240px !important;
     border: 1px solid;
-    display: block;
     font-size: 1em;
 }
 
 .ds-item-table textarea,
 .ds-item-div-keywords {
-    box-sizing: border-box;
-	border-collapse: collapse;    
+    white-space: pre-wrap;
     height: 3em;
+    display: inline-block;
 }
 
+.ds-item-table input {
+    height: 1.5em;
+    display: block;
+}
+
+
 .ds-item-div-keywords {
-    box-sizing: border-box;
-	border-collapse: collapse;    
-    white-space: pre-wrap;
     float: left;
     resize: both;
     overflow: auto;
-    
 }
 
 .ds-item-span-keyword {
