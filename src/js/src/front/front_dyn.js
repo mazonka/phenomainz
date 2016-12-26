@@ -11,6 +11,7 @@ function wid_pulse() {
             counter++;
 
             if (counter > 0) {
+                wid_open_shell_window(true);
                 return $Logo.attr('src', IMG.LOGO_WAIT);
             }
         },
@@ -19,17 +20,21 @@ function wid_pulse() {
 
             Boolean(counter > 0) && counter--;
 
-            if (counter == 0)
+            if (counter == 0) {
+                wid_open_shell_window(false);
+             
                 return setTimeout(function () {
                     $Logo.attr('src', IMG.LOGO_DONE);
                 }, 200);
+            }
         },
         fail: function () {
             let $Logo = $('#img_logo');
 
             counter = 0;
             console.log('Server fault!');
-
+            wid_open_shell_window(false);
+            
             return $Logo.attr('src', IMG.LOGO_FAIL);
         }
     }
@@ -43,6 +48,21 @@ function img_preload(container) {
             g_img_preload[i].src = container[i];
         }
     }
+}
+
+function wid_open_shell_window(toggle) {
+    var $window = $('#div_modal_window');
+    var $body = $('#div_modal_window_content_body');
+    var width = $('body')
+        .outerWidth();
+        
+    if (toggle) {
+        //$body.html('<img id="img_logo" src="' + IMG.AJAX_LOAD + '">');
+        //$window.css('display', 'block');
+    } else {
+        //$body.empty();
+        //$window.css('display', 'none');
+    }   
 }
 
 function wid_open_modal_window(data, click, f_init, f_close) {
@@ -447,10 +467,23 @@ function wid_click_ds_del_button(ds_id) {
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_click_ds_addkw_button($obj, ds) {
-    var $kw = jq_get_keywd_menu(ds);
+function wid_click_ds_keywd_button($obj, ds) {
+
+    var init = function() {
+        wid_jq_init_button($kw);
+        wid_jq_init_autocomplete($kw.find('input'), g_keywords);
+    };
+    var f = function () {
+        wid_open_modal_window($kw, false, init);
+    };
     
-    
-    ;
+    if (!Boolean(g_keywords.length)) {
+        wid_nc_add_keywd(ds.id, f);
+    } else {
+        f();
+    }
 }
 
+function wid_open_keywd_add_window($obj) {
+    var $kw = jq_get_keywd_obj(ds, g_keywords);
+}

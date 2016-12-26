@@ -9,7 +9,7 @@ function eng_is_email(data) {
      : false;
 }
 
-function eng_clear_data(data) {
+function eng_get_data(data) {
     return data
         .replace(/^OK/g, '')
         .replace(/^\s|\r|\s+$/g, '')
@@ -27,10 +27,15 @@ function eng_get_decoded_b64_arr(data) {
 
 function eng_get_encoded_b64_arr(data) {
 
+    data.forEach(function (item, i, arr) {
+        arr[i] = window.btoa(arr[i]);
+    });
+/*     
     for (let i = 0, l = data.length; i < l; i++) {
         data[i] = window.btoa(data[i]);
     }
-
+*/
+ 
     return data;
 }
 
@@ -220,7 +225,7 @@ function eng_get_lastdate(data) {
 function eng_get_ds_list(data) {
     var list = {};
 
-    data = eng_clear_data(data);
+    data = eng_get_data(data);
 
     list.n = +data.splice(0, 1)[0];
     list.id = data.splice(0, list.n);
@@ -238,7 +243,7 @@ function eng_get_ds_list(data) {
 function eng_get_ds_get(data) {
     var ds = {};
 
-    data = eng_clear_data(data);
+    data = eng_get_data(data);
     ds.id = data[0];
     ds.title = window.atob(data[1]);
     ds.descr = window.atob(data[2]);
@@ -277,7 +282,7 @@ function eng_get_cat_kids(data) {
     var cat = [];
     var l;
     
-    data = eng_clear_data(data);
+    data = eng_get_data(data);
     l = +data.splice(0, 1)[0];
     
     for (let i = 0; i < l; i++) {
@@ -290,4 +295,12 @@ function eng_get_cat_kids(data) {
     }
     
     return cat;
+}
+
+function eng_get_keywords(data) {
+    data = eng_get_data(data);
+    data = data.splice(1);
+    data = eng_get_decoded_b64_arr(data);
+
+    return data;
 }

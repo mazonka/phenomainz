@@ -149,27 +149,41 @@ h3 {
 }
 
 .ds-item-table input,
-.ds-item-table textarea {
+.ds-item-table textarea,
+.ds-item-div-keywords {
     height: 1.5em;
     padding: 1px !important;
     margin: 0px !important;
     min-width: 240px !important;
-    border-width: 1px;
-    border-style: solid;
-    display:block;
+    border: 1px solid;
+    display: block;
     font-size: 1em;
 }
 
-.ds-item-table textarea {
+.ds-item-table textarea,
+.ds-item-div-keywords {
     height: 3em;
 }
 
+.ds-item-span-keyword {
+    cursor: pointer;
+    display:inline-block;
+}
+
+.ds-item-div-keywords {
+    white-space: pre-wrap;
+    float: left;
+    resize: both;
+    overflow: auto;
+}
 .ds-add-file {
     height: 24px !important;
     padding: 0 5px 0 5px !important;
     vertical-align: middle !important;
     min-width: 100px !important;
 }
+
+
 /* Modal popup window */
 
 #div_modal_window {

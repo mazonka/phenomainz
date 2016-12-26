@@ -180,3 +180,17 @@ function eng_nc_cat_kids(ext_cb, user_id, cat_id) {
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
+
+function eng_nc_keywords(ext_cb, user_id) {
+    var cmd = ['au', user_id, 'keywords'].join(' ');
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+        
+        data = eng_get_keywords(data);
+
+        ext_cb(resp, data);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+

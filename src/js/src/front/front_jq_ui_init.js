@@ -24,3 +24,13 @@ function wid_jq_ui_init_ds_accordion($obj) {
         }
     })
 }
+
+function wid_jq_init_autocomplete($obj, list) {
+    $obj.autocomplete({
+        source: list
+    })
+}
+
+function wid_jq_init_button($obj) {
+    $obj.find('button').button();
+}

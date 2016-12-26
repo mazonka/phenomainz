@@ -248,9 +248,26 @@ function jq_get_ds_cat(ds) {
     return obj;
 }
 
+function jq_get_span_keywords(list) {
+    var $div = $('<div/>');
+    
+    for (let i = 0, l = list.length; i < l; i++) {
+        $div.append($('<span/>')
+                .html('[' + list[i] + ']')
+                .addClass('ds-item-span-keyword')
+                .click(function(){
+                    console.log('func for delete keywords');
+                })
+            )
+            .addClass('ds-item-div-keywords');
+    }
+    
+    return $div;    
+}
+
 function jq_get_ds_keyw(ds) {
     var obj = {};
-
+    
     obj.$b = $('<button/>', {
             text: B_TXT.KEYWD
         })
@@ -260,11 +277,14 @@ function jq_get_ds_keyw(ds) {
             wid_click_ds_keywd_button($(this), ds);
         });
     
-    obj.$f = $('<textarea/>', {
+/*     obj.$f = $('<textarea/>', {
             val: ds.keywd.join(';')
         })
         .prop('readonly', true);
-
+ */
+ 
+    obj.$f = $('<div/>').html(jq_get_span_keywords(ds.keywd));
+        
     obj.$c = $();
 
     return obj;
@@ -394,16 +414,17 @@ function jq_get_cat_menu(cat, sub_cat) {
     return $span;
 }
 
-function jq_get_keywd_inp(ds) {
+function jq_get_keywd_obj(ds) {
     var $s = $('<span/>');
     var $i = $('<input/>');
     var $b = $('<button/>', {
             text: B_TXT.ADD_KEYWD,
         }).click(function () {
-            wid_click_ds_addkw_button($(this), ds);
+            wid_nc_add_keywd($(this), ds);
         });
-    
-    $s.append($i).append($b)
+    $s
+        .append($i)
+        .append($b);
     
     return $s;
 }
