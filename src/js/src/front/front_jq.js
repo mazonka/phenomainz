@@ -127,7 +127,11 @@ function wid_get_jq_ds_div(ds) {
     $obj_data = wid_get_ds_item_row($obj_data, add);
     $obj_data = wid_get_ds_item_row_span($obj_data, files);
     $obj_data = wid_get_ds_item_row($obj_data, del);
-    
+    $('.ds-item-textarea-dsc').resizable({
+        resize: function() {
+            console.log('rs')
+        }
+    });
     return $obj_data;
 }
 
@@ -261,8 +265,7 @@ function wid_get_jq_ds_kwd(ds) {
             }
         });
  
-    obj.$f = $('<div/>')
-        .html(wid_get_jq_span_keywords(ds, ds.kwd))
+    obj.$f = wid_get_jq_span_keywords($('<div/>'), ds, ds.kwd)
         .addClass('ds-item-div-kwd');
         
     obj.$c = $();
@@ -285,11 +288,9 @@ function wid_get_jq_kwd_add() {
 }
 
 //returns span with [keyword]
-function wid_get_jq_span_keywords(ds, list) {
-    var $div = $('<div/>');
-    
+function wid_get_jq_span_keywords($obj, ds, list) {
     for (let i = 0, l = list.length; i < l; i++) {
-        $div.append($('<span/>')
+        $obj.append($('<span/>')
                 .html('[' + list[i] + ']')
                 .addClass('ds-item-span-kwd')
                 .click(function(){
@@ -297,7 +298,7 @@ function wid_get_jq_span_keywords(ds, list) {
                 }));
     }
     
-    return $div;    
+    return $obj;    
 }
 
 function wid_get_jq_ds_add(ds_id) {
