@@ -145,7 +145,7 @@ function wid_close_modal_window(f) {
 
 
 function wid_window_logout() {
-    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
+    var $obj = get_jq_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -199,6 +199,8 @@ function wid_ui_login() {
     $('#td_ds_list')
         .show();
 
+
+    wid_nc_admin_ping();
     wid_nc_profile();
     wid_nc_ds_list();
 }
@@ -273,6 +275,15 @@ function wid_open_file(files, $obj) {
     eng_open_file(file, cb_main, cb_progress);
 }
 
+
+function wid_show_admin_panel(admin) {
+    if (admin) {
+        console.log('admin');
+    } else {
+        console.log('not admin');
+    }
+}
+
 function wid_file_is_open(toggle) {
     var $Input = $('#input_open_file');
     var $Label = $('#label_open_file');
@@ -313,7 +324,7 @@ function wid_upload_file() {
 }
 
 function wid_open_email_window() {
-    var $obj = wid_get_jq_user_email();
+    var $obj = get_jq_user_email();
     var ui_init = function () {
         $obj.find('button')
             .button()
@@ -346,7 +357,7 @@ function wid_input_email($obj) {
 }
 
 function wid_open_profile_window(name) {
-    var $obj = wid_get_jq_user_profile(name);
+    var $obj = get_jq_user_profile(name);
     var ui_init = function () {
         $obj.find('button')
             .button()
@@ -448,7 +459,7 @@ function wid_click_ds_categ_button($obj, ds) {
 }
 
 function wid_click_ds_del_button(ds_id) {
-    var $obj = wid_get_jq_yes_no(M_TXT.SURE);
+    var $obj = get_jq_yes_no(M_TXT.SURE);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -469,7 +480,7 @@ function wid_click_ds_del_button(ds_id) {
 
 
 function wid_click_ds_del_kwd(ds_id, kwd) {
-    var $obj = wid_get_jq_yes_no(M_TXT.DEL_KWD);
+    var $obj = get_jq_yes_no(M_TXT.DEL_KWD);
     var init = function () {
         $obj.find('.button-yes-button')
             .button()
@@ -490,7 +501,7 @@ function wid_click_ds_del_kwd(ds_id, kwd) {
 
 function wid_click_ds_kwd_button(ds, force) {
     var list = eng_compare_lists(g_keywords, ds.kwd);
-    var $obj = wid_get_jq_kwd_add(ds, list);
+    var $obj = get_jq_kwd_add(ds, list);
     var init = function() {
         wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
     };

@@ -5,6 +5,19 @@
 
 function eng_nc_ping(ext_cb, user_id, pulse) {
     var cmd = ['au', user_id, 'ping'].join(' ');
+        
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+
+        ext_cb(resp);
+    };
+
+    ajx_send_command(cmd, int_cb, pulse);
+}
+
+function eng_nc_admin_ping(ext_cb, user_id, pulse) {
+    var cmd = ['au', user_id, 'admin', 'ping'].join(' ')
+        
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
 

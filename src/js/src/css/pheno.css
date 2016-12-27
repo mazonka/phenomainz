@@ -141,15 +141,19 @@ input[type='file'] {
 }
 
 /* Datasets  */
-h3 {
+.ds-accordion-header {
     text-align: left;
+}
+
+.ds-accordion-content {
+    text-align: center;
 }
 
 .ds-item-table {
 	border-collapse: collapse;
     /* border: 1px solid #DDDDDD; */
 	padding: 0;
-	width: auto;
+	width: 80%;
 
 }
 
@@ -159,60 +163,56 @@ h3 {
     vertical-align: top;
 }
 
+.ds-item-table input,
+.ds-item-table textarea {
+    min-width: 25em;
+}
+
 .ds-item-table button {
     width: 6.25em;
 }
 
-.ds-item-table-td-b {
-    width: 6.5em;
-}
-
-.ds-item-table-td-f {
-    width: 15em;
-}
-
-.ds-item-table-td-c {
-    width: 6.5em;
-}
-
-.ds-item-table input,
-.ds-item-textarea-dsc,
-.ds-item-div-kwd {
+.ds-item-title-input,
+.ds-item-category-input,
+.ds-item-description-textarea,
+.ds-item-keyword-div {
 	border-collapse: collapse;    
     font-size: 1em;
     padding: 1px !important;
     margin: 0px !important;
     border: 1px solid #DDDDDD;
     min-width: 15em !important;
-    width: 100%;
 }
 
-.ds-item-textarea-dsc {
-    display: inline;
-}
-
-.ds-item-textarea-dsc,
-.ds-item-div-kwd {
-/*     white-space: pre-wrap; */
-    min-height: 1.5em; 
-    height: 3em; 
-    
-}
-
-.ds-item-table input {
+.ds-item-title-input,
+.ds-item-category-input {
     height: 1.5em;
 }
 
-.ds-item-div-kwd {
+.ds-item-description-textarea {
+    /* fix inconsistent textarea bottom margin */
+    display: block; 
+}
+
+.ds-item-description-textarea,
+.ds-item-keyword-div {
+    white-space: pre-wrap;
+    min-height: 1.5em; 
+    height: 3em;
+}
+
+
+.ds-item-keyword-div {
+    /* display: inline-block !important; */
     float: left;
     resize: both;
     overflow: auto;
-    display: inline-block !important;
-    width: 100%;
+    white-space: break-word;
 }
 
 .ds-item-span-kwd {
-    white-space: pre-wrap;
+    white-space: break-word;
+    display: table;
 }
 
 .ds-item-span-kwd:hover {
@@ -317,7 +317,7 @@ h3 {
     background-color: rgb(248, 248, 248) !important;
 }
 
-.ui-accordion .ui-accordion-header {
+.ui-accordion .ui-accordion-title {
 	font-size: 1em;
 	padding-top: 2px !important;
 	padding-bottom: 2px !important;

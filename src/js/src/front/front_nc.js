@@ -17,6 +17,20 @@ function wid_nc_ping() {
     eng_nc_ping(cb, g_user_id, g_pulse);
 }
 
+function wid_nc_admin_ping() {
+    var cb = function (resp) {
+        if (resp == PHENOD.OK) {
+            return wid_show_admin_panel(true);
+        } else if (resp != PHENOD.AUTH) {
+            wid_open_modal_window(M_TXT.ERROR + resp, true, null, null);
+        }
+        
+        wid_show_admin_panel(false);
+    };
+
+    eng_nc_admin_ping(cb, g_user_id, g_pulse);
+}
+
 function wid_nc_login() {
     var email = $('#input_user_email')
         .val();
@@ -132,7 +146,7 @@ function wid_nc_ds_list() {
             .remove();
 
         if (list.n != '0') {
-            let $div = wid_get_jq_ds_list(list.n, list.id, list.title);
+            let $div = get_jq_ds_list(list.n, list.id, list.title);
             
             $td_ds_list.append($div);
             wid_init_ui_accordion($div);
@@ -158,9 +172,9 @@ function wid_nc_ds_get(ds_id, force) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        $ds_h3_header = $('#h3_ds_' + ds.id).find('.accordion-header');
+        $ds_h3_header = $('#h3_ds_' + ds.id).find('.accordion-title');
         $ds_h3_header.html(eng_get_accordion_header(ds.id, ds.title))
-        $ds_item = wid_get_jq_ds_div(ds);
+        $ds_item = get_jq_ds_div(ds);
         
         $ds_div
             .html($ds_item);
@@ -247,7 +261,7 @@ function wid_nc_cat_kids(cat, ds) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        let $obj = wid_get_jq_cat_menu(cat, sub_cat);
+        let $obj = get_jq_cat_menu(cat, sub_cat);
         let f = function () {
             let $b = $obj
                 .find('button');
