@@ -18,7 +18,6 @@ const B_TXT = {
     CREATE_NEW: 'Create new dataset',
     UPDATE_LIST: 'Update list',
     DELETE: 'Delete',
-    FILE: 'New file',
     TITLE: 'Title',
     DSC: 'Description',
     CANCEL: 'Cancel',
@@ -28,7 +27,8 @@ const B_TXT = {
     UPDATE: 'Update',
     CAT: 'Category',
     KWD: 'Keywords',
-    ADD_KWD: 'Add keyword'
+    ADD_KWD: 'Add keyword',
+    ADD_FILE: 'Add file'
 };
 
 const L_TXT = {

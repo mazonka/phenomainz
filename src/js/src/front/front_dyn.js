@@ -501,7 +501,7 @@ function wid_click_ds_del_kwd(ds_id, kwd) {
 
 function wid_click_ds_kwd_button(ds, force) {
     var list = eng_compare_lists(g_keywords, ds.kwd);
-    var $obj = get_jq_kwd_add(ds, list);
+    var $obj = get_jq_ds_kwd_add(ds, list);
     var init = function() {
         wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
     };
