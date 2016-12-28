@@ -3,42 +3,21 @@
 
 'use strict';
 
-function wid_init_ui_ds_list_accordion($obj) {
+function wid_init_ui_accordion($obj, f) {
     $obj.accordion({
         icons: {
-            'header': 'ui-icon-plus',
-            'activeHeader': 'ui-icon-minus'
+            'header': 'ui-icon-triangle-1-e', //'ui-icon-plus',
+            'activeHeader': 'ui-icon-triangle-1-s' //'ui-icon-minus'
         },
         active: false,
         heightStyle: 'content',
         collapsible: 'true',
-        header: 'h3',
         activate: function (event, ui) {
-            var ds_id = ($(this)
-                .find('.ui-state-active')
-                .attr('data-id'));
-
-            if (typeof ds_id !== 'undefined') {
-                wid_nc_ds_get(ds_id, false);
-                wid_nc_ds_file_list(ds_id, false);
-            }
+            (Boolean(f)) && f($(this));
         }
     })
 }
 
-function wid_init_ui_ds_item_files_accordion($obj) {
-    $obj.accordion({
-        icons: {
-            'header': 'ui-icon-plus',
-            'activeHeader': 'ui-icon-minus'
-        },
-        active: false,
-        heightStyle: 'content',
-        collapsible: 'true',
-        header: 'h3'        
-    })
-}
-    
 function wid_init_ui_kwd_autocomplete($obj, list, ds) {
     list = eng_compare_lists(list, ds.kwd);
     

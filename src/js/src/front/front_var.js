@@ -10,7 +10,7 @@ const TD_LOGIN = '#td_login';
 const TD_PROFILE = '#td_profile';
 const TD_DS_LIST = '#td_ds_list';
 const TD_DS_CREATE = '#td_ds_create';
-const H3_DS = '#h3_ds_';
+const H1_DS = '#h1_ds_';
 const DIV_DS = '#div_ds_';
 
 

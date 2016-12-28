@@ -84,7 +84,7 @@ function get_jq_ds_list(l, ds_id, title) {
     }));
 
     for (let i = 0; i < +l; i++) {
-        let $h3 = get_jq_ds_h3(ds_id[i], title[i]);
+        let $h3 = get_jq_ds_h1(ds_id[i], title[i]);
 
         $obj.append($h3);
 
@@ -92,6 +92,7 @@ function get_jq_ds_list(l, ds_id, title) {
             .append($('<div/>', {
                 id: 'div_ds_' + ds_id[i],
             })
+            .attr('data-id', ds_id[i])
             .addClass('ds-accordion-content'));
     }
 
@@ -99,9 +100,9 @@ function get_jq_ds_list(l, ds_id, title) {
 }
 
 // gets dataset h3 title object
-function get_jq_ds_h3(ds_id, title) {
-    var $obj = $('<h3/>', {
-            id: 'h3_ds_' + ds_id,
+function get_jq_ds_h1(ds_id, title) {
+    var $obj = $('<h1/>', {
+            id: 'H1_DS_' + ds_id,
         })
         .attr('data-id', ds_id)
         .addClass('ds-accordion-header');
@@ -355,15 +356,16 @@ function get_jq_ds_kwd_list($obj, ds, list) {
     return $obj;    
 }
 
+// gets accordion with with file list
 function get_jq_ds_item_files(ds) {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
     var $div = $('<div/>');
-    var $h3 = $('<h3/>', {
+    var $h2 = $('<h2/>', {
             text: M_TXT.FILES
         });
     var $acc = $('<div/>')
-        .append($h3)
+        .append($h2)
         .append($div.append(get_jq_ds_files_table(ds)))
         .addClass('ds-item-file-list-accordion');
     
@@ -372,10 +374,10 @@ function get_jq_ds_item_files(ds) {
     return $tr;
 }
 
+// gets empty table for datasets file list
 function get_jq_ds_files_table(ds) {
-    var $tbl = $('<table/>', {
-        id: 'table_ds_item_' + ds.id + '_file_list'
-    });
+    var $tbl = $('<table/>')
+        .append(get_jq_ds_files_add(ds));
     
     return $tbl;
 }
@@ -383,20 +385,14 @@ function get_jq_ds_files_table(ds) {
 function get_jq_ds_files_add(ds) {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
-    var $tbl = $('<table/>')
-        .append($('<tr/>')
-            .append($('<td/>')
-                .append($('<button/>', {
-                        text: B_TXT.ADD_FILE,
-                    })
-                    .click(function () {
-                        wid_click_ds_add_file_rec(ds);
-                        //set_jq_ds_item_new_file_rec(ds);
-                    }))
-            )
-        );
+    var $btn = $('<button/>', {
+            text: B_TXT.ADD_FILE,
+        })
+        .click(function () {
+            wid_click_ds_add_file_rec(ds);
+        });
     
-    $tr.append($td.append($tbl));
+    $tr.append($td.append($btn));
     
     return $tr;
 }

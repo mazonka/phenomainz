@@ -398,130 +398,6 @@ function wid_input_name($obj) {
     }
 }
 
-function wid_click_ds_button($btn, ds, submit) {
-    var $cnl;
-    var $fld;
-    var toggle = function ($b, $f, $c, turn) {
-        if (turn) {
-            $f.prop('readonly', false)
-            $b.text(B_TXT.SUBMIT);
-            $c.show();
-            $f.focus();
-        } else {
-            $f.prop('readonly', true);
-            $b.text($btn.attr('data-text'));
-            $c.hide();
-        }
-    };
-
-    if (submit) {
-        $fld = $btn.parent('td')
-            .next('td')
-            .children();
-        $cnl = $fld.parent('td')
-            .next('td')
-            .children();
-    } else {
-        $cnl = $btn;
-        $fld = $cnl.parent('td')
-            .prev('td')
-            .children();
-        $btn = $fld.parent('td')
-            .prev('td')
-            .children();
-    }
-
-    if ($fld.prop('readonly') && !submit) {
-        toggle($btn, $fld, $cnl, false);
-        return alert('don\'t do that again!');
-    } else if ($fld.prop('readonly')) {
-        toggle($btn, $fld, $cnl, true)
-    } else {
-        let cmd = $btn.attr('data-cmd');
-        toggle($btn, $fld, $cnl, false);
-
-        if (cmd !== 'title' && cmd !== 'descr') {
-            return;
-        } else if (submit) {
-            wid_nc_ds_upd_cmd(cmd, ds.id, $fld.val());
-        } else if (!submit) {
-            wid_nc_ds_get(ds.id, true);
-        }
-    }
-}
-
-function wid_click_ds_categ_button($obj, ds) {
-    var c = {};
-    
-    if (Boolean(ds.categ.length)) {
-        c.id = ds.categ[ds.categ.length - 1].id;
-        c.path = eng_get_cat_path(ds.categ);
-    } else {
-        c.id = '0';
-        c.path = '\u002f';
-    }
-
-    wid_nc_cat_kids(c, ds);
-}
-
-function wid_click_ds_del_button(ds_id) {
-    var $obj = get_jq_yes_no(M_TXT.SURE);
-    var init = function () {
-        $obj.find('.button-yes-button')
-            .button()
-            .click(function () {
-                wid_nc_ds_delete(ds_id);
-                wid_close_modal_window();
-            });
-        $obj.find('.button-no-button')
-            .button()
-            .click(function () {
-                wid_close_modal_window();
-            });
-
-    }
-
-    wid_open_modal_window($obj, false, init);
-}
-
-
-function wid_click_ds_del_kwd(ds_id, kwd) {
-    var $obj = get_jq_yes_no(M_TXT.DEL_KWD);
-    var init = function () {
-        $obj.find('.button-yes-button')
-            .button()
-            .click(function () {
-                wid_nc_ds_del_kwd(ds_id, kwd);
-                wid_close_modal_window();
-            });
-        $obj.find('.button-no-button')
-            .button()
-            .click(function () {
-                wid_close_modal_window();
-            });
-
-    };
-
-    wid_open_modal_window($obj, false, init);
-}
-
-function wid_click_ds_kwd_button(ds, force) {
-    var list = eng_compare_lists(g_keywords, ds.kwd);
-    var $obj = get_jq_ds_kwd_add(ds, list);
-    var init = function() {
-        wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
-    };
-    var f = function () {
-        wid_open_modal_window($obj, false, init);
-    };
-    
-    if (!Boolean(g_keywords.length) || force) {
-        wid_nc_keywords(f);
-    } else {
-        f();
-    }
-}
-
 function wid_input_kwd($inp) {
     var $b = $inp.parent().find('button');
     var val = $inp.val();
@@ -532,30 +408,86 @@ function wid_input_kwd($inp) {
         : $b.button('enable');
 }
 
-function wid_click_ds_add_file_rec(ds) {
-    wid_nc_ds_file_new(ds.id);
+function wid_fill_profile(profile) {
+        let r = eng_get_lastdate(profile.lastdate);
+        let date = [r.yyyy, r.mm, r.dd].join('.');
+        let time = [r.h, r.m, r.s].join(':');
+
+        $('#span_profile_name')
+            .find('span')
+            .html(profile.name)
+            .click(function () {
+                wid_open_profile_window($(this)
+                    .html());
+            });
+
+        $('#span_profile_logout')
+            .find('button')
+            .button()
+            .click(function () {
+                wid_window_logout();
+            });
+
+        $('#span_profile_email')
+            .find('span')
+            .html(profile.email);
+
+        $('#span_profile_lastdate')
+            .find('span')
+            .html(date + ', ' + time);
+
+        $('#span_profile_counter')
+            .find('span')
+            .html(profile.counter);    
+
+        $('#span_profile_quote')
+            .find('span')
+            .html('0/' + profile.quote + ' Mb');
+        
+        Boolean(profile.tail) && alert('profile tail:\n' + list.tail);            
 }
 
-function wid_draw_ds_get(ds) {
-    var $ds_h3_header = $(H3_DS + ds.id).find('.accordion-title');
+function wid_fill_ds_list(list) {
+    $(TD_DS_LIST)
+        .children()
+        .remove();
+
+    if (Boolean(list) && list.n > 0) {
+        let $div = get_jq_ds_list(list.n, list.id, list.title);
+        
+        $(TD_DS_LIST).append($div);
+
+        wid_init_ui_accordion($div, function (_this) {
+            wid_click_ds_list_header(_this);
+        });
+        //debug part
+        Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
+    } else {
+        return wid_open_modal_window(M_TXT.HELLO, true);
+    }
+}
+
+function wid_fill_ds_get(ds) {
+    var $ds_h1_header = $(H1_DS + ds.id).find('.accordion-title');
     var $ds_obj = get_jq_ds_get_obj(ds);
     var $ds_div = $(DIV_DS + ds.id);
     
-    $ds_h3_header.html(eng_get_accordion_header(ds.id, ds.title))
+    $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title))
     $ds_div.html($ds_obj);
     
     wid_init_ui_button($ds_obj);
-    wid_init_ui_ds_item_files_accordion($ds_obj);
+    wid_init_ui_accordion($ds_obj.find('.ds-item-file-list-accordion'), null);
     
 }
 
-function wid_draw_ds_file_list(ds_id, list) {
+
+function wid_fill_ds_file_list(ds_id, list) {
     console.log('draw')
-    var $o = get_jq_ds_item_file_rec(ds_id, list);
+/*     var $o = get_jq_ds_item_file_rec(ds_id, list);
     var ui_init = function () {
         wid_init_ui_button($o);
         wid_init_ui_progressbar($o);
-    }
+    }; */
 
     //wid_open_modal_window($o, false, ui_init);
 };

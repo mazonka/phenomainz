@@ -63,53 +63,13 @@ function wid_nc_logout() {
 
 function wid_nc_profile() {
     var cb = function (resp, profile) {
-        let r;
-        let date;
-        let time;
-
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        r = eng_get_lastdate(profile.lastdate);
         
-        Boolean(profile.tail) && alert('profile tail:\n' + list.tail);
-        
-        date = [r.yyyy, r.mm, r.dd].join('.');
-        time = [r.h, r.m, r.s].join(':');
-
-        $('#span_profile_name')
-            .find('span')
-            .html(profile.name)
-            .click(function () {
-                wid_open_profile_window($(this)
-                    .html());
-            });
-
-        $('#span_profile_logout')
-            .find('button')
-            .button()
-            .click(function () {
-                wid_window_logout();
-            });
-
-        $('#span_profile_email')
-            .find('span')
-            .html(profile.email);
-
-        $('#span_profile_lastdate')
-            .find('span')
-            .html(date + ', ' + time);
-
-        $('#span_profile_counter')
-            .find('span')
-            .html(profile.counter);    
-
-        $('#span_profile_quote')
-            .find('span')
-            .html('0/' + profile.quote + ' Mb');
+        wid_fill_profile(profile);
     };
 
     eng_nc_profile(cb, g_user_id, g_pulse);
@@ -139,21 +99,8 @@ function wid_nc_ds_list() {
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        $(TD_DS_LIST)
-            .children()
-            .remove();
-
-        if (list.n != '0') {
-            let $div = get_jq_ds_list(list.n, list.id, list.title);
-            
-            $(TD_DS_LIST).append($div);
-            wid_init_ui_ds_list_accordion($div);
-            //debug part
-            Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
-        } else {
-            return wid_open_modal_window(M_TXT.HELLO, true);
-        }
+        
+        wid_fill_ds_list(list);
     };
 
     eng_nc_ds_item_list(cb, g_user_id);
@@ -168,7 +115,7 @@ function wid_nc_ds_get(ds_id, force) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        wid_draw_ds_get(ds);
+        wid_fill_ds_get(ds);
     };
 
     if (!Boolean($ds_div.html())) {
@@ -237,7 +184,6 @@ function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
         //eng_nc_ds_add_kwd(cb, g_user_id, ds_id, data);
     }
 }
-
 
 
 function wid_nc_cat_kids(cat, ds) {
@@ -365,7 +311,7 @@ function wid_nc_ds_file_new(ds_id) {
 }
 
 
-function wid_nc_ds_file_list(ds_id) {
+function wid_nc_ds_file_list(ds_id, force) {
     var cb = function (resp, data ) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
@@ -373,7 +319,7 @@ function wid_nc_ds_file_list(ds_id) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        wid_draw_ds_file_list(ds_id, data);
+        wid_fill_ds_file_list(ds_id, data);
     };
 
     eng_nc_ds_file_list(cb, g_user_id, ds_id);
