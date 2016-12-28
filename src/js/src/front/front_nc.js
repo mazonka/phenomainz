@@ -133,7 +133,6 @@ function wid_nc_name($obj) {
 
 function wid_nc_ds_list() {
     var cb = function (resp, list) {
-        let $td_ds_list = $('#td_ds_list');
         
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
@@ -141,15 +140,15 @@ function wid_nc_ds_list() {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
 
-        $td_ds_list
+        $(TD_DS_LIST)
             .children()
             .remove();
 
         if (list.n != '0') {
             let $div = get_jq_ds_list(list.n, list.id, list.title);
             
-            $td_ds_list.append($div);
-            wid_init_ui_accordion($div);
+            $(TD_DS_LIST).append($div);
+            wid_init_ui_ds_list_accordion($div);
             //debug part
             Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
         } else {
@@ -161,28 +160,16 @@ function wid_nc_ds_list() {
 }
 
 function wid_nc_ds_get(ds_id, force) {
-    var $ds_div = $('#div_ds_' + ds_id);
+    var $ds_div = $(DIV_DS + ds_id);
     var cb = function (resp, ds) {
-        let $ds_item;
-        let $ds_h3_header;
-        
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
         
-        $ds_h3_header = $('#h3_ds_' + ds.id).find('.accordion-title');
-        $ds_h3_header.html(eng_get_accordion_header(ds.id, ds.title))
-        $ds_item = get_jq_ds_div(ds);
-        
-        $ds_div
-            .html($ds_item);
-
-        $ds_item
-            .find('button')
-            .button();
-    }
+        wid_draw_ds_get(ds);
+    };
 
     if (!Boolean($ds_div.html())) {
         force = true;
@@ -361,4 +348,33 @@ function wid_nc_keywords(f) {
     };
     
     eng_nc_keywords(cb, g_user_id);
+}
+
+function wid_nc_ds_file_new(ds_id) {
+    var cb = function (resp) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout(resp);
+        } else if (resp != PHENOD.OK) {
+            wid_open_modal_window(M_TXT.ERROR + resp, true);
+        }
+        
+        wid_nc_ds_file_list(ds_id, true);
+    };
+
+    eng_nc_ds_file_new(cb, g_user_id, ds_id);
+}
+
+
+function wid_nc_ds_file_list(ds_id) {
+    var cb = function (resp, data ) {
+        if (resp == PHENOD.AUTH) {
+            return wid_ui_logout(resp);
+        } else if (resp != PHENOD.OK) {
+            return wid_open_modal_window(M_TXT.ERROR + resp, true);
+        }
+        
+        wid_draw_ds_file_list(ds_id, data);
+    };
+
+    eng_nc_ds_file_list(cb, g_user_id, ds_id);
 }

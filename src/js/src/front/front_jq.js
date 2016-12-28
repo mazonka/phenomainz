@@ -28,7 +28,7 @@ function get_jq_user_email() {
     return $obj;
 }
 
-//gets object for change user name
+// gets object for change user name
 function get_jq_user_profile(name) {
     var $obj = $('<div/>', {
         id: 'div_user_profile'
@@ -55,7 +55,7 @@ function get_jq_user_profile(name) {
     return $obj;
 }
 
-//gets yes/no object for the operation that needs to be confirmed
+// gets yes/no object for the operation that needs to be confirmed
 function get_jq_yes_no(msg) {
     var $obj = $('<div/>');
     
@@ -75,7 +75,7 @@ function get_jq_yes_no(msg) {
     return $obj;
 }
 
-//gets datset list object
+// gets datset list object
 function get_jq_ds_list(l, ds_id, title) {
     var $obj = $();
 
@@ -98,7 +98,7 @@ function get_jq_ds_list(l, ds_id, title) {
     return $obj;
 }
 
-//gets dataset h3 title object
+// gets dataset h3 title object
 function get_jq_ds_h3(ds_id, title) {
     var $obj = $('<h3/>', {
             id: 'h3_ds_' + ds_id,
@@ -115,33 +115,31 @@ function get_jq_ds_h3(ds_id, title) {
     return $obj;
 }
 
-//gets dataset item properties
-function get_jq_ds_div(ds) {
+// gets dataset item properties
+function get_jq_ds_get_obj(ds) {
     var $ds_table = $('<table/>');
     var lines = [
         get_jq_ds_item_title(ds), get_jq_ds_item_descr(ds),
         get_jq_ds_item_cat(ds), get_jq_ds_item_keywd(ds),
-        get_jq_ds_item_add_file(ds), get_jq_ds_item_files(ds),
-        get_jq_ds_del_item(ds)
+        get_jq_ds_item_files(ds), get_jq_ds_del_item(ds)//.addClass('ds-item-delete')
     ];
 
     for (let i = 0, l = lines.length; i < l; i++) {
-        $ds_table
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .append(lines[i])
-                )
-            );
+        $ds_table.append(lines[i]);
     }
     
     $ds_table.addClass('ds-item-table');
+    //FIX
+    //$ds_table.find('.ds-item-delete').parent().addClass('ds-item-delete-row');
     
     return $ds_table;
 }
 
-//gets "Title" row for dataset item
+// gets "Title" row for dataset item
 function get_jq_ds_item_title(ds) {
-    var $t = $('<table/>')
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $tbl = $('<table/>')
         .append($('<tr/>')
             .append($('<td/>')
                 .append($('<button/>', {
@@ -151,13 +149,15 @@ function get_jq_ds_item_title(ds) {
                     .attr('data-cmd', 'title')
                     .click(function () {
                         wid_click_ds_button($(this), ds, true);
-                    })))
+                    }))
+                .addClass('ds-item-td-a'))
             .append($('<td/>')
                 .append($('<input/>', {
                             value: ds.title
                     })
                     .prop('readonly', true)
-                    .addClass('ds-item-title-input')))
+                    .addClass('ds-item-title-input'))
+                .addClass('ds-item-td-b'))
             .append($('<td/>')
                 .append($('<button/>', {
                             text: B_TXT.CANCEL
@@ -166,13 +166,17 @@ function get_jq_ds_item_title(ds) {
                         wid_click_ds_button($(this), ds, false);
                     })
                     .hide())));
-
-    return $t;
+    
+    $tr.append($td.append($tbl));
+    
+    return $tr;
 }
 
-//gets "Description" row for dataset item
+// gets "Description" row for dataset item
 function get_jq_ds_item_descr(ds) {
-    var $t = $('<table/>')
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $tbl = $('<table/>')
         .append($('<tr/>')
             .append($('<td/>')
                 .append($('<button/>', {
@@ -197,14 +201,18 @@ function get_jq_ds_item_descr(ds) {
                     wid_click_ds_button($(this), ds, false);
                 })
                 .hide())));
-
-    return $t;
+    
+    $tr.append($td.append($tbl));
+    
+    return $tr;
 }
 
-//gets "Category" row for dataset item
+// gets "Category" row for dataset item
 function get_jq_ds_item_cat(ds) {
     var cat = eng_get_cat_path(ds.categ);
-    var $t = $('<table/>')
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $tbl = $('<table/>')
         .append($('<tr/>')
             .append($('<td/>')
                 .append($('<button/>', {
@@ -231,132 +239,16 @@ function get_jq_ds_item_cat(ds) {
                 })
                 .prop('readonly', true)
                 .addClass('ds-item-category-input'))));
-
-    return $t;
-}
-
-//gets "Keywords" row for dataset item
-function get_jq_ds_item_keywd(ds) {
-    var $t = $('<table/>')
-        .append($('<tr/>')
-            .append($('<td/>')
-                .append($('<button/>', {
-                    text: B_TXT.KWD
-                })
-                .click(function (e) {
-                    if (e.shiftKey) {
-                        wid_click_ds_kwd_button(ds, true);
-                    } else {
-                        wid_click_ds_kwd_button(ds, false);
-                    }
-                })))
-            .append($('<td/>')
-                .append(get_jq_ds_kwd_list($('<div/>'), ds, ds.kwd)
-                    .addClass('ds-item-keyword-div'))));
-
-    return $t;
-}
-
-// returns "Add keyword" windows
-function get_jq_ds_kwd_add() {
-    var $s = $('<span/>');
-    var $d = $('<div/>')
-        .html(L_TXT.KWD_SEL);
-    var $i = $('<input/>');
     
-    $s
-        .append($d)
-        .append($i);
-    return $s;
-}
-
-//gets span with [keyword]
-function get_jq_ds_kwd_list($obj, ds, list) {
-    for (let i = 0, l = list.length; i < l; i++) {
-        $obj.append($('<span/>')
-                .html('[' + list[i] + '] ')
-                .addClass('ds-item-span-kwd')
-                .click(function(){
-                    wid_click_ds_del_kwd(ds.id, list[i]);
-                }));
-    }
+    $tr.append($td.append($tbl));
     
-    return $obj;    
+    return $tr;
 }
 
-function get_jq_ds_item_add_file(ds) {
-    var $t = $('<table/>')
-        .append($('<tr/>')
-            .append($('<td/>')
-                .append($('<button/>', {
-                        text: B_TXT.ADD_FILE,
-                    })
-                    .click(function () {
-                        $('#' + 'table_ds_item_' + ds.id + '_file_list')
-                            .append($('<tr/>')
-                                .append($('<td/>')
-                                    .html(get_jq_ds_file_load()))
-                                .append($('<td/>')
-                                    .html(get_jq_ds_file_descr()))
-                                .append($('<td/>')
-                                    .html()))
-                    }))
-            )
-        )
-
-    return $t;
-}
-
-function get_jq_ds_item_files(ds) {
-    var $tbl = $('<table/>', {
-        id: 'table_ds_item_' + ds.id + '_file_list'
-    })
-
-    return $tbl;
-}
-
-function get_jq_ds_file_load() {
-    var $label = $('<label/>', {
-            text: '+'
-        })
-        .addClass('ui-button ui-widget ui-corner-all ds-add-file');
-        
-    var $input = $('<input>', {
-            type: 'file',
-            accept: '.txt,.csv'
-        })
-        .change(function () {
-            wid_open_file(this.files, $(this));
-        })
-        .appendTo($label);
-
-    return $label;
-}
-
-function get_jq_ds_file_descr() {
-    var $input = $('<input/>', {
-        });
-
-    return $input;
-}
-
-function get_jq_ds_del_item(ds) {
-    var $t = $('<table/>')
-        .append($('<tr/>')
-            .append($('<td/>')
-                .append($('<button/>', {
-                    text: B_TXT.DELETE,
-                })
-                .click(function () {
-                    wid_click_ds_del_button(ds.id);
-                }))
-            )
-        );
-
-    return $t;
-}
-
+// gets menu object for select category
 function get_jq_cat_menu(cat, sub_cat) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
     var $span = $('<span/>');
     var $select = $('<select/>', {
         id: 'select_ds_cat'
@@ -404,6 +296,179 @@ function get_jq_cat_menu(cat, sub_cat) {
     $span
         .append($select)
         .append($button);
+    
+    $tr.append($td.append($span));
+    
+    return $tr;
+}
 
-    return $span;
+// gets "Keywords" row for dataset item
+function get_jq_ds_item_keywd(ds) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $tbl = $('<table/>')
+        .append($('<tr/>')
+            .append($('<td/>')
+                .append($('<button/>', {
+                    text: B_TXT.KWD
+                })
+                .click(function (e) {
+                    if (e.shiftKey) {
+                        wid_click_ds_kwd_button(ds, true);
+                    } else {
+                        wid_click_ds_kwd_button(ds, false);
+                    }
+                })))
+            .append($('<td/>')
+                .append(get_jq_ds_kwd_list($('<div/>'), ds, ds.kwd)
+                    .addClass('ds-item-keyword-div'))));
+    
+    $tr.append($td.append($tbl));
+    
+    return $tr;
+}
+
+// gets "Add keyword" windows
+function get_jq_ds_kwd_add() {
+    var $s = $('<span/>');
+    var $d = $('<div/>')
+        .html(L_TXT.KWD_SEL);
+    var $i = $('<input/>');
+    
+    $s
+        .append($d)
+        .append($i);
+    return $s;
+}
+
+// gets span with [keyword]
+function get_jq_ds_kwd_list($obj, ds, list) {
+    for (let i = 0, l = list.length; i < l; i++) {
+        $obj.append($('<span/>')
+                .html('[' + list[i] + '] ')
+                .addClass('ds-item-span-kwd')
+                .click(function(){
+                    wid_click_ds_del_kwd(ds.id, list[i]);
+                }));
+    }
+    
+    return $obj;    
+}
+
+function get_jq_ds_item_files(ds) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $div = $('<div/>');
+    var $h3 = $('<h3/>', {
+            text: M_TXT.FILES
+        });
+    var $acc = $('<div/>')
+        .append($h3)
+        .append($div.append(get_jq_ds_files_table(ds)))
+        .addClass('ds-item-file-list-accordion');
+    
+    $tr.append($td.append($acc));
+    
+    return $tr;
+}
+
+function get_jq_ds_files_table(ds) {
+    var $tbl = $('<table/>', {
+        id: 'table_ds_item_' + ds.id + '_file_list'
+    });
+    
+    return $tbl;
+}
+
+function get_jq_ds_files_add(ds) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $tbl = $('<table/>')
+        .append($('<tr/>')
+            .append($('<td/>')
+                .append($('<button/>', {
+                        text: B_TXT.ADD_FILE,
+                    })
+                    .click(function () {
+                        wid_click_ds_add_file_rec(ds);
+                        //set_jq_ds_item_new_file_rec(ds);
+                    }))
+            )
+        );
+    
+    $tr.append($td.append($tbl));
+    
+    return $tr;
+}
+
+function get_jq_ds_item_file_rec(ds, files) {
+    var $t = $('<table/>');
+    
+    for (let i = 0, l = files.length; i < l; i++) {
+        $t
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .html(get_jq_ds_file_put(ds, files[i])))
+                .append($('<td/>')
+                    .html(get_jq_ds_file_descr(ds, files[i])))
+                .append($('<td/>')
+                    .html(get_jq_ds_file_delete(ds, files[i]))))    
+    }
+    
+    return $t;
+}
+
+function get_jq_ds_file_put(ds, file) {
+    var $l = $('<label/>', {
+            text: '+'
+        })
+        .addClass('ui-button ui-widget ui-corner-all ds-add-file');
+        
+    var $i = $('<input>', {
+            type: 'file',
+            accept: '.txt,.csv'
+        })
+        .change(function () {
+            wid_open_file(this.files, $(this));
+        })
+        .appendTo($l);
+    
+    var $d = $('<div/>')
+        .append($l)
+        .addClass('ds-file-progresbar');
+        
+    return $d;
+}
+
+function get_jq_ds_file_descr(ds, file) {
+    var $i = $('<input/>', {
+            val: file.descr
+        });
+
+    return $i;
+}
+
+function get_jq_ds_file_delete(ds, file) {
+    var $b = $('<button/>', {
+            text: B_TXT.DELETE
+        });
+
+    return $b;
+}
+
+
+
+function get_jq_ds_del_item(ds) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');
+    var $btn = $('<button/>', {
+            text: B_TXT.DELETE,
+        })
+        .click(function () {
+            wid_click_ds_del_button(ds.id);
+        });
+    
+    $tr.append($td.append($btn));
+    
+    return $tr;
 }

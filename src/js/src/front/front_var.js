@@ -6,6 +6,14 @@
 var g_user_id = '';
 var g_keywords = [];
 
+const TD_LOGIN = '#td_login';
+const TD_PROFILE = '#td_profile';
+const TD_DS_LIST = '#td_ds_list';
+const TD_DS_CREATE = '#td_ds_create';
+const H3_DS = '#h3_ds_';
+const DIV_DS = '#div_ds_';
+
+
 const GOOGLE_CLIENT_ID = '100038937843-duq0t7jc8pthv84n7d4r37953dlmqe24.apps.googleusercontent.com';
 const FACEBOOK_CLIENT_ID = '1519315828096043';
 const LINKEDIN_CLIENT_ID = '785rlivs65jktg';

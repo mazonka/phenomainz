@@ -282,19 +282,20 @@ function eng_get_cat_path(cat) {
 }
 
 function eng_get_cat_kids(data) {
+    var i = 0;
     var cat = [];
-    var l;
     
     data = eng_get_data(data);
-    l = +data.splice(0, 1)[0];
+    data.shift();
     
-    for (let i = 0; i < l; i++) {
-        let arr = data.splice(0, 3);
-
+    while (data.length > 0) {
         cat[i] = {};
-        cat[i].id = arr[0];
-        cat[i].name = window.atob(arr[1]);
-        cat[i].parent = arr[2];
+        
+        cat[i].id = data.shift();
+        cat[i].name = window.atob(data.shift());
+        cat[i].parent = data.shift();
+
+        i++;
     }
     
     return cat;
@@ -306,4 +307,23 @@ function eng_get_keywords(data) {
     data = eng_get_b64dec_list(data);
 
     return data;
+}
+
+function eng_get_file_list(data) {
+    var i = 0;
+    var files = [];
+    
+    data = eng_get_data(data);
+    data.shift();
+
+    while (data.length > 0) {
+        files[i] = {};
+        
+        files[i].id = data.shift();
+        files[i].descr = window.atob(data.shift());
+        
+        i++;
+    }
+    
+    return files;
 }

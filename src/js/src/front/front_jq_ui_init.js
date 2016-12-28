@@ -3,7 +3,7 @@
 
 'use strict';
 
-function wid_init_ui_accordion($obj) {
+function wid_init_ui_ds_list_accordion($obj) {
     $obj.accordion({
         icons: {
             'header': 'ui-icon-plus',
@@ -20,11 +20,25 @@ function wid_init_ui_accordion($obj) {
 
             if (typeof ds_id !== 'undefined') {
                 wid_nc_ds_get(ds_id, false);
+                wid_nc_ds_file_list(ds_id, false);
             }
         }
     })
 }
 
+function wid_init_ui_ds_item_files_accordion($obj) {
+    $obj.accordion({
+        icons: {
+            'header': 'ui-icon-plus',
+            'activeHeader': 'ui-icon-minus'
+        },
+        active: false,
+        heightStyle: 'content',
+        collapsible: 'true',
+        header: 'h3'        
+    })
+}
+    
 function wid_init_ui_kwd_autocomplete($obj, list, ds) {
     list = eng_compare_lists(list, ds.kwd);
     
@@ -42,4 +56,10 @@ function wid_init_ui_kwd_autocomplete($obj, list, ds) {
 
 function wid_init_ui_button($obj) {
     $obj.find('button').button();
+}
+
+function wid_init_ui_progressbar($obj) {
+    $obj.find('.ds-file-progressbar').progressbar({
+      value: false
+    });
 }

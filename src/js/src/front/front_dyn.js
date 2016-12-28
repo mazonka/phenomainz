@@ -165,16 +165,16 @@ function wid_window_logout() {
 
 function wid_ui_logout(msg) {
     if (msg === PHENOD.AUTH || msg === M_TXT.BYE) {
-        $('#td_profile')
+        $(TD_PROFILE)
             .hide();
         $('#td_admin')
             .hide();
-        $('#td_ds_ctrl')
+        $(TD_DS_CREATE)
             .hide();
-        $('#td_ds_list')
+        $(TD_DS_LIST)
             .empty()
             .hide();
-        $('#td_login')
+        $(TD_LOGIN)
             .show();
     } 
     
@@ -190,14 +190,10 @@ function wid_ui_logout(msg) {
 }
 
 function wid_ui_login() {
-    $('#td_login')
-        .hide();
-    $('#td_profile')
-        .show();
-    $('#td_ds_ctrl')
-        .show();
-    $('#td_ds_list')
-        .show();
+    $(TD_LOGIN).hide();
+    $(TD_PROFILE).show();
+    $(TD_DS_CREATE).show();
+    $(TD_DS_LIST).show();
 
 
     wid_nc_admin_ping();
@@ -359,11 +355,14 @@ function wid_input_email($obj) {
 function wid_open_profile_window(name) {
     var $obj = get_jq_user_profile(name);
     var ui_init = function () {
-        $obj.find('button')
+        $obj
+            .find('button')
             .button()
             .button('disable');
-        $obj.find('input').focus();
-    }
+        $obj
+            .find('input')
+            .focus();
+    };
 
     wid_open_modal_window($obj, false, ui_init);
 }
@@ -399,32 +398,39 @@ function wid_input_name($obj) {
     }
 }
 
-
 function wid_click_ds_button($btn, ds, submit) {
     var $cnl;
     var $fld;
     var toggle = function ($b, $f, $c, turn) {
         if (turn) {
-            $f.prop('readonly', false) 
+            $f.prop('readonly', false)
             $b.text(B_TXT.SUBMIT);
             $c.show();
             $f.focus();
         } else {
             $f.prop('readonly', true);
             $b.text($btn.attr('data-text'));
-            $c.hide();            
+            $c.hide();
         }
     };
-    
+
     if (submit) {
-        $fld = $btn.parent('td').next('td').children();
-        $cnl = $fld.parent('td').next('td').children();
+        $fld = $btn.parent('td')
+            .next('td')
+            .children();
+        $cnl = $fld.parent('td')
+            .next('td')
+            .children();
     } else {
         $cnl = $btn;
-        $fld = $cnl.parent('td').prev('td').children();
-        $btn = $fld.parent('td').prev('td').children();
+        $fld = $cnl.parent('td')
+            .prev('td')
+            .children();
+        $btn = $fld.parent('td')
+            .prev('td')
+            .children();
     }
-    
+
     if ($fld.prop('readonly') && !submit) {
         toggle($btn, $fld, $cnl, false);
         return alert('don\'t do that again!');
@@ -433,7 +439,7 @@ function wid_click_ds_button($btn, ds, submit) {
     } else {
         let cmd = $btn.attr('data-cmd');
         toggle($btn, $fld, $cnl, false);
-        
+
         if (cmd !== 'title' && cmd !== 'descr') {
             return;
         } else if (submit) {
@@ -525,3 +531,31 @@ function wid_input_kwd($inp) {
         ? $b.button('disable')
         : $b.button('enable');
 }
+
+function wid_click_ds_add_file_rec(ds) {
+    wid_nc_ds_file_new(ds.id);
+}
+
+function wid_draw_ds_get(ds) {
+    var $ds_h3_header = $(H3_DS + ds.id).find('.accordion-title');
+    var $ds_obj = get_jq_ds_get_obj(ds);
+    var $ds_div = $(DIV_DS + ds.id);
+    
+    $ds_h3_header.html(eng_get_accordion_header(ds.id, ds.title))
+    $ds_div.html($ds_obj);
+    
+    wid_init_ui_button($ds_obj);
+    wid_init_ui_ds_item_files_accordion($ds_obj);
+    
+}
+
+function wid_draw_ds_file_list(ds_id, list) {
+    console.log('draw')
+    var $o = get_jq_ds_item_file_rec(ds_id, list);
+    var ui_init = function () {
+        wid_init_ui_button($o);
+        wid_init_ui_progressbar($o);
+    }
+
+    //wid_open_modal_window($o, false, ui_init);
+};

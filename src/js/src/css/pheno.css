@@ -3,7 +3,7 @@ body {
     font: normal 1em Tahoma, Verdana, Arial, Consolas, "Courier New", monospace;
     background: #FEFEFA;
     color: black;
-    width: 80%;
+    width: 60%;
     height: 100%;
     min-width: 640px;
     text-align: center;
@@ -86,7 +86,7 @@ input[type='file'] {
     background-color: #F8F8FF;
 }
 
-#td_ds_ctrl {
+#td_ds_create {
     text-align: left;
 }
 
@@ -123,23 +123,6 @@ input[type='file'] {
     color: blue;
 }
 
-#table_file_properties {
-    margin: auto;
-    width: 98%;
-}
-
-#table_file_properties tr td:first-child {
-    width: 76px;
-}
-
-#table_file_properties input {
-    width: 100%;
-}
-
-#table_file_properties td {
-    text-align: left;
-}
-
 /* Datasets  */
 .ds-accordion-header {
     text-align: left;
@@ -151,25 +134,29 @@ input[type='file'] {
 
 .ds-item-table {
 	border-collapse: collapse;
-    /* border: 1px solid #DDDDDD; */
+    border: 1px solid #DDDDDD;
 	padding: 0;
-	width: 80%;
-
+	width: 100%;
 }
 
 .ds-item-table td {
     text-align: left;
-    min-width: auto;
     vertical-align: top;
+    width:
 }
 
-.ds-item-table input,
+/* .ds-item-table input,
 .ds-item-table textarea {
     min-width: 25em;
-}
+} */
 
+ds-item-td-title-input {
+    width: 100%;
+    
+}
 .ds-item-table button {
-    width: 6.25em;
+    min-width: 7em;
+    max-width: 7em;
 }
 
 .ds-item-title-input,
@@ -182,6 +169,7 @@ input[type='file'] {
     margin: 0px !important;
     border: 1px solid #DDDDDD;
     min-width: 15em !important;
+    width: 100%;
 }
 
 .ds-item-title-input,
@@ -207,11 +195,10 @@ input[type='file'] {
     float: left;
     resize: both;
     overflow: auto;
-    white-space: break-word;
 }
 
 .ds-item-span-kwd {
-    white-space: break-word;
+    /* white-space: break-word; */
     display: table;
 }
 
@@ -224,6 +211,15 @@ input[type='file'] {
 .ds-item-span-kwd:active {
     cursor: pointer;
     text-shadow: 0 0 0;
+}
+
+.ds-item-file-list-accordion {
+    width: 100%;
+}
+
+.ds-item-delete-row {
+    /* FIX */
+    text-align: center !important;
 }
 
 .ds-add-file {
@@ -311,6 +307,12 @@ input[type='file'] {
 
 .ui-accordion .ui-accordion-content {
 	padding: 0.25em;
+}
+
+.ui-accordion-header {
+	height: 2em !important;    
+    padding: 0.25em !important;
+    font-weight: bold !important;
 }
 
 .ui-accordion-content {

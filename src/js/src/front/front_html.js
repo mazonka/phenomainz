@@ -146,24 +146,10 @@ function html_get_td_profile() {
     return html_get_td(r, 'td_profile');
 }
 
-function html_get_td_button_upload_file() {
-    var r = '';
-
-    r += '<td id="td_open_file">\n';
-    r += '<label id="label_open_file" ' +
-        'class="ui-button ui-widget ui-corner-all" ' +
-        'for="input_open_file">' + L_TXT.UPLOAD_FILE + '</label>\n';
-    r += '<input id="input_open_file" type="file" ' +
-        'onchange="return wid_upload_file()"></input>';
-
-    return r;
-}
-
-
 function html_get_td_ds_list_ctrl() {
     var r = '';
 
-    r += '<td id="td_ds_ctrl">\n';
+    r += '<td id="td_ds_create">\n';
     r += '<button id="button_ds_create" ' +
         ' onclick="wid_nc_ds_create()">' +
         B_TXT.CREATE_NEW + '</button>\n';
@@ -178,42 +164,3 @@ function html_get_td_ds_list() {
     
     return r;
 }
-
-/*
-function html_get_file_metadata(file) {
-    var r = '';
-    var t = '';
-
-    r += '<div id="div_open_file">\n';
-    r += 'File: ' + file.name + '\n';
-    r += '</br>\n';
-    r += 'Size: ' + (file.size/1024).toFixed(2) + ' Kbytes\n';
-    r += '</br>\n';
-    r += '</div>\n';
-
-    t += html_get_tr(
-        html_get_td('<label for="input_file_title">Title</label>\n'),
-        html_get_td('<input id="input_file_title">\n')
-    );
-
-    t += html_get_tr(
-        html_get_td('<label for="input_file_author">Author</label>\n'),
-        html_get_td('<input id="input_file_author">\n')
-    );
-
-    t += html_get_tr(
-        html_get_td('<label for="input_file_theme">Theme</label>\n'),
-        html_get_td('<input id="input_file_theme">\n')
-    );
-
-    t += html_get_tr(
-        html_get_td('<label for="input_file_keywords">Keywords</label>\n'),
-        html_get_td('<input id="input_file_keywords">\n')
-    );
-
-    r += html_get_table(t, 'table_file_properties');
-    r += html_get_td_button_upload_file();
-    
-    return r;
-}
-*/
