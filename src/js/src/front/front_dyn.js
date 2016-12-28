@@ -165,16 +165,16 @@ function wid_window_logout() {
 
 function wid_ui_logout(msg) {
     if (msg === PHENOD.AUTH || msg === M_TXT.BYE) {
-        $(TD_PROFILE)
+        $('#' + TD_PROFILE)
             .hide();
         $('#td_admin')
             .hide();
-        $(TD_DS_CREATE)
+        $('#' + TD_DS_CREATE)
             .hide();
-        $(TD_DS_LIST)
+        $('#' + TD_DS_LIST)
             .empty()
             .hide();
-        $(TD_LOGIN)
+        $('#' + TD_LOGIN)
             .show();
     } 
     
@@ -190,10 +190,10 @@ function wid_ui_logout(msg) {
 }
 
 function wid_ui_login() {
-    $(TD_LOGIN).hide();
-    $(TD_PROFILE).show();
-    $(TD_DS_CREATE).show();
-    $(TD_DS_LIST).show();
+    $('#' + TD_LOGIN).hide();
+    $('#' + TD_PROFILE).show();
+    $('#' + TD_DS_CREATE).show();
+    $('#' + TD_DS_LIST).show();
 
 
     wid_nc_admin_ping();
@@ -448,14 +448,14 @@ function wid_fill_profile(profile) {
 }
 
 function wid_fill_ds_list(list) {
-    $(TD_DS_LIST)
+    $('#' + TD_DS_LIST)
         .children()
         .remove();
 
     if (Boolean(list) && list.n > 0) {
         let $div = get_jq_ds_list(list.n, list.id, list.title);
         
-        $(TD_DS_LIST).append($div);
+        $('#' + TD_DS_LIST).append($div);
 
         wid_init_ui_accordion($div, function (_this) {
             wid_click_ds_list_header(_this);
@@ -468,9 +468,9 @@ function wid_fill_ds_list(list) {
 }
 
 function wid_fill_ds_get(ds) {
-    var $ds_h1_header = $(H1_DS + ds.id).find('.accordion-title');
+    var $ds_h1_header = $('#' + H1_DS + ds.id).find('.accordion-title');
     var $ds_obj = get_jq_ds_get_obj(ds);
-    var $ds_div = $(DIV_DS + ds.id);
+    var $ds_div = $('#' + DIV_DS + ds.id);
     
     $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title))
     $ds_div.html($ds_obj);

@@ -26,10 +26,10 @@ function ui_init(user_id) {
 
     $('input, select, textarea').attr('autocomplete', 'off');
 
-    $(TD_PROFILE).hide();
-    $(TD_LOGIN).hide();
-    $(TD_DS_LIST).hide();
-    $(TD_DS_CREATE).hide();
+    $('#' + TD_PROFILE).hide();
+    $('#' + TD_LOGIN).hide();
+    $('#' + TD_DS_LIST).hide();
+    $('#' + TD_DS_CREATE).hide();
 
     $('button').button();
 

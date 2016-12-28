@@ -107,7 +107,7 @@ function wid_nc_ds_list() {
 }
 
 function wid_nc_ds_get(ds_id, force) {
-    var $ds_div = $(DIV_DS + ds_id);
+    var $ds_div = $('#' + DIV_DS + ds_id);
     var cb = function (resp, ds) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);

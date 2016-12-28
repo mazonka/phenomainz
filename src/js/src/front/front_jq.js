@@ -102,7 +102,7 @@ function get_jq_ds_list(l, ds_id, title) {
 // gets dataset h3 title object
 function get_jq_ds_h1(ds_id, title) {
     var $obj = $('<h1/>', {
-            id: 'H1_DS_' + ds_id,
+            id: H1_DS + ds_id,
         })
         .attr('data-id', ds_id)
         .addClass('ds-accordion-header');

@@ -134,7 +134,7 @@ input[type='file'] {
 
 .ds-item-table {
 	border-collapse: collapse;
-    border: 1px solid #DDDDDD;
+    /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: 100%;
 }
@@ -306,17 +306,16 @@ ds-item-td-title-input {
 }
 
 .ui-accordion .ui-accordion-content {
-	padding: 0.25em;
+    background-color: rgb(248, 248, 248) !important;
+    padding-left: 0.5em !important;
+    padding-right: 0.5em !important;
+    border: 0
 }
 
 .ui-accordion-header {
 	height: 2em !important;    
     padding: 0.25em !important;
     font-weight: bold !important;
-}
-
-.ui-accordion-content {
-    background-color: rgb(248, 248, 248) !important;
 }
 
 .ui-accordion .ui-accordion-title {
