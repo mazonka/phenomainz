@@ -582,25 +582,6 @@ int Phdb::ds_file_list(string daid, string fiid, gl::vstr & ids, gl::vstr & des)
     return int(db.result.size());
 }
 
-string Phdb::ds_file_list(string daid, string fiid)
-{
-	gl::vstr ids, des;
-	int sz = ds_file_list(daid,fiid,ids,des);
-    string r;
-    r += gl::tos(sz);
-
-	if( ids.size() != des.size() ) return "";
-	if( (int)ids.size() != sz ) return "";
-
-	for( int i=0; i<sz; i++ )
-	{
-		r += ' ' + ids[i];
-		r += ' ' + des[i];
-	}
-
-	return r;
-}
-
 
 string Phdb::ds_file_new(string prid, string daid)
 {
