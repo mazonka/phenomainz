@@ -80,20 +80,20 @@ function get_jq_ds_list(l, ds_id, title) {
     var $obj = $();
 
     $obj = $obj.add($('<div/>', {
-        id: 'div_ds_list'
+        id: DIV_DS_LIST
     }));
 
     for (let i = 0; i < +l; i++) {
-        let $h3 = get_jq_ds_h1(ds_id[i], title[i]);
+        let $h1 = get_jq_ds_h1(ds_id[i], title[i]);
 
-        $obj.append($h3);
+        $obj.append($h1);
 
         $obj
             .append($('<div/>', {
-                id: 'div_ds_' + ds_id[i],
+                id: DIV_DS + ds_id[i],
             })
             .attr('data-id', ds_id[i])
-            .addClass('ds-accordion-content'));
+            .addClass('dslist-accordion-content'));
     }
 
     return $obj;
@@ -105,7 +105,7 @@ function get_jq_ds_h1(ds_id, title) {
             id: H1_DS + ds_id,
         })
         .attr('data-id', ds_id)
-        .addClass('ds-accordion-header');
+        .addClass('dslist-accordion-header');
     
     $obj
         .append($('<span/>', {
@@ -122,16 +122,16 @@ function get_jq_ds_get_obj(ds) {
     var lines = [
         get_jq_ds_item_title(ds), get_jq_ds_item_descr(ds),
         get_jq_ds_item_cat(ds), get_jq_ds_item_keywd(ds),
-        get_jq_ds_item_files(ds), get_jq_ds_del_item(ds)//.addClass('ds-item-delete')
+        get_jq_ds_item_files(ds), get_jq_ds_del_item(ds)//.addClass('ds-delete')
     ];
 
     for (let i = 0, l = lines.length; i < l; i++) {
         $ds_table.append(lines[i]);
     }
     
-    $ds_table.addClass('ds-item-table');
+    $ds_table.addClass('ds-table');
     //FIX
-    //$ds_table.find('.ds-item-delete').parent().addClass('ds-item-delete-row');
+    //$ds_table.find('.ds-delete').parent().addClass('ds-delete-row');
     
     return $ds_table;
 }
@@ -151,14 +151,14 @@ function get_jq_ds_item_title(ds) {
                     .click(function () {
                         wid_click_ds_button($(this), ds, true);
                     }))
-                .addClass('ds-item-td-a'))
+                .addClass('ds-td-a'))
             .append($('<td/>')
                 .append($('<input/>', {
                             value: ds.title
                     })
                     .prop('readonly', true)
-                    .addClass('ds-item-title-input'))
-                .addClass('ds-item-td-b'))
+                    .addClass('ds-title-input'))
+                .addClass('ds-td-b'))
             .append($('<td/>')
                 .append($('<button/>', {
                             text: B_TXT.CANCEL
@@ -193,7 +193,7 @@ function get_jq_ds_item_descr(ds) {
                     val: ds.descr
                 })
                 .prop('readonly', true)
-                .addClass('ds-item-description-textarea')))
+                .addClass('ds-description-textarea')))
             .append($('<td/>')
                 .append($('<button/>', {
                     text: B_TXT.CANCEL
@@ -239,7 +239,7 @@ function get_jq_ds_item_cat(ds) {
                     this.scrollLeft = 0;
                 })
                 .prop('readonly', true)
-                .addClass('ds-item-category-input'))));
+                .addClass('ds-category-input'))));
     
     $tr.append($td.append($tbl));
     
@@ -322,7 +322,7 @@ function get_jq_ds_item_keywd(ds) {
                 })))
             .append($('<td/>')
                 .append(get_jq_ds_kwd_list($('<div/>'), ds, ds.kwd)
-                    .addClass('ds-item-keyword-div'))));
+                    .addClass('ds-keyword-div'))));
     
     $tr.append($td.append($tbl));
     
@@ -347,7 +347,7 @@ function get_jq_ds_kwd_list($obj, ds, list) {
     for (let i = 0, l = list.length; i < l; i++) {
         $obj.append($('<span/>')
                 .html('[' + list[i] + '] ')
-                .addClass('ds-item-span-kwd')
+                .addClass('ds-span-kwd')
                 .click(function(){
                     wid_click_ds_del_kwd(ds.id, list[i]);
                 }));
@@ -366,8 +366,10 @@ function get_jq_ds_item_files(ds) {
         });
     var $acc = $('<div/>')
         .append($h2)
-        .append($div.append(get_jq_ds_files_table(ds)))
-        .addClass('ds-item-file-list-accordion');
+        .append($div
+            .addClass('files-accordion-content')
+        )
+        .addClass('files-accordion');
     
     $tr.append($td.append($acc));
     
@@ -375,21 +377,24 @@ function get_jq_ds_item_files(ds) {
 }
 
 // gets empty table for datasets file list
-function get_jq_ds_files_table(ds) {
-    var $tbl = $('<table/>')
-        .append(get_jq_ds_files_add(ds));
+function get_jq_ds_files_table(ds_id, files) {
+    var $tbl = $('<table/>');
     
+    $tbl
+        .append(get_jq_ds_files_add(ds_id))
+        .append(get_jq_ds_item_file_rec(ds_id, files));
     return $tbl;
 }
 
-function get_jq_ds_files_add(ds) {
+// gets row with button for files accordion
+function get_jq_ds_files_add(ds_id) {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
     var $btn = $('<button/>', {
             text: B_TXT.ADD_FILE,
         })
         .click(function () {
-            wid_click_ds_add_file_rec(ds);
+            wid_click_ds_add_file_rec(ds_id);
         });
     
     $tr.append($td.append($btn));
@@ -397,24 +402,28 @@ function get_jq_ds_files_add(ds) {
     return $tr;
 }
 
-function get_jq_ds_item_file_rec(ds, files) {
-    var $t = $('<table/>');
+function get_jq_ds_item_file_rec(ds_id, files) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');    
+    var $tbl = $('<table/>');
     
     for (let i = 0, l = files.length; i < l; i++) {
-        $t
+        $tbl
             .append($('<tr/>')
                 .append($('<td/>')
-                    .html(get_jq_ds_file_put(ds, files[i])))
+                    .html(get_jq_ds_file_put(ds_id, files[i])))
                 .append($('<td/>')
-                    .html(get_jq_ds_file_descr(ds, files[i])))
+                    .html(get_jq_ds_file_descr(ds_id, files[i])))
                 .append($('<td/>')
-                    .html(get_jq_ds_file_delete(ds, files[i]))))    
+                    .html(get_jq_ds_file_delete(ds_id, files[i]))))    
     }
     
-    return $t;
+    $tr.append($td.append($tbl));
+    
+    return $tr;
 }
 
-function get_jq_ds_file_put(ds, file) {
+function get_jq_ds_file_put(ds_id, file) {
     var $l = $('<label/>', {
             text: '+'
         })
@@ -436,7 +445,7 @@ function get_jq_ds_file_put(ds, file) {
     return $d;
 }
 
-function get_jq_ds_file_descr(ds, file) {
+function get_jq_ds_file_descr(ds_id, file) {
     var $i = $('<input/>', {
             val: file.descr
         });
@@ -444,7 +453,7 @@ function get_jq_ds_file_descr(ds, file) {
     return $i;
 }
 
-function get_jq_ds_file_delete(ds, file) {
+function get_jq_ds_file_delete(ds_id, file) {
     var $b = $('<button/>', {
             text: B_TXT.DELETE
         });

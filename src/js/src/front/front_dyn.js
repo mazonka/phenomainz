@@ -476,18 +476,15 @@ function wid_fill_ds_get(ds) {
     $ds_div.html($ds_obj);
     
     wid_init_ui_button($ds_obj);
-    wid_init_ui_accordion($ds_obj.find('.ds-item-file-list-accordion'), null);
+    wid_init_ui_accordion($ds_obj.find('.files-accordion'), null);
     
 }
 
 
 function wid_fill_ds_file_list(ds_id, list) {
-    console.log('draw')
-/*     var $o = get_jq_ds_item_file_rec(ds_id, list);
-    var ui_init = function () {
-        wid_init_ui_button($o);
-        wid_init_ui_progressbar($o);
-    }; */
+    var $list = get_jq_ds_files_table(ds_id, list);
+    var $files = $('#' + DIV_DS + ds_id).find('.files-accordion-content');
 
-    //wid_open_modal_window($o, false, ui_init);
+    $files.html($list);
+    wid_init_ui_button($files);
 };
