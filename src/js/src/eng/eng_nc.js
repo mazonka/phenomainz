@@ -207,6 +207,18 @@ function eng_nc_keywords(ext_cb, user_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
+function eng_nc_ds_file_list(ext_cb, user_id, ds_id) {
+    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'list'].join(' ');
+    var int_cb = function (data) {
+        let resp = eng_get_main_response(data);
+        
+        data = eng_get_file_list(data);
+        ext_cb(resp, data);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
 function eng_nc_ds_file_new(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'file', ds_id, 'new'].join(' ');
     var int_cb = function (data) {
@@ -218,13 +230,12 @@ function eng_nc_ds_file_new(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_file_list(ext_cb, user_id, ds_id) {
-    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'list'].join(' ');
+function eng_nc_ds_file_del(ext_cb, user_id, ds_id, f_id) {
+    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'del', f_id ].join(' ');
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         
-        data = eng_get_file_list(data);
-        ext_cb(resp, data);
+        ext_cb(resp);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);

@@ -401,7 +401,7 @@ function get_jq_ds_files_add(ds_id) {
     
     return $tr;
 }
-
+/* 
 function get_jq_ds_item_file_rec(ds_id, files) {
     var $tr = $('<tr/>');
     var $td = $('<td/>');    
@@ -416,6 +416,41 @@ function get_jq_ds_item_file_rec(ds_id, files) {
                     .html(get_jq_ds_file_descr(ds_id, files[i])))
                 .append($('<td/>')
                     .html(get_jq_ds_file_delete(ds_id, files[i]))))    
+    }
+    
+    $tr.append($td.append($tbl));
+    
+    return $tr;
+} */
+function get_jq_ds_item_file_rec(ds_id, files) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');    
+    var $tbl = $('<table/>');
+    
+    for (let i = 0, l = files.length; i < l; i++) {
+        $tbl
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .html(get_jq_ds_file_put(ds_id, files[i]))
+                )
+                .append($('<td/>')
+                    .html('[file id; file size]')
+                )
+                .append($('<td/>')
+                    .html(get_jq_ds_file_delete(ds_id, files[i]))
+                )
+            )
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .html('Descr')
+                )
+                .append($('<td/>')
+                    .html(get_jq_ds_file_descr(ds_id, files[i]))
+                )
+                .append($('<td/>')
+                    .html('Cancel button')
+                )
+            )
     }
     
     $tr.append($td.append($tbl));
@@ -456,6 +491,9 @@ function get_jq_ds_file_descr(ds_id, file) {
 function get_jq_ds_file_delete(ds_id, file) {
     var $b = $('<button/>', {
             text: B_TXT.DELETE
+        })
+        .click(function () {
+            wid_nc_ds_file_del(ds_id, file.id);
         });
 
     return $b;
