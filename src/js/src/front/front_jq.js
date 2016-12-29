@@ -377,12 +377,12 @@ function get_jq_ds_item_files(ds) {
 }
 
 // gets empty table for datasets file list
-function get_jq_ds_files_table(ds_id, files) {
+function get_jq_ds_files_table(ds_id, files, new_file) {
     var $tbl = $('<table/>');
     
     $tbl
         .append(get_jq_ds_files_add(ds_id))
-        .append(get_jq_ds_item_file_rec(ds_id, files));
+        .append(get_jq_ds_item_file_rec(ds_id, files, new_file));
     return $tbl;
 }
 
@@ -390,110 +390,77 @@ function get_jq_ds_files_table(ds_id, files) {
 function get_jq_ds_files_add(ds_id) {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
-    var $btn = $('<button/>', {
-            text: B_TXT.ADD_FILE,
-        })
-        .click(function () {
-            wid_click_ds_add_file_rec(ds_id);
-        });
-    
-    $tr.append($td.append($btn));
-    
-    return $tr;
-}
-/* 
-function get_jq_ds_item_file_rec(ds_id, files) {
-    var $tr = $('<tr/>');
-    var $td = $('<td/>');    
-    var $tbl = $('<table/>');
-    
-    for (let i = 0, l = files.length; i < l; i++) {
-        $tbl
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html(get_jq_ds_file_put(ds_id, files[i])))
-                .append($('<td/>')
-                    .html(get_jq_ds_file_descr(ds_id, files[i])))
-                .append($('<td/>')
-                    .html(get_jq_ds_file_delete(ds_id, files[i]))))    
-    }
-    
-    $tr.append($td.append($tbl));
-    
-    return $tr;
-} */
-function get_jq_ds_item_file_rec(ds_id, files) {
-    var $tr = $('<tr/>');
-    var $td = $('<td/>');    
-    var $tbl = $('<table/>');
-    
-    for (let i = 0, l = files.length; i < l; i++) {
-        $tbl
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html(get_jq_ds_file_put(ds_id, files[i]))
-                )
-                .append($('<td/>')
-                    .html('[file id; file size]')
-                )
-                .append($('<td/>')
-                    .html(get_jq_ds_file_delete(ds_id, files[i]))
-                )
-            )
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html('Descr')
-                )
-                .append($('<td/>')
-                    .html(get_jq_ds_file_descr(ds_id, files[i]))
-                )
-                .append($('<td/>')
-                    .html('Cancel button')
-                )
-            )
-    }
-    
-    $tr.append($td.append($tbl));
-    
-    return $tr;
-}
-
-function get_jq_ds_file_put(ds_id, file) {
-    var $l = $('<label/>', {
-            text: '+'
+    var $lb = $('<label/>', {
+            text: B_TXT.ADD_FILE
         })
         .addClass('ui-button ui-widget ui-corner-all ds-add-file');
-        
-    var $i = $('<input>', {
+    var $in = $('<input>', {
             type: 'file',
             accept: '.txt,.csv'
         })
         .change(function () {
-            wid_open_file(this.files, $(this));
+            wid_click_add_file(this.files, ds_id);
         })
-        .appendTo($l);
-    
-    var $d = $('<div/>')
-        .append($l)
-        .addClass('ds-file-progresbar');
+        .appendTo($lb);
         
-    return $d;
+    $tr.append($td.append($lb));
+   
+    return $tr;
+}
+    
+function get_jq_ds_item_file_rec(ds_id, files, new_file) {
+    var $tr = $('<tr/>');
+    var $td = $('<td/>');    
+    var $tbl = $('<table/>');
+
+    for (let i = 0, l = files.length; i < l; i++) {
+        let size = files[i].size;
+        let descr = files[i].descr;
+        let id = files[i].id;
+
+        if (Boolean(new_file) && files[i].id == new_file.id) {
+            console.log('1');
+            size = new_file.size;
+            descr = new_file.name;
+            id = new_file.id;
+        } 
+        
+        $tbl
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .html('Size: ' + size)
+                )
+                .append($('<td/>')
+                    .html('Descr')
+                )
+                .append($('<td/>')
+                    .html(get_jq_ds_file_descr(ds_id, descr)
+                ))                
+                .append($('<td/>')
+                    .html(get_jq_ds_file_delete(ds_id, id))
+                )
+            );
+    }
+        $tr.append($td.append($tbl));
+
+    
+    return $tr;
 }
 
-function get_jq_ds_file_descr(ds_id, file) {
+function get_jq_ds_file_descr(ds_id, descr) {
     var $i = $('<input/>', {
-            val: file.descr
+            val: descr
         });
 
     return $i;
 }
 
-function get_jq_ds_file_delete(ds_id, file) {
+function get_jq_ds_file_delete(ds_id, fl_id) {
     var $b = $('<button/>', {
             text: B_TXT.DELETE
         })
         .click(function () {
-            wid_nc_ds_file_del(ds_id, file.id);
+            wid_nc_ds_file_del(ds_id, fl_id);
         });
 
     return $b;

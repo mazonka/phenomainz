@@ -213,6 +213,7 @@ function eng_nc_ds_file_list(ext_cb, user_id, ds_id) {
         let resp = eng_get_main_response(data);
         
         data = eng_get_file_list(data);
+
         ext_cb(resp, data);
     };
 
@@ -224,7 +225,9 @@ function eng_nc_ds_file_new(ext_cb, user_id, ds_id) {
     var int_cb = function (data) {
         let resp = eng_get_main_response(data);
         
-        ext_cb(resp);
+        data = eng_get_file_new_id(data);
+        
+        ext_cb(resp, data);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);

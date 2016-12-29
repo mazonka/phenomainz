@@ -47,13 +47,12 @@ function eng_get_accordion_header(ds_id, title) {
     return ds_id + '. ' + title;
 }
 
-function eng_open_file(file, cb_main, cb_progress) {
-    var reader;
+function eng_open_file(file, ext_cb, ext_progress, ext_done) {
     var output = [];
     var obj = {};
     obj.name = file.name;
     obj.size = file.size;
-    obj.type = file.type; //zip: application/x-zip-compressed
+    obj.type = file.type;
     obj.error = 0;
     obj.raw = '';
     /*
@@ -66,34 +65,34 @@ function eng_open_file(file, cb_main, cb_progress) {
     5 - File not readable;
     9 - Read error;
      */
-
-    reader = new FileReader();
+    var reader = new FileReader();
 
     reader.onerror = reader.onabort = function error_handler(evt) {
         // get window.event if evt argument missing (in IE)
         evt = evt || window.event;
 
         switch (evt.target.error.code) {
-        case evt.target.error.NOT_FOUND_ERR:
-            obj.error = 1;
-            break;
-        case evt.target.error.NOT_READABLE_ERR:
-            obj.error = 2;
-            break;
-        case evt.target.error.ABORT_ERR:
-            obj.error = 3;
-            break;
-        case evt.target.error.SECURITY_ERR:
-            obj.error = 4;
-            break;
-        case evt.target.error.ENCODING_ERR:
-            obj.error = 5;
-            break;
-        default:
-            obj.error = 9;
+            case evt.target.error.NOT_FOUND_ERR:
+                obj.error = 1;
+                break;
+            case evt.target.error.NOT_READABLE_ERR:
+                obj.error = 2;
+                break;
+            case evt.target.error.ABORT_ERR:
+                obj.error = 3;
+                break;
+            case evt.target.error.SECURITY_ERR:
+                obj.error = 4;
+                break;
+            case evt.target.error.ENCODING_ERR:
+                obj.error = 5;
+                break;
+            default:
+                obj.error = 9;
         }
-        console.log('error');
-        cb_main(obj);
+        //debug
+        console.log('error:' + obj.error);
+        ext_cb(obj);
     };
 
     reader.onload = function onload_handler(data) {
@@ -104,23 +103,22 @@ function eng_open_file(file, cb_main, cb_progress) {
             obj.raw += String.fromCharCode(bytes[i]);
         }
 
-        cb_main(obj);
+        ext_cb(obj);
     };
 
     reader.onprogress = function progress_handler(data) {
         if (data.lengthComputable) {
             let loaded = parseInt(((data.loaded / data.total) * 100), 10);
-            cb_progress(loaded);
+            ext_progress(loaded);
         }
-
     };
 
     reader.onloadstart = function () {
-        //console.log('start');
+        ext_done(false);
     };
 
     reader.onloadend = function () {
-        //console.log('done');
+        ext_done(true);
     };
 
     //reader.readAsArrayBuffer(file.slice(0, size_lim));
@@ -186,7 +184,7 @@ function eng_get_parsed_profile(data) {
     profile.email = data[2];
     profile.lastdate = data[3];
     profile.counter = data[4];
-    profile.quote = data[5];
+    profile.quote = +data[5];
     profile.tail = data[6] || null;
 
     return profile;
@@ -233,7 +231,7 @@ function eng_get_ds_list(data) {
     list.n = +data.splice(0, 1)[0];
     list.id = data.splice(0, list.n);
     list.title = eng_get_b64dec_list(data.splice(0, list.n));
-    list.usage = data.splice(0, 1)[0];
+    list.usage = +data.splice(0, 1)[0];
     
     /// debug part
     list.tail = Boolean(data.length)
@@ -321,9 +319,16 @@ function eng_get_file_list(data) {
         
         files[i].id = data.shift();
         files[i].descr = window.atob(data.shift());
+        files[i].size = +data.shift();
         
         i++;
     }
     
     return files;
+}
+
+function eng_get_file_new_id(data) {
+    data = eng_get_data(data);
+    
+    return data[0];
 }

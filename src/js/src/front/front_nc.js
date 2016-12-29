@@ -294,7 +294,7 @@ function wid_nc_keywords(f) {
     eng_nc_keywords(cb, g_user_id);
 }
 
-function wid_nc_ds_file_list(ds_id, force) {
+function wid_nc_ds_file_list(ds_id, force, file) {
     var $content = $('#' + DIV_DS + ds_id).find('.files-accordion-content');
     var cb = function (resp, data ) {
         if (resp == PHENOD.AUTH) {
@@ -302,8 +302,10 @@ function wid_nc_ds_file_list(ds_id, force) {
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
+        file = file || null;
+        console.log(file);
         
-        wid_fill_ds_file_list(ds_id, data);
+        wid_fill_ds_file_list(ds_id, data, file);
     };
     
     if (!Boolean($content.html())) {
@@ -315,15 +317,15 @@ function wid_nc_ds_file_list(ds_id, force) {
     }
 }
 
-function wid_nc_ds_file_new(ds_id) {
-    var cb = function (resp) {
+function wid_nc_ds_file_new(ds_id, file) {
+    var cb = function (resp, data) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-        
-        wid_nc_ds_file_list(ds_id, true);
+        file.id = data;
+        wid_nc_ds_file_list(ds_id, true, file);
     };
 
     eng_nc_ds_file_new(cb, g_user_id, ds_id);

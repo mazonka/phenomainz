@@ -215,63 +215,6 @@ function wid_paint_borders($obj, color) {
     }
 }
 
-function wid_open_file(files, $obj) {
-    var file;
-
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        // Great success! All the File APIs are supported.
-    } else {
-        alert('The File APIs are not fully supported in this browser.');
-        return false;
-    }
-
-    if (!Boolean(files[0])) {
-        return false;
-    }
-
-    var cb_main = function (file) {
-        var table;
-        var f;
-
-        if (file.error !== 0) {
-            return wid_open_modal_window(M_TXT.FILE_READ_ERROR, true,
-                null, null);
-        }
-
-        table = eng_is_table(file.raw);
-
-        if (!table.is_table) {
-            return wid_open_modal_window(M_TXT.TABLE_ERROR + table.err_row,
-                true, null, null);
-        }
-
-        wid_file_is_open(true);
-
-        $obj.click(function () {
-            return wid_file_is_open(false);
-        });
-
-        console.log(file);
-    };
-
-    var cb_progress = function (data) {
-        console.log(data + '%');
-    };
-
-    file = files[0];
-
-    if (file.size > G_MAX_FILE_SIZE) {
-        return wid_open_modal_window(M_TXT.FILE_IS_HUGE, true, null, null);
-    }
-
-    if (file.size === 0) {
-        return wid_open_modal_window(M_TXT.FILE_IS_EMPTY, true, null, null);
-    }
-
-    eng_open_file(file, cb_main, cb_progress);
-}
-
-
 function wid_show_admin_panel(admin) {
     if (admin) {
         console.log('admin');
@@ -481,8 +424,8 @@ function wid_fill_ds_get(ds) {
 }
 
 
-function wid_fill_ds_file_list(ds_id, list) {
-    var $list = get_jq_ds_files_table(ds_id, list);
+function wid_fill_ds_file_list(ds_id, list, file) {
+    var $list = get_jq_ds_files_table(ds_id, list, file);
     var $files = $('#' + DIV_DS + ds_id).find('.files-accordion-content');
 
     $files.html($list);

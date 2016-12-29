@@ -117,7 +117,6 @@ function wid_click_ds_del_kwd(ds_id, kwd) {
             .click(function () {
                 wid_close_modal_window();
             });
-
     };
 
     wid_open_modal_window($obj, false, init);
@@ -140,7 +139,69 @@ function wid_click_ds_kwd_button(ds, force) {
     }
 }
 
-function wid_click_ds_add_file_rec(ds_id) {
-    wid_nc_ds_file_new(ds_id);
+function wid_click_ds_file_new(ds_id) {
+    console.log('1. add file');
+
+    //wid_nc_ds_file_new(ds_id);
 }
 
+function wid_click_add_file(files, ds_id) {
+    var file;
+
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+    } else {
+        let msg = 'The File APIs are not fully supported in this browse!';
+        wid_open_modal_window(msg, true);
+        return false;
+    }
+
+    if (!Boolean(files[0])) {
+        return false;
+    }
+
+    var cb = function (file) {
+        var table;
+
+        if (file.error !== 0) {
+            return wid_open_modal_window(M_TXT.FILE_READ_ERROR, true);
+        }
+
+        table = eng_is_table(file.raw);
+
+        if (!table.is_table) {
+            return wid_open_modal_window(M_TXT.TABLE_ERROR + table.err_row,
+                true);
+        }
+
+        file.id = null;
+
+        wid_nc_ds_file_new(ds_id, file);
+    };
+
+    var progress = function (data) {
+        console.log(data + '%');
+    };
+    
+    var done = function (data) {
+        if (!data) {
+            let f = function () {};
+            wid_open_modal_window('loading...', false. null, f);
+        } else {
+            wid_close_modal_window();
+        }
+    };
+
+
+    file = files[0];
+
+    if (file.size > G_MAX_FILE_SIZE) {
+        return wid_open_modal_window(M_TXT.FILE_IS_HUGE, true);
+    }
+
+    if (file.size === 0) {
+        return wid_open_modal_window(M_TXT.FILE_IS_EMPTY, true);
+    }
+
+    eng_open_file(file, cb, progress, done);
+}
