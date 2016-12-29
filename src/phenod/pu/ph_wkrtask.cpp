@@ -377,7 +377,7 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
 
     else if ( cmd == "list" )
     {
-        string r = ds_file_list(aa.phdb,daid, "");
+        string r = ds_file_list(aa.phdb, daid, "");
         return er::Code(er::OK).str() + ' ' + r;
     }
 
@@ -401,7 +401,7 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
         if ( !aa.phdb.auth(ao.profile.prid, daid) )
             return er::Code(er::REQ_MSG_BAD);
 
-        if ( ds_file_list(aa.phdb,daid, fiid) == "0" )
+        if ( ds_file_list(aa.phdb, daid, fiid) == "0" )
             return er::Code(er::REQ_MSG_BAD);
 
         if ( !gl::isb64(s64) )

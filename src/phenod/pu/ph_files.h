@@ -16,3 +16,4 @@ void ds_file_del(string daid, string fiid);
 os::Path ds_file1(string daid);
 os::Path ds_file2(os::Path f, string fiid);
 string ds_file_list(Phdb & phdb, string daid, string fiid);
+int getsize(const string & daid, const string & fiid);

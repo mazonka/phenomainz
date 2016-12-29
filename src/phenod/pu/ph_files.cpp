@@ -53,6 +53,13 @@ void ds_file_del(string daid, string fiid)
     f.erase();
 }
 
+int getsize(const string & daid, const string & fiid)
+{
+    os::Path f = ds_file1(daid);
+    f = ds_file2(f, fiid);
+    return f.filesize();
+}
+
 gl::intint calc_usage(std::map<string, gl::vstr> & fnames)
 {
     gl::intint us = 0;
@@ -61,10 +68,11 @@ gl::intint calc_usage(std::map<string, gl::vstr> & fnames)
     {
         for ( auto & fiid : daid.second )
         {
-            os::Path f = ds_file1(daid.first);
-            f = ds_file2(f, fiid);
-			int sz = f.filesize();
-            us += (gl::intint)(unsigned)sz;
+            ///os::Path f = ds_file1(daid.first);
+            ///f = ds_file2(f, fiid);
+            ///int sz = f.filesize();
+            ///us += (gl::intint)(unsigned)sz;
+            us += (gl::intint)(unsigned)getsize(daid.first, fiid);
         }
     }
 
@@ -73,20 +81,21 @@ gl::intint calc_usage(std::map<string, gl::vstr> & fnames)
 
 string ds_file_list(Phdb & phdb, string daid, string fiid)
 {
-	gl::vstr ids, des;
-	int sz = phdb.ds_file_list(daid,fiid,ids,des);
+    gl::vstr ids, des;
+    int sz = phdb.ds_file_list(daid, fiid, ids, des);
     string r;
     r += gl::tos(sz);
 
-	if( ids.size() != des.size() ) return "";
-	if( (int)ids.size() != sz ) return "";
+    if ( ids.size() != des.size() ) return "";
+    if ( (int)ids.size() != sz ) return "";
 
-	for( int i=0; i<sz; i++ )
-	{
-		r += ' ' + ids[i];
-		r += ' ' + des[i];
-	}
+    for ( int i = 0; i < sz; i++ )
+    {
+        r += ' ' + ids[i];
+        r += ' ' + des[i];
+        r += ' ' + gl::tos(getsize(daid, ids[i]));
+    }
 
-	return r;
+    return r;
 }
 
