@@ -136,21 +136,21 @@ input[type='file'] {
     text-align: center;
 }
 
-.ds-table {
+.ds-props-table {
 	border-collapse: collapse;
     /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: 100%;
 }
 
-.ds-table td {
+.ds-props-table td {
     text-align: left;
     vertical-align: top;
     width:
 }
 
-/* .ds-table input,
-.ds-table textarea {
+/* .ds-props-table input,
+.ds-props-table textarea {
     min-width: 25em;
 } */
 
@@ -180,7 +180,7 @@ input[type='file'] {
     width: 100%;
     
 }
-.ds-table button {
+.ds-props-table button {
     min-width: 7em;
     max-width: 7em;
 }
@@ -239,7 +239,7 @@ input[type='file'] {
     text-shadow: 0 0 0;
 }
 
-.files-accordion {
+.dsitem-f-list {
     width: 100%;
 }
 

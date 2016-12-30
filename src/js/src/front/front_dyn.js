@@ -405,7 +405,9 @@ function wid_fill_ds_list(list) {
         wid_init_ui_accordion($div, function (_this) {
             wid_click_ds_list_header(_this);
         });
+        
         wid_init_ui_tooltip($div.find('.dsitem-header-delete'));
+        
         //debug part
         Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
     } else {
@@ -413,24 +415,33 @@ function wid_fill_ds_list(list) {
     }
 }
 
-function wid_fill_ds_get(ds) {
+function wid_fill_dsitem_props(ds) {
     var $ds_h1_header = $('#' + H1_DS + ds.id).find('.dsitem-header-title');
-    var $ds_obj = get_jq_dsitem_props(ds);
-    var $ds_div = $('#' + DIV_DS + ds.id);
+    var $dsitem_contents = $('#' + DIV_DS + ds.id);
+    var $dsitem_props = get_jq_dsitem_props(ds);
     
-    $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title))
-    $ds_div.html($ds_obj);
+    $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title));
+    $dsitem_contents.find('.dsitem-p-div').html($dsitem_props);
     
-    wid_init_ui_button($ds_obj);
-    wid_init_ui_accordion($ds_obj.find('.files-accordion'), null);
-    
+    wid_init_ui_button($dsitem_props);
 }
 
 
-function wid_fill_ds_file_list(ds_id, list, file) {
+function wid_fill_dsitem_files(ds_id, list, file) {
+    console.log('files')
+    var $dsitem_contents = $('#' + DIV_DS + ds_id);
+    var $dsitem_f_div = $dsitem_contents.find('div.dsitem-f-div');
+    var $dsitem_f_list = $dsitem_f_div.find('div.dsitem-f-list');
+    var $dsitem_f_content = $dsitem_f_list.find('div.dsitem-f-list');
+    var $dsitem_f = get_jq_dsitem_files();
     var $list = get_jq_ds_files_table(ds_id, list, file);
-    var $files = $('#' + DIV_DS + ds_id).find('.files-accordion-content');
-
-    $files.html($list);
-    wid_init_ui_button($files);
+    
+    if ($dsitem_f_div.html() == '') {
+        console.log('first fill files div')
+        $dsitem_f_div.html($dsitem_f.append($dsitem_f_content.append($list)));
+        wid_init_ui_button($dsitem_f);
+        wid_init_ui_accordion($dsitem_f_list, null);
+    } else {
+        console.log('second filling')
+    }
 };

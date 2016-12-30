@@ -36,5 +36,24 @@ function ui_init(user_id) {
     $('#button_user_email').prop('disabled', true);
     $('#div_modal_window').css('display', 'none');
 
+    
     wid_nc_ping();
+    
+    //debug
+    
+    $('#cmd_prompt')
+        .on('keypress', function(event) {
+            console.log(event.keyCode);
+            Boolean(event.keyCode === 13) && console.log('enter');
+        })
+        .keydown(function(event) {
+            console.log(event);
+            if (Boolean(event.keyCode === 37)) {
+                return false;  
+            } 
+            if (Boolean(event.keyCode === 38)) {
+                return false;
+            }
+        });
+        
 }

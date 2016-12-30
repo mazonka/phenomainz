@@ -10,9 +10,12 @@ function wid_click_ds_list_header(_this) {
         let ds_id = _this
             .find('h1.ui-accordion-header-active')
             .attr('data-id');
-            
-        wid_nc_ds_get(ds_id, false);
-        wid_nc_ds_file_list(ds_id, false);
+        let $dsitem_content = _this.find('div.ui-accordion-content-active');
+        let $dsitem_props = $dsitem_content.find('div.dsitem-p-div');
+        let $dsitem_files = $dsitem_content.find('div.dsitem-f-div');
+
+        Boolean($dsitem_props.html() == '') && wid_nc_ds_get(ds_id);
+        Boolean($dsitem_files.html() == '') && wid_nc_ds_file_list(ds_id);
     }
 }
             
@@ -62,7 +65,7 @@ function wid_click_ds_button($btn, ds, submit) {
         } else if (submit) {
             wid_nc_ds_upd_cmd(cmd, ds.id, $fld.val());
         } else if (!submit) {
-            wid_nc_ds_get(ds.id, true);
+            wid_nc_ds_get(ds.id);
         }
     }
 }
