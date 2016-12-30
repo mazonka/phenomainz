@@ -20,3 +20,11 @@ function get_jq_admin_panel()
  return $o;
 }
 
+
+function cmd_prompt_keydown(obj,c)
+{
+	console.log("AAA "+c+obj);
+	//g_rfs("/");
+	//obj.focus();
+	//obj.setSelectionRange(obj.value.length,obj.value.length);
+}

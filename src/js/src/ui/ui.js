@@ -43,17 +43,18 @@ function ui_init(user_id) {
     
     $('#cmd_prompt')
         .on('keypress', function(event) {
-            console.log(event.keyCode);
-            Boolean(event.keyCode === 13) && console.log('enter');
+            //console.log("PRESS"+event.keyCode);
+            //Boolean(event.keyCode === 13) && console.log('enter');
         })
         .keydown(function(event) {
-            console.log(event);
-            if (Boolean(event.keyCode === 37)) {
-                return false;  
-            } 
-            if (Boolean(event.keyCode === 38)) {
-                return false;
-            }
+            //console.log("DOWN"+event.keyCode);
+            //if (Boolean(event.keyCode === 37)) {
+            //    return false;  
+            //} 
+            //if (Boolean(event.keyCode === 38)) {
+            //    return false;
+            //}
+  			return cmd_prompt_keydown(this,event.keyCode);
         });
         
 }
