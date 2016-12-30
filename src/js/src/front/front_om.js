@@ -5,6 +5,18 @@
 
 function get_jq_admin_panel()
 {
- return $('<div/>', {text: 'I am ADMINo'});
+ var $o = $('<div/>');
+
+ var $tit = $('<div/>', {text: 'I am ADMIN'});
+ var $kwd = get_jq_ds_kwd_add()
+
+ $kwd.find('input').autocomplete({
+    source: g_keywords
+ })
+
+ $o.append($tit);
+ $o.append($kwd);
+
+ return $o;
 }
 
