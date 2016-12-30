@@ -86,7 +86,7 @@ input[type='file'] {
     background-color: #F8F8FF;
 }
 
-#td_ds_list .dslist-accordion-content {
+#td_ds_list .dsitem-content {
     border: 0;
 }
 
@@ -128,11 +128,11 @@ input[type='file'] {
 }
 
 /* Datasets  */
-.dslist-accordion-header {
+.dsitem-header {
     text-align: left;
 }
 
-.dslist-accordion-content {
+.dsitem-content {
     text-align: center;
 }
 
@@ -154,7 +154,29 @@ input[type='file'] {
     min-width: 25em;
 } */
 
-ds-td-title-input {
+
+.dsitem-header .ui-icon {
+    float: left;
+    margin-left: 0;  
+    margin-top: 0.2em;
+}
+
+.dsitem-header-title {
+    float: left;
+    margin-left: 0.5em;
+}
+
+.dsitem-header-delete img {
+    float: right;
+    width: 16px !important;
+    height: auto;
+    margin-top: 0.2em;
+    padding: 0;
+}
+
+
+
+.ds-td-title-input {
     width: 100%;
     
 }
@@ -163,10 +185,10 @@ ds-td-title-input {
     max-width: 7em;
 }
 
-.ds-title-input,
-.ds-category-input,
-.ds-description-textarea,
-.ds-keyword-div {
+.dsitem-title-input,
+.dsitem-category-input,
+.dsitem-description-textarea,
+.dsitem-keyword-div {
 	border-collapse: collapse;    
     font-size: 1em;
     padding: 1px !important;
@@ -176,25 +198,25 @@ ds-td-title-input {
     width: 100%;
 }
 
-.ds-title-input,
-.ds-category-input {
+.dsitem-title-input,
+.dsitem-category-input {
     height: 1.5em;
 }
 
-.ds-description-textarea {
+.dsitem-description-textarea {
     /* fix inconsistent textarea bottom margin */
     display: block; 
 }
 
-.ds-description-textarea,
-.ds-keyword-div {
+.dsitem-description-textarea,
+.dsitem-keyword-div {
     white-space: pre-wrap;
     min-height: 1.5em; 
     height: 3em;
 }
 
 
-.ds-keyword-div {
+.dsitem-keyword-div {
     /* display: inline-block !important; */
     float: left;
     resize: both;

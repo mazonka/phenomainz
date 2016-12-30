@@ -42,3 +42,12 @@ function wid_init_ui_progressbar($obj) {
       value: false
     });
 }
+
+function wid_init_ui_tooltip($obj) {
+    $obj.tooltip({
+        show: {
+            effect: 'slideDown',
+            delay: 250
+        }
+    });
+}

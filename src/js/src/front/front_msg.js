@@ -76,3 +76,7 @@ const PHENOD = {
     OK: 'OK',
     AUTH: 'AUTH'
 }
+
+const TIP = {
+    DS_DEL: 'Delete dataset'
+}

@@ -33,11 +33,12 @@ const IMG = {
     LOGO_WAIT: 'img/logo_wt.gif',
     LOGO_DONE: 'img/logo_dn.png',
     LOGO_FAIL: 'img/logo_fl.png',
-    AJAX_LOAD: 'img/ajax_load.gif'
+    AJAX_LOAD: 'img/ajax_load.gif',
+    CROSS:     'img/cross.png'
 };
 
 var g_img = [
-    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.AJAX_LOAD
+    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.AJAX_LOAD, IMG.CROSS,
 ];
 
 var g_img_preload = [];

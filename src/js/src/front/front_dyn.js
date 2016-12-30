@@ -217,6 +217,10 @@ function wid_paint_borders($obj, color) {
 
 function wid_show_admin_panel(admin) {
     if (admin) {
+        //var $div = get_jq_admin_panel();
+        $('#td_admin').html($('<div/>', {
+            text: 'I am ADMIN'
+        }));
         console.log('admin');
     } else {
         console.log('not admin');
@@ -403,6 +407,7 @@ function wid_fill_ds_list(list) {
         wid_init_ui_accordion($div, function (_this) {
             wid_click_ds_list_header(_this);
         });
+        wid_init_ui_tooltip($div.find('.dsitem-header-delete'));
         //debug part
         Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
     } else {
@@ -411,8 +416,8 @@ function wid_fill_ds_list(list) {
 }
 
 function wid_fill_ds_get(ds) {
-    var $ds_h1_header = $('#' + H1_DS + ds.id).find('.accordion-title');
-    var $ds_obj = get_jq_ds_get_obj(ds);
+    var $ds_h1_header = $('#' + H1_DS + ds.id).find('.dsitem-header-title');
+    var $ds_obj = get_jq_dsitem_props(ds);
     var $ds_div = $('#' + DIV_DS + ds.id);
     
     $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title))

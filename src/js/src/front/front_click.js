@@ -31,24 +31,23 @@ function wid_click_ds_button($btn, ds, submit) {
             $c.hide();
         }
     };
-
+    
     if (submit) {
-        $fld = $btn.parent('td')
-            .next('td')
-            .children();
-        $cnl = $fld.parent('td')
-            .next('td')
-            .children();
+        $fld = $btn
+            .closest('tr')
+            .find('.ds-data-area');
+        $cnl = $fld
+            .closest('tr')
+            .find('.ds-cancel-button');
     } else {
         $cnl = $btn;
-        $fld = $cnl.parent('td')
-            .prev('td')
-            .children();
-        $btn = $fld.parent('td')
-            .prev('td')
-            .children();
+        $fld = $cnl
+            .closest('tr')
+            .find('.ds-data-area');
+        $btn = $fld
+            .closest('tr')
+            .find('.ds-prop-button');
     }
-
     if ($fld.prop('readonly') && !submit) {
         toggle($btn, $fld, $cnl, false);
         return alert('don\'t do that again!');
