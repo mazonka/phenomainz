@@ -37,6 +37,7 @@ mk_dir:
 	@mkdir -p $(CLNT)/lib
 	@mkdir -p $(CLNT)/lib/images
 	@mkdir -p $(CLNT)/ui
+	@mkdir -p $(CLNT)/jraf
 
 tar_x_jq: $(JQ_FULL_NAME)
 	@echo Unpack $(JQ_SHRT_NAME) ...
@@ -81,9 +82,11 @@ mk_phclnt: $(SRC)/index.html
 	@cp $(SRC)/eng/*.js $(CLNT)/eng/
 	@cp $(SRC)/front/*.js $(CLNT)/front/
 	@cp $(SRC)/ui/*.js $(CLNT)/ui/
+	@cp $(SRC)/jraf/*.js $(CLNT)/jraf/
 	@cp $(SRC)/favicon.ico $(CLNT)/favicon.ico
 	@cp $(SRC)/index.html $(CLNT)/index.html
 	@cp $(SRC)/home.phd ../$(BIN_DIR)/home.phd
+	@cp $(SRC)/jraf.phd ../$(BIN_DIR)/jraf.phd
 	@cp $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	@cp $(SRC)/img/*.* $(CLNT)/img/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
@@ -113,8 +116,11 @@ checkin: $(CLNT)
 	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
+	@cp -f $(CLNT)/jraf/*.js $(SRC)/jraf/
+	@echo $(CLNT)/jraf/ to $(SRC)/jraf/ - copied.
 	@cp -f ../$(BIN_DIR)/home.phd $(SRC)/
 	@cp -f ../$(BIN_DIR)/conf.phd $(SRC)/
+	@cp -f ../$(BIN_DIR)/jraf.phd $(SRC)/
 	@echo $(CLNT)/ to $(SRC)/ - copied.
 	@chmod 0777 -R $(SRC)
 	@echo All done.
