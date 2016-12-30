@@ -28,6 +28,7 @@
         <script src="front/front_jq_ui_init.js"></script>
         <script src="front/front_msg.js"></script>
         <script src="front/front_click.js"></script>
+        <script src="front/front_om.js"></script>
     </head>
     <body onload="img_preload(g_img)">
         <script>

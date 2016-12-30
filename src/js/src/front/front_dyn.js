@@ -217,10 +217,8 @@ function wid_paint_borders($obj, color) {
 
 function wid_show_admin_panel(admin) {
     if (admin) {
-        //var $div = get_jq_admin_panel();
-        $('#td_admin').html($('<div/>', {
-            text: 'I am ADMIN'
-        }));
+        var $div = get_jq_admin_panel();
+        $('#td_admin').html($div);
         console.log('admin');
     } else {
         console.log('not admin');
