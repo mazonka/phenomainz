@@ -24,13 +24,16 @@ namespace jraf
 
 class Jraf
 {
-	hq::AccessController ac;
+	hq::AccessController access;
 
 	string client_version();
 	static string ok(const string &s){ return er::Code(er::OK).str()+' '+s; }
 	static string err(const string &s){ return er::Code(er::JRAF_ERR).str()+' '+s; }
 	static string bad(){ return er::Code(er::REQ_MSG_BAD); }
 	static os::Path path(string s){ return os::Path(jraf::root_dir)+s; }
+
+	string fix_obj();
+	string read_obj(string p, bool getonly);
 
 public:
 	Jraf(){}

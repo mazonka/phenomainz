@@ -6,6 +6,8 @@ var jraf = {};
 jraf.vers = 0;
 jraf.cb = null;
 
+var g_session;
+
 function jraf_ajax(cmd, callback, extra) {
     $.post('/','command=' + cmd)
 
@@ -21,8 +23,10 @@ function jraf_ajax(cmd, callback, extra) {
 }
 
 
-function jraf_boot()
+function jraf_boot(id)
 {
+	g_session = id;
+
 	console.log("Jraf boot: hello");
 	document.write("<div id='main' style='text-align: left;'></div>");
 	//$("#main").html("hello<br/>");
