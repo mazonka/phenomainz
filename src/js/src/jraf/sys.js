@@ -29,14 +29,17 @@ function jraf_boot()
 
 	var out = function(data,extra)
 	{
+		if( data.length > 4 && data.substr(0,3) == "OK " )
+			data = data.substr(3);
+
 		var s = $("#main").html();
 		s += extra + data + '<br/>';
 		$("#main").html(s);
 	}
 
-	jraf_ajax("jraf ping", out, "JRAF ping : ");
-	jraf_ajax("jraf version client", out, "JRAF client version : ");
-	jraf_ajax("jraf version backend", out, "JRAF backend version : ");
+	jraf_ajax("jraf ping", out, "JRAF : ");
+	jraf_ajax("jraf version client", out, "Jraf client version : ");
+	jraf_ajax("jraf version backend", out, "Jraf backend version : ");
 
 	var sysjs = function(jo)
 	{

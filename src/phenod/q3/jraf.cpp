@@ -24,7 +24,7 @@ string Jraf::request(gl::Token tok)
 		return bad();
 	}
 
-	return err(" bad command " + cmd);
+	return err("bad command " + cmd);
 }
 
 
