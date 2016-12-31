@@ -91,12 +91,12 @@ function get_jq_ds_list(l, ds_id, title) {
                     id: DIV_DS + ds_id[i],
                 })
                 .attr('data-id', ds_id[i])
-                .addClass('dsitem-content')
+                .addClass('dsitem-content-div')
                 .append($('<div/>')
-                    .addClass('dsitem-p-div')
+                    .addClass('dsitem-props-div')
                 )
                 .append($('<div/>')
-                    .addClass('dsitem-f-div')
+                    .addClass('dsitem-files-div')
                 )
             );
     }
@@ -110,7 +110,7 @@ function get_jq_ds_h1(ds_id, title) {
             id: H1_DS + ds_id,
         })
         .attr('data-id', ds_id)
-        .addClass('dsitem-header');
+        .addClass('dsitem-header-h1');
 
     $obj
         .append($('<span/>', {
@@ -154,7 +154,7 @@ function get_jq_dsitem_props(ds) {
         $tbl.append(lines[i]);
     }
 
-    $tbl.addClass('ds-props-table');
+    $tbl.addClass('dsitem-props-table');
     //FIX
     //$ds_table.find('.ds-delete').parent().addClass('ds-delete-row');
 
@@ -174,7 +174,7 @@ function get_jq_dsitem_title(ds) {
                     })
                     .attr('data-text', B_TXT.TITLE)
                     .attr('data-cmd', 'title')
-                    .addClass('ds-prop-button')
+                    .addClass('dsitem-props-button')
                     .click(function () {
                         wid_click_ds_button($(this), ds, true);
                     }))
@@ -185,14 +185,14 @@ function get_jq_dsitem_title(ds) {
                             value: ds.title
                     })
                     .prop('readonly', true)
-                    .addClass('dsitem-title-input ds-data-area'))
+                    .addClass('dsitem-title-input dsitem-data-area'))
                 .addClass('ds-td-b')
             )
             .append($('<td/>')
                 .append($('<button/>', {
                             text: B_TXT.CANCEL
                     })
-                    .addClass('ds-cancel-button')
+                    .addClass('dsitem-cancel-button')
                     .click(function () {
                         wid_click_ds_button($(this), ds, false);
                     })
@@ -214,7 +214,7 @@ function get_jq_dsitem_descr(ds) {
                 })
                 .attr('data-text', B_TXT.DSC)
                 .attr('data-cmd', 'descr')
-                .addClass('ds-prop-button')
+                .addClass('dsitem-props-button')
                 .click(function () {
                         wid_click_ds_button($(this), ds, true);
                 }))
@@ -224,13 +224,13 @@ function get_jq_dsitem_descr(ds) {
                     val: ds.descr
                 })
                 .prop('readonly', true)
-                .addClass('dsitem-description-textarea ds-data-area'))
+                .addClass('dsitem-description-textarea dsitem-data-area'))
             )
             .append($('<td/>')
                 .append($('<button/>', {
                     text: B_TXT.CANCEL
                 })
-                .addClass('ds-cancel-button')
+                .addClass('dsitem-cancel-button')
                 .click(function () {
                     wid_click_ds_button($(this), ds, false);
                 })
@@ -396,13 +396,13 @@ function get_jq_dsitem_files(ds) {
     var $h2 = $('<h2/>', {
             text: M_TXT.FILES
         })
-        .addClass('dsitem-f-header');
+        .addClass('dsitem-files-header');
 
     var $acc = $('<div/>')
-        .addClass('dsitem-f-list')
+        .addClass('dsitem-files-list')
         .append($h2)
         .append($div
-            .addClass('dsitem-f-content')
+            .addClass('dsitem-files-content')
         );
 
     return $acc;

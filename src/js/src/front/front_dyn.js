@@ -169,9 +169,9 @@ function wid_ui_logout(msg) {
             .hide();
         $('#td_admin')
             .hide();
-        $('#' + TD_DS_CREATE)
+        $('#' + td_dsitem_create)
             .hide();
-        $('#' + TD_DS_LIST)
+        $('#' + td_dslist)
             .empty()
             .hide();
         $('#' + TD_LOGIN)
@@ -192,8 +192,8 @@ function wid_ui_logout(msg) {
 function wid_ui_login() {
     $('#' + TD_LOGIN).hide();
     $('#' + TD_PROFILE).show();
-    $('#' + TD_DS_CREATE).show();
-    $('#' + TD_DS_LIST).show();
+    $('#' + td_dsitem_create).show();
+    $('#' + td_dslist).show();
 
 
     wid_nc_admin_ping();
@@ -217,8 +217,10 @@ function wid_paint_borders($obj, color) {
 
 function wid_show_admin_panel(admin) {
     if (admin) {
-        var $div = get_jq_admin_panel();
-        $('#td_admin').html($div);
+        //var $div = get_jq_admin_panel();
+        $('#td_admin').html($('<div/>', {
+            text: 'I am ADMIN'
+        }));
         console.log('admin');
     } else {
         console.log('not admin');
@@ -393,14 +395,14 @@ function wid_fill_profile(profile) {
 }
 
 function wid_fill_ds_list(list) {
-    $('#' + TD_DS_LIST)
+    $('#' + td_dslist)
         .children()
         .remove();
 
     if (Boolean(list) && list.n > 0) {
         let $div = get_jq_ds_list(list.n, list.id, list.title);
         
-        $('#' + TD_DS_LIST).append($div);
+        $('#' + td_dslist).append($div);
 
         wid_init_ui_accordion($div, function (_this) {
             wid_click_ds_list_header(_this);
@@ -421,7 +423,7 @@ function wid_fill_dsitem_props(ds) {
     var $dsitem_props = get_jq_dsitem_props(ds);
     
     $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title));
-    $dsitem_contents.find('.dsitem-p-div').html($dsitem_props);
+    $dsitem_contents.find('.dsitem-props-div').html($dsitem_props);
     
     wid_init_ui_button($dsitem_props);
 }
@@ -430,9 +432,9 @@ function wid_fill_dsitem_props(ds) {
 function wid_fill_dsitem_files(ds_id, list, file) {
     console.log('files')
     var $dsitem_contents = $('#' + DIV_DS + ds_id);
-    var $dsitem_f_div = $dsitem_contents.find('div.dsitem-f-div');
-    var $dsitem_f_list = $dsitem_f_div.find('div.dsitem-f-list');
-    var $dsitem_f_content = $dsitem_f_list.find('div.dsitem-f-list');
+    var $dsitem_f_div = $dsitem_contents.find('div.dsitem-files-div');
+    var $dsitem_f_list = $dsitem_f_div.find('div.dsitem-files-list');
+    var $dsitem_f_content = $dsitem_f_list.find('div.dsitem-files-list');
     var $dsitem_f = get_jq_dsitem_files();
     var $list = get_jq_ds_files_table(ds_id, list, file);
     

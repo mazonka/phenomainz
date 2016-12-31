@@ -11,8 +11,8 @@ function wid_click_ds_list_header(_this) {
             .find('h1.ui-accordion-header-active')
             .attr('data-id');
         let $dsitem_content = _this.find('div.ui-accordion-content-active');
-        let $dsitem_props = $dsitem_content.find('div.dsitem-p-div');
-        let $dsitem_files = $dsitem_content.find('div.dsitem-f-div');
+        let $dsitem_props = $dsitem_content.find('div.dsitem-props-div');
+        let $dsitem_files = $dsitem_content.find('div.dsitem-files-div');
 
         Boolean($dsitem_props.html() == '') && wid_nc_ds_get(ds_id);
         Boolean($dsitem_files.html() == '') && wid_nc_ds_file_list(ds_id);
@@ -38,18 +38,18 @@ function wid_click_ds_button($btn, ds, submit) {
     if (submit) {
         $fld = $btn
             .closest('tr')
-            .find('.ds-data-area');
+            .find('.dsitem-data-area');
         $cnl = $fld
             .closest('tr')
-            .find('.ds-cancel-button');
+            .find('.dsitem-cancel-button');
     } else {
         $cnl = $btn;
         $fld = $cnl
             .closest('tr')
-            .find('.ds-data-area');
+            .find('.dsitem-data-area');
         $btn = $fld
             .closest('tr')
-            .find('.ds-prop-button');
+            .find('.dsitem-props-button');
     }
     if ($fld.prop('readonly') && !submit) {
         toggle($btn, $fld, $cnl, false);

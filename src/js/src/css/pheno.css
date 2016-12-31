@@ -86,11 +86,11 @@ input[type='file'] {
     background-color: #F8F8FF;
 }
 
-#td_ds_list .dsitem-content {
+#td_dslist .dsitem-content-div {
     border: 0;
 }
 
-#td_ds_create {
+#td_dsitem_create {
     text-align: left;
 }
 
@@ -128,34 +128,34 @@ input[type='file'] {
 }
 
 /* Datasets  */
-.dsitem-header {
+.dsitem-header-h1 {
     text-align: left;
 }
 
-.dsitem-content {
+.dsitem-content-div {
     text-align: center;
 }
 
-.ds-props-table {
+.dsitem-props-table {
 	border-collapse: collapse;
     /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: 100%;
 }
 
-.ds-props-table td {
+.dsitem-props-table td {
     text-align: left;
     vertical-align: top;
     width:
 }
 
-/* .ds-props-table input,
-.ds-props-table textarea {
+/* .dsitem-props-table input,
+.dsitem-props-table textarea {
     min-width: 25em;
 } */
 
 
-.dsitem-header .ui-icon {
+.dsitem-header-h1 .ui-icon {
     float: left;
     margin-left: 0;  
     margin-top: 0.2em;
@@ -180,7 +180,7 @@ input[type='file'] {
     width: 100%;
     
 }
-.ds-props-table button {
+.dsitem-props-table button {
     min-width: 7em;
     max-width: 7em;
 }
@@ -239,7 +239,7 @@ input[type='file'] {
     text-shadow: 0 0 0;
 }
 
-.dsitem-f-list {
+.dsitem-files-list {
     width: 100%;
 }
 

@@ -8,8 +8,8 @@ var g_keywords = [];
 
 const TD_LOGIN = 'td_login';
 const TD_PROFILE = 'td_profile';
-const TD_DS_LIST = 'td_ds_list';
-const TD_DS_CREATE = 'td_ds_create';
+const td_dslist = 'td_dslist';
+const td_dsitem_create = 'td_dsitem_create';
 const H1_DS = 'h1_ds_';
 const DIV_DS = 'div_ds_';
 const DIV_DS_LIST = 'div_ds_list';

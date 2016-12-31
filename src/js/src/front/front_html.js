@@ -61,8 +61,8 @@ function html_get_body() {
     r += html_get_tr(html_get_td_auth());
     r += html_get_tr(html_get_td_admin());
     r += html_get_tr(html_get_td_profile());
-    r += html_get_tr(html_get_td_ds_list());
-    r += html_get_tr(html_get_td_ds_list_ctrl());
+    r += html_get_tr(html_get_td_dslist());
+    r += html_get_tr(html_get_td_dslist_ctrl());
     r += html_get_tr(html_get_td_modal_window());
     //debug
     r += html_get_tr(html_get_td_cmd_prompt());
@@ -148,10 +148,10 @@ function html_get_td_profile() {
     return html_get_td(r, 'td_profile');
 }
 
-function html_get_td_ds_list_ctrl() {
+function html_get_td_dslist_ctrl() {
     var r = '';
 
-    r += '<td id="td_ds_create">\n';
+    r += '<td id="td_dsitem_create">\n';
     r += '<button id="button_ds_create" ' +
         ' onclick="wid_nc_ds_create()">' +
         B_TXT.CREATE_NEW + '</button>\n';
@@ -159,10 +159,10 @@ function html_get_td_ds_list_ctrl() {
     return r;
 }
 
-function html_get_td_ds_list() {
+function html_get_td_dslist() {
     var r = '';
 
-    r += '<td id="td_ds_list">\n';
+    r += '<td id="td_dslist">\n';
     
     return r;
 }

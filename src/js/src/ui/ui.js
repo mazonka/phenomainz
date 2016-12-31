@@ -28,8 +28,8 @@ function ui_init(user_id) {
 
     $('#' + TD_PROFILE).hide();
     $('#' + TD_LOGIN).hide();
-    $('#' + TD_DS_LIST).hide();
-    $('#' + TD_DS_CREATE).hide();
+    $('#' + td_dslist).hide();
+    $('#' + td_dsitem_create).hide();
 
     $('button').button();
 
@@ -42,19 +42,13 @@ function ui_init(user_id) {
     //debug
     
     $('#cmd_prompt')
-        .on('keypress', function(event) {
-            //console.log("PRESS"+event.keyCode);
-            //Boolean(event.keyCode === 13) && console.log('enter');
-        })
         .keydown(function(event) {
-            //console.log("DOWN"+event.keyCode);
-            //if (Boolean(event.keyCode === 37)) {
-            //    return false;  
-            //} 
-            //if (Boolean(event.keyCode === 38)) {
-            //    return false;
-            //}
-  			return cmd_prompt_keydown(this,event.keyCode);
+            if (Boolean(event.keyCode === 37)) {
+                return false;  
+            } 
+            if (Boolean(event.keyCode === 38)) {
+                return false;
+            }
         });
         
 }
