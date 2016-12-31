@@ -49,35 +49,94 @@ function jraf_boot(id)
 	{
 		var cb = function(data,ex)
 		{
-			out(ex,"ok");
+			out("ok",ex);
 			var sc = document.createElement("script");
-			sc.innerHTML = data;
+			sc.innerHTML = data.text;
+			///console.log(sc.innerHTML);
 			document.head.append(sc);
 		}
 	
 		for( var i in jo.kids )
 		{
-			var path = "/sys/"+i.name;
-			jraf_read_obj(path, cb, path+" : ");
+			jraf_read_obj("/sys/",i, cb, i+" : ");
 		}
 	}
 
-	jraf_read_obj("/sys", sysjs);
+	jraf_read_obj("/", "sys", sysjs);
+
+	console.log("sys loading started");
+	sys_loaded();
 }
 
-function jraf_read_obj(path, cb, extra)
+function sys_loaded()
 {
-	var par = function(data, extra2)
+	if( typeof g_sys_loaded_file1 === 'undefined' 
+		|| typeof g_sys_loaded_file2 === 'undefined' 
+	)
 	{
-		cb(jraf_parse_obj(data),extra2);
+		setTimeout(sys_loaded,300);
+		return;
 	}
 
-	jraf_ajax("jraf read "+path, par, extra);
+	console.log("sys loaded");
 }
 
-function jraf_parse_obj(text)
+function jraf_read_obj(path, ob, cb, extra)
 {
-	console.log("jraf_parse_obj : "+text);
-	return {};
+	var par = function(data, ext)
+	{
+		ext.cb(jraf_parse_obj(data,ext.ob),ext.ex);
+	}
+
+	var ex = {};
+	ex.ex = extra;
+	ex.ob = ob;
+	ex.cb = cb;
+	jraf_ajax("jraf read "+path+ob, par, ex);
+}
+
+function jraf_parse_obj(text,nm)
+{
+	var a = text.split(' ');
+	var r = {};
+	if( a[0] != "OK" )
+	{
+		console.log("Bad reply 126");
+		return {};
+	}
+	r.ver = parseInt(a[1]);
+	r.sz = parseInt(a[2]);
+	r.cb = null;
+	r.name = nm;
+
+	if( r.sz >= 0 )
+	{
+		if( a.length < 4 )
+			r.text = "";
+		else
+			r.text = window.atob(a[3]);
+		return r;
+	}
+
+	if( r.sz < 0 )
+	{
+		var n = parseInt(a[3]);
+		r.kids = {};
+		for( var i=0; i<n; i++ )
+		{
+			var ver = parseInt(a[4+3*i]);
+			var sz = parseInt(a[5+3*i]);
+			var name = a[6+3*i];
+			r.kids[name] = {};
+			r.kids[name].ver = ver;
+			r.kids[name].sz = sz;
+			r.kids[name].cb = null;
+			r.kids[name].name = name;
+			r.kids[name].parent = r;
+		}
+	}
+
+	///console.log("jraf_parse_obj : "+r);
+	return r;
 }
 
