@@ -419,31 +419,32 @@ function wid_fill_ds_list(list) {
 
 function wid_fill_dsitem_props(ds) {
     var $ds_h1_header = $('#' + H1_DS + ds.id).find('.dsitem-header-title');
-    var $dsitem_contents = $('#' + DIV_DS + ds.id);
-    var $dsitem_props = get_jq_dsitem_props(ds);
+    var $dsitem = $('#' + DIV_DS + ds.id);
+    var $props_row = $dsitem.find('.dsprops-div')
+    var $props = get_jq_dsitem_props(ds);
     
     $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title));
-    $dsitem_contents.find('.dsitem-props-div').html($dsitem_props);
+    $props_row.html($props);
     
-    wid_init_ui_button($dsitem_props);
+    wid_init_ui_button($props);
 }
 
 
 function wid_fill_dsitem_files(ds_id, list, file) {
-    console.log('files')
-    var $dsitem_contents = $('#' + DIV_DS + ds_id);
-    var $dsitem_f_div = $dsitem_contents.find('div.dsitem-files-div');
-    var $dsitem_f_list = $dsitem_f_div.find('div.dsitem-files-list');
-    var $dsitem_f_content = $dsitem_f_list.find('div.dsitem-files-list');
-    var $dsitem_f = get_jq_dsitem_files();
-    var $list = get_jq_ds_files_table(ds_id, list, file);
+    console.log('files');
+    var $dsitem = $('#' + DIV_DS + ds_id);
+    var $files_row = $dsitem.find('.dsfiles-div');
+    var $files = get_jq_files_table(ds_id, list, file);
     
-    if ($dsitem_f_div.html() == '') {
-        console.log('first fill files div')
-        $dsitem_f_div.html($dsitem_f.append($dsitem_f_content.append($list)));
-        wid_init_ui_button($dsitem_f);
-        wid_init_ui_accordion($dsitem_f_list, null);
+    if ($files_row.html() == '') {
+        let $accdn = get_jq_dsitem_files();
+        $files_row.html($accdn);
+        $files_row.find('.dsfiles-content').html($files);
+        
+        wid_init_ui_accordion($accdn, null);
     } else {
-        console.log('second filling')
+        $files_row.find('.dsfiles-content').html($files);
     }
+    
+    wid_init_ui_button($files_row);
 };

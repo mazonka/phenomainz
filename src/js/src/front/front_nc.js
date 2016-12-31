@@ -289,7 +289,7 @@ function wid_nc_keywords(f) {
 }
 
 function wid_nc_ds_file_list(ds_id, file) {
-    var $content = $('#' + DIV_DS + ds_id).find('.dsitem-files-content');
+    var $content = $('#' + DIV_DS + ds_id).find('.dsfiles-content');
     var cb = function (resp, data ) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);

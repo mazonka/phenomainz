@@ -29,19 +29,6 @@ button {
     min-width: 80px;
 }
 
-label .ds-add-file {
-    overflow: hidden;
-    position: relative;
-    height: 1.5em;
-    padding: 2px 5px 10px 5px !important;
-    vertical-align: middle !important;
-}
-
-label .ds-add-file:hover {
-    background-color: #87CEEB;
-    cursor: pointer;  
-}
-
 input[type='file'] {
     /* display: none; */
 	width: 0.1px;
@@ -136,21 +123,21 @@ input[type='file'] {
     text-align: center;
 }
 
-.dsitem-props-table {
+.dsprops-table {
 	border-collapse: collapse;
     /* border: 1px solid #DDDDDD; */
 	padding: 0;
 	width: 100%;
 }
 
-.dsitem-props-table td {
+.dsprops-table td {
     text-align: left;
     vertical-align: top;
     width:
 }
 
-/* .dsitem-props-table input,
-.dsitem-props-table textarea {
+/* .dsprops-table input,
+.dsprops-table textarea {
     min-width: 25em;
 } */
 
@@ -180,15 +167,15 @@ input[type='file'] {
     width: 100%;
     
 }
-.dsitem-props-table button {
+.dsprops-table button {
     min-width: 7em;
     max-width: 7em;
 }
 
-.dsitem-title-input,
-.dsitem-category-input,
-.dsitem-description-textarea,
-.dsitem-keyword-div {
+.dsprops-title,
+.dsprops-category,
+.dsprops-description,
+.dsprops-keywords {
 	border-collapse: collapse;    
     font-size: 1em;
     padding: 1px !important;
@@ -198,25 +185,25 @@ input[type='file'] {
     width: 100%;
 }
 
-.dsitem-title-input,
-.dsitem-category-input {
+.dsprops-title,
+.dsprops-category {
     height: 1.5em;
 }
 
-.dsitem-description-textarea {
+.dsprops-description {
     /* fix inconsistent textarea bottom margin */
     display: block; 
 }
 
-.dsitem-description-textarea,
-.dsitem-keyword-div {
+.dsprops-description,
+.dsprops-keywords {
     white-space: pre-wrap;
     min-height: 1.5em; 
     height: 3em;
 }
 
 
-.dsitem-keyword-div {
+.dsprops-keywords {
     /* display: inline-block !important; */
     float: left;
     resize: both;
@@ -239,8 +226,9 @@ input[type='file'] {
     text-shadow: 0 0 0;
 }
 
-.dsitem-files-list {
+.dsfiles-list {
     width: 100%;
+    text-align: left;
 }
 
 .ds-delete-row {
@@ -248,11 +236,18 @@ input[type='file'] {
     text-align: center !important;
 }
 
-.ds-add-file {
-    height: 24px !important;
-    padding: 0 5px 0 5px !important;
+.dsfiles-add-button {
+    height: 1.5em;
+    min-width: 80px;
+    padding: 2px 5px 0 5px !important;
     vertical-align: middle !important;
-    min-width: 100px !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.dsfiles-add-button:hover {
+    background-color: #87CEEB;
+    cursor: pointer;  
 }
 
 /* Modal popup window */
