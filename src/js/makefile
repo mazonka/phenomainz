@@ -8,6 +8,7 @@ endif
 
 BIN_DIR=_bin_$(PLAT)
 CLNT=../$(BIN_DIR)/phclnt
+JRAF=../$(BIN_DIR)/jraf
 CLNT_LIB=$(CLNT)/lib
 SRC=src
 SRC_LIB=$(SRC)/lib
@@ -38,6 +39,7 @@ mk_dir:
 	@mkdir -p $(CLNT)/lib/images
 	@mkdir -p $(CLNT)/ui
 	@mkdir -p $(CLNT)/jraf
+	@mkdir -p $(JRAF)
 
 tar_x_jq: $(JQ_FULL_NAME)
 	@echo Unpack $(JQ_SHRT_NAME) ...
@@ -89,6 +91,7 @@ mk_phclnt: $(SRC)/index.html
 	@cp $(SRC)/jraf.phd ../$(BIN_DIR)/jraf.phd
 	@cp $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	@cp $(SRC)/img/*.* $(CLNT)/img/
+	@cp -r $(SRC)/jraf/fs/. $(JRAF)/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
 
 done:

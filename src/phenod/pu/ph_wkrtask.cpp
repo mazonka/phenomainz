@@ -99,7 +99,7 @@ string Worker2::ph_jraf()
     }
 
     AutArea & aa = gs->autArea;
-	return aa.jraf.request();
+	return aa.jraf.request(tok);
 }
 
 string Worker2::ph_aucmd()
