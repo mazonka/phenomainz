@@ -79,15 +79,27 @@ string Worker2::ph_script(string cmd, string ag)
 {
     os::Cout() << "Auth request [" << cmd << "] [" << ag << "]" << os::endl;
 
-    // so far support only "home?sid"
-    if ( cmd != "home" ) return er::Code(er::REQ_MSG_BAD);
+    // support: "home?sid", "jraf?sid"
+    if ( cmd != "home" && cmd != "jraf" ) return er::Code(er::REQ_MSG_BAD);
 
-    string file = gl::file2str("home.phd");
+    string file = gl::file2str(cmd+".phd");
 
     gl::replaceAll(file, "$$$", ag);
 
     *mime = "text/html";
     return file;
+}
+
+string Worker2::ph_jraf()
+{
+    if ( !gl::issql(tok.c_str()) )
+    {
+        os::Cout() << "Bad intput [" << tok.c_str() << "]" << os::endl;
+        return er::Code(er::REQ_MSG_BAD);
+    }
+
+    AutArea & aa = gs->autArea;
+	return aa.jraf.request();
 }
 
 string Worker2::ph_aucmd()

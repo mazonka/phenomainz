@@ -68,6 +68,7 @@ string er::tos(CodeType e)
     IFF( CON_HIN_BUSY )
     IFF( REQ_BUSY )
     IFF( AUTH )
+    IFF( JRAF_ERR )
 
     IFF( INTERNAL_REC_NO )
     IFF( INTERNAL_REC_YES )

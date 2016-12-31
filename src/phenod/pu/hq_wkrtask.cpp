@@ -49,6 +49,9 @@ string Worker2::process(bool * recog)
     if ( tok.is("au") && (en || pn.ping) )
         return ph_aucmd();
 
+    if ( tok.is("jraf") && (en || pn.ping) )
+        return ph_jraf();
+
     /*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
             return info();
 

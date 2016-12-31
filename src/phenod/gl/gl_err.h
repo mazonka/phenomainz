@@ -64,6 +64,7 @@ enum CodeType
     CON_HIN_BUSY,
     REQ_BUSY,
     AUTH,
+    JRAF_ERR,
 
     INTERNAL_REC_NO,
     INTERNAL_REC_YES,

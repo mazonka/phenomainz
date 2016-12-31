@@ -4,6 +4,7 @@
 #define _PH_GL_AUT
 
 #include "ph_db.h"
+#include "jraf.h"
 
 #include <map>
 
@@ -40,6 +41,7 @@ struct AutArea
 {
     static string ph_conf;
     Phdb phdb;
+	Jraf jraf;
 
     os::Semaphore access2autArea;
     AutQueue que;

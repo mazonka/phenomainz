@@ -34,6 +34,7 @@ function jraf_boot()
 		$("#main").html(s);
 	}
 
+	jraf_ajax("jraf ping", out, "JRAF ping : ");
 	jraf_ajax("jraf version client", out, "JRAF client version : ");
 	jraf_ajax("jraf version backend", out, "JRAF backend version : ");
 
