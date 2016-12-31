@@ -317,7 +317,7 @@ bool gl::issql(const string & s)
         if ( c >= '0' && c <= '9' ) continue;
         if ( c == '+' || c == '/' ) continue;
         if ( c == '=' || c == ' ' ) continue;
-        if ( c == '*' || c == 'x' ) continue;
+        if ( c == '*' || c == '.' ) continue;
 
         return false;
     }
