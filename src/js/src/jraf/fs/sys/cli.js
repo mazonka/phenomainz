@@ -86,8 +86,8 @@ function cli_keycode(x)
 {
 
 	var ret = true;
-	if( x==38 || x==40 || x==13 ) ret = false;
-	//console.log(x);
+	if( x==38 || x==40 || x==13 || x==9 ) ret = false;
+	///console.log(x);
 
 	var $o = $g_input; // jQ
 	var o = $g_input[0]; // dom
@@ -96,10 +96,12 @@ function cli_keycode(x)
 	{
 		var cmd = cli_extract_command(o.value);
 		var out = cli_execute_command(cmd);
-		if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
-		///console.log("out=["+out+"]");
-		///console.log("prm=["+cli_prompt()+"]");
-		o.value += '\n'+out+cli_prompt();
+		cli_output_commnd(out);
+	}
+	else if( x==9 )
+	{
+		var cmd = cli_extract_command(o.value);
+		cli_tab(cmd);
 	}
 
 	if(!ret)
@@ -114,6 +116,52 @@ function cli_keycode(x)
 	return ret;
 }
 
+
+function cli_tab(c)
+{
+	if( c.length < 1 ) 
+	{
+		var out = '';
+		for( var i in g_cli_commands ) out += ' ' + i;
+		out = out.trim();
+		cli_output_commnd(out);
+	}
+
+	if( c.length == 1 )
+	{
+		var out = '';
+		var cnt = 0;
+		var vld = [];
+		var sz = c[0].length;
+		for( var i in g_cli_commands )
+		{
+			if( i.substr(0,sz) == c[0] )
+			{
+				vld[cnt++] = i;
+				out += ' ' + i;
+			}
+		}
+
+		if( cnt == 0 ) return;
+		if( cnt == 1 ) 
+		{
+			$g_input[0].value+= vld[0].substr(sz); 
+			return; 
+		}
+
+		out = out.trim();
+		cli_output_commnd(out);
+		$g_input[0].value+= c[0];
+	}
+}
+
+function cli_output_commnd(out)
+{
+	var o = $g_input[0];
+	if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
+	o.value += '\n'+out+cli_prompt();
+}
+
 function cli_prompt()
 {
 	return '> ';
@@ -124,19 +172,18 @@ function cli_extract_command(text)
 	var t, i = text.lastIndexOf('\n');
 	if( i == -1 ) t = text;
 	else t = text.substr(i+1);
-	///console.log("AAA1 "+t);
 	i = t.indexOf('> ');
 	if( i == -1 || i+3 > t.length ) return '';
-	var r = t.substr(i+2);
-	///console.log("AAA2 "+r);
-	return r;
-}
+	var cmd = t.substr(i+2);
 
-function cli_execute_command(cmd)
-{
-	if( cmd.length == 0 ) return '';
 	var c = cmd.split(' ');
 	c = c.filter( function(x){ return x.length>0; } );
+
+	return c;
+}
+
+function cli_execute_command(c)
+{
 	if( c.length < 1 ) return '';
 
 	if( c[0] in g_cli_commands )
@@ -201,5 +248,6 @@ function cli_build_commands()
 	}
 
 	g_cli_commands.cls = { help : cls_help, run : cls_run };
+	g_cli_commands.helder = { help : function(){return "";}, run : function(){return "";} };
 }
 
