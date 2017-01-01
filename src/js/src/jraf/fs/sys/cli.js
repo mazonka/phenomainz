@@ -98,3 +98,28 @@ function cli_keycode(x)
 	return ret;
 }
 
+function scroll()
+{
+//first of all, you ignore any bad english, as i'm french and had a funny evening
+//get the textarea
+var textArea = document.getElementById('myTextArea');
+
+//define your selection
+var selectionStart = 50;
+var selectionEnd = 60;
+textArea.setSelectionRange( selectionStart, selectionEnd);
+
+// now lets do some math
+// we need the number of chars in a row
+var charsPerRow = textArea.cols;
+
+// we need to know at which row our selection starts
+var selectionRow = (selectionStart - (selectionStart % charsPerRow)) / charsPerRow;
+
+// we need to scroll to this row but scrolls are in pixels,
+// so we need to know a row's height, in pixels
+var lineHeight = textArea.clientHeight / textArea.rows;
+
+// scroll !!
+textArea.scrollTop = lineHeight * selectionRow;
+}
