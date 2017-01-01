@@ -1,18 +1,36 @@
 var g_sys_loaded_file2 = 1;
 
-var g_jraf_root = {};
-g_jraf_root.ver = 0;
-g_jraf_root.sz = -1;
-g_jraf_root.bnd = -1; // 0,1,2 - none, default, bound
-g_jraf_root.cb = null; // binding callback
-g_jraf_root.name = '/';
-g_jraf_root.parent = null;
-g_jraf_root.full = 0; // 0,1 - incomplete, complete/loaded
-g_jraf_root.text = ''; // file body
-g_jraf_root.kids = {}; // children
+var g_jraf_root = jraf_node({ parent : null });
 
-g_jraf_root.str = function()
-{ 
-	return "hello"; 
+function jraf_node(ini)
+{
+	var node = {};
+	node.ver = 0;
+	node.sz = -1;
+	node.bnd = -1; // 0,1,2 - none, default, bound
+	node.cb = null; // binding callback
+	node.name = '';
+	node.parent = null;
+	node.full = 0; // 0,1 - incomplete, complete/loaded
+	node.text = ''; // file body
+	node.kids = {}; // children
+	
+	node.str = function()
+	{ 
+		var r = '';
+		var p = this.parent;
+		while(true)
+		{
+			r = this.name + '/' + r;
+			if( p == null ) break;
+			p = p.parent;
+		}
+		return r; 
+	};
+
+	ini = ini || {};
+	for( let i in ini ) node[i] = ini[i];
+
+	return node;
 }
 
