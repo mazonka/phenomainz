@@ -1,18 +1,23 @@
 var g_sys_loaded_file1 = 1;
 
 var $g_div_cli;
-
 var $g_input, $g_output, $g_edit;
+var g_cli_commands;
 
 function start_cli()
 {
 	$g_div_cli = $g_div_main;
 	//$g_div_cli.html("hello cli");
 
+	cli_build_commands();
+
 	$g_div_cli.html(cli_build_area());
 
 	$g_input.keydown(function(e){ return cli_keycode(e.keyCode); });
 
+	///cli_keycode(13);
+	$g_input.html(cli_prompt());
+	$g_input.focus();
 }
 
 function cli_build_area()
@@ -82,44 +87,119 @@ function cli_keycode(x)
 
 	var ret = true;
 	if( x==38 || x==40 || x==13 ) ret = false;
+	//console.log(x);
 
-	console.log(x);
+	var $o = $g_input; // jQ
+	var o = $g_input[0]; // dom
+
+	if( x==13 )
+	{
+		var cmd = cli_extract_command(o.value);
+		var out = cli_execute_command(cmd);
+		if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
+		///console.log("out=["+out+"]");
+		///console.log("prm=["+cli_prompt()+"]");
+		o.value += '\n'+out+cli_prompt();
+	}
 
 	if(!ret)
 	{
-		var o = $g_input;
-		o.focus();
-		console.log(o);
-		console.log(o[0].value);
-		var i = o[0].value.length;
-		o[0].setSelectionRange(i,i);
+		$g_input.focus();
+		var o = $g_input[0];
+		var i = o.value.length;
+		o.setSelectionRange(i,i);
+		o.scrollTop = o.scrollHeight;
 	}
 
 	return ret;
 }
 
-function scroll()
+function cli_prompt()
 {
-//first of all, you ignore any bad english, as i'm french and had a funny evening
-//get the textarea
-var textArea = document.getElementById('myTextArea');
-
-//define your selection
-var selectionStart = 50;
-var selectionEnd = 60;
-textArea.setSelectionRange( selectionStart, selectionEnd);
-
-// now lets do some math
-// we need the number of chars in a row
-var charsPerRow = textArea.cols;
-
-// we need to know at which row our selection starts
-var selectionRow = (selectionStart - (selectionStart % charsPerRow)) / charsPerRow;
-
-// we need to scroll to this row but scrolls are in pixels,
-// so we need to know a row's height, in pixels
-var lineHeight = textArea.clientHeight / textArea.rows;
-
-// scroll !!
-textArea.scrollTop = lineHeight * selectionRow;
+	return '> ';
 }
+
+function cli_extract_command(text)
+{
+	var t, i = text.lastIndexOf('\n');
+	if( i == -1 ) t = text;
+	else t = text.substr(i+1);
+	///console.log("AAA1 "+t);
+	i = t.indexOf('> ');
+	if( i == -1 || i+3 > t.length ) return '';
+	var r = t.substr(i+2);
+	///console.log("AAA2 "+r);
+	return r;
+}
+
+function cli_execute_command(cmd)
+{
+	if( cmd.length == 0 ) return '';
+	var c = cmd.split(' ');
+	c = c.filter( function(x){ return x.length>0; } );
+	if( c.length < 1 ) return '';
+
+	if( c[0] in g_cli_commands )
+	{
+		return g_cli_commands[c[0]].run(c);
+	}
+
+	return 'unknown command ['+c[0]+'], try \'help\'';
+}
+
+
+function cli_build_commands()
+{
+	g_cli_commands = {};
+
+	var help_help = function()
+	{
+		return "help: prints help page\n";
+	};
+
+	var help_run = function(c)
+	{
+		var r = '';
+		if(c.length<2) 
+		{
+			for( var i in g_cli_commands )
+			{
+				r += g_cli_commands[i].help();
+			}
+			return r;
+		}
+
+		for( var i=1; i<c.length; i++ )
+		{
+			if( c[i] in g_cli_commands )
+				r += g_cli_commands[c[i]].help();
+			else
+				r += '['+c[i]+'] - not a valid command';
+		}
+		return r;
+	};
+
+	g_cli_commands.help = { help : help_help, run : help_run };
+
+	var cls_help = function()	
+	{
+		return 'cls [argument]: clear area\n'
+			+ '\tcls in: clear command area (default)\n'
+			+ '\tcls out: clear output area\n'
+			+ '\tcls edit: clear editor area\n';
+	}
+
+	var cls_run = function(c)
+	{
+		var ar = 'in';
+		if( c.length > 1 ) ar = c[1];
+		if( ar == 'in' ){ $g_input[0].value='';  }
+		else if( ar == 'out' ){ $g_output[0].value = ''; }
+		else if( ar == 'edit' ){ $g_edit[0].value = ''; }
+		else return 'use in/out/edit';
+		return '';
+	}
+
+	g_cli_commands.cls = { help : cls_help, run : cls_run };
+}
+
