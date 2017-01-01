@@ -11,4 +11,8 @@ g_jraf_root.full = 0; // 0,1 - incomplete, complete/loaded
 g_jraf_root.text = ''; // file body
 g_jraf_root.kids = {}; // children
 
+g_jraf_root.str = function()
+{ 
+	return "hello"; 
+}
 
