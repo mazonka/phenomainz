@@ -25,7 +25,7 @@ function start_cli()
 
 function cli_build_area()
 {
-	var tbl = $('<table/>', { border: '1', width: '100%' } );
+	var tbl = $('<table/>', { border: '0', width: '100%' } );
 	var tr = $('<tr/>');
 	var td1 = $('<td/>', { width: '50%' } );
 	var td2 = $('<td/>');
@@ -202,20 +202,13 @@ function cli_build_commands()
 {
 	g_cli_commands = {};
 
-	var help_help = function()
-	{
-		return "help: prints help page\n";
-	};
-
+	var help_help = "help: prints help page\n";
 	var help_run = function(c)
 	{
 		var r = '';
 		if(c.length<2) 
 		{
-			for( var i in g_cli_commands )
-			{
-				r += g_cli_commands[i].help();
-			}
+			for( var i in g_cli_commands ) r += g_cli_commands[i].help;
 			return r;
 		}
 
@@ -231,13 +224,10 @@ function cli_build_commands()
 
 	g_cli_commands.help = { help : help_help, run : help_run };
 
-	var cls_help = function()	
-	{
-		return 'cls [argument]: clear area\n'
+	var cls_help = 'cls [argument]: clear area\n'
 			+ '\tcls in: clear command area (default)\n'
 			+ '\tcls out: clear output area\n'
 			+ '\tcls edit: clear editor area\n';
-	}
 
 	var cls_run = function(c)
 	{
@@ -248,14 +238,106 @@ function cli_build_commands()
 		else if( ar == 'edit' ){ $g_edit[0].value = ''; }
 		else return 'use in/out/edit';
 		return '';
-	}
+	};
 
 	g_cli_commands.cls = { help : cls_help, run : cls_run };
 	///g_cli_commands.helder = { help : function(){return "";}, run : function(){return "";} };
 
-	var pwd_help = function(){ return 'pwd: print current node\n'; }
-	var pwd_run = function(c){ return g_cwd.str(); }
+	var pwd_help = 'pwd: print current node\n';
+	var pwd_run = function(c){ return g_cwd.str(); };
 	g_cli_commands.pwd = { help : pwd_help, run : pwd_run };
+
+	var ls_help = 'ls: list current node\n';
+	var ls_run = function(c)
+	{
+		if( c.length > 1 )
+		{
+			let cwd = jraf_relative(g_cwd,c[1]);
+			return cli_list_that(cwd); 
+		}
+		return cli_list_kids(g_cwd);
+	};
+	g_cli_commands.ls = { help : ls_help, run : ls_run };
 
 }
 
+
+function cli_list_to_array(node)
+{
+	var r = [];
+
+	r[0] = ''+node.ver;
+
+	r[1] = node.name;
+	if( node.parent == null ) r[1] = '<root>';
+
+	r[2] = 'D';
+	if( node.sz >= 0 ) r[2] = ''+node.sz;
+
+	r[3] = 'X';
+	if( node.bnd == 0 ) r[3] = 'N';
+	if( node.bnd == 1 ) r[3] = 'E';
+	if( node.bnd == 2 ) r[3] = 'B';
+
+	r[4] = 'I';
+	if( node.full == 1 ) r[4] = 'C';
+
+	return r;
+}
+
+function cli_list_formline(a)
+{
+	var r = '';
+
+	for( let i=0; i<a.length; i++ )
+	{
+		if(i) r += ' ';
+		r += a[i];
+	}
+
+	return r;
+}
+
+function cli_list_that(node)
+{
+	var a = cli_list_to_array(node);
+	return cli_list_formline(a);
+}
+
+function cli_list_kids(node)
+{
+	if( node.full == 0 ) return 'node ['+node.str()+'] incomplete, use \'up\'';
+
+	if( sz < 0 ) return node.text;
+
+	var mx = [0,0,0,0,0];
+	var ar = [];
+	for( let i in node.kids )
+	{
+		let k = node.kids[i];
+		let line = cli_list_to_array(k);
+
+		for( let j=0; j<5; j++ ) 
+			if( line[j].length > mx[j] )
+				mx[j] = line[j].length;
+
+		ar[ar.length] = line;
+	}
+
+	// format
+	for( let i=0; i<ar.length; i++)
+	{
+		for( let j=0; j<4; j++ ) // no need for the last column
+		{
+			let sz = mx[j]-ar[i][j].length;
+			for( let k=0; k<sz; k++ )
+				ar[i][j] += ' ';
+		}
+	}
+
+	var r  = '';
+	for( let i=0; i<ar.length; i++)
+		r += cli_list_formline(ar[i]) + '\n';
+
+	return r;
+}

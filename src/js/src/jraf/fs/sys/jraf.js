@@ -7,7 +7,7 @@ function jraf_node(ini)
 	var node = {};
 	node.ver = 0;
 	node.sz = -1;
-	node.bnd = -1; // 0,1,2 - none, default, bound
+	node.bnd = 0; // 0,1,2 - none, empty, bound
 	node.cb = null; // binding callback
 	node.name = '';
 	node.parent = null;
@@ -34,3 +34,11 @@ function jraf_node(ini)
 	return node;
 }
 
+// cur_node - current node
+// path - path string: relative or absolute
+// returns - node
+function jraf_relative(cur_node, path)
+{
+	console.log("jraf_relative - not imlemented");
+	return cur_node;
+}
