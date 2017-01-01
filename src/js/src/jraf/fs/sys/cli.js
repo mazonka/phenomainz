@@ -5,6 +5,10 @@ var $g_input, $g_output, $g_edit;
 var g_cli_commands;
 var g_cwd;
 
+var g_hist_pointer = 0;
+
+var gPRMT = '> ';
+
 function start_cli()
 {
 	$g_div_cli = $g_div_main;
@@ -100,12 +104,15 @@ function cli_keycode(x)
 		var cmd = cli_extract_command(o.value);
 		var out = cli_execute_command(cmd);
 		cli_output_commnd(out);
+		g_hist_pointer = 0; // reset arrows
 	}
 	else if( x==9 )
 	{
 		var cmd = cli_extract_command(o.value);
 		cli_tab(cmd);
 	}
+	else if( x==38 ) cli_arrow(true);
+	else if( x==40 ) cli_arrow(false);
 
 	if(!ret)
 	{
@@ -175,7 +182,7 @@ function cli_output_commnd(out)
 
 function cli_prompt()
 {
-	return '> ';
+	return gPRMT;
 }
 
 function cli_extract_command(text)
@@ -183,9 +190,9 @@ function cli_extract_command(text)
 	var t, i = text.lastIndexOf('\n');
 	if( i == -1 ) t = text;
 	else t = text.substr(i+1);
-	i = t.indexOf('> ');
+	i = t.indexOf(gPRMT);
 	if( i == -1 || i+3 > t.length ) return '';
-	var cmd = t.substr(i+2);
+	var cmd = t.substr(i+gPRMT.length);
 
 	var c = cmd.split(' ');
 	c = c.filter( function(x){ return x.length>0; } );
@@ -358,6 +365,67 @@ function cli_list_kids(node)
 		r += cli_list_formline(ar[i]) + '\n';
 
 	return r;
+}
+
+function cli_arr_extract_history()
+{
+	var t = $g_input[0].value;
+	var a = t.split('\n');
+	a = a.filter(function(x){ return x.indexOf(gPRMT) >= 0; });
+	if( a.length < 2 ) return [];
+	a.pop();
+
+	for( let i in a )
+	{
+		let j = a[i].indexOf(gPRMT);
+		a[i] = a[i].substr(j+gPRMT.length);
+	}
+
+	a = a.filter(function(x){ return x.length > 0; });
+
+	var b = [];
+	for( let j in a )
+	{
+		let i = a.length - j - 1;
+		if( b.indexOf(a[i]) == -1 ) b.push(a[i]);
+	}
+
+	///console.log("AAA");
+	///console.log(a);
+
+	return b;
+}
+
+function cli_arrow_show(s)
+{
+	///console.log('AAA'+s);
+	var text = $g_input[0].value;
+	var i = text.lastIndexOf(gPRMT);
+	if( i < 0 ) return;
+
+	$g_input[0].value = text.substr(0,i)+gPRMT+s;
+}
+
+function cli_arrow(direction)
+{
+	if( direction ) ++g_hist_pointer;
+	else --g_hist_pointer;
+
+	if( g_hist_pointer <= 0 )
+	{
+		g_hist_pointer = 0;
+		cli_arrow_show('');
+		return;
+	}
+
+	var a = cli_arr_extract_history();	
+	if( a.length < 1 ) return;
+	if( g_hist_pointer > a.length ) g_hist_pointer = a.length;
+
+	let p = a.length - g_hist_pointer; // 0 <= p <= a.length-1
+	cli_arrow_show(a[p]);
+
+	///console.log(a);
 }
 
 function cli_update_node(node)

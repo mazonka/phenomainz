@@ -39,6 +39,42 @@ function jraf_node(ini)
 // returns - node
 function jraf_relative(cur_node, path)
 {
-	console.log("jraf_relative - not imlemented");
-	return cur_node;
+	///console.log("jraf_relative - not imlemented");
+
+	while(true)
+	{
+		if( path.indexOf('//') == -1 ) break;
+		path = path.replace('//','/');
+	}
+
+	var a = path.split('/');
+	console.log(a);
+	if( a.length < 1 ) return cur_node;
+
+	var i=0;
+	var cwd = cur_node;
+
+	if( a[0] == '' )
+	{
+		i=1;
+		cwd = g_jraf_root;
+	}
+
+	for(; i<a.length; i++ )
+	{
+		let s = a[i];
+		if( s=='' ) continue;
+		if( s=='.' ) continue;
+		if( s=='..' )
+		{
+			cwd = cwd.parent;
+			if( cwd == null ) return null;
+			continue;
+		}
+
+		if( !( s in cwd.kids ) ) return null;
+		cwd = cwd.kids[s];
+	}
+
+	return cwd;
 }
