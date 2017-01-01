@@ -3,6 +3,7 @@ var g_sys_loaded_file1 = 1;
 var $g_div_cli;
 var $g_input, $g_output, $g_edit;
 var g_cli_commands;
+var g_cwd;
 
 function start_cli()
 {
@@ -12,6 +13,8 @@ function start_cli()
 	cli_build_commands();
 
 	$g_div_cli.html(cli_build_area());
+
+	g_cwd = g_jraf_root;
 
 	$g_input.keydown(function(e){ return cli_keycode(e.keyCode); });
 
@@ -248,6 +251,11 @@ function cli_build_commands()
 	}
 
 	g_cli_commands.cls = { help : cls_help, run : cls_run };
-	g_cli_commands.helder = { help : function(){return "";}, run : function(){return "";} };
+	///g_cli_commands.helder = { help : function(){return "";}, run : function(){return "";} };
+
+	var pwd_help = function(){ return 'pwd: print current node\n'; }
+	var pwd_run = function(c){ return g_cwd.str(); }
+	g_cli_commands.pwd = { help : pwd_help, run : pwd_run };
+
 }
 

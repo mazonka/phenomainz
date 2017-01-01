@@ -2,9 +2,9 @@
 
 'use strict';
 
-var jraf = {};
-jraf.vers = 0;
-jraf.cb = null;
+///var jraf = {};
+///jraf.vers = 0;
+///jraf.cb = null;
 
 var g_session;
 var $g_div_main;
@@ -140,7 +140,7 @@ function jraf_parse_obj(text,nm)
 			r.kids[name] = {};
 			r.kids[name].ver = ver;
 			r.kids[name].sz = sz;
-			r.kids[name].cb = null;
+			r.kids[name].cbi = 0;
 			r.kids[name].name = name;
 			r.kids[name].parent = r;
 		}
