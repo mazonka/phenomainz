@@ -73,6 +73,14 @@ function sys_loaded()
 {
 	if( typeof g_sys_loaded_file1 === 'undefined' 
 		|| typeof g_sys_loaded_file2 === 'undefined' 
+		|| typeof g_sys_loaded_file3 === 'undefined' 
+		|| typeof g_sys_loaded_file4 === 'undefined' 
+		|| typeof g_sys_loaded_file5 === 'undefined' 
+		|| typeof g_sys_loaded_file6 === 'undefined' 
+		|| typeof g_sys_loaded_file7 === 'undefined' 
+		|| typeof g_sys_loaded_file8 === 'undefined' 
+		|| typeof g_sys_loaded_file9 === 'undefined' 
+		|| typeof g_sys_loaded_file0 === 'undefined' 
 	)
 	{
 		setTimeout(sys_loaded,300);
@@ -80,6 +88,7 @@ function sys_loaded()
 	}
 
 	console.log("sys loaded");
+	start_shell();
 }
 
 function jraf_read_obj(path, ob, cb, extra)
