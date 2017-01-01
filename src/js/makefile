@@ -120,7 +120,8 @@ checkin: $(CLNT)
 	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
 	@cp -f $(CLNT)/*.html $(SRC)/
 	@cp -f $(CLNT)/jraf/*.js $(SRC)/jraf/
-	@echo $(CLNT)/jraf/ to $(SRC)/jraf/ - copied.
+	@cp -r $(JRAF)/. $(SRC)/jraf/fs/
+	@echo jraf - copied.
 	@cp -f ../$(BIN_DIR)/home.phd $(SRC)/
 	@cp -f ../$(BIN_DIR)/conf.phd $(SRC)/
 	@cp -f ../$(BIN_DIR)/jraf.phd $(SRC)/
