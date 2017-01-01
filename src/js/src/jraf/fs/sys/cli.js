@@ -215,7 +215,7 @@ function cli_build_commands()
 		for( var i=1; i<c.length; i++ )
 		{
 			if( c[i] in g_cli_commands )
-				r += g_cli_commands[c[i]].help();
+				r += g_cli_commands[c[i]].help;
 			else
 				r += '['+c[i]+'] - not a valid command';
 		}
@@ -225,9 +225,9 @@ function cli_build_commands()
 	g_cli_commands.help = { help : help_help, run : help_run };
 
 	var cls_help = 'cls [argument]: clear area\n'
-			+ '\tcls in: clear command area (default)\n'
-			+ '\tcls out: clear output area\n'
-			+ '\tcls edit: clear editor area\n';
+			+ '- cls in: clear command area (default)\n'
+			+ '- cls out: clear output area\n'
+			+ '- cls edit: clear editor area\n';
 
 	var cls_run = function(c)
 	{
@@ -247,7 +247,7 @@ function cli_build_commands()
 	var pwd_run = function(c){ return g_cwd.str(); };
 	g_cli_commands.pwd = { help : pwd_help, run : pwd_run };
 
-	var ls_help = 'ls: list current node\n';
+	var ls_help = 'ls [node]: list node, default - current\n';
 	var ls_run = function(c)
 	{
 		if( c.length > 1 )
@@ -259,6 +259,14 @@ function cli_build_commands()
 	};
 	g_cli_commands.ls = { help : ls_help, run : ls_run };
 
+	var up_help = 'up: update current node, refresh by reloading\n';
+	var up_run = function(c)
+	{
+		let cwd = g_cwd;
+		if( c.length > 1 ) cwd = jraf_relative(g_cwd,c[1]);
+		return cli_update_node(cwd);
+	};
+	g_cli_commands.up = { help : up_help, run : up_run };
 }
 
 
@@ -340,4 +348,9 @@ function cli_list_kids(node)
 		r += cli_list_formline(ar[i]) + '\n';
 
 	return r;
+}
+
+function cli_update_node(node)
+{
+	console.log("cli_update_node - not implemented");
 }
