@@ -7,6 +7,7 @@ jraf.vers = 0;
 jraf.cb = null;
 
 var g_session;
+var $g_div_main;
 
 function jraf_ajax(cmd, callback, extra) {
     $.post('/','command=' + cmd)
@@ -28,17 +29,17 @@ function jraf_boot(id)
 	g_session = id;
 
 	console.log("Jraf boot: hello");
-	document.write("<div id='main' style='text-align: left;'></div>");
-	//$("#main").html("hello<br/>");
+	document.write("<div id='div_main' style='text-align: left;'></div>");
+	$g_div_main = $("#div_main");
 
 	var out = function(data,extra)
 	{
 		if( data.length > 4 && data.substr(0,3) == "OK " )
 			data = data.substr(3);
 
-		var s = $("#main").html();
-		s += extra + data + '<br/>';
-		$("#main").html(s);
+		var s = $g_div_main.html();
+		s += '# ' + extra + data + '<br/>';
+		$g_div_main.html(s);
 	}
 
 	jraf_ajax("jraf ping", out, "JRAF : ");
