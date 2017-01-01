@@ -79,10 +79,22 @@ function cli_build_edit()
 
 function cli_keycode(x)
 {
+
 	var ret = true;
 	if( x==38 || x==40 || x==13 ) ret = false;
 
 	console.log(x);
+
+	if(!ret)
+	{
+		var o = $g_input;
+		o.focus();
+		console.log(o);
+		console.log(o[0].value);
+		var i = o[0].value.length;
+		o[0].setSelectionRange(i,i);
+	}
+
 	return ret;
 }
 
