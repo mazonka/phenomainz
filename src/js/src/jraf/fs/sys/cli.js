@@ -161,6 +161,14 @@ function cli_tab(c)
 function cli_output_commnd(out)
 {
 	var o = $g_input[0];
+
+	if( typeof out === 'undefined' || typeof out.length === 'undefined' )
+	{
+		console.log('ERROR: run function does not return string');
+		o.value += '\n'+cli_prompt();
+		return;
+	}
+
 	if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
 	o.value += '\n'+out+cli_prompt();
 }
@@ -253,6 +261,7 @@ function cli_build_commands()
 		if( c.length > 1 )
 		{
 			let cwd = jraf_relative(g_cwd,c[1]);
+			if( cwd == null ) return 'node does not exist';
 			return cli_list_that(cwd); 
 		}
 		return cli_list_kids(g_cwd);
@@ -264,6 +273,7 @@ function cli_build_commands()
 	{
 		let cwd = g_cwd;
 		if( c.length > 1 ) cwd = jraf_relative(g_cwd,c[1]);
+		if( cwd == null ) return 'node does not exist';
 		return cli_update_node(cwd);
 	};
 	g_cli_commands.up = { help : up_help, run : up_run };
@@ -353,4 +363,6 @@ function cli_list_kids(node)
 function cli_update_node(node)
 {
 	console.log("cli_update_node - not implemented");
+	return '';
 }
+
