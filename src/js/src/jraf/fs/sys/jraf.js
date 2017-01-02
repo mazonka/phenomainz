@@ -30,6 +30,21 @@ function jraf_node(ini)
 		delete this.kids[kid];
 	};
 
+	node.setwid = function(fun)
+	{
+		///console.log(this.watch);
+		///console.log(this);
+		this.wid = fun;
+		this.watch = 2;
+		let p = this.parent;
+		while(p)
+		{
+			if( p.watch==0 ) p.watch=1;
+			p = p.parent;
+		}
+		this.wid(this);
+	};
+
 	ini = ini || {};
 	for( let i in ini ) node[i] = ini[i];
 
@@ -107,6 +122,8 @@ function jraf_update_callback(jo,ex)
 		else jraf_update_FF(jo,nd);
 	}
 
+	if( nd.watch == 2 ) nd.wid(nd);
+
 	console.log('FIXME jraf_update_callback: need tests for DF FD');
 
 	ex.cbi(jo,nd);
@@ -166,7 +183,6 @@ function jraf_update_DD(jo,nd,cbi)
 		jraf_update_obj(nd.str(),i,cbi,n);
 	}
 
-	///console.log("FIXME jraf_update_DD add update");
 	///console.log(jo);
 	///console.log(nd);
 }

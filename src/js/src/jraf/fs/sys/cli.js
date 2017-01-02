@@ -1,7 +1,7 @@
 var g_sys_loaded_file1 = 1;
 
 var $g_div_cli;
-var $g_input, $g_output, $g_edit;
+var $g_input, $g_output, $g_edit, $g_view;
 var g_cli_commands;
 var g_cwd;
 
@@ -12,7 +12,6 @@ var gPRMT = '> ';
 function start_cli()
 {
 	$g_div_cli = $g_div_main;
-	//$g_div_cli.html("hello cli");
 
 	cli_build_commands();
 
@@ -22,7 +21,6 @@ function start_cli()
 
 	$g_input.keydown(function(e){ return cli_keycode(e.keyCode); });
 
-	///cli_keycode(13);
 	$g_input.html(cli_prompt());
 	$g_input.focus();
 }
@@ -63,10 +61,13 @@ function cli_build_right()
 {
 	var d0 = $('<div/>');
 	var d1 = $('<div/>');
+	var d2 = $('<div/>');
 
 	d0.append(d1);
+	d0.append(d2);
 
 	d1.html(cli_build_edit());
+	d2.html(cli_build_view());
 
 	return d0;
 }
@@ -85,13 +86,28 @@ function cli_build_output()
 
 function cli_build_edit()
 {
-	$g_edit = $('<textarea/>',{ width: '95%', height:'21em'});
+	$g_edit = $('<textarea/>',{ width: '95%', height:'10em'});
 	return $g_edit;
+}
+
+function cli_build_view()
+{
+	$g_view = $('<textarea/>',{ width: '95%', height:'10em'});
+	return $g_view;
+}
+
+function cli_view_update(node)
+{
+	var r = node.str()+'\n';
+	if( node.full==0 ) r += "incomplete";
+	else if( node.sz < 0 ) r += cli_list_that(node,false);
+	else r += node.text;
+
+	$g_view[0].value = r;
 }
 
 function cli_keycode(x)
 {
-
 	var ret = true;
 	if( x==38 || x==40 || x==13 || x==9 ) ret = false;
 	///console.log(x);
@@ -225,7 +241,7 @@ function cli_build_commands()
 	cli_build_cmd_cd();
 	//cli_build_cmd_rup();
 	//cli_build_cmd_js();
-	//cli_build_cmd_bind();
+	cli_build_cmd_bind();
 }
 
 function cli_arr_extract_history()

@@ -86,7 +86,7 @@ function cli_build_cmd_up()
 
 function cli_build_cmd_cd()
 {
-	var cd_help = 'cd: change current node\n';
+	var cd_help = 'cd [path]: change current node\n';
 	var cd_run = function(c)
 	{
 		let cwd = g_cwd;
@@ -97,6 +97,21 @@ function cli_build_cmd_cd()
 		return '';
 	};
 	g_cli_commands.cd = { help : cd_help, run : cd_run };
+}
+
+function cli_build_cmd_bind()
+{
+	var help = 'bind [node]: bind node to view area';
+	var run = function(c)
+	{
+		let n = g_cwd;
+		if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+		if( n == null ) return 'node does not exist';
+		if( n.full == 0 ) return 'node is not loaded';
+		n.setwid(cli_view_update);
+		return '';
+	}
+	g_cli_commands.bind = { help : help, run : run };
 }
 
 //function cli_build_cmd_ ()
