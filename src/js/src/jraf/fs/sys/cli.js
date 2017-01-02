@@ -22,11 +22,11 @@ function start_cli()
 	$g_input.keydown(function(e){ return cli_keycode(e.keyCode); });
 
 	$g_input.html(cli_prompt());
-	$g_input.focus();
+	///$g_input.focus();
 	cli_input_toend();
 }
 
-funtion cli_input_toend()
+function cli_input_toend()
 {
 	$g_input.focus();
 	var o = $g_input[0];

@@ -53,7 +53,7 @@ function jraf_boot(id)
 			out("ok",ex);
 			var sc = document.createElement("script");
 			sc.innerHTML = data.text;
-			///console.log(sc.innerHTML);
+			//console.log(sc.innerHTML);
 			document.head.append(sc);
 		}
 	
