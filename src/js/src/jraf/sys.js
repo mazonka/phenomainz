@@ -83,7 +83,7 @@ function sys_loaded()
 		|| typeof g_sys_loaded_file0 === 'undefined' 
 	)
 	{
-		setTimeout(sys_loaded,300);
+		setTimeout(sys_loaded,50);
 		return;
 	}
 
