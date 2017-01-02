@@ -325,3 +325,8 @@ bool gl::issql(const string & s)
     return true;
 }
 
+bool gl::endswith(string const &fs, string const &en)
+{
+    if (fs.size() < en.size()) return false;
+    return (0 == fs.compare (fs.size() - en.size(), en.size(), en));
+}
