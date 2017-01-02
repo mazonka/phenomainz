@@ -17,20 +17,17 @@ function jraf_node(ini)
 	
 	node.str = function()
 	{ 
-/*///		var r = '';
-		var p = this.parent;
-		while(true)
-		{
-			r = this.name + '/' + r;
-			if( p == null ) break;
-			p = p.parent;
-		}
-		return r; 
-*/
-		if( node.parent == null ) return '/';
-		var r = node.parent.str();
+		if( this.parent == null ) return '/';
+		let r = this.parent.str();
 		if( r == '/' ) r = '';
-		return r + '/' + name;
+		return r + '/' + this.name;
+	};
+
+	node.rmkid = function(kid)
+	{
+		if( !(kid in this.kids) ) return;
+		for( let i in this.kids ) this.kids[kid].rmkid(i);
+		delete this.kids[kid];
 	};
 
 	ini = ini || {};
@@ -53,7 +50,7 @@ function jraf_relative(cur_node, path)
 	}
 
 	var a = path.split('/');
-	console.log(a);
+	///console.log(a);
 	if( a.length < 1 ) return cur_node;
 
 	var i=0;
@@ -88,7 +85,11 @@ function jraf_update_callback(jo,ex)
 {
 	var nd = ex.node;
 
-	if( jo.ver <= nd.ver ){ ex.cbi(jo,nd); return; }
+	if( jo.ver <= nd.ver && nd.full == 1 )
+	{
+		ex.cbi(jo,nd);
+		return;
+	}
 
 	nd.ver = jo.ver;
 	nd.full = 1;
@@ -106,7 +107,7 @@ function jraf_update_callback(jo,ex)
 		else jraf_update_FF(jo,nd);
 	}
 
-	console.log('jraf_update_callback: need tests for DD DF FD FF');
+	console.log('FIXME jraf_update_callback: need tests for DF FD FF');
 
 	ex.cbi(jo,nd);
 }
@@ -121,7 +122,30 @@ function jraf_update_obj(path,name,cbi,node)
 
 function jraf_update_DD(jo,nd)
 {
-	console.log("AAA");
-	console.log(jo);
-	console.log(nd);
+	// first delete disappeared nodes
+	for( let i in nd.kids )
+	{
+		if( i in jo.kids ) continue;
+		nd.rmkid(i);
+	}
+
+	// add new
+	for( let i in jo.kids )
+	{
+		if( i in nd.kids ) continue;
+		var j = jo.kids[i];
+		var n = jraf_node();
+
+		n.ver = j.ver;
+		n.sz = j.sz;
+		n.name = i;
+		n.parent = nd;
+
+		nd.kids[i] = n;
+	}
+
+	console.log("FIXME jraf_update_DD add update");
+	///console.log(jo);
+	///console.log(nd);
 }
+

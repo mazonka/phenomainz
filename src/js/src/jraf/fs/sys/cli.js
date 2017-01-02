@@ -267,9 +267,11 @@ function cli_build_commands()
 	{
 		if( c.length > 1 )
 		{
-			let cwd = jraf_relative(g_cwd,c[1]);
+			let h = c[1];
+			let cwd = jraf_relative(g_cwd,h);
+			let dir = (h[h.length-1]=='/');
 			if( cwd == null ) return 'node does not exist';
-			return cli_list_that(cwd); 
+			return cli_list_that(cwd,dir); 
 		}
 		return cli_list_kids(g_cwd);
 	};
@@ -294,7 +296,7 @@ function cli_list_to_array(node)
 	r[0] = ''+node.ver;
 
 	r[1] = node.name;
-	if( node.parent == null ) r[1] = '<root>';
+	if( node.parent == null ) r[1] = '(root)';
 
 	r[2] = 'D';
 	if( node.sz >= 0 ) r[2] = ''+node.sz;
@@ -323,8 +325,9 @@ function cli_list_formline(a)
 	return r;
 }
 
-function cli_list_that(node)
+function cli_list_that(node,dir)
 {
+	if(dir) return cli_list_kids(node);
 	var a = cli_list_to_array(node);
 	return cli_list_formline(a);
 }
@@ -333,7 +336,7 @@ function cli_list_kids(node)
 {
 	if( node.full == 0 ) return 'node ['+node.str()+'] incomplete, use \'up\'';
 
-	if( node.sz < 0 ) return node.text;
+	if( node.sz >= 0 ) return node.text;
 
 	var mx = [0,0,0,0,0];
 	var ar = [];
@@ -390,15 +393,11 @@ function cli_arr_extract_history()
 		if( b.indexOf(a[i]) == -1 ) b.push(a[i]);
 	}
 
-	///console.log("AAA");
-	///console.log(a);
-
 	return b;
 }
 
 function cli_arrow_show(s)
 {
-	///console.log('AAA'+s);
 	var text = $g_input[0].value;
 	var i = text.lastIndexOf(gPRMT);
 	if( i < 0 ) return;
@@ -422,7 +421,6 @@ function cli_arrow(direction)
 	if( a.length < 1 ) return;
 	if( g_hist_pointer > a.length ) g_hist_pointer = a.length;
 
-	///let p = a.length - g_hist_pointer; // 0 <= p <= a.length-1
 	cli_arrow_show(a[g_hist_pointer-1]);
 
 	//console.log(a);
@@ -433,7 +431,6 @@ function cli_update_node(node)
 	var ver = node.ver;
 	var cb = function(jo,nd)
 	{
-		//console.log("AAA");
 		//console.log(jo);
 		//console.log(nd);
 		let s = '';
@@ -452,7 +449,6 @@ function cli_update_node(node)
 	else
 		path = node.parent.str()+'/';
 
-	///jraf_read_obj(path,name,cb,node);
 	jraf_update_obj(path,name,cb,node);
 	return '';
 }
