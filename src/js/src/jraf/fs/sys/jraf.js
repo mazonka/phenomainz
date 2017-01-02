@@ -17,7 +17,7 @@ function jraf_node(ini)
 	
 	node.str = function()
 	{ 
-		var r = '';
+/*///		var r = '';
 		var p = this.parent;
 		while(true)
 		{
@@ -26,6 +26,11 @@ function jraf_node(ini)
 			p = p.parent;
 		}
 		return r; 
+*/
+		if( node.parent == null ) return '/';
+		var r = node.parent.str();
+		if( r == '/' ) r = '';
+		return r + '/' + name;
 	};
 
 	ini = ini || {};
@@ -77,4 +82,46 @@ function jraf_relative(cur_node, path)
 	}
 
 	return cwd;
+}
+
+function jraf_update_callback(jo,ex)
+{
+	var nd = ex.node;
+
+	if( jo.ver <= nd.ver ){ ex.cbi(jo,nd); return; }
+
+	nd.ver = jo.ver;
+	nd.full = 1;
+
+	if( nd.name != jo.name ) console.log('ERROR name mismatch 99');
+
+	if( nd.sz<0 )
+	{
+		if( jo.sz<0 ) jraf_update_DD(jo,nd);
+		else jraf_update_DF(jo,nd);
+	}
+	else
+	{
+		if( jo.sz<0 ) jraf_update_FD(jo,nd);
+		else jraf_update_FF(jo,nd);
+	}
+
+	console.log('jraf_update_callback: need tests for DD DF FD FF');
+
+	ex.cbi(jo,nd);
+}
+
+function jraf_update_obj(path,name,cbi,node)
+{
+	var ex = {};
+	ex.node = node;
+	ex.cbi = cbi;
+	jraf_read_obj(path,name,jraf_update_callback,ex);
+}
+
+function jraf_update_DD(jo,nd)
+{
+	console.log("AAA");
+	console.log(jo);
+	console.log(nd);
 }

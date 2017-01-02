@@ -182,7 +182,7 @@ function cli_output_commnd(out)
 
 function cli_prompt()
 {
-	return gPRMT;
+	return g_cwd.str().substr(1)+gPRMT;
 }
 
 function cli_extract_command(text)
@@ -333,7 +333,7 @@ function cli_list_kids(node)
 {
 	if( node.full == 0 ) return 'node ['+node.str()+'] incomplete, use \'up\'';
 
-	if( sz < 0 ) return node.text;
+	if( node.sz < 0 ) return node.text;
 
 	var mx = [0,0,0,0,0];
 	var ar = [];
@@ -422,15 +422,38 @@ function cli_arrow(direction)
 	if( a.length < 1 ) return;
 	if( g_hist_pointer > a.length ) g_hist_pointer = a.length;
 
-	let p = a.length - g_hist_pointer; // 0 <= p <= a.length-1
-	cli_arrow_show(a[p]);
+	///let p = a.length - g_hist_pointer; // 0 <= p <= a.length-1
+	cli_arrow_show(a[g_hist_pointer-1]);
 
-	///console.log(a);
+	//console.log(a);
 }
 
 function cli_update_node(node)
 {
-	console.log("cli_update_node - not implemented");
+	var ver = node.ver;
+	var cb = function(jo,nd)
+	{
+		//console.log("AAA");
+		//console.log(jo);
+		//console.log(nd);
+		let s = '';
+		if( ver == nd.ver ) s = ''+nd.ver;
+		else s = '' + ver + ' -> '+nd.ver;
+		$g_output[0].value += 'up ['+nd.str()+'] ' + s + '\n';
+	}
+
+	var name = node.name;
+	var path;
+	if( node.parent == null ) 
+	{
+		path = '/';
+		name = '';
+	}
+	else
+		path = node.parent.str()+'/';
+
+	///jraf_read_obj(path,name,cb,node);
+	jraf_update_obj(path,name,cb,node);
 	return '';
 }
 
