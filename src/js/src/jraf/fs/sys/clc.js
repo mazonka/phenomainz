@@ -73,15 +73,34 @@ function cli_build_cmd_ls()
 
 function cli_build_cmd_up()
 {
-	var up_help = 'up: update current node, refresh by reloading\n';
+	var up_help = 'up [node]: update node, refresh by reloading\n';
 	var up_run = function(c)
 	{
 		let cwd = g_cwd;
 		if( c.length > 1 ) cwd = jraf_relative(g_cwd,c[1]);
 		if( cwd == null ) return 'node does not exist';
-		return cli_update_node(cwd);
+		g_keep_loading = false;
+		cli_update_node(cwd);
+		return '';
 	};
 	g_cli_commands.up = { help : up_help, run : up_run };
+}
+
+function cli_build_cmd_rup()
+{
+	var help = 'rup (start|stop): update current node recursively\n';
+	var run = function(c)
+	{
+		if( c.length < 2 ) return 'use start or stop';
+		if( c[1] == 'stop' ) g_keep_loading = false;
+		else if( c[1] == 'start' )
+		{
+			g_keep_loading = true;
+			cli_update_node(g_cwd);
+		}
+		return '';
+	};
+	g_cli_commands.rup = { help : help, run : run };
 }
 
 function cli_build_cmd_cd()
@@ -227,7 +246,6 @@ function cli_update_node(node)
 		path = node.parent.str()+'/';
 
 	jraf_update_obj(path,name,cb,node);
-	return '';
 }
 
 ////////////////////////////////////////////////////////

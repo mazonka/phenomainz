@@ -2,6 +2,8 @@ var g_sys_loaded_file2 = 1;
 
 var g_jraf_root = jraf_node({ parent : null });
 
+var g_keep_loading = false;
+
 function jraf_node(ini)
 {
 	var node = {};
@@ -171,16 +173,25 @@ function jraf_update_DD(jo,nd,cbi)
 		}
 		var n = nd.kids[i];
 		var j = jo.kids[i];
-		if( n.ver == j.ver ) continue;
 
-		if( n.watch == 0 ) // set incomplete
+		let kp = g_keep_loading;
+
+		if( n.ver == j.ver )
 		{
-			for( let i in n.kids ) n.rmkid(i);
-			n.full = 0;
-			continue;
+			if( !(kp && n.full==0) ) continue;
+		}
+		else
+		{
+			if( n.watch == 0 && !kp ) continue; // keep old
+			// set incomplete (this part not switched on)
+			{
+				for( let i in n.kids ) n.rmkid(i);
+				n.full = 0;
+				continue;
+			}
 		}
 
-		jraf_update_obj(nd.str(),i,cbi,n);
+		jraf_update_obj(nd.str()+'/',i,cbi,n);
 	}
 
 	///console.log(jo);

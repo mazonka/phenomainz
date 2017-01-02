@@ -99,6 +99,7 @@ function cli_build_view()
 function cli_view_update(node)
 {
 	var r = node.str()+'\n';
+	r += '-'.repeat(r.length-1) +'\n';
 	if( node.full==0 ) r += "incomplete";
 	else if( node.sz < 0 ) r += cli_list_that(node,false);
 	else r += node.text;
@@ -238,6 +239,7 @@ function cli_build_commands()
 	cli_build_cmd_pwd();
 	cli_build_cmd_ls();
 	cli_build_cmd_up();
+	cli_build_cmd_rup();
 	cli_build_cmd_cd();
 	//cli_build_cmd_rup();
 	//cli_build_cmd_js();
