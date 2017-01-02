@@ -117,9 +117,9 @@ function cli_list_to_array(node)
 	if( node.sz >= 0 ) r[2] = ''+node.sz;
 
 	r[3] = 'X';
-	if( node.bnd == 0 ) r[3] = 'N';
-	if( node.bnd == 1 ) r[3] = 'E';
-	if( node.bnd == 2 ) r[3] = 'B';
+	if( node.watch == 0 ) r[3] = 'N';
+	if( node.watch == 1 ) r[3] = 'E';
+	if( node.watch == 2 ) r[3] = 'B';
 
 	r[4] = 'I';
 	if( node.full == 1 ) r[4] = 'C';

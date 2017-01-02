@@ -6,9 +6,9 @@ function jraf_node(ini)
 {
 	var node = {};
 	node.ver = 0;
-	node.sz = -1;
-	node.bnd = 0; // 0,1,2 - none, empty, bound
-	node.cb = null; // binding callback
+	node.sz = -1; // empty means some distant kids have binding
+	node.watch = 0; // 0,1,2 - none, empty, bound
+	node.wid = null; // binding callback
 	node.name = '';
 	node.parent = null;
 	node.full = 0; // 0,1 - incomplete, complete/loaded
@@ -85,7 +85,7 @@ function jraf_update_callback(jo,ex)
 {
 	var nd = ex.node;
 
-	if( jo.ver <= nd.ver && nd.full == 1 )
+	if( jo.ver == nd.ver && nd.full == 1 )
 	{
 		ex.cbi(jo,nd);
 		return;
@@ -98,7 +98,7 @@ function jraf_update_callback(jo,ex)
 
 	if( nd.sz<0 )
 	{
-		if( jo.sz<0 ) jraf_update_DD(jo,nd);
+		if( jo.sz<0 ) jraf_update_DD(jo,nd,ex.cbi);
 		else jraf_update_DF(jo,nd);
 	}
 	else
@@ -107,7 +107,7 @@ function jraf_update_callback(jo,ex)
 		else jraf_update_FF(jo,nd);
 	}
 
-	console.log('FIXME jraf_update_callback: need tests for DF FD FF');
+	console.log('FIXME jraf_update_callback: need tests for DF FD');
 
 	ex.cbi(jo,nd);
 }
@@ -120,7 +120,7 @@ function jraf_update_obj(path,name,cbi,node)
 	jraf_read_obj(path,name,jraf_update_callback,ex);
 }
 
-function jraf_update_DD(jo,nd)
+function jraf_update_DD(jo,nd,cbi)
 {
 	// first delete disappeared nodes
 	for( let i in nd.kids )
@@ -134,8 +134,8 @@ function jraf_update_DD(jo,nd)
 	{
 		if( i in nd.kids ) continue;
 		var j = jo.kids[i];
-		var n = jraf_node();
 
+		var n = jraf_node();
 		n.ver = j.ver;
 		n.sz = j.sz;
 		n.name = i;
@@ -144,8 +144,35 @@ function jraf_update_DD(jo,nd)
 		nd.kids[i] = n;
 	}
 
-	console.log("FIXME jraf_update_DD add update");
+	// update kids
+	for( let i in nd.kids )
+	{
+		if( !(i in jo.kids) )
+		{
+			console.log('ERROR kids mismatch 152');
+			return;
+		}
+		var n = nd.kids[i];
+		var j = jo.kids[i];
+		if( n.ver == j.ver ) continue;
+
+		if( n.watch == 0 ) // set incomplete
+		{
+			for( let i in n.kids ) n.rmkid(i);
+			n.full = 0;
+			continue;
+		}
+
+		jraf_update_obj(nd.str(),i,cbi,n);
+	}
+
+	///console.log("FIXME jraf_update_DD add update");
 	///console.log(jo);
 	///console.log(nd);
 }
 
+function jraf_update_FF(jo,nd)
+{
+	nd.sz = jo.sz;
+	nd.text = jo.text;
+}
