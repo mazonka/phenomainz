@@ -80,28 +80,41 @@ string Jraf::read_obj(string pth, bool getonly)
 	if( p.isdir() )
 	{
 		string ver = getver(p);
-		string r = ver + " -1";
-		if( getonly ) return ok(r);
+		string q = ver + " -1";
+		if( getonly ) return ok(q);
 
 		os::Dir dir = os::FileSys::readDirEx(p,true,true);
 
-		r += ' '+gl::tos(dir.dirs.size()+dir.files.size());
+		string r;
+		int cntr = 0;
 
 		for( auto i : dir.dirs )
 		{
 			r += ' ' + getver(p+i);
 			r += " -1";
 			r += ' ' + i;
+			cntr++;
 		}
+
+		auto isspec = [](string s) -> bool 
+		{
+			if( gl::endswith(s,jraf::node_ver) ) return true;
+			if( gl::endswith(s,jraf::fe_version) ) return true;
+			return false;
+		};
 
 		for( auto i : dir.files )
 		{
+			if( isspec(i.first) ) continue;
 			r += ' ' + getver(p+i.first);
 			r += ' ' + gl::tos(i.second);
 			r += ' ' + i.first;
+			cntr++;
 		}
 
-		return ok(r);
+		q += ' '+gl::tos(cntr);
+
+		return ok(q+r);
 	}
 
 	if( p.isfile() )
