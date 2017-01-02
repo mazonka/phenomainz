@@ -6,7 +6,6 @@ function start_shell()
 }
 
 // unused loaders
-var g_sys_loaded_file3 = 1;
 var g_sys_loaded_file4 = 1;
 var g_sys_loaded_file5 = 1;
 var g_sys_loaded_file6 = 1;
