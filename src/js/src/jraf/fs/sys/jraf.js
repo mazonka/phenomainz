@@ -102,7 +102,8 @@ function jraf_update_callback(jo,ex)
 {
 	var nd = ex.node;
 
-	if( jo.ver == nd.ver && nd.full == 1 )
+	if( jo.sz == nd.sz && jo.ver == nd.ver && nd.full == 1 
+		&& ( !g_keep_loading || nd.sz>=0 ) )
 	{
 		ex.cbi(jo,nd);
 		return;
@@ -178,17 +179,12 @@ function jraf_update_DD(jo,nd,cbi)
 
 		if( n.ver == j.ver )
 		{
-			if( !(kp && n.full==0) ) continue;
+			if( !kp ) continue;
+			if( n.full==1 && n.sz >= 0 ) continue;
 		}
 		else
 		{
 			if( n.watch == 0 && !kp ) continue; // keep old
-			// set incomplete (this part not switched on)
-			{
-				for( let i in n.kids ) n.rmkid(i);
-				n.full = 0;
-				continue;
-			}
 		}
 
 		jraf_update_obj(nd.str()+'/',i,cbi,n);

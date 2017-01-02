@@ -91,9 +91,10 @@ function cli_build_cmd_rup()
 	var help = 'rup (start|stop): update current node recursively\n';
 	var run = function(c)
 	{
-		if( c.length < 2 ) return 'use start or stop';
-		if( c[1] == 'stop' ) g_keep_loading = false;
-		else if( c[1] == 'start' )
+		let c1 = c[1];
+		if( c.length < 2 ) c1='start'; // return 'use start or stop';
+		if( c1 == 'stop' ) g_keep_loading = false;
+		else if( c1 == 'start' )
 		{
 			g_keep_loading = true;
 			cli_update_node(g_cwd);
@@ -101,6 +102,23 @@ function cli_build_cmd_rup()
 		return '';
 	};
 	g_cli_commands.rup = { help : help, run : run };
+}
+
+function cli_build_cmd_down()
+{
+	var help = 'down [node]: make node incomplete, kill kids\n';
+	var run = function(c)
+	{
+		g_keep_loading = false;
+		let n = g_cwd;
+		if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+		if( n == null ) return 'node does not exist';
+		if( n.watch > 0 ) return 'node or its descendants bound\n';
+		for( let i in n.kids ) n.rmkid(i);
+		n.full = 0;
+		return '';
+	};
+	g_cli_commands.down = { help : help, run : run };
 }
 
 function cli_build_cmd_cd()

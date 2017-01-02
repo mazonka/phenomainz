@@ -239,6 +239,7 @@ function cli_build_commands()
 	cli_build_cmd_pwd();
 	cli_build_cmd_ls();
 	cli_build_cmd_up();
+	cli_build_cmd_down();
 	cli_build_cmd_rup();
 	cli_build_cmd_cd();
 	//cli_build_cmd_rup();
