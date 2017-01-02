@@ -286,6 +286,17 @@ function cli_build_commands()
 		return cli_update_node(cwd);
 	};
 	g_cli_commands.up = { help : up_help, run : up_run };
+
+	var cd_help = 'cd: change current node\n';
+	var cd_run = function(c)
+	{
+		let cwd = g_cwd;
+		if( c.length <2 ) return "Home node is not defined";
+		cwd = jraf_relative(g_cwd,c[1]);
+		if( cwd == null ) return 'node does not exist';
+		g_cwd = cwd;
+	};
+	g_cli_commands.cd = { help : cd_help, run : cd_run };
 }
 
 
