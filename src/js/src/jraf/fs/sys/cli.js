@@ -23,6 +23,16 @@ function start_cli()
 
 	$g_input.html(cli_prompt());
 	$g_input.focus();
+	cli_input_toend();
+}
+
+funtion cli_input_toend()
+{
+	$g_input.focus();
+	var o = $g_input[0];
+	var i = o.value.length;
+	o.setSelectionRange(i,i);
+	o.scrollTop = o.scrollHeight;
 }
 
 function cli_build_area()
@@ -131,14 +141,7 @@ function cli_keycode(x)
 	else if( x==38 ) cli_arrow(true);
 	else if( x==40 ) cli_arrow(false);
 
-	if(!ret)
-	{
-		$g_input.focus();
-		var o = $g_input[0];
-		var i = o.value.length;
-		o.setSelectionRange(i,i);
-		o.scrollTop = o.scrollHeight;
-	}
+	if(!ret) cli_input_toend();
 
 	return ret;
 }
