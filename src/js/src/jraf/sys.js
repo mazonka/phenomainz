@@ -107,6 +107,7 @@ function jraf_read_obj(path, ob, cb, extra)
 
 function jraf_parse_obj(text,nm)
 {
+	text = text.trim();
 	var a = text.split(' ');
 	var r = {};
 	if( a[0] != "OK" )
