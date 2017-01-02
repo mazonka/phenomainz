@@ -80,18 +80,18 @@ cp_hello.js: $(SRC_LIB)/$(HELLO_JS)
 
 mk_phclnt: $(SRC)/index.html
 	@echo Copy $(SRC) to $(CLNT)...
-	@cp $(SRC)/css/pheno.css $(CLNT)/css/
-	@cp $(SRC)/eng/*.js $(CLNT)/eng/
-	@cp $(SRC)/front/*.js $(CLNT)/front/
-	@cp $(SRC)/ui/*.js $(CLNT)/ui/
-	@cp $(SRC)/jraf/*.js $(CLNT)/jraf/
-	@cp $(SRC)/favicon.ico $(CLNT)/favicon.ico
-	@cp $(SRC)/index.html $(CLNT)/index.html
-	@cp $(SRC)/home.phd ../$(BIN_DIR)/home.phd
-	@cp $(SRC)/jraf.phd ../$(BIN_DIR)/jraf.phd
-	@cp $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
-	@cp $(SRC)/img/*.* $(CLNT)/img/
-	@cp -r $(SRC)/jraf/fs/. $(JRAF)/
+	cp -puv $(SRC)/css/pheno.css $(CLNT)/css/
+	cp -puv $(SRC)/eng/*.js $(CLNT)/eng/
+	cp -puv $(SRC)/front/*.js $(CLNT)/front/
+	cp -puv $(SRC)/ui/*.js $(CLNT)/ui/
+	cp -puv $(SRC)/jraf/*.js $(CLNT)/jraf/
+	cp -puv $(SRC)/favicon.ico $(CLNT)/favicon.ico
+	cp -puv $(SRC)/index.html $(CLNT)/index.html
+	cp -puv $(SRC)/home.phd ../$(BIN_DIR)/home.phd
+	cp -puv $(SRC)/jraf.phd ../$(BIN_DIR)/jraf.phd
+	cp -puv $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
+	cp -puv $(SRC)/img/*.* $(CLNT)/img/
+	cp -pruv  $(SRC)/jraf/fs/. $(JRAF)/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
 
 done:
@@ -107,24 +107,24 @@ clean: $(CLNT)
 	@echo Done.
 
 checkin: $(CLNT)
-	@cp -f $(CLNT)/css/*.css $(SRC)/css/
-	@echo $(CLNT)/css/ to $(SRC)/css/ - copied.
-	@cp -f $(CLNT)/eng/*.js $(SRC)/eng/
-	@echo $(CLNT)/eng/ to $(SRC)/eng/ - copied.
-	@cp -f $(CLNT)/front/*.js $(SRC)/front/
-	@echo $(CLNT)/front/ to $(SRC)/front/ - copied.
-	@cp -f $(CLNT)/img/*.png $(SRC)/img/
-	@cp -f $(CLNT)/img/*.gif $(SRC)/img/
-	@echo $(CLNT)/img/ to $(SRC)/img/ - copied.
-	@cp -f $(CLNT)/ui/*.js $(SRC)/ui/
-	@echo $(CLNT)/ui/ to $(SRC)/ui/ - copied.
-	@cp -f $(CLNT)/*.html $(SRC)/
-	@cp -f $(CLNT)/jraf/*.js $(SRC)/jraf/
-	@cp -r $(JRAF)/. $(SRC)/jraf/fs/
-	@echo jraf - copied.
-	@cp -f ../$(BIN_DIR)/home.phd $(SRC)/
-	@cp -f ../$(BIN_DIR)/conf.phd $(SRC)/
-	@cp -f ../$(BIN_DIR)/jraf.phd $(SRC)/
-	@echo $(CLNT)/ to $(SRC)/ - copied.
+	cp -fpuv $(CLNT)/css/*.css $(SRC)/css/
+	@echo [ $(CLNT)/css/ to $(SRC)/css/ - copied ]
+	cp -fpuv $(CLNT)/eng/*.js $(SRC)/eng/
+	@echo [ $(CLNT)/eng/ to $(SRC)/eng/ - copied ]
+	cp -fpuv $(CLNT)/front/*.js $(SRC)/front/
+	@echo [ $(CLNT)/front/ to $(SRC)/front/ - copied ]
+	cp -fpuv $(CLNT)/img/*.png $(SRC)/img/
+	cp -fpuv $(CLNT)/img/*.gif $(SRC)/img/
+	@echo [ $(CLNT)/img/ to $(SRC)/img/ - copied ]
+	cp -fpuv $(CLNT)/ui/*.js $(SRC)/ui/
+	@echo [ $(CLNT)/ui/ to $(SRC)/ui/ - copied ]
+	cp -fpuv $(CLNT)/*.html $(SRC)/
+	cp -fpuv $(CLNT)/jraf/*.js $(SRC)/jraf/
+	cp -pruv $(JRAF)/. $(SRC)/jraf/fs/
+	@echo [ jraf - copied ]
+	cp -fpuv ../$(BIN_DIR)/home.phd $(SRC)/
+	cp -fpuv ../$(BIN_DIR)/conf.phd $(SRC)/
+	cp -fpuv ../$(BIN_DIR)/jraf.phd $(SRC)/
+	@echo [ $(CLNT)/ to $(SRC)/ - copied ]
 	@chmod 0777 -R $(SRC)
 	@echo All done.
