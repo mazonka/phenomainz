@@ -132,6 +132,16 @@ function jraf_parse_obj(text,nm)
 	{
 		var n = parseInt(a[3]);
 		r.kids = {};
+
+		let nex = 3*n+4;
+		if( a.length != nex )
+		{
+			let e = 'ERROR: jraf_read_obj returned '+a.length;
+			e += ', expected '+ nex + ' ['+text+']';
+			console.log(e);
+			return r;
+		}
+
 		for( var i=0; i<n; i++ )
 		{
 			var ver = parseInt(a[4+3*i]);
