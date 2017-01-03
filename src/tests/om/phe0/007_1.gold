@@ -1,0 +1,16 @@
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== create
+OK
+OK 1 1 Kg== 0
+=================================== get
+OK 1 Kg== Kg== : :
+=================================== update
+OK
+OK
+OK
+=================================== get
+OK 1 Kg== Kg== : :
+=================================== done

@@ -1,0 +1,2 @@
+print tcp self [ login aaa@bbb ]
+quit

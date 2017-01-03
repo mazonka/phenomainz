@@ -1,0 +1,26 @@
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== login done
+OK
+=== file list
+OK 0
+=== file new & list]
+OK 1
+OK 2
+OK 2 1 Kg== 0 2 Kg== 0
+=== file put
+OK
+OK 2 1 MTIzNDU2Nzg5MA== 0 2 Kg== 0
+OK MTIzNDU2Nzg5MA==
+=== file put
+OK 10
+OK 20
+OK 1 1 Kg== 20
+=== file del
+OK
+OK 1 2 Kg== 20
+OK
+OK 0
+=================================== profile done

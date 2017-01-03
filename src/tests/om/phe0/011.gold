@@ -1,0 +1,28 @@
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+===
+OK
+OK
+OK 2 MTIzNDU2Nzg5MA== YWJj
+OK
+OK 1 Kg== Kg== : :
+OK
+OK
+OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
+OK
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
+===================================
+OK 1
+OK
+OK 1 1 Kg== 0
+OK
+OK
+OK 0 0
+===================================
+OK
+OK 1 Kg== Kg== : :
+OK 0
+===================================
