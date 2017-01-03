@@ -37,7 +37,7 @@ string Jraf::request(gl::Token tok)
 		return read_obj(p,cmd=="get");
 	}
 
-	if( cmd == "fix" )
+	if( cmd == "au" )
 	{
 		hq::LockWrite lock(&access);
 		return fix_obj();
@@ -88,20 +88,21 @@ string Jraf::read_obj(string pth, bool getonly)
 		string r;
 		int cntr = 0;
 
-		for( auto i : dir.dirs )
-		{
-			r += ' ' + getver(p+i);
-			r += " -1";
-			r += ' ' + i;
-			cntr++;
-		}
-
 		auto isspec = [](string s) -> bool 
 		{
 			if( gl::endswith(s,jraf::node_ver) ) return true;
 			if( gl::endswith(s,jraf::fe_version) ) return true;
 			return false;
 		};
+
+		for( auto i : dir.dirs )
+		{
+			if( isspec(i) ) continue;
+			r += ' ' + getver(p+i);
+			r += " -1";
+			r += ' ' + i;
+			cntr++;
+		}
 
 		for( auto i : dir.files )
 		{
