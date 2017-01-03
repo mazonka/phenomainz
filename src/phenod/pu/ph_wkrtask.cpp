@@ -441,26 +441,28 @@ string Worker2::dataset_file(AutArea & aa, const AutObject & ao)
         return er::Code(er::OK);
     }
 
-    else if ( cmd == "descr" )
+    else if ( cmd == "setdescr" )
     {
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
         string fiid = tok.sub();
 
-        string descr;
-        if ( tok.next() ) descr = tok.sub();
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string descr = tok.sub();
 
-        if ( !descr.empty() )
-        {
-            if ( !aa.phdb.auth(ao.profile.prid, daid) )
-                return er::Code(er::REQ_MSG_BAD);
+        if ( !aa.phdb.auth(ao.profile.prid, daid) )
+            return er::Code(er::REQ_MSG_BAD);
 
-            aa.phdb.ds_file_descr(daid, fiid, descr);
-            return er::Code(er::OK);
-        }
+        aa.phdb.ds_file_descr(daid, fiid, descr);
+        return er::Code(er::OK);
+    }
+
+    else if ( cmd == "getdescr" )
+    {
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string fiid = tok.sub();
 
         return er::Code(er::OK).str()
                + ' ' + aa.phdb.ds_file_descr(daid, fiid);
-
     }
 
     return er::Code(er::REQ_MSG_BAD);
