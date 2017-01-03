@@ -112,8 +112,6 @@ function jraf_node(ini)
 // returns - node
 function jraf_relative(cur_node, path)
 {
-	///console.log("jraf_relative - not imlemented");
-
 	while(true)
 	{
 		if( path.indexOf('//') == -1 ) break;
