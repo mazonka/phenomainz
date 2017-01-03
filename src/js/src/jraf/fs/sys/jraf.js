@@ -102,6 +102,12 @@ function jraf_update_callback(jo,ex)
 {
 	var nd = ex.node;
 
+	if( jo.err != '' )
+	{
+		ex.cbi(jo,nd);
+		return;
+	}
+
 	if( jo.sz == nd.sz && jo.ver == nd.ver && nd.full == 1 
 		&& ( !g_keep_loading || nd.sz>=0 ) )
 	{
@@ -112,7 +118,7 @@ function jraf_update_callback(jo,ex)
 	nd.ver = jo.ver;
 	nd.full = 1;
 
-	if( nd.name != jo.name ) console.log('ERROR name mismatch 99');
+	if( nd.name != jo.name ) console.log('ERROR (jraf_update_callback) name mismatch');
 
 	if( nd.sz<0 )
 	{

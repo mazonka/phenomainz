@@ -48,8 +48,20 @@ function jraf_boot(id)
 
 	var sysjs = function(jo)
 	{
+		if( jo.err != '' )
+		{
+			out(jo.err,"Backend error on [/sys]: ");
+			return;
+		}
+
 		var cb = function(data,ex)
 		{
+			if( data.err != '' )
+			{
+				out(data.err,"Backend error "+ex);
+				return;
+			}
+
 			out("ok",ex);
 			var sc = document.createElement("script");
 			sc.innerHTML = data.text;
@@ -109,11 +121,11 @@ function jraf_parse_obj(text,nm)
 {
 	text = text.trim();
 	var a = text.split(' ');
-	var r = {};
+	var r = { err: '' };
 	if( a[0] != "OK" )
 	{
-		console.log("Bad reply 126");
-		return {};
+		console.log("Bad backend reply");
+		return { err: text };
 	}
 	r.ver = parseInt(a[1]);
 	r.sz = parseInt(a[2]);

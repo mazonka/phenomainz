@@ -248,8 +248,14 @@ function cli_update_node(node)
 		//console.log(jo);
 		//console.log(nd);
 		let s = '';
-		if( ver == nd.ver ) s = ''+nd.ver;
-		else s = '' + ver + ' -> '+nd.ver;
+		if( jo.err == '' )
+		{
+			if( ver == nd.ver ) s = ''+nd.ver;
+			else s = '' + ver + ' -> '+nd.ver;
+		}
+		else
+			s = jo.err;
+
 		$g_output[0].value += 'up ['+nd.str()+'] ' + s + '\n';
 	}
 
