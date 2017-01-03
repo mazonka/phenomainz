@@ -7,9 +7,10 @@ print [ -- ping ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping + ping ]
+print tcp self [ au 41330bb85d8cc0a5 ping + ping + ping + ping ]
 
 print [ -- name profile ]
-print ex 0 OK 30 tcp self [ au 41330bb85d8cc0a5 name YWRtaW4= + profile ]
+print ex 0 OK 30 tcp self [ au 41330bb85d8cc0a5 name YWRtaW4= + profile + profile ]
 
 print [ -- done ]
 
