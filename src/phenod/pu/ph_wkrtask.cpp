@@ -112,6 +112,9 @@ string Worker2::ph_aucmd()
 
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
     string seid = tok.sub();
+
+    string result;
+
     if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
     string cmd = tok.sub();
 
@@ -159,7 +162,8 @@ string Worker2::ph_aucmd()
     else if ( cmd == "profile" )
         return er::Code(er::OK).str() + ' ' + ao.profile.str();
 
-    return er::Code(er::REQ_MSG_BAD);
+    if ( result.empty() ) return er::Code(er::REQ_MSG_BAD);
+	return result;
 }
 
 string Worker2::dataset(AutArea & aa, const AutObject & ao)
@@ -268,12 +272,17 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
         string daid = tok.sub();
 
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string snum = tok.sub();
+
+        int num = gl::toi(snum);
+
         std::vector<Phdb::ColDesc> v;
 
-        while (1)
+        for ( int j = 0; j < num; j++ )
         {
             Phdb::ColDesc c;
-            if ( !tok.next() ) break;
+            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
             c.n = tok.sub();
             if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
             c.xy = tok.sub();

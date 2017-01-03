@@ -13,7 +13,7 @@ print tcp self [ au 96db1e5f246844c9 ds get 1 ]
 print tcp self [ au 96db1e5f246844c9 ds addkw 1 MTIzNDU2Nzg5MA== ]
 print tcp self [ au 96db1e5f246844c9 ds addkw 1 YWJj ]
 print tcp self [ au 96db1e5f246844c9 ds get 1 ]
-print tcp self [ au 96db1e5f246844c9 ds setc 1 1 x YWJj YWJj MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 1 1 x YWJj YWJj MTIzNDU2Nzg5MA== ]
 print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
 
 print [ =================================== ]

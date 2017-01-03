@@ -1,0 +1,8 @@
+AAA349 Aob: 41330bb85d8cc0a5 1
+cmd: phmail login admin@server.com http://localhost:16000/home?41330bb85d8cc0a5
+[N/I] phmail: Sending to [admin@server.com] au [http://localhost:16000/home?41330bb85d8cc0a5]
+OK
+-- ping ping
+OK
+OK
+-- done

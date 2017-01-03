@@ -1,0 +1,15 @@
+set date "201610101"
+set time "000001"
+
+print tcp self [ login admin@server.com http://localhost:16000 ]
+
+print [ -- ping ping ]
+print tcp self [ au 41330bb85d8cc0a5 ping ]
+print tcp self [ au 41330bb85d8cc0a5 ping + ping ]
+
+#print [ -- name ]
+#print ex 0 OK 30 tcp self [ au 41330bb85d8cc0a5 name YWRtaW4= ]
+
+print [ -- done ]
+
+quit
