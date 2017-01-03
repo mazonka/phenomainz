@@ -9,14 +9,23 @@ function jraf_node(ini)
 	var node = {};
 	node.ver = 0;
 	node.sz = -1; // empty means some distant kids have binding
-	node.watch = 0; // 0,1,2 - none, empty, bound
+	node.watch = 0; // 0,1,2 - none, monitor, bound
 	node.wid = null; // binding callback
 	node.name = '';
 	node.parent = null;
 	node.full = 0; // 0,1 - incomplete, complete/loaded
 	node.text = ''; // file body
 	node.kids = {}; // children
-	
+
+	node.watch_str = function()
+	{
+		var r = 'X';
+		if( node.watch == 0 ) r = 'N';
+		if( node.watch == 1 ) r = 'M';
+		if( node.watch == 2 ) r = 'B';
+		return r;
+	};
+
 	node.str = function()
 	{ 
 		if( this.parent == null ) return '/';
@@ -32,21 +41,66 @@ function jraf_node(ini)
 		delete this.kids[kid];
 	};
 
-	node.setwid = function(fun)
+	node.bind = function(fun)
 	{
-		///console.log(this.watch);
-		///console.log(this);
+		//console.log(this.watch);
+		//console.log(this);
+		var r = '('+this.str() + ') - bound';
 		this.wid = fun;
 		this.watch = 2;
 		let p = this.parent;
 		while(p)
 		{
-			if( p.watch==0 ) p.watch=1;
+			if( p.watch==0 )
+			{
+				p.watch=1;
+				r += '\n(' + p.str()+') - set to '+p.watch_str();
+			}
+			else
+				r += '\n(' + p.str()+') - remains at '+ p.watch_str();
+
 			p = p.parent;
 		}
 		this.wid(this);
+		return r+'\n';
 	};
 
+	node.unbind = function()
+	{
+		//console.log(this.watch);
+		//console.log(this);
+
+		if( this.watch == 0 ) return '('+this.str() + ') - is not bound\n';
+		var r = '';
+		if( this.watch == 2 )
+		{
+			this.watch = 1;
+			r = '('+this.str() + ') - set to '+ this.watch_str()+'\n';
+		}
+
+		r += this.bind_check();
+		return r;
+	};
+
+	node.bind_check = function()
+	{
+		if( this.watch == 2 ) return '';
+		if( this.watch != 1 ) console.log('ERROR bind_check called on N node');
+
+		for( let i in this.kids )
+		{
+			if( this.kids[i].watch > 0 )
+				return '('+this.str() + ') - remains at '+ this.watch_str()+'\n';
+		}
+
+		this.watch = 0;
+		var r = '('+this.str() + ') - set to '+ this.watch_str()+'\n';
+
+		if( this.parent != null ) r += this.parent.bind_check();
+		return r;
+	};
+
+	// initialize object
 	ini = ini || {};
 	for( let i in ini ) node[i] = ini[i];
 

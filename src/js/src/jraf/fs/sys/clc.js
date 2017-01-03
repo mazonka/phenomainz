@@ -145,11 +145,25 @@ function cli_build_cmd_bind()
 		if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
 		if( n == null ) return 'node does not exist';
 		if( n.full == 0 ) return 'node is not loaded';
-		n.setwid(cli_view_update);
-		return '';
+		return n.bind(cli_view_update);
 	}
 	g_cli_commands.bind = { help : help, run : run };
 }
+
+function cli_build_cmd_unbind()
+{
+	var help = 'unbind [node]: unbind node';
+	var run = function(c)
+	{
+		let n = g_cwd;
+		if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+		if( n == null ) return 'node does not exist';
+		if( n.watch == 0 ) return 'node is not bound';
+		return n.unbind();
+	}
+	g_cli_commands.unbind = { help : help, run : run };
+}
+
 
 //function cli_build_cmd_ ()
 
@@ -168,10 +182,7 @@ function cli_list_to_array(node)
 	r[2] = 'D';
 	if( node.sz >= 0 ) r[2] = ''+node.sz;
 
-	r[3] = 'X';
-	if( node.watch == 0 ) r[3] = 'N';
-	if( node.watch == 1 ) r[3] = 'E';
-	if( node.watch == 2 ) r[3] = 'B';
+	r[3] = node.watch_str();
 
 	r[4] = 'I';
 	if( node.full == 1 ) r[4] = 'C';
