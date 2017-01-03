@@ -114,56 +114,63 @@ string Worker2::ph_aucmd()
     string seid = tok.sub();
 
     string result;
-
-    if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-    string cmd = tok.sub();
-
-    AutObject ao;
+    while (true)
     {
-        AutArea & aa = gs->autArea;
-        sgl::Mutex mutex_aa(aa.access2autArea);
-        ao = aa.que.getAob_seid(seid);
-
-        if ( !ao.isok() ) return er::Code(er::AUTH);
+        if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+        string cmd = tok.sub();
 
         if (0) {}
 
-        else if ( cmd == "logout" )
+        else if ( cmd == "ping" )
+            result += er::Code(er::OK);
+
+        else
         {
-            aa.que.remove_by_seid(seid);
-            return er::Code(er::OK);
-        }
+            AutArea & aa = gs->autArea;
+            sgl::Mutex mutex_aa(aa.access2autArea);
+            AutObject ao = aa.que.getAob_seid(seid);
 
-        else if ( cmd == "name" )
-        {
-            if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
-            string nn = tok.sub();
-            aa.update_name(ao, nn);
-            return er::Code(er::OK);
-        }
-        else if ( cmd == "dataset" || cmd == "ds" )
-            return dataset(aa, ao);
+            if ( !ao.isok() ) return er::Code(er::AUTH);
 
-        else if ( cmd == "admin" )
-            return phadmin(aa, ao);
+            if (0) {}
 
-        else if ( cmd == "keywords" )
-            return er::Code(er::OK).str() + ' ' + aa.phdb.keywords();
+            else if ( cmd == "profile" )
+                result += er::Code(er::OK).str() + ' ' + ao.profile.str();
 
-        else if ( cmd == "cat" )
-            return categ(aa, ao);
-    } // mutex
+            else if ( cmd == "logout" )
+            {
+                aa.que.remove_by_seid(seid);
+                return er::Code(er::OK);
+            }
 
-    if (0) {}
+            else if ( cmd == "name" )
+            {
+                if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
+                string nn = tok.sub();
+                aa.update_name(ao, nn);
+                result += er::Code(er::OK);
+            }
+            else if ( cmd == "dataset" || cmd == "ds" )
+                result += dataset(aa, ao);
 
-    else if ( cmd == "ping" )
-        return er::Code(er::OK);
+            else if ( cmd == "admin" )
+                result += phadmin(aa, ao);
 
-    else if ( cmd == "profile" )
-        return er::Code(er::OK).str() + ' ' + ao.profile.str();
+            else if ( cmd == "keywords" )
+                result += er::Code(er::OK).str() + ' ' + aa.phdb.keywords();
+
+            else if ( cmd == "cat" )
+                result += categ(aa, ao);
+        } // mutex
+
+        if ( !tok.next() ) break;
+        if ( tok.sub() != "+" ) return result + ' ' + er::Code(er::REQ_MSG_BAD).str();
+        result += ' ';
+
+    } // while
 
     if ( result.empty() ) return er::Code(er::REQ_MSG_BAD);
-	return result;
+    return result;
 }
 
 string Worker2::dataset(AutArea & aa, const AutObject & ao)
