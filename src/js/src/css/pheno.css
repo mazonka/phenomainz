@@ -13,7 +13,8 @@ body {
 * {
     box-sizing: border-box;
     -webkit-box-sizing:border-box;
-    -moz-box-sizing: border-box;    
+    -moz-box-sizing: border-box;
+    border-radius: 0px !important;
 }
 
 input,
@@ -257,7 +258,6 @@ button {
 
 .dsfiles-placeholder {
     border: 1px solid #DDDDDD;
-    border-radius: 2px;
     margin: 0.25em;
 }
 

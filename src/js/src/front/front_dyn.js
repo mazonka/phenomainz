@@ -449,3 +449,4 @@ function wid_fill_dsitem_files(ds_id, list, file) {
     wid_init_ui_button($files_row);
     wid_init_ui_tooltip($files_row.find('.dsfiles-delete'));
 };
+

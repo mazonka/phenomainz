@@ -5,6 +5,7 @@
 
 var g_user_id = '';
 var g_keywords = [];
+var g_ds = [];
 
 const TD_LOGIN = 'td_login';
 const TD_PROFILE = 'td_profile';

@@ -174,7 +174,6 @@ function get_jq_dsitem_title(ds) {
                     .click(function () {
                         wid_click_ds_button($(this), ds, true);
                     }))
-                .addClass('ds-td-a')
             )
             .append($('<td/>')
                 .append($('<input/>', {
@@ -182,7 +181,6 @@ function get_jq_dsitem_title(ds) {
                     })
                     .prop('readonly', true)
                     .addClass('dsprops-title dsprops-data-area'))
-                .addClass('ds-td-b')
             )
             .append($('<td/>')
                 .append($('<button/>', {
