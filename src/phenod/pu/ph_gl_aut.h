@@ -41,7 +41,7 @@ struct AutArea
 {
     static string ph_conf;
     Phdb phdb;
-	Jraf jraf;
+    Jraf jraf;
 
     os::Semaphore access2autArea;
     AutQueue que;

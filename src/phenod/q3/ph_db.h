@@ -36,8 +36,8 @@ class Phdb
         bool update_name(const Profile & pr, string newname);
         void access(string mail);
 
-        int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis, 
-				std::map<string,gl::vstr> & fnames);
+        int dataset_list(string prid, gl::vstr & ids, gl::vstr & tis,
+                         std::map<string, gl::vstr> & fnames);
 
         void dataset_new(string prid);
         void dataset_del(string prid, string daid);

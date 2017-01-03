@@ -83,7 +83,7 @@ bool Phdb::new_email(string email)
     Dbo db;
 
     string ss = "insert into users (mail,cntr,quot) values ('$1','0','$2')";
-	args(ss,email,QUOTA);
+    args(ss, email, QUOTA);
     db.execth(ss);
 
     string id = db.getid("users", "mail", email);
@@ -143,8 +143,8 @@ string Profile::str() const
 
     string r;
 
-    r = star(name) + ' ' + mail + ' ' + star(last) 
-		+ ' ' + star(cntr)+ ' ' + star(quot);
+    r = star(name) + ' ' + mail + ' ' + star(last)
+        + ' ' + star(cntr) + ' ' + star(quot);
 
     return r;
 }
@@ -183,15 +183,15 @@ void Phdb::dataset_new(string prid)
 }
 
 
-int Phdb::dataset_list(string prid, gl::vstr & ids, 
-	gl::vstr & tis, std::map<string,gl::vstr> & fnames)
+int Phdb::dataset_list(string prid, gl::vstr & ids,
+                       gl::vstr & tis, std::map<string, gl::vstr> & fnames)
 {
     Dbo dbx;
 
     string ss = "select id,titl from datas where prid='" + prid + "'";
     dbx.execth(ss);
 
-	auto dbr = dbx.result;
+    auto dbr = dbx.result;
 
     if ( dbr.empty() ) return 0;
 
@@ -205,13 +205,13 @@ int Phdb::dataset_list(string prid, gl::vstr & ids,
         if ( rc.size() != 2 )
             throw gl::ex(string("Phdb::dataset_list") + " [" + ss + "] - failed 3");
 
-		string daid = rc[0];
+        string daid = rc[0];
         ids.push_back(daid);
         tis.push_back(star(rc[1]));
 
-		gl::vstr fiids, des;
-		ds_file_list(daid,"",fiids,des);
-		fnames[daid] = fiids;
+        gl::vstr fiids, des;
+        ds_file_list(daid, "", fiids, des);
+        fnames[daid] = fiids;
     }
 
     return (int)dbr.size();
@@ -575,8 +575,8 @@ int Phdb::ds_file_list(string daid, string fiid, gl::vstr & ids, gl::vstr & des)
 
         ///r += ' ' + star(rc[0]);
         ///r += ' ' + star(rc[1]);
-		ids.push_back(star(rc[0]));
-		des.push_back(star(rc[1]));
+        ids.push_back(star(rc[0]));
+        des.push_back(star(rc[1]));
     }
 
     return int(db.result.size());

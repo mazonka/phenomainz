@@ -82,7 +82,7 @@ string Worker2::ph_script(string cmd, string ag)
     // support: "home?sid", "jraf?sid"
     if ( cmd != "home" && cmd != "jraf" ) return er::Code(er::REQ_MSG_BAD);
 
-    string file = gl::file2str(cmd+".phd");
+    string file = gl::file2str(cmd + ".phd");
 
     gl::replaceAll(file, "$$$", ag);
 
@@ -99,7 +99,7 @@ string Worker2::ph_jraf()
     }
 
     AutArea & aa = gs->autArea;
-	return aa.jraf.request(tok);
+    return aa.jraf.request(tok);
 }
 
 string Worker2::ph_aucmd()
