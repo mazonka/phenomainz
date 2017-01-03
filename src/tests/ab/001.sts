@@ -1,0 +1,13 @@
+#!/bin/sh
+# answers request
+
+in=$(basename $0)
+in=${in%.*}
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+rm -f dbo.log
+./phenod -cqln skcseed=pheno tcp_port=16100 dwkr=0 s=$cwd/$in.inp
+rm -f phenod.db
