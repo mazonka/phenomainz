@@ -121,7 +121,7 @@ function cli_keycode(x)
 {
 	var ret = true;
 	if( x==38 || x==40 || x==13 || x==9 ) ret = false;
-	///console.log(x);
+	// console.log(x);
 
 	var $o = $g_input; // jQ
 	var o = $g_input[0]; // dom
@@ -140,6 +140,7 @@ function cli_keycode(x)
 	}
 	else if( x==38 ) cli_arrow(true);
 	else if( x==40 ) cli_arrow(false);
+	else if( x==8 ) ret = cli_backspace();
 
 	if(!ret) cli_input_toend();
 
@@ -279,10 +280,12 @@ function cli_arr_extract_history()
 function cli_arrow_show(s)
 {
 	var text = $g_input[0].value;
-	var i = text.lastIndexOf(gPRMT);
+	///var i = text.lastIndexOf(gPRMT);
+	var i = text.lastIndexOf('\n');
 	if( i < 0 ) return;
 
-	$g_input[0].value = text.substr(0,i)+gPRMT+s;
+	///$g_input[0].value = text.substr(0,i)+gPRMT+s;
+	$g_input[0].value = text.substr(0,i)+'\n'+ cli_prompt() +s;
 }
 
 function cli_arrow(direction)
@@ -306,3 +309,13 @@ function cli_arrow(direction)
 	//console.log(a);
 }
 
+function cli_backspace()
+{
+	var text = $g_input[0].value;
+	var i = text.lastIndexOf('\n');
+	if( i < 0 ) i = 0;
+	else ++i;
+
+	if( cli_prompt() == text.substr(i) ) return false;
+	return true;
+}
