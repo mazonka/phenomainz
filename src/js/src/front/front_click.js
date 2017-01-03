@@ -147,7 +147,7 @@ function wid_click_ds_file_new(ds_id) {
     //wid_nc_ds_file_new(ds_id);
 }
 
-function wid_click_add_file(files, ds_id) {
+function wid_click_ds_file_add(files, ds_id) {
     var file;
 
     if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -206,4 +206,24 @@ function wid_click_add_file(files, ds_id) {
     }
 
     eng_open_file(file, cb, progress, done);
+}
+
+function wid_click_ds_file_del(ds_id, fl_id) {
+    var $obj = get_jq_yes_no(M_TXT.SURE);
+    var init = function () {
+        $obj.find('.button-yes-button')
+            .button()
+            .click(function () {
+                wid_nc_ds_file_del(ds_id, fl_id);
+                wid_close_modal_window();
+            });
+        $obj.find('.button-no-button')
+            .button()
+            .click(function () {
+                wid_close_modal_window();
+            });
+
+    }
+
+    wid_open_modal_window($obj, false, init);
 }

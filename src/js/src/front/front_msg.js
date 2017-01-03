@@ -78,5 +78,6 @@ const PHENOD = {
 }
 
 const TIP = {
-    DS_DEL: 'Delete dataset'
+    DS_DEL: 'Remove dataset',
+    FL_DEL: 'Remove file'
 }

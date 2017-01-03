@@ -29,16 +29,6 @@ button {
     min-width: 80px;
 }
 
-input[type='file'] {
-    /* display: none; */
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;    
-}
-
 #table_body {
     width: 100%;
     border: 1px solid #DCDCDC;
@@ -153,15 +143,21 @@ input[type='file'] {
     margin-left: 0.5em;
 }
 
-.dsitem-header-delete img {
+.dsitem-header-delete {
     float: right;
-    width: 16px !important;
+    width: auto !important;
     height: auto;
     margin-top: 0.2em;
-    padding: 0;
+    margin-right: 0.2em;
+    vertical-align: middle;
 }
 
-
+.dsitem-header-delete img {
+    width: 16px !important;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
 
 .ds-td-title-input {
     width: 100%;
@@ -231,12 +227,11 @@ input[type='file'] {
     text-align: left;
 }
 
-.ds-delete-row {
-    /* FIX */
-    text-align: center !important;
+.dsfiles-add-button label {
+    text-align: right;
 }
 
-.dsfiles-add-button {
+.dsfiles-add-button label {
     height: 1.5em;
     min-width: 80px;
     padding: 2px 5px 0 5px !important;
@@ -245,11 +240,43 @@ input[type='file'] {
     position: relative;
 }
 
-.dsfiles-add-button:hover {
+.dsfiles-add-button label:hover {
     background-color: #87CEEB;
     cursor: pointer;  
 }
 
+.dsfiles-add-button label input[type='file'] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+ 	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+} 
+
+
+.dsfiles-placeholder {
+    border: 1px solid #DDDDDD;
+    border-radius: 2px;
+    margin: 0.25em;
+}
+
+.dsfiles-delete {
+    float: right;
+    width: auto !important;
+    height: auto;
+    padding: 0;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    vertical-align: middle;
+}    
+
+.dsfiles-delete img {
+    width: 16px !important;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
 /* Modal popup window */
 
 #div_modal_window {

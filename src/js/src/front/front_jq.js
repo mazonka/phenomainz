@@ -124,20 +124,18 @@ function get_jq_ds_h1(ds_id, title) {
 }
 
 function get_jq_ds_item_del(ds_id) {
-    var $span = $('<span/>');
-    var $img = $('<img/>', {
-            src: IMG.CROSS,
+    var $span = $('<span/>', {
             title: TIP.DS_DEL
         })
+        .append($('<img/>', {
+            src: IMG.CROSS
+        }))
+        .addClass('dsitem-header-delete')
         .click(function (event) {
             event.stopPropagation();
             event.preventDefault();
             wid_click_ds_del_button(ds_id);
         });
-
-    $span
-        .append($img)
-        .addClass('dsitem-header-delete');
 
     return $span;
 }
@@ -155,8 +153,6 @@ function get_jq_dsitem_props(ds) {
     }
 
     $tbl.addClass('dsprops-table');
-    //FIX
-    //$ds_table.find('.ds-delete').parent().addClass('ds-delete-row');
 
     return $tbl;
 }
@@ -397,7 +393,6 @@ function get_jq_dsitem_files(ds) {
             text: M_TXT.FILES
         })
         .addClass('dsfiles-header');
-
     var $acc = $('<div/>')
         .addClass('dsfiles-list')
         .append($h2)
@@ -410,73 +405,70 @@ function get_jq_dsitem_files(ds) {
 
 // gets empty table for datasets file list
 function get_jq_files_table(ds_id, files, new_file) {
-    var $tbl = $('<table/>');
+    var $div = $('<div/>');
 
-    $tbl
+    $div
         .append(get_jq_files_add(ds_id))
         .append(get_jq_files_files(ds_id, files, new_file));
-    return $tbl;
+    return $div;
 }
 
-// gets row with button for files accordion
+
 function get_jq_files_add(ds_id) {
-    var $tr = $('<tr/>');
-    var $td = $('<td/>');
+    var $div = $('<div/>')
+        .addClass('dsfiles-add-button')
+            ;
     var $lb = $('<label/>', {
             text: B_TXT.ADD_FILE
         })
-        .addClass('dsfiles-add-button ui-button ui-widget ui-corner-all');
+        .addClass('ui-button ui-widget ui-corner-all');
     var $in = $('<input>', {
             type: 'file',
             accept: '.txt,.csv'
         })
         .change(function () {
-            wid_click_add_file(this.files, ds_id);
+            wid_click_ds_file_add(this.files, ds_id);
         })
         .appendTo($lb);
 
-    $tr.append($td.append($lb));
+    $div.append($lb);
 
-    return $tr;
+    return $div;
 }
 
 function get_jq_files_files(ds_id, files, new_file) {
-    var $tr = $('<tr/>');
-    var $td = $('<td/>');
-    var $tbl = $('<table/>');
+    var $o = $('<div/>');
 
     for (let i = 0, l = files.length; i < l; i++) {
         let size = files[i].size;
         let descr = files[i].descr;
-        let id = files[i].id;
+        let fl_id = files[i].id;
 
         if (Boolean(new_file) && files[i].id == new_file.id) {
-            console.log('1');
             size = new_file.size;
             descr = new_file.name;
-            id = new_file.id;
+            fl_id = new_file.id;
         }
-
-        $tbl
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html('Size: ' + size)
+        
+        $o
+            .append($('<div/>')
+                .append($('<span/>')
+                    .html('Description:')
                 )
-                .append($('<td/>')
-                    .html('Descr')
+                .append($('<span/>')
+                    .html(get_jq_ds_file_descr(ds_id, descr)))
+                .append($('<span/>')
+                    .html(size)
                 )
-                .append($('<td/>')
-                    .html(get_jq_ds_file_descr(ds_id, descr)
-                ))
-                .append($('<td/>')
-                    .html(get_jq_ds_file_delete(ds_id, id))
+                .append($('<span/>')
+                    .html(get_jq_ds_file_delete(ds_id, fl_id))
                 )
+                .addClass('dsfiles-placeholder')
             );
+
     }
-        $tr.append($td.append($tbl));
 
-
-    return $tr;
+    return $o;
 }
 
 function get_jq_ds_file_descr(ds_id, descr) {
@@ -488,13 +480,16 @@ function get_jq_ds_file_descr(ds_id, descr) {
 }
 
 function get_jq_ds_file_delete(ds_id, fl_id) {
-    var $b = $('<button/>', {
-            text: B_TXT.DELETE
-        })
-        .click(function () {
-            wid_nc_ds_file_del(ds_id, fl_id);
+    var $span = $('<span/>', {
+        title: TIP.FL_DEL
+        })   
+        .append($('<img/>', {
+            src: IMG.CROSS
+        }))
+        .addClass('dsfiles-delete')
+        .click(function (event) {
+            wid_click_ds_file_del(ds_id, fl_id);
         });
-
-    return $b;
+        
+    return $span;
 }
-
