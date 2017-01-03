@@ -164,6 +164,19 @@ function cli_build_cmd_unbind()
 	g_cli_commands.unbind = { help : help, run : run };
 }
 
+function cli_build_cmd_md()
+{
+	var help = 'mkdir/md [node]: create new directory node';
+	var run = function(c)
+	{
+		if( c.length != 2 ) return 'need one argument';
+		jraf_write_md(g_cwd,c[1]);
+		return '';
+	}
+	g_cli_commands.md = { help : help, run : run };
+	g_cli_commands.mkdir = { help : help, run : run };
+}
+
 
 //function cli_build_cmd_ ()
 
