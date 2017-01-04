@@ -13,8 +13,23 @@ print tcp self [ jraf au 0 md /../ ]
 print [ -- JRAF_FAIL /* ]
 print tcp self [ jraf au 0 md ///* ]
 
-print [ -- OK / ]
+print [ -- md /// -- OK / ]
 print tcp self [ jraf au 0 md /// ]
+
+print [ -- md /aaa/bbb/ccc -- OK /aaa/bbb/ccc ]
+print tcp self [ jraf au 0 md /aaa/bbb/ccc ]
+
+print [ -- rm /aaa -- OK /aaa ]
+print tcp self [ jraf au 0 rm /aaa ]
+
+print [ -- read /aaa -- JRAF_ERR bad path /aaa ]
+print tcp self [ jraf read /aaa ]
+
+print [ -- + read /aaa -- OK 0 -1 1 0 -1 bbb ]
+print tcp self [ jraf au 0 md /aaa/bbb/ccc + read /aaa ]
+
+print [ -- rm / -- OK / ]
+print tcp self [ jraf au 0 rm / ]
 
 quit
 

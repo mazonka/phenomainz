@@ -173,7 +173,10 @@ string Jraf::aurequest(gl::Token & tok)
 
 string Jraf::aureq_rm(string pth)
 {
-    return ok("aureq_rm - NI");
+    os::Path p = root(pth);
+	p.erase();
+	if( p.isdir() || p.isfile() ) return fail(pth);
+    return ok(pth);
 }
 
 string Jraf::aureq_md(string pth)

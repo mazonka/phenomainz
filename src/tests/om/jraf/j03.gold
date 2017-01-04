@@ -1,0 +1,13 @@
+-- md /aaa/ -- OK /aaa/
+OK /aaa/
+-- put /aaa/bbb -- OK
+JRAF_ERR command [put] unknown JRAF_ERR [0]
+JRAF_ERR command [put] unknown JRAF_ERR [10]
+-- get /aaa --
+OK 0 -1
+-- read /aaa --
+OK 0 -1 0
+-- read /aaa/bbb --
+JRAF_ERR bad path /aaa/bbb
+-- rm / -- OK /
+OK /
