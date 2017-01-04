@@ -42,6 +42,8 @@ class Jraf
         string aureq_rm(string pth);
         string aureq_md(string pth);
         string aureq_put(gl::Token & tok, string pth, bool append);
+        string aureq_mv(string pth, string pto);
+		string read_tok_path(gl::Token & tok, string sess, string & pth);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

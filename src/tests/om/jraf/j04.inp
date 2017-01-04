@@ -1,0 +1,21 @@
+
+print [ -- md /aaa/ -- OK /aaa/ ]
+print tcp self [ jraf au 0 md /aaa/ ]
+
+print [ -- save /aaa/bbb -- OK  ]
+print tcp self [ jraf au 0 save /aaa/bbb 10 MTIzNDU2Nzg5MA== ]
+
+print [ -- mv /aaa/bbb /aaa/ccc -- ]
+print tcp self [ jraf au 0 mv /aaa/bbb /aaa/ccc ]
+
+print [ -- read /aaa/ccc -- ]
+print tcp self [ jraf read /aaa/ccc ]
+
+print [ -- get /aaa/bbb -- ]
+print tcp self [ jraf get /aaa/bbb ]
+
+print [ -- rm / -- OK / ]
+print tcp self [ jraf au 0 rm / ]
+
+quit
+
