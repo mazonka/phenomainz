@@ -1,6 +1,7 @@
 
-print [ -- md /aaa/bbb ]
+print [ -- /aaa/bbb /aaa/ccc ]
 print tcp self [ jraf au 0 md /aaa/bbb ]
+print tcp self [ jraf au 0 md /aaa/ccc ]
 
 quit
 

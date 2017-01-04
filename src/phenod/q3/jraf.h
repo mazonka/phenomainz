@@ -45,9 +45,9 @@ class Jraf
         string aureq_mv(string pth, string pto);
         string read_tok_path(gl::Token & tok, string sess, string & pth);
 
-		void setver(const os::Path & p, bool isdir, string v);
-		string getver(const os::Path & p, bool isdir);
-		void update_ver(os::Path pth, bool dir);
+        void setver(const os::Path & p, bool isdir, string v);
+        string getver(const os::Path & p, bool isdir);
+        void update_ver(os::Path pth, bool dir);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

@@ -1,17 +1,9 @@
--- md /aaa/bbb
+-- /aaa/bbb /aaa/ccc
 OK /aaa/bbb
+OK /aaa/ccc
 
 ==========
-jroot:
-.
-..
-aaa
-
-jroot/aaa:
-.
-..
-bbb
-
-jroot/aaa/bbb:
-.
-..
+jroot/.jraf.ver 2
+jroot/aaa/.jraf.ver 2
+jroot/aaa/bbb/.jraf.ver 1
+jroot/aaa/ccc/.jraf.ver 1

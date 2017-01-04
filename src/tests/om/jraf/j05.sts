@@ -13,6 +13,20 @@ rm -f phenod.db
 
 echo ""
 echo "=========="
-ls -1aR jroot
-#rm -rf jroot
+
+prn()
+{
+echo -n "$1 "
+cat $1
+}
+
+prn jroot/.jraf.ver
+prn jroot/aaa/.jraf.ver
+prn jroot/aaa/bbb/.jraf.ver
+prn jroot/aaa/ccc/.jraf.ver
+
+#echo ""
+#echo "=========="
+#ls -1aR jroot
+rm -rf jroot
 
