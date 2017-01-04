@@ -165,10 +165,12 @@ string Worker2::ph_aucmd()
 
         if ( !tok.next() ) break;
 
-        if ( tok.sub() != "+" ) 
-			return result + " + " + er::Code(er::REQ_MSG_BAD).str();
+		string pls = tok.sub();
+        if ( pls != "+" ) 
+			return result + " + " 
+				+ er::Code(er::REQ_MSG_BAD).str() + " ["+pls+"]";
 
-        result += ' ';
+        result += " + ";
 
     } // while
 
