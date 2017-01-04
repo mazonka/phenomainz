@@ -16,34 +16,49 @@ inline string zero(string s, string d = "0")
 
 string Jraf::request(gl::Token tok)
 {
-    if ( !tok.next() ) return bad();
-    string cmd = tok.sub();
-
-    if ( cmd == "ping" ) return er::Code(er::OK);
-    if ( cmd == "version" )
+	string result;
+    while (true)
     {
         if ( !tok.next() ) return bad();
-        string w = tok.sub();
-        if ( w == "backend" ) return ok(jraf::be_version);
-        if ( w == "client" ) return client_version();
-        return bad();
+        string cmd = tok.sub();
+
+        if ( cmd == "ping" ) result += er::Code(er::OK);
+        else if ( cmd == "version" )
+        {
+            if ( !tok.next() ) result += bad();
+            string w = tok.sub();
+            if ( w == "backend" ) result += ok(jraf::be_version);
+            if ( w == "client" ) result += client_version();
+            result += bad();
+        }
+
+        else if ( cmd == "read" || cmd == "get" )
+        {
+            hq::LockRead lock(&access);
+            if ( !tok.next() ) return bad();
+            string p = tok.sub();
+            result += read_obj(p, cmd == "get");
+        }
+
+        else if ( cmd == "au" )
+        {
+            hq::LockWrite lock(&access);
+            result += aurequest(tok);
+        }
+		else
+		{
+			result += err("bad command [" + cmd+"]");
+			break;
+		}
+
+        if ( !tok.next() ) break;
+		string ts = tok.sub();
+        if ( ts != "+" ) return result + ' ' + err("["+ts+"]");
+        result += ' ';
     }
 
-    if ( cmd == "read" || cmd == "get" )
-    {
-        hq::LockRead lock(&access);
-        if ( !tok.next() ) return bad();
-        string p = tok.sub();
-        return read_obj(p, cmd == "get");
-    }
-
-    if ( cmd == "au" )
-    {
-        hq::LockWrite lock(&access);
-        return fix_obj();
-    }
-
-    return err("bad command " + cmd);
+	if( result.empty() ) return bad();
+	return result;
 }
 
 
@@ -55,11 +70,6 @@ string Jraf::client_version()
     if ( fever.empty() ) return err("no file system found [" + p + "]");
 
     return ok(fever);
-}
-
-string Jraf::fix_obj()
-{
-    return err("not implemented");
 }
 
 string getver(const os::Path & p)
@@ -128,5 +138,17 @@ string Jraf::read_obj(string pth, bool getonly)
     }
 
     return err("bad path " + pth);
+}
+
+
+string Jraf::aurequest(gl::Token & tok)
+{
+    if ( !tok.next() ) return err("missing session id");
+    string sess = tok.sub();
+
+    if ( !tok.next() ) return err("missing command");
+    string cmd = tok.sub();
+
+    return err("(aurequest) not implemented");
 }
 

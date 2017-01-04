@@ -25,7 +25,7 @@ const char * const sys_dir = "sys";
 class Jraf
 {
         hq::AccessController access;
-		string root_dir;
+        string root_dir;
 
         string client_version();
         static string ok(const string & s) { return er::Code(er::OK).str() + ' ' + s; }
@@ -33,7 +33,7 @@ class Jraf
         static string bad() { return er::Code(er::REQ_MSG_BAD); }
         os::Path path(string s) { return os::Path(root_dir) + s; }
 
-        string fix_obj();
+        string aurequest(gl::Token & tok);
         string read_obj(string p, bool getonly);
 
     public:

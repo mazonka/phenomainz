@@ -1,2 +1,2 @@
-print tcp self [ ping ]
+print tcp self [ jraf ping + ping ]
 quit

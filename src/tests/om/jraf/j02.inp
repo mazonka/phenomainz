@@ -1,2 +1,5 @@
+print tcp self [ jraf au ]
+print tcp self [ jraf au 0 ]
+print tcp self [ jraf au 0 md ]
 print tcp self [ jraf au 0 md /// ]
 quit
