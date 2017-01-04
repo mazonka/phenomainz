@@ -4,9 +4,13 @@ cmd: phmail login admin@server.com http://localhost:16000/home?41330bb85d8cc0a5
 OK
 -- ping ping
 OK
-OK + REQ_MSG_BAD [ping]
-OK + OK
+REQ_MSG_BAD
+REQ_MSG_BAD + REQ_MSG_BAD [ping]
+REQ_MSG_BAD + OK + OK
+OK + REQ_MSG_BAD [xping]
+OK + REQ_MSG_BAD + OK
+REQ_MSG_BAD + OK
 OK + OK + OK + OK
 -- name profile
-OK + OK YWRtaW4= admin@server.com 20170104000001 1 10 + OK YWRtaW4= admin@server.com 20170104000001 1 10
+OK + OK YWRtaW4= admin@server.com 20170104000001 1 10 + REQ_MSG_BAD
 -- done
