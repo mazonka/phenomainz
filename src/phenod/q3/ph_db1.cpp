@@ -29,8 +29,8 @@ void dump(bool y, Dbo & db)
 
 Phdb::Phdb(string dbf)
 {
-	if( dbf.empty() ) return;
-	Dbo::dbname = dbf;
+    if ( dbf.empty() ) return;
+    Dbo::dbname = dbf;
 }
 
 

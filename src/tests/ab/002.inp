@@ -1,4 +1,4 @@
-set date "201610101"
+set date "20170101"
 set time "000001"
 
 print tcp self [ login admin@server.com http://localhost:16000 ]

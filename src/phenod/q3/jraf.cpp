@@ -242,7 +242,7 @@ string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
         of << text;
     }
 
-	update_ver(f, false);
+    update_ver(f, false);
     return ok(gl::tos(f.filesize()));
 }
 
@@ -288,12 +288,27 @@ void Jraf::setver(const os::Path & p, bool isdir, string v)
     if ( !of ) throw gl::ex("Bad access to " + q.str());
 }
 
+string Jraf::get_parent_str(os::Path pth)
+{
+    string spth = pth.str();
+    //os::Cout()<<"AAA spth="<<spth<<os::endl;
+
+    if ( spth == root_dir ) return "";
+
+    if ( spth.size() <= root_dir.size() )
+        throw gl::ex("Error in Jraf::update_ver [" + spth + "] [" + root_dir + "]");
+
+    string up = pth.strP(pth.size() - 2);
+    return up;
+}
+
 void Jraf::update_ver(os::Path pth, bool dir)
 {
     string v = getver(pth, dir);
     v = gl::tos( gl::toi(v) + 1 );
     setver(pth, dir, v);
 
+    /*///
     string spth = pth.str();
     //os::Cout()<<"AAA spth="<<spth<<os::endl;
 
@@ -304,6 +319,10 @@ void Jraf::update_ver(os::Path pth, bool dir)
 
     string up = pth.strP(pth.size() - 2);
     //os::Cout()<<"AAA up="<<up<<os::endl;
+    */
+
+    string up = get_parent_str(pth);
+    if ( up.empty() ) return;
 
     update_ver(up, true);
 }

@@ -29,7 +29,7 @@ class Phdb
                          string s5 = "", string s6 = "");
 
     public:
-		Phdb(string dbf);
+        Phdb(string dbf);
 
         bool auth(string prid, string daid);
 

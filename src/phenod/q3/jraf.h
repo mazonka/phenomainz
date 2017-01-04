@@ -50,6 +50,7 @@ class Jraf
         static void setver(const os::Path & p, bool isdir, string v);
         static string getver(const os::Path & p, bool isdir);
         void update_ver(os::Path pth, bool dir);
+        string get_parent_str(os::Path pth);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

@@ -5,7 +5,7 @@ cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
 OK
 === admin
 Worker2::phadmin: unathorized access [au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA==]
-AUTH REQ_MSG_BAD
+AUTH + REQ_MSG_BAD [addkw]
 === logout
 OK
 === login2
