@@ -45,7 +45,10 @@ struct AutArea
 
     os::Semaphore access2autArea;
     AutQueue que;
-    AutArea(int sz): access2autArea(1), que(sz) { testConf(); }
+
+    AutArea(int sz, string jroot)
+        : access2autArea(1), que(sz), jraf(jroot) { testConf(); }
+
     void testConf();
 
     AutObject newAob_email(string id, string email);

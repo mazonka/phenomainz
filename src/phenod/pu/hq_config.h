@@ -137,6 +137,7 @@ class Config
         string plebDir; // Directory for files
 
         string xfwd;
+        string jraf_root;
 
     private: int nWorkers;
 

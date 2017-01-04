@@ -65,6 +65,7 @@ Config::Config(int ac, const char * av[], const char * cfgfile)
     , webhome("/index.html")
 
     , xfwd("0.0.0.0")
+    , jraf_root("jraf")
 
     , nWorkers(4)
     , seIpLink("127.0.0.1", 16000)
@@ -390,6 +391,9 @@ void Config::processOptionKeyVal(const string & k, const string & v)
 
     else if ( k == "http_proxy" )
         setHttpGetProxy(v);
+
+    else if ( k == "jraf_root" )
+        jraf_root = v;
 
     else
         throw gl::ex("Bad key [$1]", k);
