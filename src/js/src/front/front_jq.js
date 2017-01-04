@@ -247,14 +247,15 @@ function get_jq_dsitem_categ(ds) {
                 .append($('<button/>', {
                     text: B_TXT.CAT
                 })
-                .attr('data-text', B_TXT.CAT)
-                .attr('data-cmd', 'categ')
                 .click(function () {
                     wid_click_ds_categ_button($(this), ds);
                 })))
             .append($('<td/>')
                 .append($('<input/>', {
                     val: cat
+                })
+                .click(function () {
+                    wid_click_ds_categ_button($(this), ds);
                 })
                 .hover(function() {
                     $(this).animate({

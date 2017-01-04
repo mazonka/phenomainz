@@ -10,10 +10,16 @@ function eng_is_email(data) {
 }
 
 function eng_get_data(data) {
-    return data
-        .replace(/^OK/g, '')
-        .replace(/^\s|\r|\s+$/g, '')
-        .split(/\s/);
+    var _data = data.split(' + ')
+    
+    _data.forEach(function (item, i, arr) {
+        arr[i] = arr[i]
+            .replace(/^OK/g, '')
+            .replace(/^\s|\r|\s+$/g, '')
+            .split(/\s/);
+        });
+
+    return _data;
 }
 
 function eng_get_b64dec_list(data) {
@@ -30,11 +36,6 @@ function eng_get_b64enc_list(data) {
     data.forEach(function (item, i, arr) {
         arr[i] = window.btoa(arr[i]);
     });
-/*     
-    for (let i = 0, l = data.length; i < l; i++) {
-        data[i] = window.btoa(data[i]);
-    }
-*/
  
     return data;
 }
@@ -50,6 +51,7 @@ function eng_get_accordion_header(ds_id, title) {
 function eng_open_file(file, ext_cb, ext_progress, ext_done) {
     var output = [];
     var obj = {};
+    
     obj.name = file.name;
     obj.size = file.size;
     obj.type = file.type;
@@ -129,10 +131,9 @@ function eng_is_table(data) {
     var row = [];
     var col = [];
     var table = {};
+    
     table.is_table = true;
     table.err_str = null;
-
-    ///console.log('before:\n' + data);
 
     table.data = data
         .replace(/^\s+|\s+$/g, '')
@@ -142,17 +143,15 @@ function eng_is_table(data) {
         .replace(/\,/g, '\u0020')
         .replace(/(?!\n)\s+/g, '\u0020');
 
-    ///console.log('after:\n' + table.data);
-
     row = table.data.split('\n');
 
     for (let i = 0, l = row.length; i < l; i++) {
         col[i] = row[i].split(' ');
-        ///console.log(col[i]);
 
         if (i > 0 && col[i].length !== col[i - 1].length) {
             table.is_table = false;
             table.err_row = i + 1;
+            
             break;
         }
     }
@@ -160,21 +159,31 @@ function eng_is_table(data) {
     return table;
 }
 
-function eng_get_main_response(data) {
-    var resp = null;
-    var msg = data.replace(/^\s+|\r|\s+$/g, '');
-    var blocks = msg.split(/\s/);
-    var lines = msg.split(/\n/);
+function eng_get_resp_headers(data) {
+    var _data = data.split(' + ');
 
-    if (lines[0] === PHENOD.OK || blocks[0] === PHENOD.OK) {
-        resp = PHENOD.OK;
-    } else {
-        resp = msg;
-    }
+    _data.forEach(function (item, i, arr) {
+        arr[i] = arr[i]
+            .replace(/^\s+|\r|\s+$/g, '')
+            .split('\u0020');
+        arr[i] = arr[i].shift();
+        console.log(arr[i]);
+    });
 
-    return resp;
+    return _data;
 }
 
+/*
+if (arr[i][0] !== PHENOD.OK) {
+    if (arr[i][0] === PHENOD.AUTH) {
+        resp = arr[i][0];
+    } else {
+        resp = data;
+    }
+    
+    return resp;
+} 
+*/
 function eng_get_parsed_profile(data) {
     var profile = {};
     profile.name = profile.email = profile.lastdate = profile.counter = '';
@@ -225,17 +234,16 @@ function eng_get_lastdate(data) {
 
 function eng_get_ds_list(data) {
     var list = {};
-
-    data = eng_get_data(data);
-
-    list.n = +data.splice(0, 1)[0];
-    list.id = data.splice(0, list.n);
-    list.title = eng_get_b64dec_list(data.splice(0, list.n));
-    list.usage = +data.splice(0, 1)[0];
+    var _data = eng_get_data(data)[0];
+    
+    list.n = +_data.shift();
+    list.id = _data.splice(0, list.n);
+    list.title = eng_get_b64dec_list(_data.splice(0, list.n));
+    list.usage = +_data.shift();
     
     /// debug part
-    list.tail = Boolean(data.length)
-        ? data
+    list.tail = Boolean(_data.length)
+        ? _data
         : null; 
 
     return list;
@@ -243,25 +251,25 @@ function eng_get_ds_list(data) {
 
 function eng_get_ds_get(data) {
     var ds = {};
-
-    data = eng_get_data(data);
-    ds.id = data[0];
-    ds.title = window.atob(data[1]);
-    ds.descr = window.atob(data[2]);
+    var _data = eng_get_data(data)[0];
+    
+    ds.id = _data[0];
+    ds.title = window.atob(_data[1]);
+    ds.descr = window.atob(_data[2]);
 
     ds.categ = [];
-    data[3] = data[3].split(':').filter(Boolean);
+    _data[3] = _data[3].split(':').filter(Boolean);
     
-    for (let i = 0, l = data[3].length/2; i < l; i++) {
+    for (let i = 0, l = _data[3].length/2; i < l; i++) {
         ds.categ[i] = {};
         
-        ds.categ[i].id = data[3].splice(0,1)[0];
-        ds.categ[i].name = window.atob(data[3].splice(0,1)[0]);
+        ds.categ[i].id = _data[3].shift();
+        ds.categ[i].name = window.atob(_data[3].shift());
     }
 
     ds.categ.reverse();
 
-    ds.kwd = data[4].split(':').filter(Boolean);
+    ds.kwd = _data[4].split(':').filter(Boolean);
     ds.kwd = eng_get_b64dec_list(ds.kwd);
     
     return ds;
@@ -282,16 +290,16 @@ function eng_get_cat_path(cat) {
 function eng_get_cat_kids(data) {
     var i = 0;
     var cat = [];
+    var _data = eng_get_data(data).shift();
+
+    _data.shift();
     
-    data = eng_get_data(data);
-    data.shift();
-    
-    while (data.length > 0) {
+    while (_data.length > 0) {
         cat[i] = {};
         
-        cat[i].id = data.shift();
-        cat[i].name = window.atob(data.shift());
-        cat[i].parent = data.shift();
+        cat[i].id = _data.shift();
+        cat[i].name = window.atob(_data.shift());
+        cat[i].parent = _data.shift();
 
         i++;
     }
@@ -300,26 +308,27 @@ function eng_get_cat_kids(data) {
 }
 
 function eng_get_keywords(data) {
-    data = eng_get_data(data);
-    data = data.splice(1);
-    data = eng_get_b64dec_list(data);
+    var _data = eng_get_data(data).shift();
+    
+    _data = data.splice(1);
+    _data = eng_get_b64dec_list(data);
 
-    return data;
+    return _data;
 }
 
 function eng_get_file_list(data) {
     var i = 0;
     var files = [];
-    
-    data = eng_get_data(data);
-    data.shift();
+    var _data = eng_get_data(data).shift();
 
-    while (data.length > 0) {
+    _data.shift();
+
+    while (_data.length > 0) {
         files[i] = {};
         
-        files[i].id = data.shift();
-        files[i].descr = window.atob(data.shift());
-        files[i].size = +data.shift();
+        files[i].id = _data.shift();
+        files[i].descr = window.atob(_data.shift());
+        files[i].size = +_data.shift();
         
         i++;
     }
@@ -328,7 +337,7 @@ function eng_get_file_list(data) {
 }
 
 function eng_get_file_new_id(data) {
-    data = eng_get_data(data);
+    var _data = eng_get_data(data).shift();
     
-    return data[0];
+    return _data[0];
 }

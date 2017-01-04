@@ -14,7 +14,7 @@ function wid_nc_ping() {
         }
     };
 
-    eng_nc_ping(cb, g_user_id, g_pulse);
+    nc_ping(cb, g_user_id, g_pulse);
 }
 
 function wid_nc_admin_ping() {
@@ -28,7 +28,7 @@ function wid_nc_admin_ping() {
         wid_show_admin_panel(false);
     };
 
-    eng_nc_admin_ping(cb, g_user_id, g_pulse);
+    nc_admin_ping(cb, g_user_id, g_pulse);
 }
 
 function wid_nc_login() {
@@ -46,7 +46,7 @@ function wid_nc_login() {
         wid_open_modal_window(msg, true, null, null);
     };
 
-    eng_nc_login(cb, email, url, g_pulse)
+    nc_login(cb, email, url, g_pulse)
 }
 
 function wid_nc_logout() {
@@ -58,7 +58,7 @@ function wid_nc_logout() {
         wid_ui_logout(msg);
     };
 
-    eng_nc_logout(cb, g_user_id, g_pulse)
+    nc_logout(cb, g_user_id, g_pulse)
 }
 
 function wid_nc_profile() {
@@ -72,23 +72,24 @@ function wid_nc_profile() {
         wid_fill_profile(profile);
     };
 
-    eng_nc_profile(cb, g_user_id, g_pulse);
+    nc_profile(cb, g_user_id, g_pulse);
 }
 
 function wid_nc_name($obj) {
     var name = $obj.parent('div').find('input').val() || '*';
-    var cb = function (resp) {
+    var cb = function (resp, profile) {
         if (resp == PHENOD.AUTH) {
             return wid_ui_logout(resp);
         } else if (resp != PHENOD.OK) {
             return wid_open_modal_window(M_TXT.ERROR + resp, true);
         }
-
-        wid_close_modal_window();
-        wid_nc_profile();
+        
+        wid_fill_profile(profile);
+/*         wid_close_modal_window();
+        wid_nc_profile(); */
     };
 
-    eng_nc_name(cb, g_user_id, name, g_pulse);
+    nc_name(cb, g_user_id, name, g_pulse);
 }
 
 function wid_nc_ds_list() {
@@ -103,7 +104,7 @@ function wid_nc_ds_list() {
         wid_fill_ds_list(list);
     };
 
-    eng_nc_ds_item_list(cb, g_user_id);
+    nc_ds_item_list(cb, g_user_id);
 }
 
 function wid_nc_ds_get(ds_id) {
@@ -118,7 +119,7 @@ function wid_nc_ds_get(ds_id) {
         wid_fill_dsitem_props(ds);
     };
 
-    eng_nc_ds_get(cb, g_user_id, ds_id);
+    nc_ds_get(cb, g_user_id, ds_id);
 }
 
 function wid_nc_ds_create() {
@@ -133,7 +134,7 @@ function wid_nc_ds_create() {
         wid_nc_ds_list();
     };
 
-    eng_nc_ds_item_create(cb, g_user_id);
+    nc_ds_item_create(cb, g_user_id);
 }
 
 function wid_nc_ds_delete(ds_id) {
@@ -147,7 +148,7 @@ function wid_nc_ds_delete(ds_id) {
         wid_nc_ds_list();
     };
 
-    eng_nc_ds_item_delete(cb, g_user_id, ds_id);
+    nc_ds_item_delete(cb, g_user_id, ds_id);
 }
 
 function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
@@ -166,14 +167,14 @@ function wid_nc_ds_upd_cmd(cmd, ds_id, data) {
         data = data || window.btoa('*');
 
     if (cmd == 'title') {
-        eng_nc_ds_upd_title(cb, g_user_id, ds_id, data);
+        nc_ds_upd_title(cb, g_user_id, ds_id, data);
     } else if (cmd == 'descr') {
-        eng_nc_ds_upd_descr(cb, g_user_id, ds_id, data);
+        nc_ds_upd_descr(cb, g_user_id, ds_id, data);
     } else if (cmd == 'categ') {
         data = (data == '*')
             ? '0'
             : data;
-        eng_nc_ds_upd_cat(cb, g_user_id, ds_id, data);
+        nc_ds_upd_cat(cb, g_user_id, ds_id, data);
     }
 }
 
@@ -227,7 +228,7 @@ function wid_nc_cat_kids(cat, ds) {
         wid_open_modal_window($obj, false, f, null);
     };
     
-    eng_nc_cat_kids(cb, g_user_id, cat.id);
+    nc_cat_kids(cb, g_user_id, cat.id);
 }
 
 function wid_nc_ds_upd_categ(ds_id, cat_id) {
@@ -241,7 +242,7 @@ function wid_nc_ds_upd_categ(ds_id, cat_id) {
         wid_nc_ds_get(ds_id);
     };
 
-    eng_nc_ds_upd_cat(cb, g_user_id, ds_id, cat_id);
+    nc_ds_upd_cat(cb, g_user_id, ds_id, cat_id);
 }
 
 function wid_nc_ds_del_kwd(ds_id, kwd) {
@@ -255,7 +256,7 @@ function wid_nc_ds_del_kwd(ds_id, kwd) {
         wid_nc_ds_get(ds_id);
     };
 
-    eng_nc_ds_del_kwd(cb, g_user_id, ds_id, kwd);
+    nc_ds_del_kwd(cb, g_user_id, ds_id, kwd);
 }
 
 function wid_nc_add_kwd(ds_id, kwd) {
@@ -269,7 +270,7 @@ function wid_nc_add_kwd(ds_id, kwd) {
         wid_nc_ds_get(ds_id);
     };
     
-    eng_nc_ds_add_kwd(cb, g_user_id, ds_id, kwd);
+    nc_ds_add_kwd(cb, g_user_id, ds_id, kwd);
 }
 
 function wid_nc_keywords(f) {
@@ -285,7 +286,7 @@ function wid_nc_keywords(f) {
         (Boolean(f)) && f();
     };
     
-    eng_nc_keywords(cb, g_user_id);
+    nc_keywords(cb, g_user_id);
 }
 
 function wid_nc_ds_file_list(ds_id, file) {
@@ -302,7 +303,7 @@ function wid_nc_ds_file_list(ds_id, file) {
         wid_fill_dsitem_files(ds_id, data, file);
     };
 
-    eng_nc_ds_file_list(cb, g_user_id, ds_id);
+    nc_ds_file_list(cb, g_user_id, ds_id);
 }
 
 function wid_nc_ds_file_new(ds_id, file) {
@@ -316,7 +317,7 @@ function wid_nc_ds_file_new(ds_id, file) {
         wid_nc_ds_file_list(ds_id, file);
     };
 
-    eng_nc_ds_file_new(cb, g_user_id, ds_id);
+    nc_ds_file_new(cb, g_user_id, ds_id);
 }
 
 function wid_nc_ds_file_del(ds_id, f_id) {
@@ -330,5 +331,5 @@ function wid_nc_ds_file_del(ds_id, f_id) {
         wid_nc_ds_file_list(ds_id);
     };
 
-    eng_nc_ds_file_del(cb, g_user_id, ds_id, f_id);
+    nc_ds_file_del(cb, g_user_id, ds_id, f_id);
 }

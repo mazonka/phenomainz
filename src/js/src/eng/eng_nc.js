@@ -3,11 +3,28 @@
 
 'use strict';
 
-function eng_nc_ping(ext_cb, user_id, pulse) {
+function nc_get_resp_headers(data) {
+    var _data = eng_get_resp_headers(data);
+    console.log(_data);
+   
+    _data.forEach(function (item, i, arr) {
+        if (arr[i][0] !== PHENOD.OK) {
+            if (arr[i][0] === PHENOD.AUTH) {
+                return resp = arr[i][0];
+            } else {
+                return _data;
+            }
+        }     
+    });    
+    
+    return PHENOD.OK;
+}
+
+function nc_ping(ext_cb, user_id, pulse) {
     var cmd = ['au', user_id, 'ping'].join(' ');
         
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
 
         ext_cb(resp);
     };
@@ -15,11 +32,11 @@ function eng_nc_ping(ext_cb, user_id, pulse) {
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_admin_ping(ext_cb, user_id, pulse) {
+function nc_admin_ping(ext_cb, user_id, pulse) {
     var cmd = ['au', user_id, 'admin', 'ping'].join(' ')
         
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
 
         ext_cb(resp);
     };
@@ -27,28 +44,28 @@ function eng_nc_admin_ping(ext_cb, user_id, pulse) {
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_login(ext_cb, email, url, pulse) {
+function nc_login(ext_cb, email, url, pulse) {
     var cmd = ['login', email, url].join(' ');
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_logout(ext_cb, user_id, pulse) {
+function nc_logout(ext_cb, user_id, pulse) {
     var cmd = ['au', user_id, 'logout'].join(' ');
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_profile(ext_cb, user_id, pulse) {
+function nc_profile(ext_cb, user_id, pulse) {
     var cmd = ['au', user_id, 'profile'].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         let profile = null;
 
         if (resp == PHENOD.OK) {
@@ -61,19 +78,22 @@ function eng_nc_profile(ext_cb, user_id, pulse) {
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_name(ext_cb, user_id, name, pulse) {
-    var cmd = ['au', user_id, 'name', window.btoa(name)].join(' ');
+function nc_name(ext_cb, user_id, name, pulse) {
+    var au = ['au', user_id].join(' ');
+    var name = [au, 'name', window.btoa(name)].join(' ');
+    var cmd = [name, 'profile' ].join(' + ');
+    
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function eng_nc_ds_item_list(ext_cb, user_id) {
+function nc_ds_item_list(ext_cb, user_id) {
     var cmd = ['au', user_id, 'ds', 'list'].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         let list = null;
         
         if (resp == PHENOD.OK) {
@@ -86,89 +106,89 @@ function eng_nc_ds_item_list(ext_cb, user_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_item_create(ext_cb, user_id) {
+function nc_ds_item_create(ext_cb, user_id) {
     var cmd = ['au', user_id, 'ds', 'create'].join(' ');
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_item_delete(ext_cb, user_id, ds_id) {
+function nc_ds_item_delete(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'delete', ds_id].join(' ');
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_upd_title(ext_cb, user_id, ds_id, title) {
+function nc_ds_upd_title(ext_cb, user_id, ds_id, title) {
     var cmd = [
         'au', user_id, 'ds', 'update', ds_id, 'title', window.btoa(title)
     ].join(' ');
     
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
 
-function eng_nc_ds_upd_descr(ext_cb, user_id, ds_id, descr) {
+function nc_ds_upd_descr(ext_cb, user_id, ds_id, descr) {
     var cmd = [
         'au', user_id, 'ds', 'update', ds_id, 'descr', window.btoa(descr)
     ].join(' ');
     
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_upd_cat(ext_cb, user_id, ds_id, cat_id) {
+function nc_ds_upd_cat(ext_cb, user_id, ds_id, cat_id) {
     var cmd = [
         'au', user_id, 'ds', 'update', ds_id, 'categ', cat_id
     ].join(' ');
     
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_add_kwd(ext_cb, user_id, ds_id, kwd) {
+function nc_ds_add_kwd(ext_cb, user_id, ds_id, kwd) {
     var cmd = [
         'au', user_id, 'ds', 'addkw', ds_id, window.btoa(kwd)
     ].join(' ');
     
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_del_kwd(ext_cb, user_id, ds_id, kwd) {
+function nc_ds_del_kwd(ext_cb, user_id, ds_id, kwd) {
     var cmd = [
         'au', user_id, 'ds', 'delkw', ds_id, window.btoa(kwd)
     ].join(' ');
     
     var int_cb = function (data) {
-        ext_cb(eng_get_main_response(data));
+        ext_cb(nc_get_resp_headers(data));
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_get(ext_cb, user_id, ds_id) {
+function nc_ds_get(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'get', ds_id].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         let ds = null;
 
         if (resp == PHENOD.OK) {
@@ -181,10 +201,10 @@ function eng_nc_ds_get(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_cat_kids(ext_cb, user_id, cat_id) {
+function nc_cat_kids(ext_cb, user_id, cat_id) {
     var cmd = ['au', user_id, 'cat', 'kids', cat_id].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         
         data = eng_get_cat_kids(data);
 
@@ -194,10 +214,10 @@ function eng_nc_cat_kids(ext_cb, user_id, cat_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_keywords(ext_cb, user_id) {
+function nc_keywords(ext_cb, user_id) {
     var cmd = ['au', user_id, 'keywords'].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         
         data = eng_get_keywords(data);
 
@@ -207,10 +227,10 @@ function eng_nc_keywords(ext_cb, user_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_file_list(ext_cb, user_id, ds_id) {
+function nc_ds_file_list(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'file', ds_id, 'list'].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         
         data = eng_get_file_list(data);
 
@@ -220,10 +240,10 @@ function eng_nc_ds_file_list(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_file_new(ext_cb, user_id, ds_id) {
+function nc_ds_file_new(ext_cb, user_id, ds_id) {
     var cmd = ['au', user_id, 'ds', 'file', ds_id, 'new'].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         
         data = eng_get_file_new_id(data);
         
@@ -233,10 +253,10 @@ function eng_nc_ds_file_new(ext_cb, user_id, ds_id) {
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function eng_nc_ds_file_del(ext_cb, user_id, ds_id, f_id) {
+function nc_ds_file_del(ext_cb, user_id, ds_id, f_id) {
     var cmd = ['au', user_id, 'ds', 'file', ds_id, 'del', f_id ].join(' ');
     var int_cb = function (data) {
-        let resp = eng_get_main_response(data);
+        let resp = nc_get_resp_headers(data);
         
         ext_cb(resp);
     };

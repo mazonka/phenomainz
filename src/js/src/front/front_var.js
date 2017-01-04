@@ -5,7 +5,7 @@
 
 var g_user_id = '';
 var g_keywords = [];
-var g_ds = [];
+var g_ds = []; //dataset tree
 
 const TD_LOGIN = 'td_login';
 const TD_PROFILE = 'td_profile';
