@@ -1,3 +1,5 @@
+// FIXME add version control to md(DONE) rm put/save mv
+
 #ifndef __JRAF_H
 #define __JRAF_H
 
@@ -45,8 +47,8 @@ class Jraf
         string aureq_mv(string pth, string pto);
         string read_tok_path(gl::Token & tok, string sess, string & pth);
 
-        void setver(const os::Path & p, bool isdir, string v);
-        string getver(const os::Path & p, bool isdir);
+        static void setver(const os::Path & p, bool isdir, string v);
+        static string getver(const os::Path & p, bool isdir);
         void update_ver(os::Path pth, bool dir);
 
     public:
