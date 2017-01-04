@@ -158,9 +158,9 @@ string Jraf::aurequest(gl::Token & tok)
     ///gl::replaceAll(pth, "//", "/");
     ///if ( pth.find("..") != string::npos ) return err("..");
     ///if ( !check_au_path(sess, pth) ) return fail("auth");
-	string pth;
-	string er = read_tok_path(tok,sess,pth);
-	if( !er.empty() ) return er;
+    string pth;
+    string er = read_tok_path(tok, sess, pth);
+    if ( !er.empty() ) return er;
 
     if (0) {}
 
@@ -169,12 +169,12 @@ string Jraf::aurequest(gl::Token & tok)
     else if ( cmd == "put" ) return aureq_put(tok, pth, true);
     else if ( cmd == "save" ) return aureq_put(tok, pth, false);
     else if ( cmd == "mv" )
-	{
-		string pto;
-		er = read_tok_path(tok,sess,pto);
-		if( !er.empty() ) return er;
-		return aureq_mv(pth,pto);
-	}
+    {
+        string pto;
+        er = read_tok_path(tok, sess, pto);
+        if ( !er.empty() ) return er;
+        return aureq_mv(pth, pto);
+    }
 
     return err("command [" + cmd + "] unknown");
 }
@@ -256,11 +256,16 @@ string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth)
     gl::replaceAll(p, "//", "/");
     if ( p.find("..") != string::npos ) return err("..");
     if ( !check_au_path(sess, p) ) return fail("auth");
-	pth = p;
-	return "";
+    pth = p;
+    return "";
 }
 
 string Jraf::aureq_mv(string pth, string pto)
 {
-	return ok("Jraf::aureq_mv");
+    os::Path f1 = root(pth);
+    os::Path f2 = root(pto);
+
+    bool k = os::rename(f1.str(), f2.str());
+    if ( k ) return ok(pto);
+    return fail(pth + " -> " + pto);
 }

@@ -3,10 +3,10 @@ OK /aaa/
 -- save /aaa/bbb -- OK
 OK 10
 -- mv /aaa/bbb /aaa/ccc --
-OK Jraf::aureq_mv
+OK /aaa/ccc
 -- read /aaa/ccc --
-JRAF_ERR bad path /aaa/ccc
+OK 0 10 MTIzNDU2Nzg5MA==
 -- get /aaa/bbb --
-OK 0 10
+JRAF_ERR bad path /aaa/bbb
 -- rm / -- OK /
 OK /
