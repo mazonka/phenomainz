@@ -242,6 +242,7 @@ string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
         of << text;
     }
 
+	update_ver(f, false);
     return ok(gl::tos(f.filesize()));
 }
 
