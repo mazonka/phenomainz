@@ -170,7 +170,7 @@ function cli_build_cmd_md()
 	var run = function(c)
 	{
 		if( c.length != 2 ) return 'need one argument';
-		jraf_write_md(g_cwd,c[1]);
+		cli_write_md(g_cwd,c[1]);
 		return '';
 	}
 	g_cli_commands.md = { help : help, run : run };
@@ -294,6 +294,25 @@ function cli_update_node(node)
 		path = node.parent.str()+'/';
 
 	jraf_update_obj(path,name,cb,node);
+}
+
+////////////////////////////////////////////////////////
+// md
+
+function cli_write_md(cwd,name)
+{
+	var cb = function(jo)
+	{
+		//console.log(jo);
+		//console.log(nd);
+		let s = '';
+		if( jo.err == '' ) s = jo.msg;
+		else s = jo.err;
+
+		$g_output[0].value += 'mkdir: ' + s + '\n';
+	}
+
+	jraf_write_md(cwd,name,cb);
 }
 
 ////////////////////////////////////////////////////////

@@ -2,13 +2,12 @@ var g_sys_loaded_file4 = 1;
 
 function o(x){ console.log(x); }
 
-function jraf_write_md(cwd,name)
+function jraf_write_md(cwd,name,cbi)
 {
-	var cb = function(msg)
+	var cb = function(jo)
 	{
-		o("AAA jraf_write_md CB");
-		o(msg);
-	}
+		cbi(jo); 
+	};
 
 	var path = cwd.str()+'/'+name;
 	jraf_write_obj('md '+path, cb);
@@ -39,8 +38,8 @@ function jraf_parse_wrt(data)
 	    return { err: data };
 	}
 
-	o("AAA jraf_parse_wrt");
-	o(data);
-	return data;
+	o('AAA jraf_parse_wrt: '+data);
+	r.msg = 'ok';
+	return r;
 }
 
