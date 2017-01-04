@@ -161,6 +161,9 @@ string Worker2::ph_aucmd()
 
             else if ( cmd == "cat" )
                 result += categ(aa, ao);
+            
+            else
+                result += er::Code(er::REQ_MSG_BAD).str();
         } // mutex
 
         if ( !tok.next() ) break;
