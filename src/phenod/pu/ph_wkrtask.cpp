@@ -164,7 +164,10 @@ string Worker2::ph_aucmd()
         } // mutex
 
         if ( !tok.next() ) break;
-        if ( tok.sub() != "+" ) return result + ' ' + er::Code(er::REQ_MSG_BAD).str();
+
+        if ( tok.sub() != "+" ) 
+			return result + " + " + er::Code(er::REQ_MSG_BAD).str();
+
         result += ' ';
 
     } // while
