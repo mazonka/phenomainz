@@ -20,8 +20,8 @@ const char * const ver_ext = ".jraf.ver";
 const char * const home_dir = "home";
 const char * const etc_dir = "etc";
 const char * const sys_dir = "sys";
-const char * const users_dir = "users";
-const char * const login_dir = "login";
+const string users = "users";
+const string login = "login";
 } // jraf
 
 class Jraf

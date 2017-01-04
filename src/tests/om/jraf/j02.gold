@@ -7,8 +7,6 @@ JRAF_ERR path
 -- JRAF_ERR ..
 JRAF_ERR ..
 -- JRAF_FAIL /*
-Jraf::check_au_path - NI
 JRAF_FAIL /*
 -- OK /
-Jraf::check_au_path - NI
 OK /

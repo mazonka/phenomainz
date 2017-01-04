@@ -160,7 +160,7 @@ string Jraf::aurequest(gl::Token & tok)
 
     if ( pth.find("..") != string::npos ) return err("..");
 
-    if ( !check_au_path(sess, pth) ) return err("auth");
+    if ( !check_au_path(sess, pth) ) return fail("auth");
 
     if (0) {}
 
@@ -178,14 +178,17 @@ string Jraf::aureq_rm(string pth)
 
 string Jraf::aureq_md(string pth)
 {
-	os::Path p = root(pth);
-	os::FileSys::trymkdir(p);
-	if( p.isdir() ) return ok(pth);
+    os::Path p = root(pth);
+    os::FileSys::trymkdir(p);
+    if ( p.isdir() ) return ok(pth);
     return fail(pth);
 }
 
 bool Jraf::check_au_path(string sess, string pth)
 {
+    os::Path users = root(jraf::users + jraf::sys_ext);
+    if ( !users.isdir() ) return true;
+
     os::Cout() << "Jraf::check_au_path - NI" << os::endl;
     return true;
 }
