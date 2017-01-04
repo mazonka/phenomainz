@@ -11,6 +11,7 @@ cd $1
 ./phenod -cqln dwkr=0 s=$cwd/$in.inp jraf_root=jroot
 rm -f phenod.db
 
+echo ""
 echo "=========="
 ls -1aR jroot
 #rm -rf jroot

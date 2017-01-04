@@ -76,10 +76,10 @@ string Jraf::client_version()
     return ok(fever);
 }
 
-string getver(const os::Path & p)
+string Jraf::getver(const os::Path & p, bool isdir)
 {
     os::Path q = p;
-    if ( p.isdir() ) q += jraf::ver_ext;
+    if ( isdir ) q += jraf::ver_ext;
     else q.glue(jraf::ver_ext);
 
     string ver = gl::file2str( q.str() );
@@ -93,7 +93,7 @@ string Jraf::read_obj(string pth, bool getonly)
 
     if ( p.isdir() )
     {
-        string ver = getver(p);
+        string ver = getver(p,true);
         string q = ver + " -1";
         if ( getonly ) return ok(q);
 
@@ -112,7 +112,7 @@ string Jraf::read_obj(string pth, bool getonly)
         for ( auto i : dir.dirs )
         {
             if ( isspec(i) ) continue;
-            r += ' ' + getver(p + i);
+            r += ' ' + getver(p + i,true);
             r += " -1";
             r += ' ' + i;
             cntr++;
@@ -121,7 +121,7 @@ string Jraf::read_obj(string pth, bool getonly)
         for ( auto i : dir.files )
         {
             if ( isspec(i.first) ) continue;
-            r += ' ' + getver(p + i.first);
+            r += ' ' + getver(p + i.first,false);
             r += ' ' + gl::tos(i.second);
             r += ' ' + i.first;
             cntr++;
@@ -134,7 +134,7 @@ string Jraf::read_obj(string pth, bool getonly)
 
     if ( p.isfile() )
     {
-        string ver = getver(p);
+        string ver = getver(p,false);
         string r = ver + ' ' + gl::tos(p.filesize());
         if ( getonly ) return ok(r);
         r += ' ' + ma::b64enc( gl::file2str(p.str()) );
