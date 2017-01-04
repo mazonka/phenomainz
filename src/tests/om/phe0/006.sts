@@ -8,7 +8,7 @@ cwd=`pwd`
 test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 
 cd $1
-./phenod -cqln skcseed=1 dwkr=0 s=$cwd/$in.inp
-rm -f phenod.db
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
 #rm -rf files
 

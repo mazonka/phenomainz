@@ -9,7 +9,7 @@ test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 
 cd $1
 ./phenod -cqln dwkr=0 s=$cwd/$in.inp jraf_root=jroot
-rm -f phenod.db
+rm -f test.db
 
 echo ""
 echo "=========="
