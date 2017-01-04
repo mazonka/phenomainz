@@ -27,6 +27,13 @@ void dump(bool y, Dbo & db)
     }
 }
 
+Phdb::Phdb(string dbf)
+{
+	if( dbf.empty() ) return;
+	Dbo::dbname = dbf;
+}
+
+
 void Phdb::args(string & ss, string s1, string s2,
                 string s3, string s4, string s5, string s6)
 {

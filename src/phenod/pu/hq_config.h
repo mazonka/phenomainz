@@ -138,6 +138,7 @@ class Config
 
         string xfwd;
         string jraf_root;
+        string phdbfile;
 
     private: int nWorkers;
 

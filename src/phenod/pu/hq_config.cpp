@@ -395,6 +395,9 @@ void Config::processOptionKeyVal(const string & k, const string & v)
     else if ( k == "jraf_root" )
         jraf_root = v;
 
+    else if ( k == "phdb" )
+        phdbfile = v;
+
     else
         throw gl::ex("Bad key [$1]", k);
 }

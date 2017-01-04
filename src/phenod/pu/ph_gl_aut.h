@@ -46,8 +46,8 @@ struct AutArea
     os::Semaphore access2autArea;
     AutQueue que;
 
-    AutArea(int sz, string jroot)
-        : access2autArea(1), que(sz), jraf(jroot) { testConf(); }
+    AutArea(int sz, string dbfile, string jroot)
+        : access2autArea(1), que(sz), phdb(dbfile), jraf(jroot) { testConf(); }
 
     void testConf();
 

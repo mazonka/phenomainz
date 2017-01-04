@@ -29,6 +29,8 @@ class Phdb
                          string s5 = "", string s6 = "");
 
     public:
+		Phdb(string dbf);
+
         bool auth(string prid, string daid);
 
         bool get_by_email(string email, Profile & pr);
