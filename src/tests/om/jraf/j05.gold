@@ -1,0 +1,16 @@
+-- md /aaa/bbb
+OK /aaa/bbb
+==========
+jroot:
+.
+..
+aaa
+
+jroot/aaa:
+.
+..
+bbb
+
+jroot/aaa/bbb:
+.
+..
