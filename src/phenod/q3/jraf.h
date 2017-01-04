@@ -31,9 +31,10 @@ class Jraf
 
         string client_version();
         static string ok(const string & s) { return er::Code(er::OK).str() + ' ' + s; }
+        static string fail(const string & s) { return er::Code(er::JRAF_FAIL).str() + ' ' + s; }
         static string err(const string & s) { return er::Code(er::JRAF_ERR).str() + ' ' + s; }
         static string bad() { return er::Code(er::REQ_MSG_BAD); }
-        os::Path path(string s) { return os::Path(root_dir) + s; }
+        os::Path root(string s) { return os::Path(root_dir) + s; }
 
         string aurequest(gl::Token & tok);
         string read_obj(string p, bool getonly);

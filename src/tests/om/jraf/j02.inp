@@ -10,7 +10,10 @@ print tcp self [ jraf au 0 md ]
 print [ -- JRAF_ERR .. ]
 print tcp self [ jraf au 0 md /../ ]
 
-print [ -- ]
+print [ -- JRAF_FAIL /* ]
+print tcp self [ jraf au 0 md ///* ]
+
+print [ -- OK / ]
 print tcp self [ jraf au 0 md /// ]
 
 quit

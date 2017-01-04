@@ -68,7 +68,7 @@ string Jraf::request(gl::Token tok)
 
 string Jraf::client_version()
 {
-    string p = path(jraf::sys_ext).str();
+    string p = root(jraf::sys_ext).str();
     string fever = gl::file2str(p);
 
     if ( fever.empty() ) return err("no file system found [" + p + "]");
@@ -89,7 +89,7 @@ string getver(const os::Path & p)
 
 string Jraf::read_obj(string pth, bool getonly)
 {
-    os::Path p = path(pth);
+    os::Path p = root(pth);
 
     if ( p.isdir() )
     {
@@ -173,12 +173,15 @@ string Jraf::aurequest(gl::Token & tok)
 
 string Jraf::aureq_rm(string pth)
 {
-    return "aureq_rm - NI";
+    return ok("aureq_rm - NI");
 }
 
 string Jraf::aureq_md(string pth)
 {
-    return "aureq_md - NI";
+	os::Path p = root(pth);
+	os::FileSys::trymkdir(p);
+	if( p.isdir() ) return ok(pth);
+    return fail(pth);
 }
 
 bool Jraf::check_au_path(string sess, string pth)

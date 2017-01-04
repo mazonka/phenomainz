@@ -69,6 +69,7 @@ string er::tos(CodeType e)
     IFF( REQ_BUSY )
     IFF( AUTH )
     IFF( JRAF_ERR )
+    IFF( JRAF_FAIL )
 
     IFF( INTERNAL_REC_NO )
     IFF( INTERNAL_REC_YES )
