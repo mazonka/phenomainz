@@ -166,6 +166,8 @@ string Jraf::aurequest(gl::Token & tok)
 
     else if ( cmd == "md" ) return aureq_md(pth);
     else if ( cmd == "rm" ) return aureq_rm(pth);
+    else if ( cmd == "put" ) return aureq_put(tok, pth, true);
+    else if ( cmd == "save" ) return aureq_put(tok, pth, false);
 
     return err("command [" + cmd + "] unknown");
 }
@@ -174,8 +176,8 @@ string Jraf::aurequest(gl::Token & tok)
 string Jraf::aureq_rm(string pth)
 {
     os::Path p = root(pth);
-	p.erase();
-	if( p.isdir() || p.isfile() ) return fail(pth);
+    p.erase();
+    if ( p.isdir() || p.isfile() ) return fail(pth);
     return ok(pth);
 }
 
@@ -196,3 +198,45 @@ bool Jraf::check_au_path(string sess, string pth)
     return true;
 }
 
+string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
+{
+    // (put) pos, sz, text
+    // (save) sz, text
+
+    int pos = -1;
+    if ( append )
+    {
+        if ( !tok.next() ) return err("position");
+        pos = gl::toi(tok.sub());
+    }
+
+    if ( !tok.next() ) return err("size");
+    int siz = gl::toi(tok.sub());
+
+    if ( !tok.next() ) return err("text");
+    string text = ma::b64dec(tok.sub());
+
+    if ( (int)text.size() != siz ) return err("size mismatch");
+
+    os::Path f = root(pth);
+
+    if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
+    if ( !f.isfile() ) return fail(pth);
+
+    int fsz = f.filesize();
+
+    if ( append )
+    {
+        if ( fsz != pos ) return fail(gl::tos(fsz));
+
+        std::ofstream of(f.str().c_str(), std::ios::app | std::ios::binary );
+        of << text;
+    }
+    else
+    {
+        std::ofstream of(f.str().c_str(), std::ios::binary);
+        of << text;
+    }
+
+    return ok(gl::tos(f.filesize()));
+}
