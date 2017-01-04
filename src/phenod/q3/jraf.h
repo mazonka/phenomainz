@@ -13,13 +13,15 @@ using std::string;
 
 namespace jraf
 {
-const char * const be_version = "10000";
+const char * const be_version = "10375";
 ///const char * const root_dir = "jraf";
-const char * const fe_version = ".jraf.sys";
-const char * const node_ver = ".jraf.ver";
+const char * const sys_ext = ".jraf.sys";
+const char * const ver_ext = ".jraf.ver";
 const char * const home_dir = "home";
 const char * const etc_dir = "etc";
 const char * const sys_dir = "sys";
+const char * const users_dir = "users";
+const char * const login_dir = "login";
 } // jraf
 
 class Jraf
@@ -35,6 +37,9 @@ class Jraf
 
         string aurequest(gl::Token & tok);
         string read_obj(string p, bool getonly);
+        bool check_au_path(string sess, string pth);
+        string aureq_rm(string pth);
+        string aureq_md(string pth);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

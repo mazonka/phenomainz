@@ -1,4 +1,11 @@
-JRAF_ERR missing session id
-JRAF_ERR missing command
-JRAF_ERR (aurequest) not implemented
-JRAF_ERR (aurequest) not implemented JRAF_ERR [///]
+-- JRAF_ERR session id
+JRAF_ERR session id
+-- JRAF_ERR command
+JRAF_ERR command
+-- JRAF_ERR path
+JRAF_ERR path
+-- JRAF_ERR ..
+JRAF_ERR ..
+--
+Jraf::check_au_path - NI
+aureq_md - NI

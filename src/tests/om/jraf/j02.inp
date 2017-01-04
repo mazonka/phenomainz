@@ -1,5 +1,17 @@
+print [ -- JRAF_ERR session id ]
 print tcp self [ jraf au ]
+
+print [ -- JRAF_ERR command ]
 print tcp self [ jraf au 0 ]
+
+print [ -- JRAF_ERR path ]
 print tcp self [ jraf au 0 md ]
+
+print [ -- JRAF_ERR .. ]
+print tcp self [ jraf au 0 md /../ ]
+
+print [ -- ]
 print tcp self [ jraf au 0 md /// ]
+
 quit
+

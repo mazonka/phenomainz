@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "os_filesys.h"
+#include "sg_cout.h"
 #include "gl_utils.h"
 #include "gl_except.h"
 #include "gl_err.h"
@@ -16,7 +17,7 @@ inline string zero(string s, string d = "0")
 
 string Jraf::request(gl::Token tok)
 {
-	string result;
+    string result;
     while (true)
     {
         if ( !tok.next() ) return bad();
@@ -26,10 +27,13 @@ string Jraf::request(gl::Token tok)
         else if ( cmd == "version" )
         {
             if ( !tok.next() ) result += bad();
-            string w = tok.sub();
-            if ( w == "backend" ) result += ok(jraf::be_version);
-            if ( w == "client" ) result += client_version();
-            result += bad();
+            else
+            {
+                string w = tok.sub();
+                if ( w == "backend" ) result += ok(jraf::be_version);
+                else if ( w == "client" ) result += client_version();
+                else result += bad();
+            }
         }
 
         else if ( cmd == "read" || cmd == "get" )
@@ -45,27 +49,27 @@ string Jraf::request(gl::Token tok)
             hq::LockWrite lock(&access);
             result += aurequest(tok);
         }
-		else
-		{
-			result += err("bad command [" + cmd+"]");
-			break;
-		}
+        else
+        {
+            result += err("bad command [" + cmd + "]");
+            break;
+        }
 
         if ( !tok.next() ) break;
-		string ts = tok.sub();
-        if ( ts != "+" ) return result + ' ' + err("["+ts+"]");
+        string ts = tok.sub();
+        if ( ts != "+" ) return result + ' ' + err("[" + ts + "]");
         result += ' ';
     }
 
-	if( result.empty() ) return bad();
-	return result;
+    if ( result.empty() ) return bad();
+    return result;
 }
 
 
 string Jraf::client_version()
 {
-    string p = path(jraf::fe_version).str();
-    string fever = gl::file2str(path(jraf::fe_version).str());
+    string p = path(jraf::sys_ext).str();
+    string fever = gl::file2str(p);
 
     if ( fever.empty() ) return err("no file system found [" + p + "]");
 
@@ -75,8 +79,8 @@ string Jraf::client_version()
 string getver(const os::Path & p)
 {
     os::Path q = p;
-    if ( p.isdir() ) q += jraf::node_ver;
-    else q.glue(jraf::node_ver);
+    if ( p.isdir() ) q += jraf::ver_ext;
+    else q.glue(jraf::ver_ext);
 
     string ver = gl::file2str( q.str() );
     ver = zero(ver);
@@ -100,8 +104,8 @@ string Jraf::read_obj(string pth, bool getonly)
 
         auto isspec = [](string s) -> bool
         {
-            if ( gl::endswith(s, jraf::node_ver) ) return true;
-            if ( gl::endswith(s, jraf::fe_version) ) return true;
+            if ( gl::endswith(s, jraf::ver_ext) ) return true;
+            if ( gl::endswith(s, jraf::sys_ext) ) return true;
             return false;
         };
 
@@ -143,12 +147,43 @@ string Jraf::read_obj(string pth, bool getonly)
 
 string Jraf::aurequest(gl::Token & tok)
 {
-    if ( !tok.next() ) return err("missing session id");
+    if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
 
-    if ( !tok.next() ) return err("missing command");
+    if ( !tok.next() ) return err("command");
     string cmd = tok.sub();
 
-    return err("(aurequest) not implemented");
+    if ( !tok.next() ) return err("path");
+    string pth = tok.sub();
+
+    gl::replaceAll(pth, "//", "/");
+
+    if ( pth.find("..") != string::npos ) return err("..");
+
+    if ( !check_au_path(sess, pth) ) return err("auth");
+
+    if (0) {}
+
+    else if ( cmd == "md" ) return aureq_md(pth);
+    else if ( cmd == "rm" ) return aureq_rm(pth);
+
+    return err("command [" + cmd + "] unknown");
+}
+
+
+string Jraf::aureq_rm(string pth)
+{
+    return "aureq_rm - NI";
+}
+
+string Jraf::aureq_md(string pth)
+{
+    return "aureq_md - NI";
+}
+
+bool Jraf::check_au_path(string sess, string pth)
+{
+    os::Cout() << "Jraf::check_au_path - NI" << os::endl;
+    return true;
 }
 
