@@ -134,6 +134,9 @@ string Worker2::ph_aucmd()
 
             if (0) {}
 
+            else if ( cmd == "pingau" )
+                result += er::Code(er::OK);
+
             else if ( cmd == "profile" )
                 result += er::Code(er::OK).str() + ' ' + ao.profile.str();
 
@@ -162,7 +165,7 @@ string Worker2::ph_aucmd()
             else if ( cmd == "cat" )
                 result += categ(aa, ao);
 
-            else 
+            else
             {
                 result += er::Code(er::REQ_MSG_BAD).str();
                 break;
