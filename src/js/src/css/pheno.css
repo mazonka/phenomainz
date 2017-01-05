@@ -1,4 +1,3 @@
-
 body {
     font: normal 1em Tahoma, Verdana, Arial, Consolas, "Courier New", monospace;
     background: #FEFEFA;
@@ -9,74 +8,57 @@ body {
     text-align: center;
     margin: auto;
 }
-
 * {
-    box-sizing: border-box;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing: border-box;
     border-radius: 0px !important;
 }
-
 input,
 textarea {
     margin: 4px;
     border-collapse: collapse;
 }
-
 button {
     height: 1.5em;
     padding: 0 5px 0 5px !important;
     vertical-align: middle !important;
     min-width: 80px;
 }
-
 #table_body {
     width: 100%;
     border: 1px solid #DCDCDC;
     text-align: center;
     background-color: rgb(248, 248, 248);
 }
-
 #td_logo {
     text-align: left;
     width: 20px;
 }
-
 #div_logo {
-    display: inline-block;    
+    display: inline-block;
 }
-
 #td_logo img {
     width: 16px;
 }
-
 #td_login {
     text-align: right;
 }
-
 #td_username {
     text-align: right;
 }
-
 #td_profile {
     text-align: right;
     border: 1px solid #DCDCDC;
     background-color: #F8F8FF;
 }
-
 #td_dslist .dsitem-content-div {
     border: 0;
 }
-
 #td_dsitem_create {
     text-align: left;
 }
-
 #div_open_file,
 #div_file_properties {
     text-align: left;
 }
-
 #span_profile_name,
 #span_profile_name span,
 #span_profile_email,
@@ -87,63 +69,54 @@ button {
 #span_profile_counter span {
     display: inline-block;
 }
-
 #span_profile_name span {
     font-weight: bold;
     color: blue;
 }
-
 #span_profile_name span:hover {
     cursor: pointer;
     color: blue;
     text-shadow: black 0.1em 0.1em 0.2em;
 }
-
 #span_profile_name span:active {
     cursor: pointer;
     text-shadow: 0 0 0;
     color: blue;
 }
-
 /* Datasets  */
+
 .dsitem-header-h1 {
     text-align: left;
 }
-
 .dsitem-content-div {
     text-align: center;
 }
-
 .dsprops-table {
-	border-collapse: collapse;
+    border-collapse: collapse;
     /* border: 1px solid #DDDDDD; */
-	padding: 0;
-	width: 100%;
+    
+    padding: 0;
+    width: 100%;
 }
-
 .dsprops-table td {
     text-align: left;
     vertical-align: top;
     width:
 }
-
 /* .dsprops-table input,
 .dsprops-table textarea {
     min-width: 25em;
 } */
 
-
 .dsitem-header-h1 .ui-icon {
     float: left;
-    margin-left: 0;  
+    margin-left: 0;
     margin-top: 0.2em;
 }
-
 .dsitem-header-title {
     float: left;
     margin-left: 0.5em;
 }
-
 .dsitem-header-delete {
     float: right;
     width: auto !important;
@@ -152,28 +125,24 @@ button {
     margin-right: 0.2em;
     vertical-align: middle;
 }
-
 .dsitem-header-delete img {
     width: 16px !important;
     height: auto;
     margin: 0;
     padding: 0;
 }
-
 .ds-td-title-input {
     width: 100%;
-    
 }
 .dsprops-table button {
     min-width: 7em;
     max-width: 7em;
 }
-
 .dsprops-title,
 .dsprops-category,
 .dsprops-description,
 .dsprops-keywords {
-	border-collapse: collapse;    
+    border-collapse: collapse;
     font-size: 1em;
     padding: 1px !important;
     margin: 0px !important;
@@ -181,57 +150,49 @@ button {
     min-width: 15em !important;
     width: 100%;
 }
-
 .dsprops-title,
 .dsprops-category {
     height: 1.5em;
 }
-
 .dsprops-description {
     /* fix inconsistent textarea bottom margin */
-    display: block; 
+    
+    display: block;
 }
-
 .dsprops-description,
 .dsprops-keywords {
     white-space: pre-wrap;
-    min-height: 1.5em; 
+    min-height: 1.5em;
     height: 3em;
 }
-
-
 .dsprops-keywords {
     /* display: inline-block !important; */
+    
     float: left;
     resize: both;
     overflow: auto;
 }
-
 .ds-span-kwd {
     /* white-space: break-word; */
+    
     display: table;
 }
-
 .ds-span-kwd:hover {
     cursor: pointer;
     color: blue;
     text-shadow: 0.1em 0.1em 0.4em #C9C9C9;
 }
-
 .ds-span-kwd:active {
     cursor: pointer;
     text-shadow: 0 0 0;
 }
-
 .dsfiles-list {
     width: 100%;
     text-align: left;
 }
-
 .dsfiles-add-button label {
     text-align: right;
 }
-
 .dsfiles-add-button label {
     height: 1.5em;
     min-width: 80px;
@@ -240,27 +201,22 @@ button {
     overflow: hidden;
     position: relative;
 }
-
 .dsfiles-add-button label:hover {
     background-color: #87CEEB;
-    cursor: pointer;  
+    cursor: pointer;
 }
-
 .dsfiles-add-button label input[type='file'] {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
- 	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-} 
-
-
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 .dsfiles-placeholder {
     border: 1px solid #DDDDDD;
     margin: 0.25em;
 }
-
 .dsfiles-delete {
     float: right;
     width: auto !important;
@@ -269,8 +225,7 @@ button {
     margin-top: 0.5em;
     margin-right: 0.5em;
     vertical-align: middle;
-}    
-
+}
 .dsfiles-delete img {
     width: 16px !important;
     height: auto;
@@ -291,7 +246,6 @@ button {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
 }
-
 #div_modal_window_content {
     position: relative;
     background-color: #fefefe;
@@ -309,7 +263,6 @@ button {
     text-align: center;
     font: 16px Tahoma;
 }
-
 #div_modal_window_content_body {
     white-space: pre;
 }
@@ -319,64 +272,51 @@ button {
     text-decoration: none;
     cursor: pointer;
 }
-
 #div_modal_window_content_header {
     padding: 1px 1px;
-
     color: white;
 }
-
 #div_modal_window_content_body {
     padding: 10px 10px;
     background-color: #FCFCFC;
 }
-
 #div_modal_window_content_footer {
     padding: 1px 1px;
     color: white;
 }
-
 /* jquery-ui*/
 
 .ui-selectmenu-button {
     height: 1.5em;
-    padding-bottom: 2px  !important;
+    padding-bottom: 2px !important;
     padding-top: 2px !important;
 }
-
 .ui-menu-item {
     text-align: left;
     font: bold 1em monospace !important;
 }
-
 .ui-selectmenu-text {
     font: bold 1em monospace !important;
 }
-
 .ui-accordion .ui-accordion-content {
     background-color: rgb(248, 248, 248) !important;
     padding-left: 0.5em !important;
     padding-right: 0.5em !important;
 }
-
 .ui-accordion-header {
-	height: 2em !important;    
+    height: 2em !important;
     padding: 0.25em !important;
     font-weight: bold !important;
 }
-
 .ui-accordion .ui-accordion-title {
-	font-size: 1em;
-	padding-top: 2px !important;
-	padding-bottom: 2px !important;
-	vertical-align: middle;
+    font-size: 1em;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    vertical-align: middle;
 }
-
 .ui-button {
-	font-weight: bold !important;
+    font-weight: bold !important;
 }
-
 .ui-widget {
-	font-size: 1em;
+    font-size: 1em;
 }
-
