@@ -119,12 +119,6 @@ string Worker2::ph_aucmd()
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
         string cmd = tok.sub();
 
-        if (0) {}
-
-        else if ( cmd == "ping" )
-            result += er::Code(er::OK);
-
-        else
         {
             AutArea & aa = gs->autArea;
             sgl::Mutex mutex_aa(aa.access2autArea);
@@ -134,7 +128,7 @@ string Worker2::ph_aucmd()
 
             if (0) {}
 
-            else if ( cmd == "pingau" )
+            else if ( cmd == "ping" )
                 result += er::Code(er::OK);
 
             else if ( cmd == "profile" )
