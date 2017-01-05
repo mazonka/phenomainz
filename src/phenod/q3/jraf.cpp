@@ -201,10 +201,15 @@ string Jraf::aureq_rm(string pth)
 {
     os::Path p = root(pth);
     bool dir = p.isdir();
+
     p.erase();
     if ( p.isdir() || p.isfile() ) return fail(pth);
+
     ver_path(p, dir).erase();
-    update_ver(parent_str(p), true);
+
+    if (p.str() != root_dir)
+        update_ver(parent_str(p), true);
+
     return ok(pth);
 }
 
@@ -307,7 +312,7 @@ string Jraf::parent_str(os::Path pth)
     string spth = pth.str();
     //os::Cout()<<"AAA spth="<<spth<<os::endl;
 
-    if ( spth == root_dir ) return "/";
+    if ( spth == root_dir ) return spth;
 
     if ( spth.size() <= root_dir.size() )
         throw gl::ex("Error in Jraf::update_ver [" + spth + "] [" + root_dir + "]");
@@ -336,7 +341,7 @@ void Jraf::update_ver(os::Path pth, bool dir)
     */
 
     string up = parent_str(pth);
-    if ( up == "/" ) return;
+    if ( up == pth.str() ) return;
 
     update_ver(up, true);
 }
