@@ -301,10 +301,19 @@ string Jraf::aureq_mv(string pth, string pto)
 {
     os::Path f1 = root(pth);
     os::Path f2 = root(pto);
+    bool dir = f1.isdir();
 
     bool k = os::rename(f1.str(), f2.str());
-    if ( k ) return ok(pto);
-    return fail(pth + " -> " + pto);
+    if ( !k ) return fail(pth + " -> " + pto);
+    if ( f1.isdir() || f1.isfile() ) return fail(pth);
+
+    ver_path(f1, dir).erase();
+	update_ver(f2, dir);
+
+    if (f1.str() != root_dir) update_ver(parent_str(f1), true);
+    if (f2.str() != root_dir) update_ver(parent_str(f2), true);
+
+    return ok(pto);
 }
 
 string Jraf::parent_str(os::Path pth)
