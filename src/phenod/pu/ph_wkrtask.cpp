@@ -161,7 +161,7 @@ string Worker2::ph_aucmd()
 
             else
             {
-                result += er::Code(er::REQ_MSG_BAD).str();
+                result += er::Code(er::REQ_MSG_BAD).str() + " [" + cmd + "]";
                 break;
             }
         } // mutex
