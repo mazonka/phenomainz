@@ -17,4 +17,6 @@ print tcp self [ au 96db1e5f246844c9 logout ]
 net auth
 print [ =================================== ]
 
+print tcp self [ au 96db1e5f246844c9 ping ]
+
 quit
