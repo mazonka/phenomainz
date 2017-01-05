@@ -52,7 +52,7 @@ const M_TXT = {
     BYE: 'Bye!',
     HELLO: 'Hello!\nYou could create your first dataset',
     SURE: 'Are your sure?',
-    S_EXPIRED: 'Session expired',
+    SESSION_KEY_MISSMATCH: 'Session key mismatch',
     FILES: 'Files',
     DEL_KWD: 'Delete keyword?',
     get FILE_IS_HUGE() {
@@ -74,7 +74,8 @@ const M_TXT = {
 
 const PHENOD = {
     OK: 'OK',
-    AUTH: 'AUTH'
+    AUTH: 'AUTH',
+    REQ_MSG_BAD: 'REQ_MSG_BAD'
 }
 
 const TIP = {

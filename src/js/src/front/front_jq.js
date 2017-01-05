@@ -4,10 +4,8 @@
 'use strict';
 
 function get_jq_user_email() {
-    var $obj = $('<div/>');
-    //$obj = $obj.add('<div/>');
-
-    $obj.append($('<label/>', {
+    var $div = $('<div/>')
+        .append($('<label/>', {
             text: L_TXT.EMAIL
         }))
         .append($('<input/>', {
@@ -15,7 +13,7 @@ function get_jq_user_email() {
             })
             .attr('maxlength', INPUT_MAX)
             .on('input', function () {
-                wid_input_email($(this))
+                wid_input_email($(this));
             }))
         .append($('<button/>', {
                 id: 'button_user_email',
@@ -23,33 +21,39 @@ function get_jq_user_email() {
             })
             .click(function () {
                 wid_nc_login();
+                wid_close_modal_window();
             }));
 
-    return $obj;
+    return $div;
 }
 
 // gets object for change user name
-function get_jq_user_profile(name) {
-    var $obj = $('<div/>', {
-        id: 'div_user_profile'
-    });
-
-    $obj.append($('<label/>', {
+function get_jq_user_profile(name)
+{
+    var $obj = $('<div/>')
+        .append($('<label/>',
+        {
             text: 'Name'
-            }))
-        .append($('<input/>', {
-                val: name
+        }))
+        .append($('<input/>',
+            {
+                val: name,
+                id: 'input_user_name'
             })
             .attr('maxlength', INPUT_MAX)
-            .on('input', function () {
+            .on('input', function()
+            {
                 wid_input_name($(this))
             }))
-        .append($('<button/>', {
+        .append($('<button/>',
+            {
                 id: 'button_user_name',
                 text: B_TXT.SUBMIT
             })
-            .click(function () {
+            .click(function()
+            {
                 wid_nc_name($(this));
+                wid_close_modal_window();
             }));
 
     return $obj;
