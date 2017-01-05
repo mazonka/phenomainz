@@ -5,7 +5,8 @@ function wid_nc_ping()
 {
     var cb = function(resp, data)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_ui_login(true);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -18,10 +19,10 @@ function wid_nc_admin_ping()
 {
     var cb = function(resp, data)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_show_admin_panel(true);
         else wid_show_admin_panel(false);
-        //wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
     nc_admin_ping(cb, g_sid, g_pulse);
@@ -33,7 +34,8 @@ function wid_nc_login(email)
 
     var cb = function(resp, data)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_open_modal_window(M_TXT.EMAIL + email, true);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
@@ -45,7 +47,8 @@ function wid_nc_logout()
 {
     var cb = function(resp, data)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_ui_login(false);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -58,7 +61,8 @@ function wid_nc_profile()
 {
     var cb = function(resp, data, profile)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) Boolean(profile) && wid_fill_profile(profile);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -71,7 +75,8 @@ function wid_nc_name(name)
 {
     var cb = function(resp, data, profile)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) Boolean(profile) && wid_fill_profile(profile);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -84,7 +89,8 @@ function wid_nc_ds_list()
 {
     var cb = function(resp, data, list)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_ds_list(list);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -97,7 +103,8 @@ function wid_nc_ds_create()
 {
     var cb = function(resp, data, list)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_ds_list(list);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -110,7 +117,8 @@ function wid_nc_ds_delete(did)
 {
     var cb = function(resp, data, list)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_ds_list(list);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -123,7 +131,8 @@ function wid_nc_ds_get(did)
 {
     var cb = function(resp, data, ds)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_dsitem_props(ds);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -137,7 +146,8 @@ function wid_nc_ds_upd_cmd(cmd, did, data)
 {
     var cb = function(resp, data, ds)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_dsitem_props(ds);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -165,7 +175,8 @@ function wid_nc_cat_kids(pcat, ds)
 {
     var cb = function(resp, data, kcat)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_categ_menu(ds, pcat, kcat);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -178,7 +189,8 @@ function wid_nc_ds_upd_categ(did, cid)
 {
     var cb = function(resp, data, ds)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_dsitem_props(ds);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -191,9 +203,10 @@ function wid_nc_keywords(f)
 {
     var cb = function(resp, data, kwd)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp === false) return wid_ui_login(false);
-        else if (resp === null) 
+        else if (resp === null)
             return wid_open_modal_window(M_TXT.ERROR + data, true);
 
         g_keywords = kwd;
@@ -208,7 +221,8 @@ function wid_nc_ds_del_kwd(did, kwd)
 {
     var cb = function(resp, data, ds)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_dsitem_props(ds);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -221,7 +235,8 @@ function wid_nc_add_kwd(did, kwd)
 {
     var cb = function(resp, data, ds)
     {
-        if (0) {}
+        if (0)
+        {}
         else if (resp) wid_fill_dsitem_props(ds);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
@@ -230,19 +245,15 @@ function wid_nc_add_kwd(did, kwd)
     nc_ds_add_kwd(cb, g_sid, did, kwd);
 }
 
-function wid_nc_ds_file_list(did, file)
+function wid_nc_ds_file_list(did)
 {
-    var $content = $('#' + DIV_DS + did).find('.dsfiles-content');
-    var cb = function(resp, data)
+    var cb = function(resp, data, list)
     {
-        if (0) {}
-        else if (resp) wid_nc_ds_get(did);
+        if (0)
+        {}
+        else if (resp) wid_fill_dsitem_files(did, list);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
-
-        file = file || null;
-
-        wid_fill_dsitem_files(did, data, file);
     };
 
     nc_ds_file_list(cb, g_sid, did);
@@ -250,33 +261,29 @@ function wid_nc_ds_file_list(did, file)
 
 function wid_nc_ds_file_new(did, file)
 {
-    var cb = function(resp, data)
+    var cb = function(resp, data, list)
     {
-        if (resp == PHENOD.AUTH)
-        {
-            return wid_ui_login(resp);
-        }
-        else if (resp != PHENOD.OK)
-        {
-            wid_open_modal_window(M_TXT.ERROR + resp, true);
-        }
-        file.id = data;
-        wid_nc_ds_file_list(did, file);
+        if (0)
+        {}
+        else if (resp) 
+        {wid_fill_dsitem_files(did, list)}
+        else if (resp === false) wid_ui_login(false);
+        else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
     nc_ds_file_new(cb, g_sid, did);
 }
 
-function wid_nc_ds_file_del(did, f_id)
+function wid_nc_ds_file_del(did, fid)
 {
-    var cb = function(resp)
+    var cb = function(resp, data, list)
     {
         if (0)
         {}
-        else if (resp) wid_nc_ds_file_list(did);
+        else if (resp) wid_fill_dsitem_files(did, list);
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
-    nc_ds_file_del(cb, g_sid, did, f_id);
+    nc_ds_file_del(cb, g_sid, did, fid);
 }

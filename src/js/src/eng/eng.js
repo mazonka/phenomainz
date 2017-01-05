@@ -349,23 +349,23 @@ function eng_get_keywords(data)
 function eng_get_file_list(data)
 {
     var i = 0;
-    var files = [];
+    var ls = [];
     var _data = data;
 
     _data.shift();
 
     while (_data.length > 0)
     {
-        files[i] = {};
+        ls[i] = {};
 
-        files[i].id = _data.shift();
-        files[i].descr = window.atob(_data.shift());
-        files[i].size = +_data.shift();
+        ls[i].id = _data.shift();
+        ls[i].descr = window.atob(_data.shift());
+        ls[i].size = +_data.shift();
 
         i++;
     }
 
-    return files;
+    return ls;
 }
 
 function eng_get_file_new_id(data)

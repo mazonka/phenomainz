@@ -322,16 +322,16 @@ function nc_keywords(ext_cb, sid)
 
 function nc_ds_file_list(ext_cb, sid, did)
 {
-    var cmd = ['au', sid, 'ds', 'file', did, 'list'].join(' ');
+    var cmd = ['au', sid, 
+        'ds file', did, 'list'
+    ].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
         let _data = eng_get_data(data);
-        let f_list = (_data === null)
-            ? _data
-            : eng_get_file_list(_data[0]);
+        let ls = eng_get_file_list(_data[0]);
 
-        ext_cb(resp, data, f_list);
+        ext_cb(resp, data, ls);
 
     };
 
@@ -340,27 +340,36 @@ function nc_ds_file_list(ext_cb, sid, did)
 
 function nc_ds_file_new(ext_cb, sid, did)
 {
-    var cmd = ['au', sid, 'ds', 'file', did, 'new'].join(' ');
+    var cmd = ['au', sid,
+        'ds file', did, 'new', '+',
+        'ds file', did, 'list'
+    ].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let fid = eng_get_file_new_id(_data[0]);
+        let ls = eng_get_file_list(_data[1]);
 
-        data = eng_get_file_new_id(data);
-
-        ext_cb(resp, data);
+        ext_cb(resp, data, ls);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_file_del(ext_cb, sid, did, f_id)
+function nc_ds_file_del(ext_cb, sid, did, fid)
 {
-    var cmd = ['au', sid, 'ds', 'file', did, 'del', f_id].join(' ');
+    var cmd = ['au', sid,
+        'ds file', did, 'del', fid, '+',
+        'ds file', did, 'list'
+    ].join(' ');    
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
-
-        ext_cb(resp);
+        let _data = eng_get_data(data);
+        let ls = eng_get_file_list(_data[0]);
+        console.log(ls);
+        ext_cb(resp, data, ls);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
