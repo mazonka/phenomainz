@@ -96,4 +96,4 @@ function wid_init_ui_cat_menu($obj, ds, pcat)
 
         }
     });
-};
+}

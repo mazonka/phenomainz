@@ -369,9 +369,8 @@ function wid_fill_profile(profile)
         .find('span')
         .html(profile.counter);
 
-    $('#span_profile_quote')
-        .find('span')
-        .html('0/' + profile.quote + ' Mb');
+    $('#span_profile_vol_lim')
+        .html('/' + profile.quote + 'Mb');
 
     Boolean(profile.tail) && alert('profile tail:\n' + list.tail);
 }
@@ -385,6 +384,8 @@ function wid_fill_ds_list(list)
     if (Boolean(list) && list.n > 0)
     {
         let $div = get_jq_ds_list(list.n, list.id, list.title);
+
+        $('#span_profile_vol_usg').html(list.usage);
 
         $('#' + TD_DSLIST).append($div);
 
@@ -427,7 +428,7 @@ function wid_fill_dsitem_files(did, list, file)
     if ($files_row.html() == '')
     {
         let $accdn = get_jq_dsitem_files();
-        
+
         $files_row.html($accdn);
         $files_row.find('.dsfiles-content').html($files);
 
@@ -442,22 +443,24 @@ function wid_fill_dsitem_files(did, list, file)
     wid_init_ui_tooltip($files_row.find('.dsfiles-delete'));
 };
 
-function wid_categ_menu(ds, pcat, kcat) {
+function wid_categ_menu(ds, pcat, kcat)
+{
     var $obj = get_jq_cat_menu(pcat, kcat);
-    
-    var init = function ()
+
+    var init = function()
     {
-        wid_init_ui_cat_menu ($obj, ds, pcat);
+        wid_init_ui_cat_menu($obj, ds, pcat);
     }
 
-    wid_open_modal_window($obj, false, init);    
+    wid_open_modal_window($obj, false, init);
 }
 
-function wid_keywd_menu(ds) {
+function wid_keywd_menu(ds)
+{
     var list = eng_compare_lists(g_keywords, ds.kwd);
     var $obj = get_jq_ds_kwd_add(ds, list);
-    
-    var init = function ()
+
+    var init = function()
     {
         wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
     };
