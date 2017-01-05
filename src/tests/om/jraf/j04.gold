@@ -5,7 +5,7 @@ OK 10
 -- mv /aaa/bbb /aaa/ccc --
 OK /aaa/ccc
 -- read /aaa/ccc --
-OK 0 10 MTIzNDU2Nzg5MA==
+OK 1 10 MTIzNDU2Nzg5MA==
 -- get /aaa/bbb --
 JRAF_ERR bad path /aaa/bbb
 -- rm / -- OK /

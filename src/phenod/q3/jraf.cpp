@@ -225,7 +225,7 @@ string Jraf::aureq_md(string pth)
 
 bool Jraf::check_au_path(string sess, string pth)
 {
-    os::Path users = root(jraf::users + jraf::sys_ext);
+    os::Path users = users_dir();
     if ( !users.isdir() ) return true;
 
     os::Cout() << "Jraf::check_au_path - NI" << os::endl;

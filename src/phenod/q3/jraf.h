@@ -17,9 +17,9 @@ const char * const be_version = "10375";
 ///const char * const root_dir = "jraf";
 const char * const sys_ext = ".jraf.sys";
 const char * const ver_ext = ".jraf.ver";
-const char * const home_dir = "home";
-const char * const etc_dir = "etc";
-const char * const sys_dir = "sys";
+const char * const home = "home";
+const char * const etc = "etc";
+const char * const sys = "sys";
 const string users = "users";
 const string login = "login";
 } // jraf
@@ -29,12 +29,15 @@ class Jraf
         hq::AccessController access;
         string root_dir;
 
+        os::Path root(string s) const { return os::Path(root_dir) + s; }
+	    os::Path users_dir() const { return root(jraf::users + jraf::sys_ext); }
+
+
         string client_version();
         static string ok(const string & s) { return er::Code(er::OK).str() + ' ' + s; }
         static string fail(const string & s) { return er::Code(er::JRAF_FAIL).str() + ' ' + s; }
         static string err(const string & s) { return er::Code(er::JRAF_ERR).str() + ' ' + s; }
         static string bad() { return er::Code(er::REQ_MSG_BAD); }
-        os::Path root(string s) { return os::Path(root_dir) + s; }
 
         string aurequest(gl::Token & tok);
         string read_obj(string p, bool getonly);
