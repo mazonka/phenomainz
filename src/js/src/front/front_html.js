@@ -65,8 +65,6 @@ function html_get_body()
     r += html_get_tr(html_get_td_dslist());
     r += html_get_tr(html_get_td_dslist_ctrl());
     r += html_get_tr(html_get_td_modal_window());
-    //debug
-    r += html_get_tr(html_get_td_cmd_prompt());
 
     r += '</table>\n';
 
@@ -176,12 +174,3 @@ function html_get_td_dslist()
     return r;
 }
 
-function html_get_td_cmd_prompt()
-{
-    var r = '';
-
-    r +=
-        '<textarea id="cmd_prompt" style="width: 100%; height: 10em"></textarea>';
-
-    return html_get_td(r, 'td_cmd_prompt');
-}

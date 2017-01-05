@@ -368,7 +368,7 @@ function nc_ds_file_del(ext_cb, sid, did, fid)
         let resp = nc_get_resp(data);
         let _data = eng_get_data(data);
         let ls = eng_get_file_list(_data[0]);
-        console.log(ls);
+
         ext_cb(resp, data, ls);
     };
 

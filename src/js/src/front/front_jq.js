@@ -318,8 +318,6 @@ function get_jq_dsitem_categ(ds)
 // gets menu object for select category
 function get_jq_cat_menu(pcat, kcat)
 {
-    var $tr = $('<tr/>');
-    var $td = $('<td/>');
     var $span = $('<span/>');
     var $select = $('<select/>',
     {
@@ -329,7 +327,7 @@ function get_jq_cat_menu(pcat, kcat)
     {
         text: B_TXT.UPDATE,
     });
-    var $r_cat = $('<optgroup/>',
+    var $rcat = $('<optgroup/>',
         {
             label: L_TXT.NSPCAT
         })
@@ -338,7 +336,7 @@ function get_jq_cat_menu(pcat, kcat)
             value: '0',
             text: '\u002f'
         }));
-    var $c_cat = $('<optgroup/>',
+    var $pcat = $('<optgroup/>',
         {
             label: L_TXT.CURCAT
         })
@@ -348,39 +346,31 @@ function get_jq_cat_menu(pcat, kcat)
                 text: pcat.path
             })
             .prop('selected', true));
-    var $s_cat = $('<optgroup/>',
+    var $kcat = $('<optgroup/>',
     {
         label: L_TXT.SUBCAT
     });
 
     for (let i = 0; i < kcat.length; i++)
-        $s_cat.append($('<option/>',
+        $kcat.append($('<option/>',
         {
             value: kcat[i].id,
             text: kcat[i].name
         }));
 
-    if (pcat.id != '0')
-    {
-        $select
-            .append($r_cat)
-            .append($c_cat)
-            .append($s_cat);
-    }
-    else
-    {
-        $select
-            .append($r_cat)
-            .append($s_cat);
-    }
+    if (pcat.id != '0') $select
+            .append($rcat)
+            .append($pcat)
+            .append($kcat);
+    else $select
+            .append($rcat)
+            .append($kcat);
 
     $span
         .append($select)
         .append($button);
 
-    $tr.append($td.append($span));
-
-    return $tr;
+    return $span;
 }
 
 // gets "Keywords" row for dataset item
@@ -498,8 +488,8 @@ function get_jq_files_add(did)
 
 function get_jq_files_files(did, files, new_file)
 {
-    var $o = $('<div/>');
-
+    var $o = $();
+    
     for (let i = 0, l = files.length; i < l; i++)
     {
         let size = files[i].size;
@@ -513,21 +503,20 @@ function get_jq_files_files(did, files, new_file)
             fl_id = new_file.id;
         }
 
-        $o
-            .append($('<div/>')
-                .append($('<span/>')
-                    .html('Description:')
-                )
-                .append($('<span/>')
-                    .html(get_jq_ds_file_descr(did, descr)))
-                .append($('<span/>')
-                    .html(size)
-                )
-                .append($('<span/>')
-                    .html(get_jq_ds_file_delete(did, fl_id))
-                )
-                .addClass('dsfiles-placeholder')
-            );
+        $o = $o.add($('<div/>')
+            .append($('<span/>')
+                .html('Description:')
+            )
+            .append($('<span/>')
+                .html(get_jq_ds_file_descr(did, descr)))
+            .append($('<span/>')
+                .html(size)
+            )
+            .append($('<span/>')
+                .html(get_jq_ds_file_delete(did, fl_id))
+            )
+            .addClass('dsfiles-placeholder')
+        );
 
     }
 
