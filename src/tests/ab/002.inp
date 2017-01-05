@@ -10,7 +10,6 @@ print tcp self [ au 41330bb85d8cc0a5 xping ping ]
 print tcp self [ au 41330bb85d8cc0a5 xping + ping + ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping xping ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping + xping + ping ]
-print tcp self [ au 41330bb85d8cc0a5 xping + ping ]
 print tcp self [ au 41330bb85d8cc0a5 ping + ping + ping + ping ]
 
 print [ -- name profile ]
