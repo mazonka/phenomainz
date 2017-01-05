@@ -1,0 +1,17 @@
+--
+OK /aaa/bbb
+JRAF_FAIL /aaa/bbb
+OK 10
+OK 10
+OK 20
+OK 4 -1 3 1 -1 bbb 1 10 c1 2 20 c2
+OK /aaa/c1
+OK /aaa/c3
+OK 5 -1 2 1 -1 bbb 0 20 c3
+
+==========
+jroot/.jraf.ver : 5
+jroot/aaa/.jraf.ver : 5
+jroot/aaa/c1.jraf.ver : no
+jroot/aaa/c2.jraf.ver : 2
+jroot/aaa/c3.jraf.ver : no

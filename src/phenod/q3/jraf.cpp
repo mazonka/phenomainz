@@ -76,16 +76,38 @@ string Jraf::client_version()
     return ok(fever);
 }
 
-string Jraf::getver(const os::Path & p, bool isdir)
+os::Path Jraf::ver_path(const os::Path & p, bool isdir)
 {
     os::Path q = p;
     if ( isdir ) q += jraf::ver_ext;
     else q.glue(jraf::ver_ext);
+    return q;
+}
+
+
+string Jraf::getver(const os::Path & p, bool isdir)
+{
+    os::Path q = ver_path(p, isdir);
+    ///if ( isdir ) q += jraf::ver_ext;
+    ///else q.glue(jraf::ver_ext);
 
     string ver = gl::file2str( q.str() );
     ver = zero(ver);
     return gl::tos(gl::toi(ver));
 }
+
+void Jraf::setver(const os::Path & p, bool isdir, string v)
+{
+    os::Path q = ver_path(p, isdir);
+    ///os::Path q = p;
+    ///if ( isdir ) q += jraf::ver_ext;
+    ///else q.glue(jraf::ver_ext);
+
+    std::ofstream of(q.str(), std::ios::binary );
+    of << v << '\n';
+    if ( !of ) throw gl::ex("Bad access to " + q.str());
+}
+
 
 string Jraf::read_obj(string pth, bool getonly)
 {
@@ -178,8 +200,11 @@ string Jraf::aurequest(gl::Token & tok)
 string Jraf::aureq_rm(string pth)
 {
     os::Path p = root(pth);
+    bool dir = p.isdir();
     p.erase();
     if ( p.isdir() || p.isfile() ) return fail(pth);
+    ver_path(p, dir).erase();
+    update_ver(parent_str(p), true);
     return ok(pth);
 }
 
@@ -277,23 +302,12 @@ string Jraf::aureq_mv(string pth, string pto)
     return fail(pth + " -> " + pto);
 }
 
-void Jraf::setver(const os::Path & p, bool isdir, string v)
-{
-    os::Path q = p;
-    if ( isdir ) q += jraf::ver_ext;
-    else q.glue(jraf::ver_ext);
-
-    std::ofstream of(q.str(), std::ios::binary );
-    of << v << '\n';
-    if ( !of ) throw gl::ex("Bad access to " + q.str());
-}
-
-string Jraf::get_parent_str(os::Path pth)
+string Jraf::parent_str(os::Path pth)
 {
     string spth = pth.str();
     //os::Cout()<<"AAA spth="<<spth<<os::endl;
 
-    if ( spth == root_dir ) return "";
+    if ( spth == root_dir ) return "/";
 
     if ( spth.size() <= root_dir.size() )
         throw gl::ex("Error in Jraf::update_ver [" + spth + "] [" + root_dir + "]");
@@ -321,8 +335,8 @@ void Jraf::update_ver(os::Path pth, bool dir)
     //os::Cout()<<"AAA up="<<up<<os::endl;
     */
 
-    string up = get_parent_str(pth);
-    if ( up.empty() ) return;
+    string up = parent_str(pth);
+    if ( up == "/" ) return;
 
     update_ver(up, true);
 }

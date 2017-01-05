@@ -1,5 +1,5 @@
 #!/bin/sh
-# test versions: md
+# test versions: rm save put mv
 
 in=$(basename $0)
 in=${in%.*} 
@@ -16,14 +16,19 @@ echo "=========="
 
 prn()
 {
-echo -n "$1 "
-cat $1
+echo -n "$1 : "
+if test -f $1; then
+cat $1 2> /dev/null
+else
+echo "no"
+fi
 }
 
 prn jroot/.jraf.ver
 prn jroot/aaa/.jraf.ver
-prn jroot/aaa/bbb/.jraf.ver
-prn jroot/aaa/ccc/.jraf.ver
+prn jroot/aaa/c1.jraf.ver
+prn jroot/aaa/c2.jraf.ver
+prn jroot/aaa/c3.jraf.ver
 
 #echo ""
 #echo "=========="
