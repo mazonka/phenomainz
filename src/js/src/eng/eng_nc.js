@@ -10,9 +10,9 @@ function nc_get_resp(data)
     else return true;
 }
 
-function nc_ping(ext_cb, user_id, pulse)
+function nc_ping(ext_cb, sid, pulse)
 {
-    var cmd = ['au', user_id, 
+    var cmd = ['au', sid, 
         'ping'
     ].join(' ');
     var int_cb = function(data)
@@ -23,9 +23,9 @@ function nc_ping(ext_cb, user_id, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function nc_admin_ping(ext_cb, user_id, pulse)
+function nc_admin_ping(ext_cb, sid, pulse)
 {
-    var cmd = ['au', user_id,
+    var cmd = ['au', sid,
         'admin ping'
     ].join(' ')
     var int_cb = function(data)
@@ -48,9 +48,9 @@ function nc_login(ext_cb, email, url, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function nc_logout(ext_cb, user_id, pulse)
+function nc_logout(ext_cb, sid, pulse)
 {
-    var cmd = ['au', user_id,
+    var cmd = ['au', sid,
         'logout'
     ].join(' ');
     var int_cb = function(data)
@@ -61,9 +61,9 @@ function nc_logout(ext_cb, user_id, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function nc_profile(ext_cb, user_id, pulse)
+function nc_profile(ext_cb, sid, pulse)
 {
-    var cmd = ['au', user_id,
+    var cmd = ['au', sid,
         'profile'
     ].join(' ');
     var int_cb = function(data)
@@ -82,9 +82,9 @@ function nc_profile(ext_cb, user_id, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function nc_name(ext_cb, user_id, name, pulse)
+function nc_name(ext_cb, sid, name, pulse)
 {
-    var cmd = ['au', user_id, 
+    var cmd = ['au', sid, 
         'name', window.btoa(name), '+',
         'profile'
     ].join(' ');
@@ -102,9 +102,9 @@ function nc_name(ext_cb, user_id, name, pulse)
     ajx_send_command(cmd, int_cb, pulse);
 }
 
-function nc_ds_item_list(ext_cb, user_id)
+function nc_ds_item_list(ext_cb, sid)
 {
-    var cmd = ['au', user_id,
+    var cmd = ['au', sid,
         'ds list'
     ].join(' ');
     var int_cb = function(data)
@@ -121,9 +121,9 @@ function nc_ds_item_list(ext_cb, user_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_item_create(ext_cb, user_id)
+function nc_ds_item_create(ext_cb, sid)
 {
-    var cmd = ['au', user_id,
+    var cmd = ['au', sid,
         'ds create', '+',
         'ds list'
     ].join(' ');
@@ -141,10 +141,10 @@ function nc_ds_item_create(ext_cb, user_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_item_delete(ext_cb, user_id, ds_id)
+function nc_ds_item_delete(ext_cb, sid, did)
 {
-    var cmd = ['au', user_id,
-        'ds delete', ds_id, '+',
+    var cmd = ['au', sid,
+        'ds delete', did, '+',
         'ds list'
     ].join(' ');
     var int_cb = function(data)
@@ -161,10 +161,10 @@ function nc_ds_item_delete(ext_cb, user_id, ds_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_get(ext_cb, user_id, ds_id)
+function nc_ds_get(ext_cb, sid, did)
 {
-    var cmd = ['au', user_id,
-        'ds get', ds_id
+    var cmd = ['au', sid,
+        'ds get', did
     ].join(' ');
     var int_cb = function(data)
     {
@@ -180,11 +180,11 @@ function nc_ds_get(ext_cb, user_id, ds_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_upd_title(ext_cb, user_id, ds_id, title)
+function nc_ds_upd_title(ext_cb, sid, did, title)
 {
-    var cmd = ['au', user_id,
-        'ds update', ds_id, 'title', window.btoa(title), '+',
-        'ds get', ds_id
+    var cmd = ['au', sid,
+        'ds update', did, 'title', window.btoa(title), '+',
+        'ds get', did
     ].join(' ');
     var int_cb = function(data)
     {
@@ -200,11 +200,11 @@ function nc_ds_upd_title(ext_cb, user_id, ds_id, title)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_upd_descr(ext_cb, user_id, ds_id, descr)
+function nc_ds_upd_descr(ext_cb, sid, did, descr)
 {
-    var cmd = ['au', user_id, 
-        'ds update', ds_id, 'descr', window.btoa(descr), '+',
-        'ds get', ds_id
+    var cmd = ['au', sid, 
+        'ds update', did, 'descr', window.btoa(descr), '+',
+        'ds get', did
     ].join(' ');
     var int_cb = function(data)
     {
@@ -220,75 +220,10 @@ function nc_ds_upd_descr(ext_cb, user_id, ds_id, descr)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_upd_cat(ext_cb, user_id, ds_id, cat_id)
+function nc_cat_kids(ext_cb, sid, cid)
 {
-    var cmd = [
-        'au', user_id, 
-        'ds update', ds_id, 'categ', cat_id, '+',
-        'ds get', ds_id
-    ].join(' ');
-    var int_cb = function(data)
-    {
-        let resp = nc_get_resp(data);
-        let _data = eng_get_data(data);
-        let ds = (_data === null)
-            ? _data
-            : eng_get_ds_get(_data[0]);
-
-        ext_cb(resp, data, ds);
-    };
-
-    ajx_send_command(cmd, int_cb, g_pulse);
-}
-
-function nc_ds_add_kwd(ext_cb, user_id, ds_id, kwd)
-{
-    var cmd = [
-        'au', user_id, 
-        'ds addkw', ds_id, window.btoa(kwd), '+',
-        'ds get', ds_id
-    ].join(' ');
-    var int_cb = function(data)
-    {
-        let resp = nc_get_resp(data);
-        let _data = eng_get_data(data);
-        let ds = (_data === null)
-            ? _data
-            : eng_get_ds_get(_data[0]);
-
-        ext_cb(resp, data, ds);
-    };
-
-    ajx_send_command(cmd, int_cb, g_pulse);
-}
-
-function nc_ds_del_kwd(ext_cb, user_id, ds_id, kwd)
-{
-    var cmd = [
-        'au', user_id, 
-        'ds delkw', ds_id, window.btoa(kwd), '+',
-        'ds get', ds_id
-    ].join(' ');
-    var int_cb = function(data)
-    {
-        let resp = nc_get_resp(data);
-        let _data = eng_get_data(data);
-        let ds = (_data === null)
-            ? _data
-            : eng_get_ds_get(_data[0]);
-
-        ext_cb(resp, data, ds);
-    };
-
-    ajx_send_command(cmd, int_cb, g_pulse);
-}
-
-
-
-function nc_cat_kids(ext_cb, user_id, cat_id)
-{
-    var cmd = ['au', user_id,
-        'cat', 'kids', cat_id
+    var cmd = ['au', sid,
+        'cat', 'kids', cid
     ].join(' ');
     var int_cb = function(data)
     {
@@ -305,42 +240,107 @@ function nc_cat_kids(ext_cb, user_id, cat_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_keywords(ext_cb, user_id)
+function nc_ds_upd_cat(ext_cb, sid, did, cid)
 {
-    var cmd = ['au', user_id, 'keywords'].join(' ');
+    var cmd = [
+        'au', sid, 
+        'ds update', did, 'categ', cid, '+',
+        'ds get', did
+    ].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
         let _data = eng_get_data(data);
-        let ckids = (_data === null)
+        let ds = (_data === null)
             ? _data
-            : eng_get_keywords(_data[0]);
+            : eng_get_ds_get(_data[0]);
 
-
-        ext_cb(resp, data, ckids);
+        ext_cb(resp, data, ds);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_file_list(ext_cb, user_id, ds_id)
+function nc_ds_add_kwd(ext_cb, sid, did, kwd)
 {
-    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'list'].join(' ');
+    var cmd = [
+        'au', sid, 
+        'ds addkw', did, window.btoa(kwd), '+',
+        'ds get', did
+    ].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let ds = (_data === null)
+            ? _data
+            : eng_get_ds_get(_data[0]);
 
-        data = eng_get_file_list(data);
-
-        ext_cb(resp, data);
+        ext_cb(resp, data, ds);
     };
 
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_file_new(ext_cb, user_id, ds_id)
+function nc_ds_del_kwd(ext_cb, sid, did, kwd)
 {
-    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'new'].join(' ');
+    var cmd = [
+        'au', sid, 
+        'ds delkw', did, window.btoa(kwd), '+',
+        'ds get', did
+    ].join(' ');
+    var int_cb = function(data)
+    {
+        let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let ds = (_data === null)
+            ? _data
+            : eng_get_ds_get(_data[0]);
+
+        ext_cb(resp, data, ds);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function nc_keywords(ext_cb, sid)
+{
+    var cmd = ['au', sid, 'keywords'].join(' ');
+    var int_cb = function(data)
+    {
+        let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let kwd = (_data === null)
+            ? _data
+            : eng_get_keywords(_data[0]);
+
+        ext_cb(resp, data, kwd);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function nc_ds_file_list(ext_cb, sid, did)
+{
+    var cmd = ['au', sid, 'ds', 'file', did, 'list'].join(' ');
+    var int_cb = function(data)
+    {
+        let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let f_list = (_data === null)
+            ? _data
+            : eng_get_file_list(_data[0]);
+
+        ext_cb(resp, data, f_list);
+
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}
+
+function nc_ds_file_new(ext_cb, sid, did)
+{
+    var cmd = ['au', sid, 'ds', 'file', did, 'new'].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);
@@ -353,9 +353,9 @@ function nc_ds_file_new(ext_cb, user_id, ds_id)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
-function nc_ds_file_del(ext_cb, user_id, ds_id, f_id)
+function nc_ds_file_del(ext_cb, sid, did, f_id)
 {
-    var cmd = ['au', user_id, 'ds', 'file', ds_id, 'del', f_id].join(' ');
+    var cmd = ['au', sid, 'ds', 'file', did, 'del', f_id].join(' ');
     var int_cb = function(data)
     {
         let resp = nc_get_resp(data);

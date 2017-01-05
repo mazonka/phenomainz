@@ -61,11 +61,11 @@ function wid_init_ui_cat_menu($obj, ds, pcat)
         .button()
         .click(function()
         {
-            let cat_id = $(this).parent().find(
+            let cid = $(this).parent().find(
                 'select :selected').attr('value');
 
+            wid_nc_ds_upd_categ(ds.id, cid);
             wid_close_modal_window();
-            wid_nc_ds_upd_categ(ds.id, cat_id);
         });
 
     $m.selectmenu(

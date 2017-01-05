@@ -418,16 +418,16 @@ function wid_fill_dsitem_props(ds)
 }
 
 
-function wid_fill_dsitem_files(ds_id, list, file)
+function wid_fill_dsitem_files(did, list, file)
 {
-    console.log('files');
-    var $dsitem = $('#' + DIV_DS + ds_id);
+    var $dsitem = $('#' + DIV_DS + did);
     var $files_row = $dsitem.find('.dsfiles-div');
-    var $files = get_jq_files_table(ds_id, list, file);
+    var $files = get_jq_files_table(did, list, file);
 
     if ($files_row.html() == '')
     {
         let $accdn = get_jq_dsitem_files();
+        
         $files_row.html($accdn);
         $files_row.find('.dsfiles-content').html($files);
 
@@ -442,12 +442,25 @@ function wid_fill_dsitem_files(ds_id, list, file)
     wid_init_ui_tooltip($files_row.find('.dsfiles-delete'));
 };
 
-function wid_cat_menu(ds, pcat, kcat) {
+function wid_categ_menu(ds, pcat, kcat) {
     var $obj = get_jq_cat_menu(pcat, kcat);
+    
     var init = function ()
     {
         wid_init_ui_cat_menu ($obj, ds, pcat);
     }
 
     wid_open_modal_window($obj, false, init);    
+}
+
+function wid_keywd_menu(ds) {
+    var list = eng_compare_lists(g_keywords, ds.kwd);
+    var $obj = get_jq_ds_kwd_add(ds, list);
+    
+    var init = function ()
+    {
+        wid_init_ui_kwd_autocomplete($obj, g_keywords, ds);
+    };
+
+    wid_open_modal_window($obj, false, init);
 }

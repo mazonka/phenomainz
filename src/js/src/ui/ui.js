@@ -11,18 +11,18 @@ function ui_write()
     return html_get_body();
 }
 
-function doc_init(user_id)
+function doc_init(sid)
 {
     $(document).ready(function()
     {
-        ui_init(user_id);
+        ui_init(sid);
     });
 }
 
-function ui_init(user_id)
+function ui_init(sid)
 {
-    g_user_id = user_id;
-    console.log(user_id);
+    g_sid = sid;
+    console.log(sid);
 
 /* 
     $('#button_google, #button_facebook, #button_linkedin, #button_windows')

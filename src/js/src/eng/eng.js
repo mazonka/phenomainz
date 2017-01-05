@@ -34,9 +34,9 @@ function eng_compare_lists(list, exclude)
     return list.filter(val => !exclude.includes(val));
 }
 
-function eng_get_accordion_header(ds_id, title)
+function eng_get_accordion_header(did, title)
 {
-    return ds_id + '. ' + title;
+    return did + '. ' + title;
 }
 
 function eng_open_file(file, ext_cb, ext_progress, ext_done)
@@ -339,9 +339,9 @@ function eng_get_cat_kids(data)
 function eng_get_keywords(data)
 {
     var _data = data;
-
-    _data = data.splice(1);
-    _data = eng_get_b64dec_list(data);
+    
+    _data.shift();
+    _data = eng_get_b64dec_list(_data);
 
     return _data;
 }

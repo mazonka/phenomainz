@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-var g_user_id = '';
+var g_sid = '';
 var g_keywords = [];
 var g_ds = []; //dataset tree
 
