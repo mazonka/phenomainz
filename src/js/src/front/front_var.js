@@ -3,7 +3,45 @@
 
 var g_sid = '';
 var g_keywords = [];
-var g_ds = []; //dataset tree
+const G_UDM = {};
+
+Object.defineProperty(G_UDM, 'admin',
+{
+    configurable: false,
+    writable: true,
+    value: Boolean()
+});
+
+Object.defineProperty(G_UDM, 'profile', { value: {} });
+Object.defineProperty(G_UDM, 'dataset', { value: {} });
+
+
+//user data mirror
+/* 
+const G_UDM = {
+    profile: 
+    {
+        nm: '', em: '', ll: '', lc: '', qt: 10, ug: 0        
+    },
+    ds: 
+    {
+        id0: 
+        { 
+            props: 
+            {
+                title: '', descr: '', keywd: [], categ: ''
+            },
+            files: 
+            {
+                fidN: 
+                {
+                    name: '', descr: '', size: '', id: fid
+                }
+            }
+        }
+    }
+}; 
+*/
 
 const TD_LOGIN = 'td_login';
 const TD_PROFILE = 'td_profile';
@@ -44,3 +82,5 @@ var g_img = [
 var g_img_preload = [];
 
 var g_pulse = wid_pulse();
+
+

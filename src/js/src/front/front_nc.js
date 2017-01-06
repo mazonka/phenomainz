@@ -261,12 +261,25 @@ function wid_nc_ds_file_list(did)
 
 function wid_nc_ds_file_new(did, file)
 {
-    var cb = function(resp, data, list)
+    var cb = function(resp, data, list, fid)
     {
         if (0)
         {}
         else if (resp) 
-        {wid_fill_dsitem_files(did, list)}
+        {
+            file.id = fid;
+            
+            let id = list.map(function(e)
+            {
+                return e.id;
+            }).indexOf(fid);
+            
+            list[id].descr = file.name;
+            
+            console.log(file)
+            console.log(list);
+            wid_fill_dsitem_files(did, list);
+        }
         else if (resp === false) wid_ui_login(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
@@ -286,4 +299,21 @@ function wid_nc_ds_file_del(did, fid)
     };
 
     nc_ds_file_del(cb, g_sid, did, fid);
+}
+
+function wid_nc_ds_file_put(did, fid, file)
+{
+    var cb = function(resp, data, list)
+    {
+        if (0)
+        {}
+        else if (resp)
+        {
+            wid_fill_dsitem_files(did, list);
+        } 
+        else if (resp === false) wid_ui_login(false);
+        else wid_open_modal_window(M_TXT.ERROR + data, true);
+    };
+
+    nc_ds_file_put(cb, g_sid, did, fid, file);
 }

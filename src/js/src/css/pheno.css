@@ -104,7 +104,6 @@ button {
 .dsprops-table td {
     text-align: left;
     vertical-align: top;
-    width:
 }
 /* .dsprops-table input,
 .dsprops-table textarea {
@@ -170,7 +169,6 @@ button {
 }
 .dsprops-keywords {
     /* display: inline-block !important; */
-    
     float: left;
     resize: both;
     overflow: auto;
@@ -218,7 +216,8 @@ button {
 }
 .dsfiles-placeholder {
     border: 1px solid #DDDDDD;
-    margin: 0.25em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
 }
 .dsfiles-delete {
     float: right;

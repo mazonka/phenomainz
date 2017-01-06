@@ -202,7 +202,7 @@ function wid_ui_login(au)
         $('#' + TD_PROFILE).show();
         $('#' + TD_DSITEM_CREATE).show();
         $('#' + TD_DSLIST).show();
-
+        
         wid_nc_admin_ping();
         wid_nc_profile();
         wid_nc_ds_list();
@@ -380,9 +380,22 @@ function wid_fill_ds_list(list)
     $('#' + TD_DSLIST)
         .children()
         .remove();
-
+    
+/*     for (let i = 0; i < list.n; i++) {
+        g_ds[i] = {};
+        g_ds[i].id = list.id[i];
+        g_ds[i].title = list.title[i];
+    }
+    
+    console.log(
+        g_ds.map(function(e)
+        {
+            return e.id;
+        }).indexOf('2')); */
+        
     if (Boolean(list) && list.n > 0)
     {
+        
         let $div = get_jq_ds_list(list.n, list.id, list.title);
 
         $('#span_profile_vol_usg').html(list.usage);
@@ -395,9 +408,6 @@ function wid_fill_ds_list(list)
         });
 
         wid_init_ui_tooltip($div.find('.dsitem-header-delete'));
-
-        //debug part
-        Boolean(list.tail) && alert('ds list tail:\n' + list.tail);
     }
     else
     {
@@ -467,3 +477,4 @@ function wid_keywd_menu(ds)
 
     wid_open_modal_window($obj, false, init);
 }
+

@@ -460,7 +460,6 @@ function get_jq_files_table(did, files, new_file)
     return $div;
 }
 
-
 function get_jq_files_add(did)
 {
     var $div = $('<div/>')

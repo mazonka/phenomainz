@@ -41,14 +41,14 @@ function eng_get_accordion_header(did, title)
 
 function eng_open_file(file, ext_cb, ext_progress, ext_done)
 {
-    var output = [];
-    var obj = {};
+    var obj = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        error: 0,
+        raw: ''
+    };
 
-    obj.name = file.name;
-    obj.size = file.size;
-    obj.type = file.type;
-    obj.error = 0;
-    obj.raw = '';
     /*
     file.error list:
     0 - no error;
@@ -94,12 +94,9 @@ function eng_open_file(file, ext_cb, ext_progress, ext_done)
     reader.onload = function onload_handler(data)
     {
         var bytes = new Uint8Array(data.target.result);
-        var len = bytes.byteLength;
 
-        for (let i = 0; i < len; i++)
-        {
+        for (let i = 0, len = bytes.byteLength; i < len; i++)
             obj.raw += String.fromCharCode(bytes[i]);
-        }
 
         ext_cb(obj);
     };
@@ -108,8 +105,7 @@ function eng_open_file(file, ext_cb, ext_progress, ext_done)
     {
         if (data.lengthComputable)
         {
-            let loaded = parseInt(((data.loaded / data.total) * 100),
-                10);
+            let loaded = parseInt(((data.loaded / data.total) * 100),10);
             ext_progress(loaded);
         }
     };
@@ -149,7 +145,7 @@ function eng_is_table(data)
 
     for (let i = 0, l = row.length; i < l; i++)
     {
-        col[i] = row[i].split(' ');
+        col.push(row[i].split(' '));
 
         if (i > 0 && col[i].length !== col[i - 1].length)
         {
@@ -324,11 +320,12 @@ function eng_get_cat_kids(data)
 
     while (_data.length > 0)
     {
-        cat[i] = {};
-
-        cat[i].id = _data.shift();
-        cat[i].name = window.atob(_data.shift());
-        cat[i].parent = _data.shift();
+        cat.push(
+        {
+            id: _data.shift(),
+            name: window.atob(_data.shift()),
+            parent: _data.shift()
+        });
 
         i++;
     }
@@ -356,11 +353,12 @@ function eng_get_file_list(data)
 
     while (_data.length > 0)
     {
-        ls[i] = {};
-
-        ls[i].id = _data.shift();
-        ls[i].descr = window.atob(_data.shift());
-        ls[i].size = +_data.shift();
+        ls.push(
+        {
+            id: _data.shift(),
+            descr: window.atob(_data.shift()),
+            size: +_data.shift()
+        });
 
         i++;
     }
@@ -373,4 +371,11 @@ function eng_get_file_new_id(data)
     var _data = data;
 
     return _data[0];
+}
+
+function eng_get_file_put(data)
+{
+    var _data = data;
+
+    return +_data[0];
 }
