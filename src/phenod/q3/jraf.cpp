@@ -23,7 +23,7 @@ string Jraf::request(gl::Token tok)
         if ( !tok.next() ) return bad();
         string cmd = tok.sub();
 
-        if ( cmd == "ping" ) result += er::Code(er::OK);
+        if ( cmd == "ping" ) result += er::Code(er::OK).str();
         else if ( cmd == "version" )
         {
             if ( !tok.next() ) result += bad();
@@ -88,9 +88,6 @@ os::Path Jraf::ver_path(const os::Path & p) const
 string Jraf::getver(const os::Path & p) const
 {
     os::Path q = ver_path(p);
-    ///if ( isdir ) q += jraf::ver_ext;
-    ///else q.glue(jraf::ver_ext);
-
     string ver = gl::file2str( q.str() );
     ver = zero(ver);
     return gl::tos(gl::toi(ver));
@@ -99,11 +96,6 @@ string Jraf::getver(const os::Path & p) const
 void Jraf::setver(const os::Path & p, string v)
 {
     os::Path q = ver_path(p);
-    ///os::Path q = p;
-    ///if ( isdir ) q += jraf::ver_ext;
-    ///else q.glue(jraf::ver_ext);
-
-    //os::Cout() << "AAA setver [" << p.str() << "] [" << q.str() << "]" << os::endl;
 
 	os::Path parent = parent_str(q);
 	if( !parent.isdir() ) os::FileSys::trymkdir(parent);
@@ -116,9 +108,12 @@ void Jraf::setver(const os::Path & p, string v)
 
 bool Jraf::special(string s, bool su)
 {
-    if (su) return false;
     if ( s.find(jraf::ver_name) != string::npos ) return true;
+
+    if (su) return false;
+
     if ( s.find(jraf::sys_name) != string::npos ) return true;
+
     return false;
 };
 
@@ -130,7 +125,6 @@ string Jraf::read_obj(string pth, bool getonly, bool su)
 
     if ( p.isdir() )
     {
-        ///string ver = getver(pth, true);
         string q = ver + " -1";
         if ( getonly ) return ok(q);
 
@@ -164,7 +158,6 @@ string Jraf::read_obj(string pth, bool getonly, bool su)
 
     if ( p.isfile() )
     {
-        ///string ver = getver(p, false);
         string r = ver + ' ' + gl::tos(p.filesize());
         if ( getonly ) return ok(r);
         r += ' ' + ma::b64enc( gl::file2str(p.str()) );
@@ -184,7 +177,7 @@ string Jraf::aurequest(gl::Token & tok)
     string cmd = tok.sub();
 
     string pth;
-    string er = read_tok_path(tok, sess, pth);
+    string er = read_tok_path(tok, sess, pth, false); // FIXME su
     if ( !er.empty() ) return er;
 
     if (0) {}
@@ -196,7 +189,7 @@ string Jraf::aurequest(gl::Token & tok)
     else if ( cmd == "mv" )
     {
         string pto;
-        er = read_tok_path(tok, sess, pto);
+        er = read_tok_path(tok, sess, pto, false); // FIXME su
         if ( !er.empty() ) return er;
         return aureq_mv(pth, pto);
     }
@@ -210,12 +203,9 @@ string Jraf::aureq_rm(string pth)
 	if( pth.empty() ) return fail("root cannot be removed");
 
     os::Path p = root(pth);
-    ///bool dir = p.isdir();
 
     p.erase();
     if ( p.isdir() || p.isfile() ) return fail(pth);
-
-    ///ver_path(p, dir).erase();
 
     update_ver(pth);
     update_ver(parent_str(pth));
@@ -233,7 +223,7 @@ string Jraf::aureq_md(string pth)
     return ok(pth);
 }
 
-bool Jraf::check_au_path(string sess, string pth)
+bool Jraf::check_au_path(string sess, string pth, bool su)
 {
     os::Path usr = users();
     if ( !usr.isdir() ) return true;
@@ -287,7 +277,7 @@ string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 }
 
 // return "" on success or error message
-string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth)
+string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
 {
     if ( !tok.next() ) return err("path");
     string p = tok.sub();
@@ -301,7 +291,11 @@ string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth)
     while ( !p.empty() && p[p.size() - 1] == '/' )
         p = p.substr(0, p.size() - 1);
 
-    if ( !check_au_path(sess, p) ) return fail("auth");
+	if( special(p,su) ) return fail("sys");
+    if ( !check_au_path(sess, p, su) ) return fail("auth");
+
+	///if ( p.find(jraf::sys_name) != string::npos ) return err(jraf::sys_name);
+	///if ( p.find(jraf::ver_name) != string::npos ) return err(jraf::ver_name);
 
     pth = p;
     return "";
@@ -310,25 +304,17 @@ string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth)
 string Jraf::aureq_mv(string pth, string pto)
 {
     os::Path f1 = root(pth);
-    os::Path f2 = root(pto);
     bool dir = f1.isdir();
 
-	if( dir )
-	{
-		string msg = "aureq_mv - directory move NI - need copy versions recursively";
-	    os::Cout() << msg << os::endl;
-		return fail("msg");
-	}
+	if( dir ) return fail("moving direcrories not allowed");
+	// the reason is that it would require recursive copying
+	// of the version files sub-tree, since it cannot be moved
+
+    os::Path f2 = root(pto);
 
     bool k = os::rename(f1.str(), f2.str());
     if ( !k ) return fail(pth + " -> " + pto);
     if ( f1.isdir() || f1.isfile() ) return fail(pth);
-
-    ///ver_path(f1, dir).erase();
-    ///update_ver(f2, dir);
-
-    ///if (f1.str() != root_dir) update_ver(parent_str(f1), true);
-    ///if (f2.str() != root_dir) update_ver(parent_str(f2), true);
 
     update_ver(pto);
     update_ver(pth);
@@ -341,12 +327,6 @@ string Jraf::aureq_mv(string pth, string pto)
 string Jraf::parent_str(os::Path pth)
 {
     string spth = pth.str();
-    //os::Cout()<<"AAA spth="<<spth<<os::endl;
-
-    ///if ( spth == root_dir ) return spth;
-
-    ///if ( spth.size() <= root_dir.size() )
-    ///    throw gl::ex("Error in Jraf::parent_str [" + spth + "] [" + root_dir + "]");
 
     if ( pth.size() < 2 ) return "";
     string up = pth.strP(pth.size() - 2);
@@ -355,24 +335,9 @@ string Jraf::parent_str(os::Path pth)
 
 void Jraf::update_ver(os::Path pth)
 {
-    //os::Cout() << "AAA 1 update_ver [" << pth.str() << "]" << os::endl;
-
     string v = getver(pth);
     v = gl::tos( gl::toi(v) + 1 );
     setver(pth, v);
-
-    /*///
-    string spth = pth.str();
-    //os::Cout()<<"AAA spth="<<spth<<os::endl;
-
-    if ( spth == root_dir ) return;
-
-    if ( spth.size() <= root_dir.size() )
-        throw gl::ex("Error in Jraf::update_ver [" + spth + "] [" + root_dir + "]");
-
-    string up = pth.strP(pth.size() - 2);
-    //os::Cout()<<"AAA up="<<up<<os::endl;
-    */
 
     string up = parent_str(pth);
     if ( up == pth.str() ) return;

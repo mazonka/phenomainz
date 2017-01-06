@@ -28,7 +28,7 @@ class Jraf
         hq::AccessController access;
         string root_dir;
 
-        static bool Jraf::special(string s, bool su);
+        static bool special(string s, bool su);
 
         os::Path root(string s) const { return os::Path(root_dir) + s; }
         os::Path sys_dir() const { return root(jraf::sys_name); }
@@ -43,12 +43,12 @@ class Jraf
 
         string aurequest(gl::Token & tok);
         string read_obj(string p, bool getonly, bool su);
-        bool check_au_path(string sess, string pth);
+        bool check_au_path(string sess, string pth, bool su);
         string aureq_rm(string pth);
         string aureq_md(string pth);
         string aureq_put(gl::Token & tok, string pth, bool append);
         string aureq_mv(string pth, string pto);
-        string read_tok_path(gl::Token & tok, string sess, string & pth);
+        string read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
 
         os::Path ver_path(const os::Path & p) const;
         void setver(const os::Path & p, string v);
@@ -62,5 +62,25 @@ class Jraf
         string request(gl::Token tok);
 };
 
+/*
+Superuser Y N
+Users_dir Y N
+Ver files Y N R
+Sys files Y N R
+Hom files Y N R
+Oth files Y N R
+
+SY UY => VN SY HY OY
+SY UN => VN SY HY OY
+SN UN => VN SY HY OY
+SN UY => VN SN HY OR
+
+1. Version files are not visible and not writable for anyone
+2. if( Superuser or no Users_dir ) All files are visible and writable
+3. if( no Superuser and Unsers_dir )
+	3.1 Sys files not visible and not writable
+	3.2 Home files visible and writable
+	3.3 Other files visible but not writable
+*/
 
 #endif

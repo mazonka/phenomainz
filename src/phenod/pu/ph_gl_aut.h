@@ -47,7 +47,7 @@ struct AutArea
     AutQueue que;
 
     AutArea(int sz, string dbfile, string jroot)
-        : access2autArea(1), que(sz), phdb(dbfile), jraf(jroot) { testConf(); }
+        : phdb(dbfile), jraf(jroot), access2autArea(1), que(sz) { testConf(); }
 
     void testConf();
 
