@@ -15,7 +15,6 @@ Object.defineProperty(G_UDM, 'admin',
 Object.defineProperty(G_UDM, 'profile', { value: {} });
 Object.defineProperty(G_UDM, 'dataset', { value: {} });
 
-
 //user data mirror
 /* 
 const G_UDM = {
@@ -27,16 +26,10 @@ const G_UDM = {
     {
         id0: 
         { 
-            props: 
-            {
-                title: '', descr: '', keywd: [], categ: ''
-            },
+            props: { title: '', descr: '', keywd: [], categ: '' },
             files: 
             {
-                fidN: 
-                {
-                    name: '', descr: '', size: '', id: fid
-                }
+                fidN: { name: '', descr: '', size: '', id: fid }
             }
         }
     }

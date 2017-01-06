@@ -450,13 +450,13 @@ function get_jq_dsitem_files(ds)
 }
 
 // gets empty table for datasets file list
-function get_jq_files_table(did, files, new_file)
+function get_jq_files_table(did, files)
 {
     var $div = $('<div/>');
 
     $div
         .append(get_jq_files_add(did))
-        .append(get_jq_files_files(did, files, new_file));
+        .append(get_jq_files_files(did, files));
     return $div;
 }
 
@@ -485,38 +485,26 @@ function get_jq_files_add(did)
     return $div;
 }
 
-function get_jq_files_files(did, files, new_file)
+function get_jq_files_files(did, files)
 {
     var $o = $();
     
     for (let i = 0, l = files.length; i < l; i++)
     {
-        let size = files[i].size;
-        let descr = files[i].descr;
-        let fl_id = files[i].id;
-
-        if (Boolean(new_file) && files[i].id == new_file.id)
-        {
-            size = new_file.size;
-            descr = new_file.name;
-            fl_id = new_file.id;
-        }
-
         $o = $o.add($('<div/>')
             .append($('<span/>')
                 .html('Description:')
             )
             .append($('<span/>')
-                .html(get_jq_ds_file_descr(did, descr)))
+                .html(get_jq_ds_file_descr(did, files[i].descr)))
             .append($('<span/>')
-                .html(size)
+                .html(files[i].size)
             )
             .append($('<span/>')
-                .html(get_jq_ds_file_delete(did, fl_id))
+                .html(get_jq_ds_file_delete(did, files[i].id))
             )
             .addClass('dsfiles-placeholder')
         );
-
     }
 
     return $o;

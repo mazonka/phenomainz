@@ -272,12 +272,14 @@ function wid_nc_ds_file_new(did, file)
             let id = list.map(function(e)
             {
                 return e.id;
-            }).indexOf(fid);
+            })
+            .indexOf(fid);
             
             list[id].descr = file.name;
             
             console.log(file)
             console.log(list);
+
             wid_fill_dsitem_files(did, list);
         }
         else if (resp === false) wid_ui_login(false);
