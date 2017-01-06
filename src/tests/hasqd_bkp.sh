@@ -17,8 +17,8 @@ $svn co $url -r 22
 #init
 #exit
 
-start=22
-end=23
+start=400
+end=421
 
 for (( x=$start; x<=$end; x++ ))
 do
