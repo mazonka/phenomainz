@@ -41,7 +41,7 @@ string Jraf::request(gl::Token tok)
             hq::LockRead lock(&access);
             if ( !tok.next() ) return bad();
             string p = tok.sub();
-            result += read_obj(p, cmd == "get");
+            result += read_obj(p, cmd == "get", false); // superuser=false FIXME
         }
 
         else if ( cmd == "au" )
@@ -68,7 +68,7 @@ string Jraf::request(gl::Token tok)
 
 string Jraf::client_version()
 {
-    string p = root(jraf::sys_ext).str();
+    string p = (sys_dir() + "version").str();
     string fever = gl::file2str(p);
 
     if ( fever.empty() ) return err("no file system found [" + p + "]");
@@ -76,16 +76,27 @@ string Jraf::client_version()
     return ok(fever);
 }
 
-os::Path Jraf::ver_path(const os::Path & p, bool isdir)
+os::Path Jraf::ver_path(const os::Path & p, bool isdir) const // FIXME remove isdir
 {
-    os::Path q = p;
-    if ( isdir ) q += jraf::ver_ext;
-    else q.glue(jraf::ver_ext);
-    return q;
+	os::Path q = p;
+
+	q = q.glue(jraf::ver_name);
+
+	q = ver_dir() + q;
+    ///if ( p.size() > 1 ) q = ver_dir() + p;
+    ///else q = ver_dir() + jraf::ver_name;
+
+    //os::Cout() << "AAA ver_path [" << p.str() << "] [" << q.str() << "]" << os::endl;
+
+	return q;
+
+    ///if ( isdir ) q += jraf::ver_ext;
+    ///else q.glue(jraf::ver_ext);
+    ///return q;
 }
 
 
-string Jraf::getver(const os::Path & p, bool isdir)
+string Jraf::getver(const os::Path & p, bool isdir) const
 {
     os::Path q = ver_path(p, isdir);
     ///if ( isdir ) q += jraf::ver_ext;
@@ -103,19 +114,34 @@ void Jraf::setver(const os::Path & p, bool isdir, string v)
     ///if ( isdir ) q += jraf::ver_ext;
     ///else q.glue(jraf::ver_ext);
 
+    //os::Cout() << "AAA setver [" << p.str() << "] [" << q.str() << "]" << os::endl;
+
+	os::Path parent = parent_str(q);
+	if( !parent.isdir() ) os::FileSys::trymkdir(parent);
+	if( !parent.isdir() ) throw gl::ex("Failed to make dir " + parent.str());
+
     std::ofstream of(q.str(), std::ios::binary );
     of << v << '\n';
     if ( !of ) throw gl::ex("Bad access to " + q.str());
 }
 
-
-string Jraf::read_obj(string pth, bool getonly)
+bool Jraf::special(string s, bool su)
 {
+    if (su) return false;
+    if ( s.find(jraf::ver_name) != string::npos ) return true;
+    if ( s.find(jraf::sys_name) != string::npos ) return true;
+    return false;
+};
+
+string Jraf::read_obj(string pth, bool getonly, bool su)
+{
+    os::Path rp(pth);
     os::Path p = root(pth);
+    string ver = getver(pth, true);
 
     if ( p.isdir() )
     {
-        string ver = getver(p, true);
+        ///string ver = getver(pth, true);
         string q = ver + " -1";
         if ( getonly ) return ok(q);
 
@@ -124,17 +150,10 @@ string Jraf::read_obj(string pth, bool getonly)
         string r;
         int cntr = 0;
 
-        auto isspec = [](string s) -> bool
-        {
-            if ( gl::endswith(s, jraf::ver_ext) ) return true;
-            if ( gl::endswith(s, jraf::sys_ext) ) return true;
-            return false;
-        };
-
         for ( auto i : dir.dirs )
         {
-            if ( isspec(i) ) continue;
-            r += ' ' + getver(p + i, true);
+            if ( special(i, su) ) continue;
+            r += ' ' + getver(rp + i, true);
             r += " -1";
             r += ' ' + i;
             cntr++;
@@ -142,8 +161,8 @@ string Jraf::read_obj(string pth, bool getonly)
 
         for ( auto i : dir.files )
         {
-            if ( isspec(i.first) ) continue;
-            r += ' ' + getver(p + i.first, false);
+            if ( special(i.first, su) ) continue;
+            r += ' ' + getver(rp + i.first, false);
             r += ' ' + gl::tos(i.second);
             r += ' ' + i.first;
             cntr++;
@@ -156,7 +175,7 @@ string Jraf::read_obj(string pth, bool getonly)
 
     if ( p.isfile() )
     {
-        string ver = getver(p, false);
+        ///string ver = getver(p, false);
         string r = ver + ' ' + gl::tos(p.filesize());
         if ( getonly ) return ok(r);
         r += ' ' + ma::b64enc( gl::file2str(p.str()) );
@@ -199,16 +218,18 @@ string Jraf::aurequest(gl::Token & tok)
 
 string Jraf::aureq_rm(string pth)
 {
+	if( pth.empty() ) return fail("root cannot be removed");
+
     os::Path p = root(pth);
-    bool dir = p.isdir();
+    ///bool dir = p.isdir();
 
     p.erase();
     if ( p.isdir() || p.isfile() ) return fail(pth);
 
-    ver_path(p, dir).erase();
+    ///ver_path(p, dir).erase();
 
-    if (p.str() != root_dir)
-        update_ver(parent_str(p), true);
+    update_ver(pth, true);
+    update_ver(parent_str(pth), true);
 
     return ok(pth);
 }
@@ -219,14 +240,14 @@ string Jraf::aureq_md(string pth)
     if ( p.isdir() ) return ok(pth);
     os::FileSys::trymkdir(p);
     if ( !p.isdir() ) return fail(pth);
-    update_ver(p, true);
+    update_ver(pth, true);
     return ok(pth);
 }
 
 bool Jraf::check_au_path(string sess, string pth)
 {
-    os::Path users = users_dir();
-    if ( !users.isdir() ) return true;
+    os::Path usr = users();
+    if ( !usr.isdir() ) return true;
 
     os::Cout() << "Jraf::check_au_path - NI" << os::endl;
     return true;
@@ -272,7 +293,7 @@ string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
         of << text;
     }
 
-    update_ver(f, false);
+    update_ver(pth, false);
     return ok(gl::tos(f.filesize()));
 }
 
@@ -303,15 +324,27 @@ string Jraf::aureq_mv(string pth, string pto)
     os::Path f2 = root(pto);
     bool dir = f1.isdir();
 
+	if( dir )
+	{
+		string msg = "aureq_mv - directory move NI - need copy versions recursively";
+	    os::Cout() << msg << os::endl;
+		return fail("msg");
+	}
+
     bool k = os::rename(f1.str(), f2.str());
     if ( !k ) return fail(pth + " -> " + pto);
     if ( f1.isdir() || f1.isfile() ) return fail(pth);
 
-    ver_path(f1, dir).erase();
-	update_ver(f2, dir);
+    ///ver_path(f1, dir).erase();
+    ///update_ver(f2, dir);
 
-    if (f1.str() != root_dir) update_ver(parent_str(f1), true);
-    if (f2.str() != root_dir) update_ver(parent_str(f2), true);
+    ///if (f1.str() != root_dir) update_ver(parent_str(f1), true);
+    ///if (f2.str() != root_dir) update_ver(parent_str(f2), true);
+
+    update_ver(pto, dir);
+    update_ver(pth, dir);
+    update_ver(parent_str(pto), true);
+    update_ver(parent_str(pth), true);
 
     return ok(pto);
 }
@@ -321,17 +354,20 @@ string Jraf::parent_str(os::Path pth)
     string spth = pth.str();
     //os::Cout()<<"AAA spth="<<spth<<os::endl;
 
-    if ( spth == root_dir ) return spth;
+    ///if ( spth == root_dir ) return spth;
 
-    if ( spth.size() <= root_dir.size() )
-        throw gl::ex("Error in Jraf::update_ver [" + spth + "] [" + root_dir + "]");
+    ///if ( spth.size() <= root_dir.size() )
+    ///    throw gl::ex("Error in Jraf::parent_str [" + spth + "] [" + root_dir + "]");
 
+    if ( pth.size() < 2 ) return "";
     string up = pth.strP(pth.size() - 2);
     return up;
 }
 
 void Jraf::update_ver(os::Path pth, bool dir)
 {
+    //os::Cout() << "AAA 1 update_ver [" << pth.str() << "]" << os::endl;
+
     string v = getver(pth, dir);
     v = gl::tos( gl::toi(v) + 1 );
     setver(pth, dir, v);

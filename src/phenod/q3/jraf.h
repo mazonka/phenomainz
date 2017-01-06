@@ -13,15 +13,14 @@ using std::string;
 
 namespace jraf
 {
-const char * const be_version = "10375";
-///const char * const root_dir = "jraf";
-const char * const sys_ext = ".jraf.sys";
-const char * const ver_ext = ".jraf.ver";
-const char * const home = "home";
-const char * const etc = "etc";
-const char * const sys = "sys";
+const char * const be_version = "10420";
+const char * const sys_name = ".jraf.sys";
+const char * const ver_name = ".jraf.ver";
 const string users = "users";
-const string login = "login";
+//const char * const home = "home";
+//const char * const etc = "etc";
+//const char * const sys = "sys";
+//const string login = "login";
 } // jraf
 
 class Jraf
@@ -29,9 +28,12 @@ class Jraf
         hq::AccessController access;
         string root_dir;
 
-        os::Path root(string s) const { return os::Path(root_dir) + s; }
-	    os::Path users_dir() const { return root(jraf::users + jraf::sys_ext); }
+        static bool Jraf::special(string s, bool su);
 
+        os::Path root(string s) const { return os::Path(root_dir) + s; }
+        os::Path sys_dir() const { return root(jraf::sys_name); }
+        os::Path ver_dir() const { return root(jraf::ver_name); }
+        os::Path users() const { return sys_dir() + jraf::users; }
 
         string client_version();
         static string ok(const string & s) { return er::Code(er::OK).str() + ' ' + s; }
@@ -40,7 +42,7 @@ class Jraf
         static string bad() { return er::Code(er::REQ_MSG_BAD); }
 
         string aurequest(gl::Token & tok);
-        string read_obj(string p, bool getonly);
+        string read_obj(string p, bool getonly, bool su);
         bool check_au_path(string sess, string pth);
         string aureq_rm(string pth);
         string aureq_md(string pth);
@@ -48,11 +50,11 @@ class Jraf
         string aureq_mv(string pth, string pto);
         string read_tok_path(gl::Token & tok, string sess, string & pth);
 
-        static os::Path ver_path(const os::Path & p, bool isdir);
-        static void setver(const os::Path & p, bool isdir, string v);
-        static string getver(const os::Path & p, bool isdir);
+        os::Path ver_path(const os::Path & p, bool isdir) const;
+        void setver(const os::Path & p, bool isdir, string v);
+        string getver(const os::Path & p, bool isdir) const;
         void update_ver(os::Path pth, bool dir);
-        string parent_str(os::Path pth);
+        static string parent_str(os::Path pth);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}
