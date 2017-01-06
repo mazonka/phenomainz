@@ -8,5 +8,3 @@ OK /aaa/ccc
 OK 1 10 MTIzNDU2Nzg5MA==
 -- get /aaa/bbb --
 JRAF_ERR bad path /aaa/bbb
--- rm / -- OK /
-OK 

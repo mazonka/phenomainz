@@ -50,10 +50,10 @@ class Jraf
         string aureq_mv(string pth, string pto);
         string read_tok_path(gl::Token & tok, string sess, string & pth);
 
-        os::Path ver_path(const os::Path & p, bool isdir) const;
-        void setver(const os::Path & p, bool isdir, string v);
-        string getver(const os::Path & p, bool isdir) const;
-        void update_ver(os::Path pth, bool dir);
+        os::Path ver_path(const os::Path & p) const;
+        void setver(const os::Path & p, string v);
+        string getver(const os::Path & p) const;
+        void update_ver(os::Path pth);
         static string parent_str(os::Path pth);
 
     public:

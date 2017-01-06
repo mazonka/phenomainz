@@ -16,19 +16,20 @@ echo "=========="
 
 prn()
 {
-echo -n "$1 : "
-if test -f $1; then
-cat $1 2> /dev/null
+p=jroot/.jraf.ver/$1
+echo -n "$p : "
+if test -f $p; then
+cat $p 2> /dev/null
 else
 echo "no"
 fi
 }
 
-prn jroot/.jraf.ver
-prn jroot/aaa/.jraf.ver
-prn jroot/aaa/c1.jraf.ver
-prn jroot/aaa/c2.jraf.ver
-prn jroot/aaa/c3.jraf.ver
+prn .jraf.ver
+prn aaa.jraf.ver
+prn aaa/c1.jraf.ver
+prn aaa/c2.jraf.ver
+prn aaa/c3.jraf.ver
 
 #echo ""
 #echo "=========="

@@ -20,10 +20,10 @@ echo -n "$1 "
 cat $1
 }
 
-prn jroot/.jraf.ver
-prn jroot/aaa/.jraf.ver
-prn jroot/aaa/bbb/.jraf.ver
-prn jroot/aaa/ccc/.jraf.ver
+prn jroot/.jraf.ver/.jraf.ver
+prn jroot/.jraf.ver/aaa.jraf.ver
+prn jroot/.jraf.ver/aaa/bbb.jraf.ver
+prn jroot/.jraf.ver/aaa/ccc.jraf.ver
 
 #echo ""
 #echo "=========="

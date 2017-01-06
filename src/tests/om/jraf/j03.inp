@@ -21,8 +21,5 @@ print tcp self [ jraf au 0 save /aaa/bbb 10 MTIzNDU2Nzg5MA== ]
 print [ -- read /aaa/bbb -- ]
 print tcp self [ jraf read /aaa/bbb ]
 
-print [ -- rm / -- OK / ]
-print tcp self [ jraf au 0 rm / ]
-
 quit
 

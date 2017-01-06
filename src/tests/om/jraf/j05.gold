@@ -3,7 +3,7 @@ OK /aaa/bbb
 OK /aaa/ccc
 
 ==========
-jroot/.jraf.ver 2
-jroot/aaa/.jraf.ver 2
-jroot/aaa/bbb/.jraf.ver 1
-jroot/aaa/ccc/.jraf.ver 1
+jroot/.jraf.ver/.jraf.ver 2
+jroot/.jraf.ver/aaa.jraf.ver 2
+jroot/.jraf.ver/aaa/bbb.jraf.ver 1
+jroot/.jraf.ver/aaa/ccc.jraf.ver 1
