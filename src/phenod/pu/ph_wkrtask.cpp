@@ -129,7 +129,7 @@ string Worker2::ph_aucmd()
             if (0) {}
 
             else if ( cmd == "ping" )
-                result += er::Code(er::OK);
+                result += er::Code(er::OK).str();
 
             else if ( cmd == "profile" )
                 result += er::Code(er::OK).str() + ' ' + ao.profile.str();
@@ -145,7 +145,7 @@ string Worker2::ph_aucmd()
                 if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);
                 string nn = tok.sub();
                 aa.update_name(ao, nn);
-                result += er::Code(er::OK);
+                result += er::Code(er::OK).str();
             }
             else if ( cmd == "dataset" || cmd == "ds" )
                 result += dataset(aa, ao);
