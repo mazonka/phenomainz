@@ -13,8 +13,8 @@ print tcp self [ jraf au 0 md /../ ]
 print [ -- md /// -- OK / ]
 print tcp self [ jraf au 0 md /// ]
 
-print [ -- JRAF_FAIL /* ]
-print tcp self [ jraf au 0 md ///* ]
+#print [ -- JRAF_FAIL /* ]
+#print tcp self [ jraf au 0 md ///* ]
 
 print [ -- md /aaa/bbb/ccc -- OK /aaa/bbb/ccc ]
 print tcp self [ jraf au 0 md /aaa/bbb/ccc ]

@@ -8,8 +8,6 @@ JRAF_ERR path
 JRAF_ERR ..
 -- md /// -- OK /
 OK 
--- JRAF_FAIL /*
-JRAF_FAIL /*
 -- md /aaa/bbb/ccc -- OK /aaa/bbb/ccc
 OK /aaa/bbb/ccc
 -- rm /aaa -- OK /aaa
