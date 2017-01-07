@@ -16,7 +16,7 @@ EEXT=
 OEXT=.o
 LEXT=.a
 DEFEXT=
-LDF=-lpthread
+LDF=-lpthread -ldl
 OOUT=-o 
 EOUT=-o 
 
