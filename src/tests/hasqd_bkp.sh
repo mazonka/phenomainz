@@ -6,19 +6,20 @@ url=https://github.com/mazonka/phenomainz.git/trunk/src/phenod
 #svn=svn
 svn='cmd /c c:/ap14/run/sx.bat'
 
-init()
+reinit()
 {
+rm -rf $name
 echo $svn ls $url
 $svn ls $url
 echo $svn co $url -r 22
 $svn co $url -r 22
 }
 
-#init
+#reinit
 #exit
 
-start=400
-end=421
+start=300
+end=399
 
 for (( x=$start; x<=$end; x++ ))
 do
