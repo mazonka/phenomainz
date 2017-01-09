@@ -318,6 +318,7 @@ bool gl::issql(const string & s)
         if ( c == '+' || c == '/' ) continue;
         if ( c == '=' || c == ' ' ) continue;
         if ( c == '*' || c == '.' ) continue;
+        if ( c == '_' || c == 'x' ) continue;
 
         return false;
     }

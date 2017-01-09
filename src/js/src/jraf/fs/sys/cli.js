@@ -9,9 +9,10 @@ var g_hist_pointer = 0;
 
 var gPRMT = '> ';
 
-function start_cli()
+function start_cli(div)
 {
-	$g_div_cli = $g_div_main;
+	///$g_div_cli = $g_div_main;
+	$g_div_cli = div;
 
 	cli_build_commands();
 
