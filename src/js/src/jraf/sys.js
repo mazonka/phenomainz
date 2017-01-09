@@ -93,6 +93,7 @@ function sys_loaded()
 		|| typeof g_sys_loaded_file8 === 'undefined' 
 		|| typeof g_sys_loaded_file9 === 'undefined' 
 		|| typeof g_sys_loaded_file0 === 'undefined' 
+		|| typeof g_sys_loaded_file10 === 'undefined' 
 	)
 	{
 		setTimeout(sys_loaded,50);

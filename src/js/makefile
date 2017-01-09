@@ -92,18 +92,19 @@ mk_phclnt: $(SRC)/index.html
 	cp -puv $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	cp -puv $(SRC)/img/*.* $(CLNT)/img/
 	cp -pruv  $(SRC)/jraf/fs/. $(JRAF)/
+	cp -pruv  $(SRC)/jraf/*.js $(JRAF)/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
 
 done:
 	@echo Done.
 
-clean: $(CLNT)
-	@echo Remove $< and $(SRC_LIB)/jquery*.*.
-	@rm -rf $< $(SRC_LIB)/jquery*.*
-	@echo Remove ../$(BIN_DIR)/hq.*.lock if exists.
-	@rm -rf ../$(BIN_DIR)/hq.*.lock
-	@rm -rf ../$(BIN_DIR)/home.phd
-	@rm -rf ../$(BIN_DIR)/conf.phd
+clean:
+	rm -rf $< $(SRC_LIB)/jquery*.*
+	rm -rf $(CLNT)
+	rm -rf $(JRAF)
+	rm -rf ../$(BIN_DIR)/home.phd
+	rm -rf ../$(BIN_DIR)/jraf.phd
+	rm -rf ../$(BIN_DIR)/conf.phd
 	@echo Done.
 
 checkin: $(CLNT)

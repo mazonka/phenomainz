@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function get_jq_user_email()
+function jq_get_user_email()
 {
     var $div = $('<div/>')
         .append($('<label/>',
@@ -32,7 +32,7 @@ function get_jq_user_email()
 }
 
 // gets object for change user name
-function get_jq_user_profile(name)
+function jq_get_user_profile(name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',
@@ -64,7 +64,7 @@ function get_jq_user_profile(name)
 }
 
 // gets yes/no object for the operation that needs to be confirmed
-function get_jq_yes_no(msg)
+function jq_get_yes_no(msg)
 {
     var $obj = $('<div/>');
 
@@ -88,7 +88,7 @@ function get_jq_yes_no(msg)
 }
 
 // gets datset list object
-function get_jq_ds_list(l, did, title)
+function jq_get_ds_list(l, did, title)
 {
     var $obj = $('<div/>',
     {
@@ -97,7 +97,7 @@ function get_jq_ds_list(l, did, title)
 
     for (let i = 0; i < +l; i++)
     {
-        let $h1 = get_jq_ds_h1(did[i], title[i]);
+        let $h1 = jq_get_ds_h1(did[i], title[i]);
 
         $obj.append($h1);
 
@@ -120,7 +120,7 @@ function get_jq_ds_list(l, did, title)
 }
 
 // gets dataset h3 title object
-function get_jq_ds_h1(did, title)
+function jq_get_ds_h1(did, title)
 {
     var $obj = $('<h1/>',
         {
@@ -135,11 +135,11 @@ function get_jq_ds_h1(did, title)
             })
             .addClass('dsitem-header-title')
         )
-        .append(get_jq_ds_item_del(did));
+        .append(jq_get_ds_item_del(did));
         
     return $obj;
 }
-function get_jq_ds_item_del(did)
+function jq_get_ds_item_del(did)
 {
     var $span = $('<span/>',
         {
@@ -161,12 +161,12 @@ function get_jq_ds_item_del(did)
 }
 
 // gets dataset item properties
-function get_jq_dsitem_props(ds)
+function jq_get_dsitem_props(ds)
 {
     var $tbl = $('<table/>');
     var lines = [
-        get_jq_dsitem_title(ds), get_jq_dsitem_descr(ds),
-        get_jq_dsitem_categ(ds), get_jq_dsitem_keywd(ds)
+        jq_get_dsitem_title(ds), jq_get_dsitem_descr(ds),
+        jq_get_dsitem_categ(ds), jq_get_dsitem_keywd(ds)
     ];
 
     for (let i = 0, l = lines.length; i < l; i++)
@@ -178,7 +178,7 @@ function get_jq_dsitem_props(ds)
 }
 
 // gets "Title" row for dataset item
-function get_jq_dsitem_title(ds)
+function jq_get_dsitem_title(ds)
     {
         var $tr = $('<tr/>');
         var $td = $('<td/>');
@@ -223,7 +223,7 @@ function get_jq_dsitem_title(ds)
         return $tr;
     }
     // gets "Description" row for dataset item
-function get_jq_dsitem_descr(ds)
+function jq_get_dsitem_descr(ds)
 {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
@@ -269,7 +269,7 @@ function get_jq_dsitem_descr(ds)
 
 
 // gets "Category" row for dataset item
-function get_jq_dsitem_categ(ds)
+function jq_get_dsitem_categ(ds)
 {
     var cat = eng_get_cat_path(ds.categ);
     var $tr = $('<tr/>');
@@ -316,7 +316,7 @@ function get_jq_dsitem_categ(ds)
 }
 
 // gets menu object for select category
-function get_jq_cat_menu(pcat, kcat)
+function jq_get_cat_menu(pcat, kcat)
 {
     var $span = $('<span/>');
     var $select = $('<select/>',
@@ -374,7 +374,7 @@ function get_jq_cat_menu(pcat, kcat)
 }
 
 // gets "Keywords" row for dataset item
-function get_jq_dsitem_keywd(ds)
+function jq_get_dsitem_keywd(ds)
 {
     var $tr = $('<tr/>');
     var $td = $('<td/>');
@@ -391,7 +391,7 @@ function get_jq_dsitem_keywd(ds)
                         else wid_click_ds_kwd_button(ds, false);
                     })))
             .append($('<td/>')
-                .append(get_jq_ds_kwd_list($('<div/>'), ds, ds.kwd)
+                .append(jq_get_ds_kwd_list($('<div/>'), ds, ds.kwd)
                     .addClass('dsprops-keywords'))));
 
     $tr.append($td.append($tbl));
@@ -400,7 +400,7 @@ function get_jq_dsitem_keywd(ds)
 }
 
 // gets "Add keyword" windows
-function get_jq_ds_kwd_add()
+function jq_get_ds_kwd_add()
 {
     var $s = $('<span/>');
     var $d = $('<div/>')
@@ -414,7 +414,7 @@ function get_jq_ds_kwd_add()
 }
 
 // gets span with [keyword]
-function get_jq_ds_kwd_list($obj, ds, list)
+function jq_get_ds_kwd_list($obj, ds, list)
 {
     for (let i = 0, l = list.length; i < l; i++)
     {
@@ -431,7 +431,7 @@ function get_jq_ds_kwd_list($obj, ds, list)
 }
 
 // gets accordion with with file list
-function get_jq_dsitem_files(ds)
+function jq_get_dsitem_files(ds)
 {
     var $div = $('<div/>');
     var $h2 = $('<h2/>',
@@ -450,17 +450,17 @@ function get_jq_dsitem_files(ds)
 }
 
 // gets empty table for datasets file list
-function get_jq_files_table(did, files)
+function jq_get_files_table(did, files)
 {
     var $div = $('<div/>');
 
     $div
-        .append(get_jq_files_add(did))
-        .append(get_jq_files_files(did, files));
+        .append(jq_get_files_add(did))
+        .append(jq_get_files_files(did, files));
     return $div;
 }
 
-function get_jq_files_add(did)
+function jq_get_files_add(did)
 {
     var $div = $('<div/>')
         .addClass('dsfiles-add-button');
@@ -485,7 +485,7 @@ function get_jq_files_add(did)
     return $div;
 }
 
-function get_jq_files_files(did, files)
+function jq_get_files_files(did, files)
 {
     var $o = $();
     
@@ -496,12 +496,12 @@ function get_jq_files_files(did, files)
                 .html('Description:')
             )
             .append($('<span/>')
-                .html(get_jq_ds_file_descr(did, files[i].descr)))
+                .html(jq_get_ds_file_descr(did, files[i].descr)))
             .append($('<span/>')
                 .html(files[i].size)
             )
             .append($('<span/>')
-                .html(get_jq_ds_file_delete(did, files[i].id))
+                .html(jq_get_ds_file_delete(did, files[i].id))
             )
             .addClass('dsfiles-placeholder')
         );
@@ -510,7 +510,7 @@ function get_jq_files_files(did, files)
     return $o;
 }
 
-function get_jq_ds_file_descr(did, descr)
+function jq_get_ds_file_descr(did, descr)
 {
     var $i = $('<input/>',
     {
@@ -520,7 +520,7 @@ function get_jq_ds_file_descr(did, descr)
     return $i;
 }
 
-function get_jq_ds_file_delete(did, fl_id)
+function jq_get_ds_file_delete(did, fl_id)
 {
     var $span = $('<span/>',
         {

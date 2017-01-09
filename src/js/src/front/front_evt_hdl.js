@@ -192,7 +192,7 @@ function wid_click_ds_categ_button($obj, ds)
 
 function wid_click_ds_del_button(did)
 {
-    var $obj = get_jq_yes_no(M_TXT.SURE);
+    var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function ()
     {
         $obj.find('.button-yes-button')
@@ -217,7 +217,7 @@ function wid_click_ds_del_button(did)
 
 function wid_click_ds_del_kwd(did, kwd)
 {
-    var $obj = get_jq_yes_no(M_TXT.DEL_KWD);
+    var $obj = jq_get_yes_no(M_TXT.DEL_KWD);
     var init = function ()
     {
         $obj.find('.button-yes-button')
@@ -320,7 +320,7 @@ function wid_click_ds_file_add(files, did)
 
 function wid_click_ds_file_del(did, fl_id)
 {
-    var $obj = get_jq_yes_no(M_TXT.SURE);
+    var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function ()
     {
         $obj.find('.button-yes-button')
