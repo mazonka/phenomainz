@@ -379,3 +379,11 @@ function eng_get_file_put(data)
 
     return +_data[0];
 }
+
+function eng_get_file_getdescr(data)
+{
+    var _data = data;
+    var descr = window.atob(_data.shift());
+    
+    return descr;
+}

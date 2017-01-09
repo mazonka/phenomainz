@@ -386,26 +386,7 @@ function nc_ds_file_put(ext_cb, sid, did, fid, file)
         let resp = nc_get_resp(data);
         let _data = eng_get_data(data);
         let sz = eng_get_file_put(_data[0]);
-        let ls = eng_get_file_put(_data[1]);
-
-        ext_cb(resp, data, ls);
-    };
-
-    ajx_send_command(cmd, int_cb, g_pulse);
-}
-
-function nc_ds_file_getdescr(ext_cb, sid, did, fid, file)
-{
-    var cmd = ['au', sid,
-        'ds file', did, 'getdescr', fid, '+',
-        'ds file', did, 'list'
-    ].join(' ');    
-    var int_cb = function(data)
-    {
-        let resp = nc_get_resp(data);
-        let _data = eng_get_data(data);
-        let sz = eng_get_file_put(_data[0]);
-        let ls = eng_get_file_put(_data[1]);
+        let ls = eng_get_file_list(_data[1]);
 
         ext_cb(resp, data, ls);
     };
@@ -423,8 +404,7 @@ function nc_ds_file_setdescr(ext_cb, sid, did, fid, file)
     {
         let resp = nc_get_resp(data);
         let _data = eng_get_data(data);
-        let sz = eng_get_file_put(_data[0]);
-        let ls = eng_get_file_put(_data[1]);
+        let ls = eng_get_file_list(_data[0]);
 
         ext_cb(resp, data, ls);
     };
@@ -432,3 +412,21 @@ function nc_ds_file_setdescr(ext_cb, sid, did, fid, file)
     ajx_send_command(cmd, int_cb, g_pulse);
 }
 
+function nc_ds_file_getdescr(ext_cb, sid, did, fid, file)
+{
+    var cmd = ['au', sid,
+        'ds file', did, 'getdescr', fid, '+',
+        'ds file', did, 'list'
+    ].join(' ');    
+    var int_cb = function(data)
+    {
+        let resp = nc_get_resp(data);
+        let _data = eng_get_data(data);
+        let descr = eng_get_file_descr(_data[0]);
+        let ls = eng_get_file_list(_data[1]);
+
+        ext_cb(resp, data, ls, descr);
+    };
+
+    ajx_send_command(cmd, int_cb, g_pulse);
+}

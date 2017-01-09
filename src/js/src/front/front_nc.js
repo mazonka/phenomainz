@@ -319,3 +319,37 @@ function wid_nc_ds_file_put(did, fid, file)
 
     nc_ds_file_put(cb, g_sid, did, fid, file);
 }
+
+function wid_nc_ds_file_setdecr(did, fid, file)
+{
+    var cb = function(resp, data, list)
+    {
+        if (0)
+        {}
+        else if (resp)
+        {
+            wid_fill_dsitem_files(did, list);
+        } 
+        else if (resp === false) wid_ui_login(false);
+        else wid_open_modal_window(M_TXT.ERROR + data, true);
+    };
+
+    nc_ds_file_setdescr(cb, g_sid, did, fid, file);
+}
+
+function wid_nc_ds_file_getdescr(did, fid, file)
+{
+    var cb = function(resp, data, list, descr)
+    {
+        if (0)
+        {}
+        else if (resp)
+        {
+            wid_fill_dsitem_files(did, list);
+        } 
+        else if (resp === false) wid_ui_login(false);
+        else wid_open_modal_window(M_TXT.ERROR + data, true);
+    };
+
+    nc_ds_file_getdescr(cb, g_sid, did, fid, file);
+}
