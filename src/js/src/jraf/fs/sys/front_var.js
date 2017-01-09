@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-var g_sys_loaded_file11 = 1;
+var g_sys_loaded_file12 = 1;
 
 var g_sid = '';
 var g_keywords = [];
@@ -67,15 +67,18 @@ const IMG = {
     LOGO_DONE: 'img/logo_dn.png',
     LOGO_FAIL: 'img/logo_fl.png',
     AJAX_LOAD: 'img/ajax_load.gif',
+    LOGO_GOOGLE: 'img/g_logo.png',
+    LOGO_FB: 'img/f_logo.png',
+    LOGO_LI: 'img/l_logo.png',
+    LOGO_WINDOWS: 'img/w_logo.png',
     CROSS: 'img/cross.png'
 };
 
 var g_img = [
-    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.AJAX_LOAD, IMG.CROSS
+    IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.AJAX_LOAD, IMG.CROSS,
+    IMG.LOGO_GOOGLE, IMG.LOGO_FB, IMG.LOGO_LI, IMG.LOGO_WINDOWS
 ];
 
 var g_img_preload = [];
-
-var g_pulse = wid_pulse();
 
 

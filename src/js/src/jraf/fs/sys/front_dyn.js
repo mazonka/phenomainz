@@ -1,7 +1,8 @@
 // (C) 2016
 'use strict';
 
-var g_sys_loaded_file12 = 1;
+var g_sys_loaded_file11 = 1;
+var g_pulse = wid_pulse();
 
 function wid_pulse()
 {
@@ -179,7 +180,7 @@ function wid_close_modal_window(f)
 
 function wid_window_logout()
 {
-    var $obj = get_jq_yes_no(M_TXT.SURE);
+    var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function()
     {
         wid_click_logout($obj);
@@ -292,7 +293,7 @@ function wid_upload_file()
 
 function wid_open_email_window()
 {
-    var $obj = get_jq_user_email();
+    var $obj = jq_get_user_email();
     var ui_init = function()
     {
         $obj.find('button')
@@ -306,7 +307,7 @@ function wid_open_email_window()
 
 function wid_open_profile_window(name)
 {
-    var $obj = get_jq_user_profile(name);
+    var $obj = jq_get_user_profile(name);
     var ui_init = function()
     {
         $obj
@@ -398,7 +399,7 @@ function wid_fill_ds_list(list)
     if (Boolean(list) && list.n > 0)
     {
         
-        let $div = get_jq_ds_list(list.n, list.id, list.title);
+        let $div = jq_get_ds_list(list.n, list.id, list.title);
 
         $('#span_profile_vol_usg').html(list.usage);
 
@@ -422,7 +423,7 @@ function wid_fill_dsitem_props(ds)
     var $ds_h1_header = $('#' + H1_DS + ds.id).find('.dsitem-header-title');
     var $dsitem = $('#' + DIV_DS + ds.id);
     var $props_row = $dsitem.find('.dsprops-div')
-    var $props = get_jq_dsitem_props(ds);
+    var $props = jq_get_dsitem_props(ds);
 
     $ds_h1_header.html(eng_get_accordion_header(ds.id, ds.title));
     $props_row.html($props);
@@ -435,11 +436,11 @@ function wid_fill_dsitem_files(did, list, file)
 {
     var $dsitem = $('#' + DIV_DS + did);
     var $files_row = $dsitem.find('.dsfiles-div');
-    var $files = get_jq_files_table(did, list, file);
+    var $files = jq_get_files_table(did, list, file);
 
     if ($files_row.html() == '')
     {
-        let $accdn = get_jq_dsitem_files();
+        let $accdn = jq_get_dsitem_files();
 
         $files_row.html($accdn);
         $files_row.find('.dsfiles-content').html($files);
@@ -457,7 +458,7 @@ function wid_fill_dsitem_files(did, list, file)
 
 function wid_categ_menu(ds, pcat, kcat)
 {
-    var $obj = get_jq_cat_menu(pcat, kcat);
+    var $obj = jq_get_cat_menu(pcat, kcat);
 
     var init = function()
     {
@@ -470,7 +471,7 @@ function wid_categ_menu(ds, pcat, kcat)
 function wid_keywd_menu(ds)
 {
     var list = eng_compare_lists(g_keywords, ds.kwd);
-    var $obj = get_jq_ds_kwd_add(ds, list);
+    var $obj = jq_get_ds_kwd_add(ds, list);
 
     var init = function()
     {
