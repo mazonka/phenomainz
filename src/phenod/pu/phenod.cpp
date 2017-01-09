@@ -54,3 +54,8 @@ catch (string s)
     std::cout << s << '\n';
     return 0;
 }
+catch (...)
+{
+    std::cout << "Unknown exception" << '\n';
+    return 0;
+}
