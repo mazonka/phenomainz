@@ -38,7 +38,7 @@ function ui_init(sid)
     $('button').button();
 
     $('#button_user_email').prop('disabled', true);
-    $('#div_modal_window').css('display', 'none');
+    $('#div_main_pwm').css('display', 'none');
 
     wid_nc_ping();
 

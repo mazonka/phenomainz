@@ -79,7 +79,7 @@ button {
 
 /* Modal window */
 
-#div_modal_window {
+#div_main_pwm {
     display: none;
     position: fixed;
     z-index: 1;
@@ -91,7 +91,7 @@ button {
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
 }
-#div_modal_window_content {
+#div_main_pwm_content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -108,24 +108,24 @@ button {
     text-align: center;
     font: 16px Tahoma;
 }
-#div_modal_window_content_body {
+#div_main_pwm_content_body {
     white-space: pre;
 }
-#div_modal_window_content:hover,
-#div_modal_window_content:focus {
+#div_main_pwm_content:hover,
+#div_main_pwm_content:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-#div_modal_window_content_header {
+#div_main_pwm_content_header {
     padding: 1px 1px;
     color: white;
 }
-#div_modal_window_content_body {
+#div_main_pwm_content_body {
     padding: 10px 10px;
     background-color: #FCFCFC;
 }
-#div_modal_window_content_footer {
+#div_main_pwm_content_footer {
     padding: 1px 1px;
     color: white;
 }

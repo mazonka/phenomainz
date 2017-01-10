@@ -1,29 +1,29 @@
 // (C) 2016
 'use strict';
 
-var g_sys_loaded_file10 = 1;
+var g_sys_loaded_main_div_pmw = 1;
 
-function jq_get_main_mdl()
+function jq_get_main_pmw()
 {
 
     return $('<div/>',
         {
-            id: 'div_modal_window'
+            id: 'div_main_pwm'
         })
         .append($('<div/>',
             {
-                id: 'div_modal_window_content'
+                id: 'div_main_pwm_content'
             })
             .append($('<div/>',
             {
-                id: 'div_modal_window_content_header'
+                id: 'div_main_pwm_content_header'
             }))
             .append($('<div/>',
             {
-                id: 'div_modal_window_content_body'
+                id: 'div_main_pwm_content_body'
             }))
             .append($('<div/>',
             {
-                id: 'div_modal_window_content_footer'
+                id: 'div_main_pwm_content_footer'
             })));
 }

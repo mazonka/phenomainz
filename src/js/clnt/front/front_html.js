@@ -88,11 +88,11 @@ function html_get_td_modal_window()
     var r = '';
 
     r += '<td id="td_modal_window">\n';
-    r += '<div id="div_modal_window">\n';
-    r += '<div id="div_modal_window_content">\n';
-    r += '<div id="div_modal_window_content_header">\n</div>\n';
-    r += '<div id="div_modal_window_content_body">\n</div>\n';
-    r += '<div id="div_modal_window_content_footer">\n</div>\n';
+    r += '<div id="div_main_pwm">\n';
+    r += '<div id="div_main_pwm_content">\n';
+    r += '<div id="div_main_pwm_content_header">\n</div>\n';
+    r += '<div id="div_main_pwm_content_body">\n</div>\n';
+    r += '<div id="div_main_pwm_content_footer">\n</div>\n';
     r += '</div>\n';
     r += '</div>\n';
 

@@ -1,4 +1,4 @@
-var g_sys_loaded_file2 = 1;
+var g_sys_loaded_jraf = 1;
 
 var g_jraf_root = jraf_node({ parent : null });
 

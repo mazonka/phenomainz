@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-var g_sys_loaded_file12 = 1;
+var g_sys_loaded_front_var = 1;
 
 var g_sid = '';
 var g_keywords = [];

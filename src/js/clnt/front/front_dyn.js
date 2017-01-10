@@ -62,8 +62,8 @@ function img_preload(container)
 
 function wid_open_shell_window(toggle)
 {
-    var $window = $('#div_modal_window');
-    var $body = $('#div_modal_window_content_body');
+    var $window = $('#div_main_pwm');
+    var $body = $('#div_main_pwm_content_body');
     var width = $('body')
         .outerWidth();
 
@@ -81,9 +81,9 @@ function wid_open_shell_window(toggle)
 
 function wid_open_modal_window(data, click, f_init, f_close)
 {
-    var $window = $('#div_modal_window');
-    var $content = $('#div_modal_window_content');
-    var $body = $('#div_modal_window_content_body');
+    var $window = $('#div_main_pwm');
+    var $content = $('#div_main_pwm_content');
+    var $body = $('#div_main_pwm_content_body');
     var width = $('body')
         .outerWidth();
     var $obj;
@@ -155,8 +155,8 @@ function wid_open_modal_window(data, click, f_init, f_close)
 
 function wid_close_modal_window(f)
 {
-    var $window = $('#div_modal_window');
-    var $body = $('#div_modal_window_content_body');
+    var $window = $('#div_main_pwm');
+    var $body = $('#div_main_pwm_content_body');
 
     $body.children()
         .remove();

@@ -26,151 +26,155 @@ function jraf_ajax(cmd, callback, extra) {
 
 function jraf_boot(id)
 {
-	g_session = id;
+    g_session = id;
 
-	console.log("Jraf boot: hello");
-	document.write("<div id='div_main' style='text-align: left;'></div>");
-	$g_div_main = $("#div_main");
+    console.log("Jraf boot: hello");
+    document.write("<div id='div_main' style='text-align: left;'></div>");
+    $g_div_main = $("#div_main");
 
-	var out = function(data,extra)
-	{
-		if( data.length > 4 && data.substr(0,3) == "OK " )
-			data = data.substr(3);
+    var out = function(data,extra)
+    {
+        if( data.length > 4 && data.substr(0,3) == "OK " )
+            data = data.substr(3);
 
-		var s = $g_div_main.html();
-		s += '# ' + extra + data + '<br/>';
-		$g_div_main.html(s);
-	}
+        var s = $g_div_main.html();
+        s += '# ' + extra + data + '<br/>';
+        $g_div_main.html(s);
+    }
 
-	jraf_ajax("jraf ping", out, "JRAF : ");
-	jraf_ajax("jraf version client", out, "Jraf client version : ");
-	jraf_ajax("jraf version backend", out, "Jraf backend version : ");
+    jraf_ajax("jraf ping", out, "JRAF : ");
+    jraf_ajax("jraf version client", out, "Jraf client version : ");
+    jraf_ajax("jraf version backend", out, "Jraf backend version : ");
 
-	var sysjs = function(jo)
-	{
-		if( jo.err != '' )
-		{
-			out(jo.err,"Backend error on [/sys]: ");
-			return;
-		}
+    var sysjs = function(jo)
+    {
+        if( jo.err != '' )
+        {
+            out(jo.err,"Backend error on [/sys]: ");
+            return;
+        }
 
-		var cb = function(data,ex)
-		{
-			if( data.err != '' )
-			{
-				out(data.err,"Backend error "+ex);
-				return;
-			}
+        var cb = function(data,ex)
+        {
+            if( data.err != '' )
+            {
+                out(data.err,"Backend error "+ex);
+                return;
+            }
 
-			out("ok",ex);
-			var sc = document.createElement("script");
-			sc.innerHTML = data.text;
-			//console.log(sc.innerHTML);
-			document.head.append(sc);
-		}
-	
-		for( var i in jo.kids )
-		{
-			jraf_read_obj("/sys/",i, cb, i+" : ");
-		}
-	}
+            out("ok",ex);
+            var sc = document.createElement("script");
+            sc.innerHTML = data.text;
+            //console.log(sc.innerHTML);
+            document.head.append(sc);
+        }
 
-	jraf_read_obj("/", "sys", sysjs);
+        for( var i in jo.kids )
+        {
+            jraf_read_obj("/sys/",i, cb, i+" : ");
+        }
+    }
 
-	console.log("sys loading started");
-	sys_loaded();
+    jraf_read_obj("/", "sys", sysjs);
+
+    console.log("sys loading started");
+    sys_loaded();
 }
 
 function sys_loaded()
 {
-	if( typeof g_sys_loaded_file1 === 'undefined' 
-		|| typeof g_sys_loaded_file2 === 'undefined' 
-		|| typeof g_sys_loaded_file3 === 'undefined' 
-		|| typeof g_sys_loaded_file4 === 'undefined' 
-		|| typeof g_sys_loaded_file5 === 'undefined' 
-		|| typeof g_sys_loaded_file6 === 'undefined' 
-		|| typeof g_sys_loaded_file7 === 'undefined' 
-		|| typeof g_sys_loaded_file8 === 'undefined' 
-		|| typeof g_sys_loaded_file9 === 'undefined' 
-		|| typeof g_sys_loaded_file0 === 'undefined' 
-		|| typeof g_sys_loaded_file10 === 'undefined' 
-	)
-	{
-		setTimeout(sys_loaded,50);
-		return;
-	}
+    console.log('sys loaded...')
+    if( typeof g_sys_loaded_clc === 'undefined'
+        || typeof g_sys_loaded_jraf === 'undefined'
+        || typeof g_sys_loaded_write === 'undefined'
+        || typeof g_sys_loaded_cli === 'undefined'
+        || typeof g_sys_loaded_shell === 'undefined'
+        || typeof g_sys_loaded_front_msg === 'undefined'
+        || typeof g_sys_loaded_front_var === 'undefined'
+        || typeof g_sys_loaded_front_dyn === 'undefined'
+        || typeof g_sys_loaded_main_div === 'undefined'
+        || typeof g_sys_loaded_main_div_hdr === 'undefined'
+        || typeof g_sys_loaded_main_div_adm === 'undefined'
+        || typeof g_sys_loaded_main_div_usr === 'undefined'
+        || typeof g_sys_loaded_main_div_dsl === 'undefined'
+        || typeof g_sys_loaded_main_div_pmw === 'undefined'
+    )
+    {
+        setTimeout(sys_loaded,50);
+        return;
+    }
 
-	console.log("sys loaded");
-	start_shell();
+    console.log("sys loaded");
+    start_shell();
 }
 
 function jraf_read_obj(path, ob, cb, extra)
 {
-	var par = function(data, ext)
-	{
-		ext.cb(jraf_parse_obj(data,ext.ob),ext.ex);
-	}
+    var par = function(data, ext)
+    {
+        ext.cb(jraf_parse_obj(data,ext.ob),ext.ex);
+    }
 
-	var ex = {};
-	ex.ex = extra;
-	ex.ob = ob;
-	ex.cb = cb;
-	jraf_ajax("jraf read "+path+ob, par, ex);
+    var ex = {};
+    ex.ex = extra;
+    ex.ob = ob;
+    ex.cb = cb;
+    jraf_ajax("jraf read "+path+ob, par, ex);
 }
 
 function jraf_parse_obj(text,nm)
 {
-	text = text.trim();
-	var a = text.split(' ');
-	var r = { err: '' };
-	if( a[0] != "OK" )
-	{
-		console.log("Bad backend reply");
-		return { err: text };
-	}
-	r.ver = parseInt(a[1]);
-	r.sz = parseInt(a[2]);
-	r.cb = null;
-	r.name = nm;
+    text = text.trim();
+    var a = text.split(' ');
+    var r = { err: '' };
+    if( a[0] != "OK" )
+    {
+        console.log("Bad backend reply");
+        return { err: text };
+    }
+    r.ver = parseInt(a[1]);
+    r.sz = parseInt(a[2]);
+    r.cb = null;
+    r.name = nm;
 
-	if( r.sz >= 0 )
-	{
-		if( a.length < 4 )
-			r.text = "";
-		else
-			r.text = window.atob(a[3]);
-		return r;
-	}
+    if( r.sz >= 0 )
+    {
+        if( a.length < 4 )
+            r.text = "";
+        else
+            r.text = window.atob(a[3]);
+        return r;
+    }
 
-	if( r.sz < 0 )
-	{
-		var n = parseInt(a[3]);
-		r.kids = {};
+    if( r.sz < 0 )
+    {
+        var n = parseInt(a[3]);
+        r.kids = {};
 
-		let nex = 3*n+4;
-		if( a.length != nex )
-		{
-			let e = 'ERROR: jraf_read_obj returned '+a.length;
-			e += ', expected '+ nex + ' ['+text+']';
-			console.log(e);
-			return r;
-		}
+        let nex = 3*n+4;
+        if( a.length != nex )
+        {
+            let e = 'ERROR: jraf_read_obj returned '+a.length;
+            e += ', expected '+ nex + ' ['+text+']';
+            console.log(e);
+            return r;
+        }
 
-		for( var i=0; i<n; i++ )
-		{
-			var ver = parseInt(a[4+3*i]);
-			var sz = parseInt(a[5+3*i]);
-			var name = a[6+3*i];
-			r.kids[name] = {};
-			r.kids[name].ver = ver;
-			r.kids[name].sz = sz;
-			r.kids[name].cbi = 0;
-			r.kids[name].name = name;
-			r.kids[name].parent = r;
-		}
-	}
+        for( var i=0; i<n; i++ )
+        {
+            var ver = parseInt(a[4+3*i]);
+            var sz = parseInt(a[5+3*i]);
+            var name = a[6+3*i];
+            r.kids[name] = {};
+            r.kids[name].ver = ver;
+            r.kids[name].sz = sz;
+            r.kids[name].cbi = 0;
+            r.kids[name].name = name;
+            r.kids[name].parent = r;
+        }
+    }
 
-	///console.log("jraf_parse_obj : "+r);
-	return r;
+    ///console.log("jraf_parse_obj : "+r);
+    return r;
 }
 
