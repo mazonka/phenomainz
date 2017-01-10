@@ -153,6 +153,21 @@ string gl::file2str(const string & file)
     return r;
 }
 
+string gl::file2word(const string & file)
+{
+    std::ifstream in(file.c_str(), std::ios::binary);
+
+    if ( !in ) return "";
+
+    string r;
+
+    in >> r;
+
+    if ( !in ) return "";
+
+    return r;
+}
+
 bool gl::isSufx(const std::string & str, const std::string & sufx)
 {
     return

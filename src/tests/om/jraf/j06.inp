@@ -1,23 +1,23 @@
 
 print [ -- ]
 print tcp self [ jraf au 0 md /aaa/bbb ]
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ save file .. ] tcp self [ jraf au 0 save /aaa/bbb 10 MTIzNDU2Nzg5MA== ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ save file .. ] tcp self [ jraf au 0 save /aaa/c1 10 MTIzNDU2Nzg5MA== ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ put file ... ] tcp self [ jraf au 0 put /aaa/c2 0 10 MTIzNDU2Nzg5MA== ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ put file ... ] tcp self [ jraf au 0 put /aaa/c2 10 10 MTIzNDU2Nzg5MA== ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
-print { [ read ....... ] tcp self [ jraf read /aaa ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
+print { [ read ....... ] tcp self [ jraf read 0 /aaa ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ rm c1 ...... ] tcp self [ jraf au 0 rm /aaa/c1 ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 print { [ mv c2 c3 ... ] tcp self [ jraf au 0 mv /aaa/c2 /aaa/c3 ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
-print { [ read ....... ] tcp self [ jraf read /aaa ] }
-print { [ root ver ... ] tcp self [ jraf get / ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
+print { [ read ....... ] tcp self [ jraf read 0 /aaa ] }
+print { [ root ver ... ] tcp self [ jraf get 0 / ] }
 
 quit
 

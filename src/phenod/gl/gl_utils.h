@@ -35,6 +35,7 @@ template<typename T>
 inline string tos(T x) { std::ostringstream o; o << x; return o.str(); }
 
 string file2str(const string & file);
+string file2word(const string & file);
 
 bool isSufx(const std::string & str, const std::string & sufx);
 

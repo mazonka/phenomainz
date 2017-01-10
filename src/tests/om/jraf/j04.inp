@@ -9,10 +9,10 @@ print [ -- mv /aaa/bbb /aaa/ccc -- ]
 print tcp self [ jraf au 0 mv /aaa/bbb /aaa/ccc ]
 
 print [ -- read /aaa/ccc -- ]
-print tcp self [ jraf read /aaa/ccc ]
+print tcp self [ jraf read 0 /aaa/ccc ]
 
 print [ -- get /aaa/bbb -- ]
-print tcp self [ jraf get /aaa/bbb ]
+print tcp self [ jraf get 0 /aaa/bbb ]
 
 quit
 

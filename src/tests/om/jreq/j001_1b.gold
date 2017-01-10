@@ -1,0 +1,8 @@
+--
+OK /aaa
+root ... OK 1 -1 1 1 -1 aaa
+ver .... JRAF_FAIL sys JRAF_ERR [0]
+get .... JRAF_ERR bad path /.jraf.ver/x
+get .... OK 0 2
+
+==========

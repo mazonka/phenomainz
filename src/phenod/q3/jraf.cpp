@@ -38,10 +38,12 @@ string Jraf::request(gl::Token tok)
 
         else if ( cmd == "read" || cmd == "get" )
         {
+            if ( !tok.next() ) return err("session id");
+            string sess = tok.sub();
             hq::LockRead lock(&access);
             if ( !tok.next() ) return bad();
             string p = tok.sub();
-            result += read_obj(p, cmd == "get", false); // superuser=false FIXME
+            result += read_obj(p, cmd == "get", issu(sess));
         }
 
         else if ( cmd == "au" )
@@ -78,28 +80,29 @@ string Jraf::client_version()
 
 os::Path Jraf::ver_path(const os::Path & p) const
 {
-	os::Path q = p;
-	q = q.glue(jraf::ver_name);
-	q = ver_dir() + q;
-	return q;
+    os::Path q = p;
+    q = q.glue(jraf::ver_name);
+    q = ver_dir() + q;
+    return q;
 }
 
 
 string Jraf::getver(const os::Path & p) const
 {
     os::Path q = ver_path(p);
-    string ver = gl::file2str( q.str() );
+    string ver = gl::file2word( q.str() );
     ver = zero(ver);
-    return gl::tos(gl::toi(ver));
+    ///return gl::tos(gl::toi(ver));
+    return ver;
 }
 
 void Jraf::setver(const os::Path & p, string v)
 {
     os::Path q = ver_path(p);
 
-	os::Path parent = parent_str(q);
-	if( !parent.isdir() ) os::FileSys::trymkdir(parent);
-	if( !parent.isdir() ) throw gl::ex("Failed to make dir " + parent.str());
+    os::Path parent = parent_str(q);
+    if ( !parent.isdir() ) os::FileSys::trymkdir(parent);
+    if ( !parent.isdir() ) throw gl::ex("Failed to make dir " + parent.str());
 
     std::ofstream of(q.str(), std::ios::binary );
     of << v << '\n';
@@ -172,12 +175,13 @@ string Jraf::aurequest(gl::Token & tok)
 {
     if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
+    bool superuser = issu(sess);
 
     if ( !tok.next() ) return err("command");
     string cmd = tok.sub();
 
     string pth;
-    string er = read_tok_path(tok, sess, pth, false); // FIXME su
+    string er = read_tok_path(tok, sess, pth, superuser);
     if ( !er.empty() ) return er;
 
     if (0) {}
@@ -189,7 +193,7 @@ string Jraf::aurequest(gl::Token & tok)
     else if ( cmd == "mv" )
     {
         string pto;
-        er = read_tok_path(tok, sess, pto, false); // FIXME su
+        er = read_tok_path(tok, sess, pto, superuser);
         if ( !er.empty() ) return er;
         return aureq_mv(pth, pto);
     }
@@ -200,7 +204,7 @@ string Jraf::aurequest(gl::Token & tok)
 
 string Jraf::aureq_rm(string pth)
 {
-	if( pth.empty() ) return fail("root cannot be removed");
+    if ( pth.empty() ) return fail("root cannot be removed");
 
     os::Path p = root(pth);
 
@@ -221,6 +225,28 @@ string Jraf::aureq_md(string pth)
     if ( !p.isdir() ) return fail(pth);
     update_ver(pth);
     return ok(pth);
+}
+
+bool Jraf::issu(string sess)
+{
+    os::Path usr = users();
+    if ( !usr.isdir() ) return true;
+
+    if ( sess == "0" ) return false;
+
+    string uid = gl::file2word(login().str());
+
+    if ( uid.empty() ) return false;
+
+    string emailfile = (usr + uid + "email").str();
+    os::Cout() << "AAA issu " << emailfile << os::endl;
+    string email = gl::file2word(emailfile);
+
+    if ( email.empty() ) return false;
+
+    // now test root config for email
+    os::Cout() << "Jraf::issu - NI" << os::endl;
+    return true;
 }
 
 bool Jraf::check_au_path(string sess, string pth, bool su)
@@ -291,11 +317,8 @@ string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
     while ( !p.empty() && p[p.size() - 1] == '/' )
         p = p.substr(0, p.size() - 1);
 
-	if( special(p,su) ) return fail("sys");
+    if ( special(p, su) ) return fail("sys");
     if ( !check_au_path(sess, p, su) ) return fail("auth");
-
-	///if ( p.find(jraf::sys_name) != string::npos ) return err(jraf::sys_name);
-	///if ( p.find(jraf::ver_name) != string::npos ) return err(jraf::ver_name);
 
     pth = p;
     return "";
@@ -306,9 +329,9 @@ string Jraf::aureq_mv(string pth, string pto)
     os::Path f1 = root(pth);
     bool dir = f1.isdir();
 
-	if( dir ) return fail("moving direcrories not allowed");
-	// the reason is that it would require recursive copying
-	// of the version files sub-tree, since it cannot be moved
+    if ( dir ) return fail("moving direcrories not allowed");
+    // the reason is that it would require recursive copying
+    // of the version files sub-tree, since it cannot be moved
 
     os::Path f2 = root(pto);
 
