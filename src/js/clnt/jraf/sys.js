@@ -126,7 +126,7 @@ function jraf_read_obj(path, ob, cb, extra)
     ex.ex = extra;
     ex.ob = ob;
     ex.cb = cb;
-    jraf_ajax('jraf read '+path+ob, par, ex);
+    jraf_ajax('jraf read 0 '+path+ob, par, ex);
 }
 
 function jraf_parse_obj(text,nm)
