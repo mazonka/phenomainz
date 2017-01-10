@@ -103,6 +103,7 @@ function sys_loaded()
         || typeof g_sys_loaded_jqui === 'undefined'
         || typeof g_sys_loaded_jqui_init === 'undefined'
         || typeof g_sys_loaded_front_evt_hdl === 'undefined'
+        || typeof g_sys_loaded_front_netcmd === 'undefined'
         || typeof g_sys_loaded_ui === 'undefined'
     )
     {
