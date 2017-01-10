@@ -28,13 +28,14 @@ function jraf_boot(id)
 {
     g_session = id;
 
-    console.log("Jraf boot: hello");
-    document.write("<div id='div_main' style='text-align: left;'></div>");
-    $g_div_main = $("#div_main");
+    console.log('Jraf boot: hello');
+    console.log('Jraf sid:' + g_session);
+    document.write('<div id="div_main" style="text-align: left;"></div>');
+    $g_div_main = $('#div_main');
 
     var out = function(data,extra)
     {
-        if( data.length > 4 && data.substr(0,3) == "OK " )
+        if( data.length > 4 && data.substr(0,3) == 'OK ' )
             data = data.substr(3);
 
         var s = $g_div_main.html();
@@ -42,15 +43,15 @@ function jraf_boot(id)
         $g_div_main.html(s);
     }
 
-    jraf_ajax("jraf ping", out, "JRAF : ");
-    jraf_ajax("jraf version client", out, "Jraf client version : ");
-    jraf_ajax("jraf version backend", out, "Jraf backend version : ");
+    jraf_ajax('jraf ping', out, 'JRAF : ');
+    jraf_ajax('jraf version client', out, 'Jraf client version : ');
+    jraf_ajax('jraf version backend', out, 'Jraf backend version : ');
 
     var sysjs = function(jo)
     {
         if( jo.err != '' )
         {
-            out(jo.err,"Backend error on [/sys]: ");
+            out(jo.err,'Backend error on [/sys]: ');
             return;
         }
 
@@ -58,12 +59,12 @@ function jraf_boot(id)
         {
             if( data.err != '' )
             {
-                out(data.err,"Backend error "+ex);
+                out(data.err,'Backend error '+ex);
                 return;
             }
 
-            out("ok",ex);
-            var sc = document.createElement("script");
+            out('ok',ex);
+            var sc = document.createElement('script');
             sc.innerHTML = data.text;
             //console.log(sc.innerHTML);
             document.head.append(sc);
@@ -71,13 +72,13 @@ function jraf_boot(id)
 
         for( var i in jo.kids )
         {
-            jraf_read_obj("/sys/",i, cb, i+" : ");
+            jraf_read_obj('/sys/',i, cb, i+' : ');
         }
     }
 
-    jraf_read_obj("/", "sys", sysjs);
+    jraf_read_obj('/', 'sys', sysjs);
 
-    console.log("sys loading started");
+    console.log('sys loading started');
     sys_loaded();
 }
 
@@ -104,14 +105,13 @@ function sys_loaded()
         || typeof g_sys_loaded_jqui_init === 'undefined'
         || typeof g_sys_loaded_front_evt_hdl === 'undefined'
         || typeof g_sys_loaded_front_netcmd === 'undefined'
-        || typeof g_sys_loaded_ui === 'undefined'
     )
     {
         setTimeout(sys_loaded,50);
         return;
     }
 
-    console.log("sys loaded");
+    console.log('sys loaded');
     start_shell();
 }
 
@@ -126,7 +126,7 @@ function jraf_read_obj(path, ob, cb, extra)
     ex.ex = extra;
     ex.ob = ob;
     ex.cb = cb;
-    jraf_ajax("jraf read "+path+ob, par, ex);
+    jraf_ajax('jraf read '+path+ob, par, ex);
 }
 
 function jraf_parse_obj(text,nm)
@@ -134,9 +134,9 @@ function jraf_parse_obj(text,nm)
     text = text.trim();
     var a = text.split(' ');
     var r = { err: '' };
-    if( a[0] != "OK" )
+    if( a[0] != 'OK' )
     {
-        console.log("Bad backend reply");
+        console.log('Bad backend reply');
         return { err: text };
     }
     r.ver = parseInt(a[1]);
@@ -147,7 +147,7 @@ function jraf_parse_obj(text,nm)
     if( r.sz >= 0 )
     {
         if( a.length < 4 )
-            r.text = "";
+            r.text = '';
         else
             r.text = window.atob(a[3]);
         return r;
@@ -181,7 +181,7 @@ function jraf_parse_obj(text,nm)
         }
     }
 
-    ///console.log("jraf_parse_obj : "+r);
+    ///console.log('jraf_parse_obj : '+r);
     return r;
 }
 

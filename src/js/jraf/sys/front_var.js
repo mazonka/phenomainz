@@ -2,9 +2,8 @@
 'use strict';
 
 var g_sys_loaded_front_var = 1;
-
-var g_sid = '';
 var g_keywords = [];
+
 const G_UDM = {};
 
 Object.defineProperty(G_UDM, 'admin',
