@@ -92,7 +92,6 @@ mk_phclnt: $(SRC)/index.html
 	cp -puv $(SRC)/conf.phd ../$(BIN_DIR)/conf.phd
 	cp -puv $(SRC)/img/*.* $(CLNT)/img/
 	cp -pruv  $(SRC)/jraf/fs/. $(JRAF)/
-	cp -pruv  $(SRC)/jraf/*.js $(JRAF)/
 	@chmod 0777 -R $(CLNT) || echo "Cannot make chmod on $(CLNT)"
 
 done:
