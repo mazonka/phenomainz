@@ -1,3 +1,6 @@
+// (C) 2016
+'use strict';
+
 var g_sys_loaded_clc = 1;
 
 function cli_build_cmd_help()

@@ -1,3 +1,6 @@
+// (C) 2016
+'use strict';
+
 var g_sys_loaded_cli = 1;
 
 var $g_div_cli;

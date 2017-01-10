@@ -3,8 +3,6 @@
 
 var g_sys_loaded_front_dyn = 1;
 
-var g_pulse = wid_pulse();
-
 function wid_pulse()
 {
     var counter = 0;

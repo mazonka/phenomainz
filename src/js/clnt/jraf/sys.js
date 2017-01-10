@@ -83,21 +83,27 @@ function jraf_boot(id)
 
 function sys_loaded()
 {
-    console.log('sys loaded...')
     if( typeof g_sys_loaded_clc === 'undefined'
         || typeof g_sys_loaded_jraf === 'undefined'
         || typeof g_sys_loaded_write === 'undefined'
         || typeof g_sys_loaded_cli === 'undefined'
         || typeof g_sys_loaded_shell === 'undefined'
-        || typeof g_sys_loaded_front_msg === 'undefined'
-        || typeof g_sys_loaded_front_var === 'undefined'
-        || typeof g_sys_loaded_front_dyn === 'undefined'
         || typeof g_sys_loaded_main_div === 'undefined'
         || typeof g_sys_loaded_main_div_hdr === 'undefined'
         || typeof g_sys_loaded_main_div_adm === 'undefined'
         || typeof g_sys_loaded_main_div_usr === 'undefined'
         || typeof g_sys_loaded_main_div_dsl === 'undefined'
         || typeof g_sys_loaded_main_div_pmw === 'undefined'
+        || typeof g_sys_loaded_front_msg === 'undefined'
+        || typeof g_sys_loaded_front_var === 'undefined'
+        || typeof g_sys_loaded_front_dyn === 'undefined'
+        || typeof g_sys_loaded_eng_utils === 'undefined'
+        || typeof g_sys_loaded_eng_ajax === 'undefined'
+        || typeof g_sys_loaded_eng_netcmd === 'undefined'
+        || typeof g_sys_loaded_jqui === 'undefined'
+        || typeof g_sys_loaded_jqui_init === 'undefined'
+        || typeof g_sys_loaded_front_evt_hdl === 'undefined'
+        || typeof g_sys_loaded_ui === 'undefined'
     )
     {
         setTimeout(sys_loaded,50);

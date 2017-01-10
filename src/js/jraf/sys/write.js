@@ -1,3 +1,6 @@
+// (C) 2016
+'use strict';
+
 var g_sys_loaded_write = 1;
 
 function o(x){ console.log(x); }

@@ -1,9 +1,11 @@
+// (C) 2016
+'use strict';
+
 var g_sys_loaded_shell = 1;
 
 function start_shell()
 {
     ///start_cli();
-    console.log('1')
     start_main();
 }
 
