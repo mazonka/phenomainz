@@ -63,24 +63,19 @@ class Jraf
 };
 
 /*
-Superuser Y N
-Users_dir Y N
-Ver files Y N R
-Sys files Y N R
-Hom files Y N R
-Oth files Y N R
-
-SY UY => VN SY HY OY
-SY UN => VN SY HY OY
-SN UN => VN SY HY OY
-SN UY => VN SN HY OR
 
 1. Version files are not visible and not writable for anyone
-2. if( Superuser or no Users_dir ) All files are visible and writable
-3. if( no Superuser and Unsers_dir )
+2. Sys files do not have versions
+3. if( Superuser or no Users_dir ) All files (also sys) are visible and writable
+4. if( no Superuser and Unsers_dir )
 	3.1 Sys files not visible and not writable
 	3.2 Home files visible and writable
 	3.3 Other files visible but not writable
+5. Superuser: email listed in the root conf file
+6. Users_dir: /.jraf.sys/users (uid,email,name,quota,last,cntr,home)
+7. Login_dir: /.jrar.sys/login (sid,uid)
+8. Inbox_dir: /.jraf.sys/inbox (uid,yymmddhhmmss_rand)
+
 */
 
 #endif
