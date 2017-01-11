@@ -1,16 +1,12 @@
 --
 md /a .. OK /a
 md .b .. OK /.jraf.sys/b
-s ver .. OK 0 2 MQo=
-b ver .. OK 0 2 MQo=
+s ver .. JRAF_ERR bad path /.jraf.ver/.jraf.sys.jraf.ver
+b ver .. JRAF_ERR bad path /.jraf.ver/.jraf.sys/b.jraf.ver
 
 ==========
 jroot/.jraf.ver:
 a.jraf.ver
 
 ==========
-jroot/.jraf.ver/.jraf.sys.jraf.ver
 jroot/.jraf.ver/.jraf.ver
-
-jroot/.jraf.ver/.jraf.sys:
-b.jraf.ver

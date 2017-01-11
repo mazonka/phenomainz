@@ -359,6 +359,8 @@ string Jraf::parent_str(os::Path pth)
 
 void Jraf::update_ver(os::Path pth)
 {
+	if( special(pth.str(),false) ) return;
+
     string v = getver(pth);
     v = gl::tos( gl::toi(v) + 1 );
     setver(pth, v);

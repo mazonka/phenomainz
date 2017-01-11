@@ -87,7 +87,8 @@ class Jraf
 
 /*
 
-1. Version files are not visible and not writable for anyone
+1. Version files are not visible (1a) and not writable (1b) for anyone.
+   Read/get can return by direct path (1c).
 2. Sys files do not have versions
 3. if( Superuser or no Users_dir ) All files (also sys) are visible and writable
 4. if( no Superuser and Unsers_dir )
