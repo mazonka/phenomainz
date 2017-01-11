@@ -56,6 +56,15 @@ string Jraf::request(gl::Token tok, string anonce)
             result += read_obj(pth, cmd == "get", usr );
         }
 
+        else if ( cmd == "profile" )
+        {
+            if ( !tok.next() ) return err("session id").s;
+            string sess = tok.sub();
+            auto usr = user(sess);
+            hq::LockRead lock(&access);
+            result += profile(usr);
+        }
+
         else if ( cmd == "au" )
         {
             hq::LockWrite lock(&access);
@@ -256,6 +265,9 @@ Jraf::User Jraf::user(string sess)
     if ( sess == "0" ) return false;
 
     os::Path in = login() + sess;
+
+    if ( !in.isfile() ) return false;
+
     string email = gl::file2word(in.str());
 
     bool superuser = jraf::matchConf("admin", email);
@@ -292,18 +304,32 @@ Jraf::User Jraf::user(string sess)
     return r;
 }
 
+void Jraf::set_user_uname(User & su)
+{
+    string uname = gl::file2word((users() + su.email + "uname").str());
+    if ( jraf::isuname(uname) ) su.uname = uname;
+}
+
+void Jraf::set_user_quota(User & su)
+{
+    string quota = gl::file2word((users() + su.email + "quota").str());
+    if ( !quota.empty() ) su.quotaKb = quota;
+    else quota = "0";
+}
+
 bool Jraf::check_au_path(string pth, User & su, bool write)
 {
     if ( su.su ) return true;
     if ( !write ) return true;
 
-    string uname = gl::file2word((users() + su.email + "uname").str());
-    if ( !jraf::isuname(uname) ) return false;
-
-    su.uname = uname;
+    ///string uname = gl::file2word((users() + su.email + "uname").str());
+    ///if ( !jraf::isuname(uname) ) return false;
+    ///su.uname = uname;
+    set_user_uname(su);
+    if ( su.uname.empty() ) return false;
 
     string rpth = root(pth).str();
-    string hdir = (home() + uname).str();
+    string hdir = (home() + su.uname).str();
 
     ///os::Cout() << "AAA 3 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
 
@@ -494,5 +520,26 @@ void Jraf::new_user(string email)
     }
 
     (hm + uname).mkdir();
+}
+
+Jraf::Cmdr Jraf::profile(User & su)
+{
+    set_user_uname(su);
+    set_user_quota(su);
+
+    string r = su.su ? "a" : "u";
+
+    auto star = [](string s, string d = "*") -> string { return s.empty() ? d : s; };
+
+    r += " ";
+    r += star(su.email) + ' ';
+    r += star(su.quotaKb) + ' ';
+    r += star(su.last) + ' ';
+    r += star(su.cntr) + ' ';
+
+    if ( su.uname.empty() ) r += star(su.uname);
+    else r += (os::Path(jraf::home) + su.uname).str();
+
+    return ok(r);
 }
 

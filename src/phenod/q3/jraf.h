@@ -85,6 +85,10 @@ class Jraf
         Cmdr read_tok_path(gl::Token & tok, string & pth, User & su, bool write);
         bool check_au_path(string pth, User & su, bool write);
         Cmdr login(gl::Token & tok, bool in);
+        Cmdr profile(User & su);
+
+        void set_user_uname(User & su);
+        void set_user_quota(User & su);
 
         os::Path ver_path(const os::Path & p) const;
         void setver(const os::Path & p, string v);

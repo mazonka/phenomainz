@@ -1,0 +1,26 @@
+set date "20170123"
+set time "123456"
+
+cmd = [ jraf profile 78c4fc9a59a4e947 ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jraf au 0 md /.jraf.sys/users ]
+print { cmd "->" tcp self cmd }
+cmd = [ jraf profile 78c4fc9a59a4e947 ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jraf login a@b.c http://server/ ]
+print { cmd "->" tcp self cmd }
+cmd = [ jraf profile 78c4fc9a59a4e947 ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jraf login admin@server.com http://server/ ]
+print { cmd "->" tcp self cmd }
+cmd = [ jraf profile 090527c5235a0936 ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+quit
