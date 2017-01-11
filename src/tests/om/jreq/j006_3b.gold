@@ -1,0 +1,5 @@
+users .. OK /.jraf.sys/users
+md a ... JRAF_FAIL system path
+put b .. JRAF_FAIL system path
+read a . JRAF_FAIL system path
+read b . JRAF_FAIL system path

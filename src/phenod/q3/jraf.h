@@ -69,8 +69,9 @@ class Jraf
         Cmdr aureq_md(string pth);
         Cmdr aureq_put(gl::Token & tok, string pth, bool append);
         Cmdr aureq_mv(string pth, string pto);
-        Cmdr read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
-        bool check_au_path(string sess, string pth, bool su);
+        Cmdr read_tok_path(gl::Token & tok, string & pth, bool su);
+        ///Cmdr read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
+        ///bool check_au_path(string sess, string pth, bool su);
 
         os::Path ver_path(const os::Path & p) const;
         void setver(const os::Path & p, string v);
@@ -87,17 +88,17 @@ class Jraf
 
 /*
 
-1. Version files are not visible (1a) and not writable (1b) for anyone.
-   Read/get can return by direct path (1c).
+1. Version files are not visible [1a] and not writable [1b] for anyone.
 2. Sys files do not have versions
-3. if( Superuser or no Users_dir ) All files (also sys) are visible and writable
+3. if( Superuser [3b] or no Users_dir [3a] ), 
+   all files (including sys) are visible and writable
 4. if( no Superuser and Unsers_dir )
-    3.1 Sys files not visible and not writable
-    3.2 Home files visible and writable
-    3.3 Other files visible but not writable
+    4.1 Sys files not visible and not writable
+    4.2 Home files visible and writable
+    4.3 Other files visible but not writable
 5. Superuser: email listed in the root conf file
-6. Users_dir: /.jraf.sys/users (uid,email,name,quota,last,cntr,home)
-7. Login_dir: /.jrar.sys/login (sid,uid)
+6. Users_dir: /.jraf.sys/users (email -> name,uname,email,name,quota,last,cntr)
+7. Login_dir: /.jrar.sys/login (sid -> email)
 8. Inbox_dir: /.jraf.sys/inbox (uid,yymmddhhmmss_rand)
 
 */

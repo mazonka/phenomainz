@@ -1,0 +1,8 @@
+print { [ users .. ] tcp self [ jraf au 0 md /.jraf.sys/users ] }
+
+print { [ md a ... ] tcp self [ jraf au 0 md /.jraf.sys/a ] }
+print { [ put b .. ] tcp self [ jraf au 0 put /.jraf.sys/b 0 1 Kg== ] }
+print { [ read a . ] tcp self [ jraf read 0 /.jraf.sys/a ] }
+print { [ read b . ] tcp self [ jraf read 0 /.jraf.sys/b ] }
+
+quit

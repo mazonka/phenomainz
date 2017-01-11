@@ -40,10 +40,16 @@ string Jraf::request(gl::Token tok)
         {
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
+		    bool superuser = issu(sess);
             hq::LockRead lock(&access);
-            if ( !tok.next() ) return bad().s;
-            string p = tok.sub();
-            result += read_obj(p, cmd == "get", issu(sess));
+
+            ///if ( !tok.next() ) return bad().s;
+            ///string p = tok.sub();
+            ///result += read_obj(p, cmd == "get", issu(sess));
+			string pth;
+		    Cmdr er = read_tok_path(tok, pth, superuser );
+		    if ( !er.b ) return er.s;
+            result += read_obj(pth, cmd == "get", superuser );
         }
 
         else if ( cmd == "au" )
@@ -123,6 +129,8 @@ bool Jraf::special(string s, bool su)
 
 Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
 {
+	if( special(pth,su) ) return err("sys path");
+
     os::Path rp(pth);
     os::Path p = root(pth);
     string ver = getver(pth);
@@ -182,7 +190,7 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     string cmd = tok.sub();
 
     string pth;
-    Cmdr er = read_tok_path(tok, sess, pth, superuser);
+    Cmdr er = read_tok_path(tok, pth, superuser);
     if ( !er.b ) return er;
 
     if (0) {}
@@ -194,7 +202,7 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     else if ( cmd == "mv" )
     {
         string pto;
-        er = read_tok_path(tok, sess, pto, superuser);
+        er = read_tok_path(tok, pto, superuser);
         if ( !er.b ) return er;
         return aureq_mv(pth, pto);
     }
@@ -250,6 +258,7 @@ bool Jraf::issu(string sess)
     return true;
 }
 
+/*///
 bool Jraf::check_au_path(string sess, string pth, bool su)
 {
     os::Path usr = users();
@@ -258,6 +267,7 @@ bool Jraf::check_au_path(string sess, string pth, bool su)
     os::Cout() << "Jraf::check_au_path - NI" << os::endl;
     return true;
 }
+*/
 
 Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 {
@@ -304,7 +314,7 @@ Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 }
 
 /// return "" on success or error message
-Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
+Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, bool su)
 {
     if ( !tok.next() ) return err("path");
     string p = tok.sub();
@@ -319,7 +329,7 @@ Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool 
         p = p.substr(0, p.size() - 1);
 
     if ( special(p, su) ) return fail("system path");
-    if ( !check_au_path(sess, p, su) ) return fail("auth");
+    ///if ( !check_au_path(sess, p, su) ) return fail("auth");
 
     pth = p;
     return Cmdr();

@@ -1,6 +1,6 @@
 --
 OK /aaa
 root ... OK 1 -1 1 1 -1 aaa
-ver .... OK 0 -1 0
+ver .... JRAF_FAIL system path
 
 ==========

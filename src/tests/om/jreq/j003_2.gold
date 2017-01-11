@@ -1,8 +1,8 @@
 --
 md /a .. OK /a
 md .b .. OK /.jraf.sys/b
-s ver .. JRAF_ERR bad path /.jraf.ver/.jraf.sys.jraf.ver
-b ver .. JRAF_ERR bad path /.jraf.ver/.jraf.sys/b.jraf.ver
+s ver .. JRAF_FAIL system path
+b ver .. JRAF_FAIL system path
 
 ==========
 jroot/.jraf.ver:
