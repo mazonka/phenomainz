@@ -8,6 +8,7 @@
 #include "gl_err.h"
 #include "ma_utils.h"
 
+#include "jr_conf.h"
 #include "jraf.h"
 
 inline string zero(string s, string d = "0")
@@ -392,7 +393,7 @@ void Jraf::update_ver(os::Path pth)
 Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
 {
     if ( !tok.next() ) return err("need arg");
-    string arg = tok.sub();
+    string em = tok.sub();
 
     if ( !users().isdir() ) return fail("no users");
 
@@ -405,11 +406,23 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
 
     if ( in )
     {
-        if ( !gl::ismail(arg) ) return err("bad email");
-        gl::str2file( (dir + nonce).str(), arg );
-        return ok();
+		string server;
+	    if ( tok.next() ) server = tok.sub();
+
+        if ( !gl::ismail(em) ) return err("bad email");
+        gl::str2file( (dir + nonce).str(), em);
+
+		jraf::sendmail(server,nonce,em);
+
+        return ok(server);
     }
 
-    return fail("login NI");
+	// logout
+
+	(dir+em).erase();
+
+	jraf::cleanOldFiles(dir,10*1000*1000); // 4 months
+
+    return ok();
 }
 

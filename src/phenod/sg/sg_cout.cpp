@@ -45,3 +45,4 @@ const os::Cout & os::operator<<(const os::Cout & o, const string & s) { o.ref->s
 const os::Cout & os::operator<<(const os::Cout & o, char c) { o.ref->so << c; return o; }
 const os::Cout & os::operator<<(const os::Cout & o, int i) { o.ref->so << i; return o; }
 const os::Cout & os::operator<<(const os::Cout & o, size_t i) { o.ref->so << i; return o; }
+const os::Cout & os::operator<<(const os::Cout & o, double x) { o.ref->so << x; return o; }

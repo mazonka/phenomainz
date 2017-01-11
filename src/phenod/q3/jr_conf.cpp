@@ -1,8 +1,12 @@
 #include <fstream>
+#include <cstdlib>
 
 #include "gl_err.h"
 #include "gl_except.h"
 #include "gl_utils.h"
+
+#include "os_exec.h"
+#include "sg_cout.h"
 
 #include "jr_conf.h"
 
@@ -39,5 +43,48 @@ bool jraf::matchConf(string name, string val)
     }
 
     return false;
+}
+
+
+void jraf::sendmail(string & url, string sid, string em)
+{
+    // url http://localhost:16000/home?0, http://localhost:16000[/]
+
+    if ( url.empty() ) url = jraf::loadConf("server");
+
+    if ( url.empty() ) throw gl::ex("jraf::sendmail: empty url");
+    auto i = url.find('?');
+
+    if ( i == string::npos )
+    {
+        if ( url[url.size() - 1] != '/' ) url += '/';
+        url += "jraf?";
+    }
+    else
+        url = url.substr(0, i + 1);
+
+    url += gl::tos(sid);
+
+    string cmd = jraf::loadConf("phmail");
+    if ( cmd.empty() ) cmd = "phmail";
+
+    cmd += " login " + em + " " + url;
+
+    cmd = os::THISDIR + cmd;
+    std::system(cmd.c_str());
+}
+
+void jraf::cleanOldFiles(os::Path dir, double secs)
+{
+	os::Dir d = os::FileSys::readDir(dir);
+
+	for ( auto i : d.files )
+	{
+		string nm = i.first;
+		auto file = dir+nm;
+		double ho = file.howold();
+		if( ho > secs ) file.erase();
+		//os::Cout()<<" "<<file.str()<<' '<<ho<<' '<<secs<<os::endl;
+	}
 }
 

@@ -1,8 +1,17 @@
-jraf login a@b.c -> JRAF_FAIL no users
+jraf login a@b.c http://sever/ -> JRAF_FAIL no users
 jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
-jraf login a@b.c -> OK
-jraf login admin@server.com -> OK
-jraf logout 0 -> JRAF_FAIL login NI
+
+[N/I] phmail: Sending to [a@b.c] au [http://127.0.0.1:16000/jraf?73d24a440544ac5e]
+jraf login a@b.c -> OK http://127.0.0.1:16000/jraf?73d24a440544ac5e
+
+[N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?78c4fc9a59a4e947]
+jraf login admin@server.com -> OK http://127.0.0.1:16000/jraf?78c4fc9a59a4e947
+
+jraf logout 0 -> OK
+
+jraf logout 73d24a440544ac5e -> OK
+
+
 jraf login admin/server.com -> JRAF_ERR bad email
 jraf login admin=server.com -> JRAF_ERR bad email
 jraf login -dmin@server.com -> JRAF_ERR bad email
@@ -13,12 +22,11 @@ login
 users
 
 jroot/.jraf.sys/login:
-73d24a440544ac5e
 78c4fc9a59a4e947
 
 jroot/.jraf.sys/users:
 
 ========== 73d24a440544ac5e
-a@b.c
+
 ========== 78c4fc9a59a4e947
 admin@server.com

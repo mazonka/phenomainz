@@ -55,6 +55,7 @@ class Cout
         friend const Cout & operator<<(const Cout & o, const string & s);
         friend const Cout & operator<<(const Cout & o, char c);
         friend const Cout & operator<<(const Cout & o, int i);
+        friend const Cout & operator<<(const Cout & o, double x);
         friend const Cout & operator<<(const Cout & o, size_t i);
         friend const Cout & operator<<(const Cout & o, const Endl & f);
 };

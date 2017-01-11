@@ -1,26 +1,35 @@
 set date "20170123"
 set time "123456"
 
-cmd = [ jraf login a@b.c ]
+cmd = [ jraf login a@b.c http://sever/ ]
 print { cmd "->" tcp self cmd }
 
 cmd = [ jraf au 0 md /.jraf.sys/users ]
 print { cmd "->" tcp self cmd }
+print [ ]
 
 cmd = [ jraf login a@b.c ]
 print { cmd "->" tcp self cmd }
+print [ ]
 
 cmd = [ jraf login admin@server.com ]
 print { cmd "->" tcp self cmd }
+print [ ]
 
-cmd = [ jraf read 0 /.jraf.sys/login ]
+#cmd = [ jraf read 0 /.jraf.sys/login ]
 #print { cmd "->" tcp self cmd }
 
 cmd = [ jraf logout 0 ]
 print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jraf logout 73d24a440544ac5e ]
+print { cmd "->" tcp self cmd }
+print [ ]
 
 cmd = [ jraf read 0 /.jraf.sys/login ]
 #print { cmd "->" tcp self cmd }
+print [ ]
 
 cmd = [ jraf login admin/server.com ]
 print { cmd "->" tcp self cmd }

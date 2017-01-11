@@ -15,7 +15,7 @@ ls -1R jroot/.jraf.sys/
 
 echo ""
 echo "========== 73d24a440544ac5e"
-cat jroot/.jraf.sys/login/73d24a440544ac5e
+#cat jroot/.jraf.sys/login/73d24a440544ac5e
 
 echo ""
 echo "========== 78c4fc9a59a4e947"

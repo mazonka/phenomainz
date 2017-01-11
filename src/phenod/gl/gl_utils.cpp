@@ -346,7 +346,7 @@ bool gl::issql(const string & s)
         if ( c == '=' || c == ' ' ) continue;
         if ( c == '*' || c == '.' ) continue;
         if ( c == '_' || c == '-' ) continue;
-        if ( c == '@' || c == 'z' ) continue;
+        if ( c == '@' || c == ':' ) continue;
 
         return false;
     }
