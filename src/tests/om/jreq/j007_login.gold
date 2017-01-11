@@ -1,0 +1,8 @@
+login1 . JRAF_ERR bad command [login]
+login2 . JRAF_ERR bad command [login]
+read ... JRAF_ERR bad path /.jraf.sys/login
+logout . JRAF_ERR bad command [logout]
+read ... JRAF_ERR bad path /.jraf.sys/login
+bad1 ... JRAF_ERR bad command [login]
+bad2 ... JRAF_ERR bad command [login]
+bad3 ... JRAF_ERR bad command [login]

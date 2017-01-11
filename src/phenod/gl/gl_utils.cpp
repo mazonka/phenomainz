@@ -333,7 +333,29 @@ bool gl::issql(const string & s)
         if ( c == '+' || c == '/' ) continue;
         if ( c == '=' || c == ' ' ) continue;
         if ( c == '*' || c == '.' ) continue;
-        if ( c == '_' || c == 'x' ) continue;
+        if ( c == '_' || c == '-' ) continue;
+        if ( c == '@' || c == 'z' ) continue;
+
+        return false;
+    }
+
+    return true;
+}
+
+bool gl::ismail(const string & s)
+{
+    for ( int i = 0; i < (int)s.size(); i++ )
+    {
+        const char & c = s[i];
+
+		if( i==0 && c == '-' ) return false;
+
+        if ( c >= 'A' && c <= 'Z' ) continue;
+        if ( c >= 'a' && c <= 'z' ) continue;
+        if ( c >= '0' && c <= '9' ) continue;
+        if ( c == '_' || c == '-' ) continue;
+        if ( c == '@' || c == '.' ) continue;
+
 
         return false;
     }

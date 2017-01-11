@@ -1,0 +1,17 @@
+set date "20170123"
+set time "123456"
+
+print { [ login1 . ] tcp self [ jraf login a@b.c ] }
+print { [ login2 . ] tcp self [ jraf login admin@server.com ] }
+
+print { [ read ... ] tcp self [ jraf read 0 /.jraf.sys/login ] }
+
+print { [ logout . ] tcp self [ jraf logout 0 ] }
+
+print { [ read ... ] tcp self [ jraf read 0 /.jraf.sys/login ] }
+
+print { [ bad1 ... ] tcp self [ jraf login admin/server.com ] }
+print { [ bad2 ... ] tcp self [ jraf login admin=server.com ] }
+print { [ bad3 ... ] tcp self [ jraf login -dmin@server.com ] }
+
+quit

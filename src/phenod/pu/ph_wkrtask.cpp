@@ -94,7 +94,7 @@ string Worker2::ph_jraf()
 {
     if ( !gl::issql(tok.c_str()) )
     {
-        os::Cout() << "Bad intput [" << tok.c_str() << "]" << os::endl;
+        os::Cout() << "Bad input [" << tok.c_str() << "]" << os::endl;
         return er::Code(er::REQ_MSG_BAD);
     }
 
@@ -106,7 +106,7 @@ string Worker2::ph_aucmd()
 {
     if ( !gl::issql(tok.c_str()) )
     {
-        os::Cout() << "Bad intput [" << tok.c_str() << "]" << os::endl;
+        os::Cout() << "Bad input [" << tok.c_str() << "]" << os::endl;
         return er::Code(er::REQ_MSG_BAD);
     }
 
