@@ -99,7 +99,15 @@ string Worker2::ph_jraf()
     }
 
     AutArea & aa = gs->autArea;
-    return aa.jraf.request(tok);
+
+	string nonce;
+    {
+        KeyArea & ka = gs->keyArea;
+        sgl::Mutex mutex_ka(ka.access2keyArea);
+        nonce = ka.newSalt().substr(0, 16);
+    }
+
+    return aa.jraf.request(tok,nonce);
 }
 
 string Worker2::ph_aucmd()

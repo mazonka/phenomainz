@@ -7,6 +7,19 @@ cwd=`pwd`
 test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 
 cd $1
-./phenod -cqln dwkr=0 s=$cwd/$in.inp jraf_root=jroot
+./phenod -cqln dwkr=0 skcseed=1 s=$cwd/$in.inp jraf_root=jroot
+
+echo ""
+echo "=========="
+ls -1R jroot/.jraf.sys/
+
+echo ""
+echo "========== 73d24a440544ac5e"
+cat jroot/.jraf.sys/login/73d24a440544ac5e
+
+echo ""
+echo "========== 78c4fc9a59a4e947"
+cat jroot/.jraf.sys/login/78c4fc9a59a4e947
+
 rm -rf jroot
 

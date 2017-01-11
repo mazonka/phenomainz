@@ -1,8 +1,24 @@
-login1 . JRAF_ERR bad command [login]
-login2 . JRAF_ERR bad command [login]
-read ... JRAF_ERR bad path /.jraf.sys/login
-logout . JRAF_ERR bad command [logout]
-read ... JRAF_ERR bad path /.jraf.sys/login
-bad1 ... JRAF_ERR bad command [login]
-bad2 ... JRAF_ERR bad command [login]
-bad3 ... JRAF_ERR bad command [login]
+jraf login a@b.c -> JRAF_FAIL no users
+jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
+jraf login a@b.c -> OK
+jraf login admin@server.com -> OK
+jraf logout 0 -> JRAF_FAIL login NI
+jraf login admin/server.com -> JRAF_ERR bad email
+jraf login admin=server.com -> JRAF_ERR bad email
+jraf login -dmin@server.com -> JRAF_ERR bad email
+
+==========
+jroot/.jraf.sys/:
+login
+users
+
+jroot/.jraf.sys/login:
+73d24a440544ac5e
+78c4fc9a59a4e947
+
+jroot/.jraf.sys/users:
+
+========== 73d24a440544ac5e
+a@b.c
+========== 78c4fc9a59a4e947
+admin@server.com

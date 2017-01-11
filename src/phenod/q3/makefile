@@ -29,7 +29,7 @@ DBDIR=../db
 INC := $(INC) -I$(DBDIR)
 DBLIB=$(DBDIR)/$O/htdblib$(LEXT)
 
-src = dbo.cpp ph_db1.cpp ph_db2.cpp jraf.cpp
+src = dbo.cpp ph_db1.cpp ph_db2.cpp jraf.cpp jr_conf.cpp
 obj := $(src:%.cpp=$O/%$(OEXT))
 
 srctrg = sqlcl.cpp

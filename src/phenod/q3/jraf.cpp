@@ -15,15 +15,17 @@ inline string zero(string s, string d = "0")
     return s.empty() ? d : s;
 }
 
-string Jraf::request(gl::Token tok)
+string Jraf::request(gl::Token tok, string anonce)
 {
+	nonce = anonce;
+
     Cmdr result;
     while (true)
     {
         if ( !tok.next() ) return bad().s;
         string cmd = tok.sub();
 
-        if ( cmd == "ping" ) result += Cmdr(er::Code(er::OK), true);
+        if ( cmd == "ping" ) result += ok();
         else if ( cmd == "version" )
         {
             if ( !tok.next() ) result += bad();
@@ -57,6 +59,12 @@ string Jraf::request(gl::Token tok)
             hq::LockWrite lock(&access);
             result += aurequest(tok);
         }
+        else if ( cmd == "login" ||  cmd == "logout" )
+        {
+            hq::LockWrite lock(&access);
+            result += login(tok,cmd == "login");
+        }
+
         else
         {
             result += err("bad command [" + cmd + "]");
@@ -379,5 +387,29 @@ void Jraf::update_ver(os::Path pth)
     if ( up == pth.str() ) return;
 
     update_ver(up);
+}
+
+Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
+{
+    if ( !tok.next() ) return err("need arg");
+    string arg = tok.sub();
+
+	if( !users().isdir() ) return fail("no users");
+
+	os::Path dir = login();
+	if( !dir.isdir() )
+	{
+		dir.mkdir();
+		if( !dir.isdir() ) return fail("login directory fails");
+	}
+
+	if( in )
+	{
+		if( !gl::ismail(arg) ) return err("bad email");
+		gl::str2file( (dir+nonce).str(), arg );
+		return ok();
+	}
+
+	return fail("login NI");
 }
 

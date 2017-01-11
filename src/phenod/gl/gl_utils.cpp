@@ -168,6 +168,18 @@ string gl::file2word(const string & file)
     return r;
 }
 
+void gl::touch(const string & file)
+{
+	std::ofstream of(file.c_str(),std::ios::binary | std::ios::app );
+}
+
+void gl::str2file(const string & file, const string & str)
+{
+	std::ofstream of(file.c_str(),std::ios::binary);
+	of<<str;
+}
+
+
 bool gl::isSufx(const std::string & str, const std::string & sufx)
 {
     return

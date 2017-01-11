@@ -39,6 +39,7 @@ class Jraf
 
         hq::AccessController access;
         string root_dir;
+		string nonce;
 
         static bool special(string s, bool su);
         bool issu(string sess);
@@ -50,6 +51,8 @@ class Jraf
         os::Path login() const { return sys_dir() + jraf::login; }
 
         Cmdr client_version();
+
+        static Cmdr ok(){ return Cmdr(er::Code(er::OK),true); }
 
         static Cmdr ok(const string & s)
         { return Cmdr(er::Code(er::OK).str() + ' ' + s, true); }
@@ -72,6 +75,7 @@ class Jraf
         Cmdr read_tok_path(gl::Token & tok, string & pth, bool su);
         ///Cmdr read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
         ///bool check_au_path(string sess, string pth, bool su);
+        Cmdr login(gl::Token & tok, bool in);
 
         os::Path ver_path(const os::Path & p) const;
         void setver(const os::Path & p, string v);
@@ -82,7 +86,7 @@ class Jraf
     public:
         Jraf(string rdir): root_dir(rdir) {}
 
-        string request(gl::Token tok);
+        string request(gl::Token tok, string nonce);
 };
 
 
