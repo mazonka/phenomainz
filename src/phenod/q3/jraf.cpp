@@ -8,6 +8,7 @@
 #include "gl_except.h"
 #include "gl_err.h"
 #include "ma_utils.h"
+#include "ma_skc.h"
 
 #include "jr_conf.h"
 #include "jraf.h"
@@ -19,8 +20,6 @@ inline string zero(string s, string d = "0")
 
 string Jraf::request(gl::Token tok, string anonce)
 {
-    nonce = anonce;
-
     Cmdr result;
     while (true)
     {
@@ -44,16 +43,17 @@ string Jraf::request(gl::Token tok, string anonce)
         {
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
-            bool superuser = issu(sess);
+            ///bool superuser = issu(sess);
+            auto usr = user(sess);
             hq::LockRead lock(&access);
 
             ///if ( !tok.next() ) return bad().s;
             ///string p = tok.sub();
             ///result += read_obj(p, cmd == "get", issu(sess));
             string pth;
-            Cmdr er = read_tok_path(tok, pth, superuser );
+            Cmdr er = read_tok_path(tok, pth, usr, false );
             if ( !er.b ) return er.s;
-            result += read_obj(pth, cmd == "get", superuser );
+            result += read_obj(pth, cmd == "get", usr );
         }
 
         else if ( cmd == "au" )
@@ -64,6 +64,7 @@ string Jraf::request(gl::Token tok, string anonce)
         else if ( cmd == "login" ||  cmd == "logout" )
         {
             hq::LockWrite lock(&access);
+            nonce = anonce;
             result += login(tok, cmd == "login");
         }
 
@@ -137,9 +138,9 @@ bool Jraf::special(string s, bool su)
     return false;
 };
 
-Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
+Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
 {
-    if ( special(pth, su) ) return err("sys path");
+    if ( special(pth, u.su) ) return err("sys path");
 
     os::Path rp(pth);
     os::Path p = root(pth);
@@ -157,7 +158,7 @@ Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
 
         for ( auto i : dir.dirs )
         {
-            if ( special(i, su) ) continue;
+            if ( special(i, u.su) ) continue;
             r += ' ' + getver(rp + i);
             r += " -1";
             r += ' ' + i;
@@ -166,7 +167,7 @@ Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
 
         for ( auto i : dir.files )
         {
-            if ( special(i.first, su) ) continue;
+            if ( special(i.first, u.su) ) continue;
             r += ' ' + getver(rp + i.first);
             r += ' ' + gl::tos(i.second);
             r += ' ' + i.first;
@@ -194,13 +195,13 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
 {
     if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
-    bool superuser = issu(sess);
+    auto superuser = user(sess);
 
     if ( !tok.next() ) return err("command");
     string cmd = tok.sub();
 
     string pth;
-    Cmdr er = read_tok_path(tok, pth, superuser);
+    Cmdr er = read_tok_path(tok, pth, superuser, true);
     if ( !er.b ) return er;
 
     if (0) {}
@@ -212,7 +213,7 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     else if ( cmd == "mv" )
     {
         string pto;
-        er = read_tok_path(tok, pto, superuser);
+        er = read_tok_path(tok, pto, superuser, true);
         if ( !er.b ) return er;
         return aureq_mv(pth, pto);
     }
@@ -246,7 +247,8 @@ Jraf::Cmdr Jraf::aureq_md(string pth)
     return ok(pth);
 }
 
-bool Jraf::issu(string sess)
+///bool Jraf::issu(string sess)
+Jraf::User Jraf::user(string sess)
 {
     os::Path usr = users();
     if ( !usr.isdir() ) return true;
@@ -255,22 +257,6 @@ bool Jraf::issu(string sess)
 
     os::Path in = login() + sess;
     string email = gl::file2word(in.str());
-
-    /*///
-        os::Cout() << "AAA issu :" <<uid<<os::endl;
-
-        if ( uid.empty() ) return false;
-
-        string emailfile = (usr + uid + "email").str();
-        os::Cout() << "AAA issu " << emailfile << os::endl;
-        string email = gl::file2word(emailfile);
-
-        if ( email.empty() ) return false;
-
-        // now test root config for email
-        os::Cout() << "Jraf::issu - NI" << os::endl;
-        return true;
-    */
 
     bool superuser = jraf::matchConf("admin", email);
 
@@ -282,7 +268,7 @@ bool Jraf::issu(string sess)
         udir.mkdir();
         if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
 
-        // new user FIXME add: email,quota,uname(home)
+		new_user(email);
     }
 
     // set counter
@@ -290,7 +276,7 @@ bool Jraf::issu(string sess)
     string scntr = gl::file2word( file_cntr );
     int icntr = 0;
     if ( !scntr.empty() ) icntr = gl::toi(scntr);
-    gl::str2file(file_cntr, gl::tos(icntr) + '\n');
+    gl::str2file(file_cntr, gl::tos(++icntr) + '\n');
 
     // set access
     string file_last = (udir + "access").str();
@@ -300,16 +286,13 @@ bool Jraf::issu(string sess)
     return superuser;
 }
 
-/*///
-bool Jraf::check_au_path(string sess, string pth, bool su)
+bool Jraf::check_au_path(string pth, const User & su, bool write)
 {
-    os::Path usr = users();
-    if ( !usr.isdir() ) return true;
+	if( su.su ) return true;
 
     os::Cout() << "Jraf::check_au_path - NI" << os::endl;
     return true;
 }
-*/
 
 Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 {
@@ -355,8 +338,7 @@ Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
     return ok(gl::tos(f.filesize()));
 }
 
-/// return "" on success or error message
-Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, bool su)
+Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, const User & su, bool wr)
 {
     if ( !tok.next() ) return err("path");
     string p = tok.sub();
@@ -370,8 +352,8 @@ Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, bool su)
     while ( !p.empty() && p[p.size() - 1] == '/' )
         p = p.substr(0, p.size() - 1);
 
-    if ( special(p, su) ) return fail("system path");
-    ///if ( !check_au_path(sess, p, su) ) return fail("auth");
+    if ( special(p, su.su) ) return fail("system path");
+    if ( !check_au_path(p, su, wr) ) return fail("denied");
 
     pth = p;
     return Cmdr();
@@ -457,5 +439,23 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
     jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
 
     return ok();
+}
+
+
+void Jraf::new_user(string email)
+{
+    os::Path udir = users() + email;
+
+	// set quota and uname
+	string quotaKb = "10000";
+	string x = ma::skc::hashHex(email);
+	string uname = ma::skc::enc(x,email,x,x);
+	uname = ma::toHex(uname).substr(0,16);
+
+    string file_quota = (udir + "quota").str();
+    gl::str2file(file_quota, quotaKb+'\n');
+
+    string file_uname = (udir + "uname").str();
+    gl::str2file(file_uname, uname+'\n');
 }
 

@@ -37,12 +37,20 @@ class Jraf
             Cmdr operator+(Cmdr c) { Cmdr r(*this); r += c; return r; }
         };
 
+		struct User
+		{
+			bool su;
+			string email, quotaKb, last, cntr, uname;
+			User(bool s): su(s) {}
+		};
+
         hq::AccessController access;
         string root_dir;
         string nonce;
 
         static bool special(string s, bool su);
-        bool issu(string sess);
+        ///bool issu(string sess);
+		User user(string sess);
 
         os::Path root(string s) const { return os::Path(root_dir) + s; }
         os::Path sys_dir() const { return root(jraf::sys_name); }
@@ -67,14 +75,13 @@ class Jraf
         { return Cmdr(er::Code(er::REQ_MSG_BAD), false); }
 
         Cmdr aurequest(gl::Token & tok);
-        Cmdr read_obj(string p, bool getonly, bool su);
+        Cmdr read_obj(string p, bool getonly, const User & su);
         Cmdr aureq_rm(string pth);
         Cmdr aureq_md(string pth);
         Cmdr aureq_put(gl::Token & tok, string pth, bool append);
         Cmdr aureq_mv(string pth, string pto);
-        Cmdr read_tok_path(gl::Token & tok, string & pth, bool su);
-        ///Cmdr read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
-        ///bool check_au_path(string sess, string pth, bool su);
+        Cmdr read_tok_path(gl::Token & tok, string & pth, const User & su, bool write);
+        bool check_au_path(string pth, const User & su, bool write);
         Cmdr login(gl::Token & tok, bool in);
 
         os::Path ver_path(const os::Path & p) const;
@@ -82,6 +89,7 @@ class Jraf
         string getver(const os::Path & p) const;
         void update_ver(os::Path pth);
         static string parent_str(os::Path pth);
+		void new_user(string email);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

@@ -63,12 +63,12 @@ void jraf::sendmail(string & url, string sid, string em)
     else
         url = url.substr(0, i + 1);
 
-    url += gl::tos(sid);
+    string furl = url + gl::tos(sid);
 
     string cmd = jraf::loadConf("phmail");
     if ( cmd.empty() ) cmd = "phmail";
 
-    cmd += " login " + em + " " + url;
+    cmd += " login " + em + " " + furl;
 
     cmd = os::THISDIR + cmd;
     std::system(cmd.c_str());
