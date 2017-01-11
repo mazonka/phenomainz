@@ -34,12 +34,12 @@ class Jraf
             ///explicit Cmdr(string a): s(a), b(true) {}
             Cmdr(string a, bool k): s(a), b(k) {}
             void operator+=(Cmdr c) { s += c.s; b &= c.b; }
-			Cmdr operator+(Cmdr c){ Cmdr r(*this); r+=c; return r; }
+            Cmdr operator+(Cmdr c) { Cmdr r(*this); r += c; return r; }
         };
 
         hq::AccessController access;
         string root_dir;
-		string nonce;
+        string nonce;
 
         static bool special(string s, bool su);
         bool issu(string sess);
@@ -52,7 +52,7 @@ class Jraf
 
         Cmdr client_version();
 
-        static Cmdr ok(){ return Cmdr(er::Code(er::OK),true); }
+        static Cmdr ok() { return Cmdr(er::Code(er::OK), true); }
 
         static Cmdr ok(const string & s)
         { return Cmdr(er::Code(er::OK).str() + ' ' + s, true); }
@@ -94,7 +94,7 @@ class Jraf
 
 1. Version files are not visible [1a] and not writable [1b] for anyone.
 2. Sys files do not have versions
-3. if( Superuser [3b] or no Users_dir [3a] ), 
+3. if( Superuser [3b] or no Users_dir [3a] ),
    all files (including sys) are visible and writable
 4. if( no Superuser and Unsers_dir )
     4.1 Sys files not visible and not writable

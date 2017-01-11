@@ -17,7 +17,7 @@ inline string zero(string s, string d = "0")
 
 string Jraf::request(gl::Token tok, string anonce)
 {
-	nonce = anonce;
+    nonce = anonce;
 
     Cmdr result;
     while (true)
@@ -42,15 +42,15 @@ string Jraf::request(gl::Token tok, string anonce)
         {
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
-		    bool superuser = issu(sess);
+            bool superuser = issu(sess);
             hq::LockRead lock(&access);
 
             ///if ( !tok.next() ) return bad().s;
             ///string p = tok.sub();
             ///result += read_obj(p, cmd == "get", issu(sess));
-			string pth;
-		    Cmdr er = read_tok_path(tok, pth, superuser );
-		    if ( !er.b ) return er.s;
+            string pth;
+            Cmdr er = read_tok_path(tok, pth, superuser );
+            if ( !er.b ) return er.s;
             result += read_obj(pth, cmd == "get", superuser );
         }
 
@@ -62,7 +62,7 @@ string Jraf::request(gl::Token tok, string anonce)
         else if ( cmd == "login" ||  cmd == "logout" )
         {
             hq::LockWrite lock(&access);
-            result += login(tok,cmd == "login");
+            result += login(tok, cmd == "login");
         }
 
         else
@@ -71,7 +71,7 @@ string Jraf::request(gl::Token tok, string anonce)
             break;
         }
 
-		if( !result.b ) break;
+        if ( !result.b ) break;
         if ( !tok.next() ) break;
         string ts = tok.sub();
         if ( ts != "+" ) return result.s + ' ' + err("[" + ts + "]").s;
@@ -137,7 +137,7 @@ bool Jraf::special(string s, bool su)
 
 Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
 {
-	if( special(pth,su) ) return err("sys path");
+    if ( special(pth, su) ) return err("sys path");
 
     os::Path rp(pth);
     os::Path p = root(pth);
@@ -377,7 +377,7 @@ string Jraf::parent_str(os::Path pth)
 
 void Jraf::update_ver(os::Path pth)
 {
-	if( special(pth.str(),false) ) return;
+    if ( special(pth.str(), false) ) return;
 
     string v = getver(pth);
     v = gl::tos( gl::toi(v) + 1 );
@@ -394,22 +394,22 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
     if ( !tok.next() ) return err("need arg");
     string arg = tok.sub();
 
-	if( !users().isdir() ) return fail("no users");
+    if ( !users().isdir() ) return fail("no users");
 
-	os::Path dir = login();
-	if( !dir.isdir() )
-	{
-		dir.mkdir();
-		if( !dir.isdir() ) return fail("login directory fails");
-	}
+    os::Path dir = login();
+    if ( !dir.isdir() )
+    {
+        dir.mkdir();
+        if ( !dir.isdir() ) return fail("login directory fails");
+    }
 
-	if( in )
-	{
-		if( !gl::ismail(arg) ) return err("bad email");
-		gl::str2file( (dir+nonce).str(), arg );
-		return ok();
-	}
+    if ( in )
+    {
+        if ( !gl::ismail(arg) ) return err("bad email");
+        gl::str2file( (dir + nonce).str(), arg );
+        return ok();
+    }
 
-	return fail("login NI");
+    return fail("login NI");
 }
 

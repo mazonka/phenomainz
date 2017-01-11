@@ -11,13 +11,7 @@
 #include "hq_svttask.h"
 #include "hq_globalspace.h"
 
-string AutArea::ph_conf = "conf.phd";
-
-void AutArea::testConf()
-{
-    string a = gl::file2str(ph_conf);
-    if ( a.empty() ) throw gl::ex("Cannot open: " + ph_conf);
-}
+///string AutArea::ph_conf = "conf.phd";
 
 
 AutObject AutArea::newAob_email(string ses_id, string email)
@@ -89,32 +83,6 @@ string Profile::dump() const
     r += "[" + prid + "] [" + mail + "] [" + name;
     r += "] [" + last + "] [" + cntr + "]";
     return r;
-}
-
-string AutArea::loadConf(string name)
-{
-    std::ifstream in(ph_conf.c_str());
-    while (in)
-    {
-        string k, v;
-        in >> k >> v;
-        if ( k == name ) return v;
-    }
-
-    return "";
-}
-
-bool AutArea::matchConf(string name, string val)
-{
-    std::ifstream in(ph_conf.c_str());
-    while (in)
-    {
-        string k, v;
-        in >> k >> v;
-        if ( k == name && v == val ) return true;
-    }
-
-    return false;
 }
 
 void AutQueue::addAob(const AutObject & ao)

@@ -5,6 +5,7 @@
 
 #include "ph_db.h"
 #include "jraf.h"
+#include "jr_conf.h"
 
 #include <map>
 
@@ -39,7 +40,7 @@ class AutQueue
 
 struct AutArea
 {
-    static string ph_conf;
+    ///static string ph_conf;
     Phdb phdb;
     Jraf jraf;
 
@@ -47,17 +48,18 @@ struct AutArea
     AutQueue que;
 
     AutArea(int sz, string dbfile, string jroot)
-        : phdb(dbfile), jraf(jroot), access2autArea(1), que(sz) { testConf(); }
+        : phdb(dbfile), jraf(jroot), access2autArea(1), que(sz)
+    { jraf::testConf(); }
 
-    void testConf();
+    ///void testConf();
 
     AutObject newAob_email(string id, string email);
     void update_name(const AutObject & ao, string newname);
     ///AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
 
     static string dump_safe(GlobalSpace * gs);
-    static string loadConf(string name);
-    static bool matchConf(string name, string val);
+    ///static string loadConf(string name);
+    ///static bool matchConf(string name, string val);
 };
 
 #endif

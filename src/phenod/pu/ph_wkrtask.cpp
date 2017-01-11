@@ -14,6 +14,8 @@
 #include "sg_cout.h"
 #include "sg_client.h"
 
+#include "jr_conf.h"
+
 #include "hq_hash.h"
 #include "hq_platform.h"
 
@@ -46,7 +48,7 @@ string Worker2::ph_login()
     // url http://localhost:16000/home?0, http://localhost:16000[/]
     string url;
     if ( tok.next() ) url = tok.sub();
-    else url = AutArea::loadConf("server");
+    else url = jraf::loadConf("server");
 
     if ( url.empty() ) throw "Worker2::ph_login: empty url";
     auto i = url.find('?');
@@ -61,7 +63,7 @@ string Worker2::ph_login()
 
     url += gl::tos(ao.seid);
 
-    string cmd = AutArea::loadConf("phmail");
+    string cmd = jraf::loadConf("phmail");
     if ( cmd.empty() ) cmd = "phmail";
 
     cmd += " login " + em + " " + url;
@@ -100,14 +102,14 @@ string Worker2::ph_jraf()
 
     AutArea & aa = gs->autArea;
 
-	string nonce;
+    string nonce;
     {
         KeyArea & ka = gs->keyArea;
         sgl::Mutex mutex_ka(ka.access2keyArea);
         nonce = ka.newSalt().substr(0, 16);
     }
 
-    return aa.jraf.request(tok,nonce);
+    return aa.jraf.request(tok, nonce);
 }
 
 string Worker2::ph_aucmd()
@@ -330,7 +332,7 @@ string Worker2::dataset(AutArea & aa, const AutObject & ao)
 
 string Worker2::phadmin(AutArea & aa, const AutObject & ao)
 {
-    if ( !aa.matchConf("admin", ao.profile.mail) )
+    if ( !jraf::matchConf("admin", ao.profile.mail) )
     {
         os::Cout() << "Worker2::phadmin: unathorized access ["
                    << tok.c_str() << "]" << os::endl;
