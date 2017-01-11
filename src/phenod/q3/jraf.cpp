@@ -17,13 +17,13 @@ inline string zero(string s, string d = "0")
 
 string Jraf::request(gl::Token tok)
 {
-    string result;
+    Cmdr result;
     while (true)
     {
-        if ( !tok.next() ) return bad();
+        if ( !tok.next() ) return bad().s;
         string cmd = tok.sub();
 
-        if ( cmd == "ping" ) result += er::Code(er::OK).str();
+        if ( cmd == "ping" ) result += Cmdr(er::Code(er::OK), true);
         else if ( cmd == "version" )
         {
             if ( !tok.next() ) result += bad();
@@ -38,10 +38,10 @@ string Jraf::request(gl::Token tok)
 
         else if ( cmd == "read" || cmd == "get" )
         {
-            if ( !tok.next() ) return err("session id");
+            if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
             hq::LockRead lock(&access);
-            if ( !tok.next() ) return bad();
+            if ( !tok.next() ) return bad().s;
             string p = tok.sub();
             result += read_obj(p, cmd == "get", issu(sess));
         }
@@ -57,18 +57,19 @@ string Jraf::request(gl::Token tok)
             break;
         }
 
+		if( !result.b ) break;
         if ( !tok.next() ) break;
         string ts = tok.sub();
-        if ( ts != "+" ) return result + ' ' + err("[" + ts + "]");
-        result += ' ';
+        if ( ts != "+" ) return result.s + ' ' + err("[" + ts + "]").s;
+        result.s += " ";
     }
 
-    if ( result.empty() ) return bad();
-    return result;
+    if ( result.s.empty() ) return bad().s;
+    return result.s;
 }
 
 
-string Jraf::client_version()
+Jraf::Cmdr Jraf::client_version()
 {
     string p = (sys_dir() + "version").str();
     string fever = gl::file2str(p);
@@ -120,7 +121,7 @@ bool Jraf::special(string s, bool su)
     return false;
 };
 
-string Jraf::read_obj(string pth, bool getonly, bool su)
+Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, bool su)
 {
     os::Path rp(pth);
     os::Path p = root(pth);
@@ -171,7 +172,7 @@ string Jraf::read_obj(string pth, bool getonly, bool su)
 }
 
 
-string Jraf::aurequest(gl::Token & tok)
+Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
 {
     if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
@@ -181,8 +182,8 @@ string Jraf::aurequest(gl::Token & tok)
     string cmd = tok.sub();
 
     string pth;
-    string er = read_tok_path(tok, sess, pth, superuser);
-    if ( !er.empty() ) return er;
+    Cmdr er = read_tok_path(tok, sess, pth, superuser);
+    if ( !er.b ) return er;
 
     if (0) {}
 
@@ -194,7 +195,7 @@ string Jraf::aurequest(gl::Token & tok)
     {
         string pto;
         er = read_tok_path(tok, sess, pto, superuser);
-        if ( !er.empty() ) return er;
+        if ( !er.b ) return er;
         return aureq_mv(pth, pto);
     }
 
@@ -202,7 +203,7 @@ string Jraf::aurequest(gl::Token & tok)
 }
 
 
-string Jraf::aureq_rm(string pth)
+Jraf::Cmdr Jraf::aureq_rm(string pth)
 {
     if ( pth.empty() ) return fail("root cannot be removed");
 
@@ -217,7 +218,7 @@ string Jraf::aureq_rm(string pth)
     return ok(pth);
 }
 
-string Jraf::aureq_md(string pth)
+Jraf::Cmdr Jraf::aureq_md(string pth)
 {
     os::Path p = root(pth);
     if ( p.isdir() ) return ok(pth);
@@ -258,7 +259,7 @@ bool Jraf::check_au_path(string sess, string pth, bool su)
     return true;
 }
 
-string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
+Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 {
     // (put) pos, sz, text
     // (save) sz, text
@@ -302,8 +303,8 @@ string Jraf::aureq_put(gl::Token & tok, string pth, bool append)
     return ok(gl::tos(f.filesize()));
 }
 
-// return "" on success or error message
-string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
+/// return "" on success or error message
+Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
 {
     if ( !tok.next() ) return err("path");
     string p = tok.sub();
@@ -317,14 +318,14 @@ string Jraf::read_tok_path(gl::Token & tok, string sess, string & pth, bool su)
     while ( !p.empty() && p[p.size() - 1] == '/' )
         p = p.substr(0, p.size() - 1);
 
-    if ( special(p, su) ) return fail("sys");
+    if ( special(p, su) ) return fail("system path");
     if ( !check_au_path(sess, p, su) ) return fail("auth");
 
     pth = p;
-    return "";
+    return Cmdr();
 }
 
-string Jraf::aureq_mv(string pth, string pto)
+Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 {
     os::Path f1 = root(pth);
     bool dir = f1.isdir();

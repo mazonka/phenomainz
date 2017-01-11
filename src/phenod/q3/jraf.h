@@ -26,6 +26,17 @@ const string inbox = "inbox";
 
 class Jraf
 {
+        struct Cmdr // command parser result
+        {
+            string s; bool b;
+
+            Cmdr(): b(true) {}
+            ///explicit Cmdr(string a): s(a), b(true) {}
+            Cmdr(string a, bool k): s(a), b(k) {}
+            void operator+=(Cmdr c) { s += c.s; b &= c.b; }
+			Cmdr operator+(Cmdr c){ Cmdr r(*this); r+=c; return r; }
+        };
+
         hq::AccessController access;
         string root_dir;
 
@@ -38,20 +49,28 @@ class Jraf
         os::Path users() const { return sys_dir() + jraf::users; }
         os::Path login() const { return sys_dir() + jraf::login; }
 
-        string client_version();
-        static string ok(const string & s) { return er::Code(er::OK).str() + ' ' + s; }
-        static string fail(const string & s) { return er::Code(er::JRAF_FAIL).str() + ' ' + s; }
-        static string err(const string & s) { return er::Code(er::JRAF_ERR).str() + ' ' + s; }
-        static string bad() { return er::Code(er::REQ_MSG_BAD); }
+        Cmdr client_version();
 
-        string aurequest(gl::Token & tok);
-        string read_obj(string p, bool getonly, bool su);
+        static Cmdr ok(const string & s)
+        { return Cmdr(er::Code(er::OK).str() + ' ' + s, true); }
+
+        static Cmdr fail(const string & s)
+        { return Cmdr(er::Code(er::JRAF_FAIL).str() + ' ' + s, false); }
+
+        static Cmdr err(const string & s)
+        { return Cmdr(er::Code(er::JRAF_ERR).str() + ' ' + s, false); }
+
+        static Cmdr bad()
+        { return Cmdr(er::Code(er::REQ_MSG_BAD), false); }
+
+        Cmdr aurequest(gl::Token & tok);
+        Cmdr read_obj(string p, bool getonly, bool su);
+        Cmdr aureq_rm(string pth);
+        Cmdr aureq_md(string pth);
+        Cmdr aureq_put(gl::Token & tok, string pth, bool append);
+        Cmdr aureq_mv(string pth, string pto);
+        Cmdr read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
         bool check_au_path(string sess, string pth, bool su);
-        string aureq_rm(string pth);
-        string aureq_md(string pth);
-        string aureq_put(gl::Token & tok, string pth, bool append);
-        string aureq_mv(string pth, string pto);
-        string read_tok_path(gl::Token & tok, string sess, string & pth, bool su);
 
         os::Path ver_path(const os::Path & p) const;
         void setver(const os::Path & p, string v);
@@ -64,6 +83,7 @@ class Jraf
 
         string request(gl::Token tok);
 };
+
 
 /*
 

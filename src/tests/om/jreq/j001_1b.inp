@@ -1,10 +1,12 @@
 
 print [ -- ]
-print tcp self [ jraf au 0 md /aaa ]
-print { [ root ... ] tcp self [ jraf read 0 / ] }
-print { [ ver .... ] tcp self [ jraf au 0 put /.jraf.ver/x 0 1 Kg== ] }
-print { [ get .... ] tcp self [ jraf get 0 /.jraf.ver/x ] }
-print { [ get .... ] tcp self [ jraf get 0 /.jraf.ver/aaa.jraf.ver ] }
+print { [ md /a .. ] tcp self [ jraf au 0 md /a ] }
+print { [ a ver .. ] tcp self [ jraf get 0 /.jraf.ver/a.jraf.ver ] }
+print { [ read / . ] tcp self [ jraf read 0 / ] }
+print { [ put f .. ] tcp self [ jraf au 0 put /.jraf.ver/f 0 1 Kg== ] }
+print { [ get f .. ] tcp self [ jraf get 0 /.jraf.ver/f ] }
+print { [ md f ... ] tcp self [ jraf au 0 md /.jraf.ver/d ] }
+print { [ get f .. ] tcp self [ jraf get 0 /.jraf.ver/d ] }
 
 quit
 

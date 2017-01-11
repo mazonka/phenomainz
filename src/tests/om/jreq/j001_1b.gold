@@ -1,8 +1,10 @@
 --
-OK /aaa
-root ... OK 1 -1 1 1 -1 aaa
-ver .... JRAF_FAIL sys JRAF_ERR [0]
-get .... JRAF_ERR bad path /.jraf.ver/x
-get .... OK 0 2
+md /a .. OK /a
+a ver .. OK 0 2
+read / . OK 1 -1 1 1 -1 a
+put f .. JRAF_FAIL system path
+get f .. JRAF_ERR bad path /.jraf.ver/f
+md f ... JRAF_FAIL system path
+get f .. JRAF_ERR bad path /.jraf.ver/d
 
 ==========
