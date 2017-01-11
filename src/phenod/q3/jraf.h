@@ -19,7 +19,7 @@ const char * const ver_name = ".jraf.ver";
 const string users = "users";
 const string login = "login";
 const string inbox = "inbox";
-//const char * const home = "home";
+const char * const home = "home";
 //const char * const etc = "etc";
 //const char * const sys = "sys";
 } // jraf
@@ -37,12 +37,13 @@ class Jraf
             Cmdr operator+(Cmdr c) { Cmdr r(*this); r += c; return r; }
         };
 
-		struct User
-		{
-			bool su;
-			string email, quotaKb, last, cntr, uname;
-			User(bool s): su(s) {}
-		};
+        struct User
+        {
+            bool su;
+            string email, last, cntr; // filled in user()
+            string quotaKb, uname; // filled later
+            User(bool s): su(s) {}
+        };
 
         hq::AccessController access;
         string root_dir;
@@ -50,13 +51,14 @@ class Jraf
 
         static bool special(string s, bool su);
         ///bool issu(string sess);
-		User user(string sess);
+        User user(string sess);
 
         os::Path root(string s) const { return os::Path(root_dir) + s; }
         os::Path sys_dir() const { return root(jraf::sys_name); }
         os::Path ver_dir() const { return root(jraf::ver_name); }
         os::Path users() const { return sys_dir() + jraf::users; }
         os::Path login() const { return sys_dir() + jraf::login; }
+        os::Path home() const { return root(jraf::home); }
 
         Cmdr client_version();
 
@@ -80,8 +82,8 @@ class Jraf
         Cmdr aureq_md(string pth);
         Cmdr aureq_put(gl::Token & tok, string pth, bool append);
         Cmdr aureq_mv(string pth, string pto);
-        Cmdr read_tok_path(gl::Token & tok, string & pth, const User & su, bool write);
-        bool check_au_path(string pth, const User & su, bool write);
+        Cmdr read_tok_path(gl::Token & tok, string & pth, User & su, bool write);
+        bool check_au_path(string pth, User & su, bool write);
         Cmdr login(gl::Token & tok, bool in);
 
         os::Path ver_path(const os::Path & p) const;
@@ -89,7 +91,7 @@ class Jraf
         string getver(const os::Path & p) const;
         void update_ver(os::Path pth);
         static string parent_str(os::Path pth);
-		void new_user(string email);
+        void new_user(string email);
 
     public:
         Jraf(string rdir): root_dir(rdir) {}

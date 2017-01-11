@@ -268,7 +268,7 @@ Jraf::User Jraf::user(string sess)
         udir.mkdir();
         if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
 
-		new_user(email);
+        new_user(email);
     }
 
     // set counter
@@ -276,22 +276,48 @@ Jraf::User Jraf::user(string sess)
     string scntr = gl::file2word( file_cntr );
     int icntr = 0;
     if ( !scntr.empty() ) icntr = gl::toi(scntr);
-    gl::str2file(file_cntr, gl::tos(++icntr) + '\n');
+	scntr = gl::tos(++icntr);
+    gl::str2file(file_cntr, scntr + '\n');
 
     // set access
     string file_last = (udir + "access").str();
     string last = os::Timer::getGmd() + os::Timer::getHms();
     gl::str2file(file_last, last + '\n');
 
-    return superuser;
+	User r(superuser);
+	r.email = email;
+	r.cntr = scntr;
+	r.last = last;
+
+    return r;
 }
 
-bool Jraf::check_au_path(string pth, const User & su, bool write)
+bool Jraf::check_au_path(string pth, User & su, bool write)
 {
-	if( su.su ) return true;
+    if ( su.su ) return true;
+    if ( !write ) return true;
 
-    os::Cout() << "Jraf::check_au_path - NI" << os::endl;
-    return true;
+	string uname = gl::file2word((users()+su.email+"uname").str());
+	if( !jraf::isuname(uname) ) return false;
+
+	su.uname = uname;
+
+	string rpth = root(pth).str();
+	string hdir = (home()+uname).str();
+
+    ///os::Cout() << "AAA 3 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
+
+	auto hsz = hdir.size();
+	if( rpth.size() < hsz ) return false;
+    ///os::Cout() << "AAA 4 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
+
+    //os::Cout() << "email, quotaKb, last, cntr, uname" << os::endl;
+    //os::Cout() << su.email << ", " << su.quotaKb << ", "<< su.last << ", " << su.cntr << ", " << su.uname << os::endl;
+
+	return ( rpth.substr(0,hsz) == hdir );
+
+    ///os::Cout() << "Jraf::check_au_path - NI" << os::endl;
+    ///return true;
 }
 
 Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
@@ -338,7 +364,7 @@ Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
     return ok(gl::tos(f.filesize()));
 }
 
-Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, const User & su, bool wr)
+Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, User & su, bool wr)
 {
     if ( !tok.next() ) return err("path");
     string p = tok.sub();
@@ -446,16 +472,27 @@ void Jraf::new_user(string email)
 {
     os::Path udir = users() + email;
 
-	// set quota and uname
-	string quotaKb = "10000";
-	string x = ma::skc::hashHex(email);
-	string uname = ma::skc::enc(x,email,x,x);
-	uname = ma::toHex(uname).substr(0,16);
+    // set quota and uname
+    string quotaKb = "10000";
+    string x = ma::skc::hashHex(email);
+    string uname = ma::skc::enc(x, email, x, x);
+    uname = ma::toHex(uname).substr(0, 16);
 
     string file_quota = (udir + "quota").str();
-    gl::str2file(file_quota, quotaKb+'\n');
+    gl::str2file(file_quota, quotaKb + '\n');
 
     string file_uname = (udir + "uname").str();
-    gl::str2file(file_uname, uname+'\n');
+    gl::str2file(file_uname, uname + '\n');
+
+	// create home dir
+	auto hm = home();
+
+	if( !hm.isdir() )
+	{
+		hm.mkdir();
+		if( !hm.isdir() ) throw gl::ex("Cannot create /home");
+	}
+
+	(hm+uname).mkdir();
 }
 

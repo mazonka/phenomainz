@@ -1,7 +1,7 @@
 users .. OK /.jraf.sys/users
 
 [N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?20232512c272da3f]
-jraf login admin@server.com -> OK http://127.0.0.1:16000/jraf?20232512c272da3f
+jraf login admin@server.com -> OK http://127.0.0.1:16000/jraf?
 
 jraf au 20232512c272da3f md /.jraf.sys/a -> OK /.jraf.sys/a
 

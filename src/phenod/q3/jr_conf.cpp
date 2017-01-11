@@ -88,3 +88,24 @@ void jraf::cleanOldFiles(os::Path dir, double secs)
     }
 }
 
+bool jraf::isuname(const string &s)
+{
+	if( s.size() < 3 ) return false;
+	if( s.size() > 16 ) return false;
+
+    for ( int i = 0; i < (int)s.size(); i++ )
+    {
+        const char & c = s[i];
+
+        //if ( c >= 'A' && c <= 'Z' ) continue;
+        if ( c >= 'a' && c <= 'z' ) continue;
+        if ( c >= '0' && c <= '9' ) continue;
+        if ( c == '_' || c == '_' ) continue;
+
+        return false;
+    }
+
+    return true;
+
+}
+
