@@ -1,5 +1,13 @@
 users .. OK /.jraf.sys/users
-md a ... JRAF_FAIL system path
-put b .. JRAF_FAIL system path
-read a . JRAF_FAIL system path
-read b . JRAF_FAIL system path
+
+[N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?20232512c272da3f]
+jraf login admin@server.com -> OK http://127.0.0.1:16000/jraf?20232512c272da3f
+
+jraf au 20232512c272da3f md /.jraf.sys/a -> OK /.jraf.sys/a
+
+jraf au 20232512c272da3f put /.jraf.sys/b 0 1 Kg== -> OK 1
+
+jraf read 20232512c272da3f /.jraf.sys/a -> OK 0 -1 0
+
+jraf read 20232512c272da3f /.jraf.sys/b -> OK 0 1 Kg==
+

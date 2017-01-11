@@ -1,8 +1,32 @@
-print { [ users .. ] tcp self [ jraf au 0 md /.jraf.sys/users ] }
+set date "20170123"
+set time "123456"
 
-print { [ md a ... ] tcp self [ jraf au 0 md /.jraf.sys/a ] }
-print { [ put b .. ] tcp self [ jraf au 0 put /.jraf.sys/b 0 1 Kg== ] }
-print { [ read a . ] tcp self [ jraf read 0 /.jraf.sys/a ] }
-print { [ read b . ] tcp self [ jraf read 0 /.jraf.sys/b ] }
+print { [ users .. ] tcp self [ jraf au 0 md /.jraf.sys/users ] }
+print [ ]
+
+cmd = [ jraf login admin@server.com ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+id = [ 20232512c272da3f ]
+au = { [ jraf au ] id }
+read = { [ jraf read ] id }
+
+c = { au [ md /.jraf.sys/a ] }
+print { c "->" tcp self c }
+print [ ]
+
+c = { au [ put /.jraf.sys/b 0 1 Kg== ] }
+print { c "->" tcp self c }
+print [ ]
+
+c = { read [ /.jraf.sys/a ] }
+print { c "->" tcp self c }
+print [ ]
+
+c = { read [ /.jraf.sys/b ] }
+print { c "->" tcp self c }
+print [ ]
+
 
 quit

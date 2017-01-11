@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "os_filesys.h"
+#include "os_timer.h"
 #include "sg_cout.h"
 #include "gl_utils.h"
 #include "gl_except.h"
@@ -252,19 +253,51 @@ bool Jraf::issu(string sess)
 
     if ( sess == "0" ) return false;
 
-    string uid = gl::file2word(login().str());
+    os::Path in = login() + sess;
+    string email = gl::file2word(in.str());
 
-    if ( uid.empty() ) return false;
+    /*///
+        os::Cout() << "AAA issu :" <<uid<<os::endl;
 
-    string emailfile = (usr + uid + "email").str();
-    os::Cout() << "AAA issu " << emailfile << os::endl;
-    string email = gl::file2word(emailfile);
+        if ( uid.empty() ) return false;
 
-    if ( email.empty() ) return false;
+        string emailfile = (usr + uid + "email").str();
+        os::Cout() << "AAA issu " << emailfile << os::endl;
+        string email = gl::file2word(emailfile);
 
-    // now test root config for email
-    os::Cout() << "Jraf::issu - NI" << os::endl;
-    return true;
+        if ( email.empty() ) return false;
+
+        // now test root config for email
+        os::Cout() << "Jraf::issu - NI" << os::endl;
+        return true;
+    */
+
+    bool superuser = jraf::matchConf("admin", email);
+
+    // update stat
+
+    os::Path udir = users() + email;
+    if ( !udir.isdir() )
+    {
+        udir.mkdir();
+        if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
+
+        // new user FIXME add: email,quota,uname(home)
+    }
+
+    // set counter
+    string file_cntr = (udir + "counter").str();
+    string scntr = gl::file2word( file_cntr );
+    int icntr = 0;
+    if ( !scntr.empty() ) icntr = gl::toi(scntr);
+    gl::str2file(file_cntr, gl::tos(icntr) + '\n');
+
+    // set access
+    string file_last = (udir + "access").str();
+    string last = os::Timer::getGmd() + os::Timer::getHms();
+    gl::str2file(file_last, last + '\n');
+
+    return superuser;
 }
 
 /*///
@@ -406,22 +439,22 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
 
     if ( in )
     {
-		string server;
-	    if ( tok.next() ) server = tok.sub();
+        string server;
+        if ( tok.next() ) server = tok.sub();
 
         if ( !gl::ismail(em) ) return err("bad email");
         gl::str2file( (dir + nonce).str(), em);
 
-		jraf::sendmail(server,nonce,em);
+        jraf::sendmail(server, nonce, em);
 
         return ok(server);
     }
 
-	// logout
+    // logout
 
-	(dir+em).erase();
+    (dir + em).erase();
 
-	jraf::cleanOldFiles(dir,10*1000*1000); // 4 months
+    jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
 
     return ok();
 }

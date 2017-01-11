@@ -76,15 +76,15 @@ void jraf::sendmail(string & url, string sid, string em)
 
 void jraf::cleanOldFiles(os::Path dir, double secs)
 {
-	os::Dir d = os::FileSys::readDir(dir);
+    os::Dir d = os::FileSys::readDir(dir);
 
-	for ( auto i : d.files )
-	{
-		string nm = i.first;
-		auto file = dir+nm;
-		double ho = file.howold();
-		if( ho > secs ) file.erase();
-		//os::Cout()<<" "<<file.str()<<' '<<ho<<' '<<secs<<os::endl;
-	}
+    for ( auto i : d.files )
+    {
+        string nm = i.first;
+        auto file = dir + nm;
+        double ho = file.howold();
+        if ( ho > secs ) file.erase();
+        //os::Cout()<<" "<<file.str()<<' '<<ho<<' '<<secs<<os::endl;
+    }
 }
 
