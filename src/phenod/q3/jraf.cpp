@@ -88,9 +88,11 @@ string Jraf::request(gl::Token tok, string anonce)
         if ( !result.b ) break;
         if ( !tok.next() ) break;
         string ts = tok.sub();
-        if ( ts != "+" ) 
-            return result.s + ' ' + err("[" + ts + "]").s;
-        // changed by ab 
+        // changed by ab
+        // if ( ts != "+" ) return result.s + ' ' + err("[" + ts + "]").s;
+        if ( ts != "+" ) return result.s + " + " + err("[" + ts + "]").s;
+        
+        // changed by ab
         // result.s += " ";
         result.s += " + ";
     }
