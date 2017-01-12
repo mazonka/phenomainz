@@ -10,51 +10,22 @@ function start_main()
     
 	var $hdr = jq_get_main_hdr();
 	var $adm = jq_get_main_adm();
-	var $usr = jq_get_main_usr();
+	var $pfl = jq_get_main_pfl();
 	var $dsl = jq_get_main_dsl();
+	var $brs = jq_get_main_brs();
 	var $cli = $('<div/>');
 	var $pmw = jq_get_main_pmw();
-    
-	//$phi.html('phi<hr/>');
-	//$cli.html('cli<hr/>');
 
 	$g_div_main.html('');
 	$g_div_main.append($hdr);
 	$g_div_main.append($adm.hide());
-	$g_div_main.append($usr.hide());
-	$g_div_main.append($dsl);
+	$g_div_main.append($pfl.hide());
+	$g_div_main.append($dsl.hide());
+	$g_div_main.append($brs);
 	$g_div_main.append($cli);
-	$g_div_main.append($pmw);
+	$g_div_main.append($pmw.hide());
     
 	start_cli($cli);
     
-//
-    console.log(g_session);
-
-/* 
-    $('#button_google, #button_facebook, #button_linkedin, #button_windows')
-        .hide();
-*/
-    $('input, select, textarea').attr('autocomplete', 'off');
-
-    $('#' + TD_PROFILE).hide();
-    $('#' + TD_LOGIN).hide();
-    $('#' + TD_DSLIST).hide();
-    $('#' + TD_DSITEM_CREATE).hide();
-
-    $('button').button();
-
-    $('#button_user_email').prop('disabled', true);
-    $('#div_main_pwm').css('display', 'none');
-
-    wid_nc_ping();
-
-    //debug
-
-    $('#cmd_prompt')
-        .keydown(function(event)
-        {
-            if (Boolean(event.keyCode === 37)) return false;
-            if (Boolean(event.keyCode === 38)) return false;
-        });    
+    wid_nc_profile();
 }

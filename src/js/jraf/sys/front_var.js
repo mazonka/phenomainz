@@ -3,6 +3,7 @@
 
 var g_sys_loaded_front_var = 1;
 var g_keywords = [];
+var g_uhome = null;
 
 const G_UDM = {};
 

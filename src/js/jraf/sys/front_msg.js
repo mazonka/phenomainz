@@ -75,7 +75,15 @@ const M_TXT = {
 const PHENOD = {
     OK: 'OK',
     AUTH: 'AUTH',
-    REQ_MSG_BAD: 'REQ_MSG_BAD'
+    REQ_MSG_BAD: 'REQ_MSG_BAD',
+    REQ_PATH_BAD: 'REQ_PATH_BAD',
+    JRAF_ERR: 'JRAF_ERR',
+    JRAF_FAIL: 'JRAF_FAIL'
+}
+
+const JRAF = {
+    OK: 'OK',
+
 }
 
 const TIP = {

@@ -120,7 +120,7 @@ checkin: $(BIN_CLI)
 	cp -fpuv $(BIN_CLI)/ui/*.js $(SRC_CLI)/ui/
 	cp -fpuv $(BIN_CLI)/*.html $(SRC_CLI)/
 	cp -fpuv $(BIN_CLI)/jraf/*.js $(SRC_CLI)/jraf/
-	cp -pruv $(BIN_JRAF)/. $(SRC_JRAF)/
+	cp -pruv $(BIN_JRAF)/sys/. $(SRC_JRAF)/sys
 	cp -fpuv ../$(BIN)/home.phd $(SRC_CLI)/
 	cp -fpuv ../$(BIN)/conf.phd $(SRC_CLI)/
 	cp -fpuv ../$(BIN)/jraf.phd $(SRC_CLI)/

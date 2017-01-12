@@ -338,43 +338,38 @@ function wid_input_kwd($inp)
 
 function wid_fill_profile(profile)
 {
-    let r = eng_get_lastdate(profile.lastdate);
-    let date = [r.yyyy, r.mm, r.dd].join('.');
-    let time = [r.h, r.m, r.s].join(':');
+    /// zateret' dannye v profile v sluchae logout
+    if (profile.type === 'a')
+        $('#div_main_adm').show();
+    else 
+        $('#div_main_adm').hide();
 
-    $('#span_profile_name')
-        .find('span')
-        .html(profile.name)
-        .click(function()
-        {
-            wid_open_profile_window($(this)
-                .html());
-        });
+    if (profile.email === '*') 
+    { 
+        $('#div_main_pfl').hide();
+        $('#div_main_dsl').hide();
+        $('#div_main_brs').hide();
+        return;
+    }
 
-    $('#span_profile_logout')
-        .find('button')
-        .button()
+    let ts = eng_get_lastdate(profile.timestamp);
+    let date = [ts.yyyy, ts.mm, ts.dd].join('.');
+    let time = [ts.h, ts.m, ts.s].join(':');
+    let timestamp = date + ', ' + time;
+
+    
+    $('#span_profile_logout button')
         .click(function()
         {
             wid_window_logout();
         });
 
-    $('#span_profile_email')
-        .find('span')
-        .html(profile.email);
-
-    $('#span_profile_lastdate')
-        .find('span')
-        .html(date + ', ' + time);
-
-    $('#span_profile_counter')
-        .find('span')
-        .html(profile.counter);
-
-    $('#span_profile_vol_lim')
-        .html('/' + profile.quote + 'Mb');
-
-    Boolean(profile.tail) && alert('profile tail:\n' + list.tail);
+    $('#span_pfl_email span').html(profile.email);
+    $('#span_pfl_quote').html('/' + profile.quote + 'Kb');
+    $('#span_pfl_timestamp span').html(timestamp);
+    $('#span_pfl_logcounter span').html(profile.logcounter);
+    
+    $('#div_main_pfl').show();
 }
 
 function wid_fill_ds_list(list)
@@ -400,7 +395,7 @@ function wid_fill_ds_list(list)
         
         let $div = jq_get_ds_list(list.n, list.id, list.title);
 
-        $('#span_profile_vol_usg').html(list.usage);
+        $('#span_pfl_volume').html(list.usage);
 
         $('#' + TD_DSLIST).append($div);
 

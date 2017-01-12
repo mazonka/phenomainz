@@ -149,7 +149,7 @@ function cli_build_cmd_bind()
         if( n == null ) return 'node does not exist';
         if( n.full == 0 ) return 'node is not loaded';
         return n.bind(cli_view_update);
-    }
+    };
     g_cli_commands.bind = { help : help, run : run };
 }
 
@@ -163,7 +163,7 @@ function cli_build_cmd_unbind()
         if( n == null ) return 'node does not exist';
         if( n.watch == 0 ) return 'node is not bound';
         return n.unbind();
-    }
+    };
     g_cli_commands.unbind = { help : help, run : run };
 }
 
@@ -175,7 +175,7 @@ function cli_build_cmd_md()
         if( c.length != 2 ) return 'need one argument';
         cli_write_md(g_cwd,c[1]);
         return '';
-    }
+    };
     g_cli_commands.md = { help : help, run : run };
     g_cli_commands.mkdir = { help : help, run : run };
 }
@@ -284,7 +284,7 @@ function cli_update_node(node)
             s = jo.err;
 
         $g_output[0].value += 'up ['+nd.str()+'] ' + s + '\n';
-    }
+    };
 
     var name = node.name;
     var path;
@@ -313,7 +313,7 @@ function cli_write_md(cwd,name)
         else s = jo.err;
 
         $g_output[0].value += 'mkdir: ' + s + '\n';
-    }
+    };
 
     jraf_write_md(cwd,name,cb);
 }

@@ -189,7 +189,7 @@ function eng_get_data(data)
     return _data;
 }
 
-function eng_get_resp_headers(data)
+function eng_get_resp_gist(data)
 {
     var _data = data.split(' + ');
     

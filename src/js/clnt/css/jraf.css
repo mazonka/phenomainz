@@ -9,17 +9,20 @@ body {
     text-align: center;
     margin: auto;
 }
+
 * {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     border-radius: 0px !important;
 }
+
 input,
 textarea {
     margin: 4px;
     border-collapse: collapse;
 }
+
 button {
     height: 1.5em;
     padding: 0 5px 0 5px !important;
@@ -29,13 +32,15 @@ button {
 
 #div_main {
     width: 100%;
-    margin-top: 0.5em;
+    margin: 0.5em;
     text-align: left;
 }
 
 #div_main_hdr {
+    display: inline-block;
     width: 100%;
     text-align: left;
+    margin: 0.2em;
 }
 
 #span_main_phi {
@@ -65,22 +70,25 @@ button {
     height: 1.5em;
 }
 
-
 #div_main_pfl {
-    width: 100%;
     display: inline-block;
+    width: 100%;
     text-align: right;
+    margin: 0.2em;
     /* border: 1px solid #DCDCDC; */
     /* background-color: #F8F8FF; */
 }
 
-
+#div_main_adm {
+    text-align: center;
+}
 
 
 /* Modal window */
 
 #div_main_pwm {
-    display: none;
+    /* hiding moved to js */
+    /* display: none; */
     position: fixed;
     z-index: 1;
     padding-top: 100px;

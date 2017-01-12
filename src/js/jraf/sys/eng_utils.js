@@ -31,6 +31,16 @@ function eng_get_b64enc_list(data)
     return data;
 }
 
+function eng_is_valid_str(data)
+{
+    var v = /[^0-9a-zA-Z_\-\(\)\u0020\u002a]+/i;
+
+    if (!Boolean(data)) return false;
+
+    return !v.test(data);
+}
+
+
 function eng_compare_lists(list, exclude)
 {
     return list.filter(val => !exclude.includes(val));
@@ -161,6 +171,41 @@ function eng_is_table(data)
     return table;
 }
 
+function eng_get_resp_gist(data)
+{
+    var _data = data.split(' + ');
+    
+    _data.forEach(function(item, i, arr)
+    {
+        arr[i] = arr[i]
+            .replace(/^\s+|\r|\s+$/g, '')
+            .split('\u0020')
+            .shift()
+        //arr[i] = arr[i].shift();
+    });
+    console.dir('response gist: ' + _data)
+    //array with response gist ['OK', 'JRAF_ERR, 'JRAF_FAIL']
+    return _data; 
+}
+
+function eng_is_ok(data)
+{
+    var _data = eng_get_resp_gist(data);
+    var bad = [
+        PHENOD.REQ_MSG_BAD, PHENOD.REQ_PATH_BAD,
+        PHENOD.AUTH, PHENOD.JRAF_ERR, PHENOD.JRAF_FAIL
+    ];
+    var resp = eng_is_err(bad, _data);
+
+    return (!resp) ? false : true;
+}
+
+// find elemets from stack in arr
+function eng_is_err(stack, arr) {
+    return arr.some(function (v) {
+        return stack.indexOf(v) >= 0;
+    });
+}
 
 function eng_get_data(data)
 {
@@ -169,7 +214,7 @@ function eng_get_data(data)
     _data.forEach(function(item, i, arr)
     {
         arr[i] = arr[i]
-            .replace(/^OK|^REQ_MSG_BAD.*|^AUTH.*/g, '')
+            .replace(/^OK|^JRAF_FAIL.*|^JRAF_ERR.*/g, '')
             .replace(/^\s|\r|\s+$/g, '')
             .split(/\s/);
             
@@ -191,48 +236,32 @@ function eng_get_data(data)
     return _data;
 }
 
-function eng_get_resp_headers(data)
-{
-    var _data = data.split(' + ');
-    
-    _data.forEach(function(item, i, arr)
-    {
-        arr[i] = arr[i]
-            .replace(/^\s+|\r|\s+$/g, '')
-            .split('\u0020');
-
-        arr[i] = arr[i].shift();
-    });
-
-    return _data;
-}
-
 function eng_get_parsed_profile(data)
 {
     var profile = {};
     var _data = data;
 
-    if (!Boolean(_data)) return null;
-    if (_data.length != 5) return null;
+    profile.gist = null;
+    
+    if (!Boolean(_data)) return profile;
+    if (_data.length != 6) return profile;
 
-    profile.name = window.atob(_data.shift());
+    profile.su = (_data.shift() == 'a') ? true : false;
     profile.email = _data.shift();
-    profile.lastdate = _data.shift();
-    profile.counter = _data.shift();
-    profile.quote = +_data.shift();
-    profile.tail = _data.shift() || null;
-
+    
+    if (profile.email == '*')
+        profile.gist = false;
+    else
+        profile.gist = true;
+    
+    profile.quote = _data.shift();
+    profile.last = _data.shift();
+    profile.cntr = _data.shift();
+    profile.uname = _data.shift().split('/');
+    
     return profile;
 }
 
-function eng_is_valid_str(data)
-{
-    var v = /[^0-9a-zA-Z_\-\(\)\u0020\u002a]+/i;
-
-    if (!Boolean(data)) return false;
-
-    return !v.test(data);
-}
 
 function eng_get_lastdate(data)
 {

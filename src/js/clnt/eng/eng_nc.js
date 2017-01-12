@@ -3,7 +3,7 @@
 
 function nc_get_resp(data)
 {
-    var _data = eng_get_resp_headers(data);
+    var _data = eng_get_resp_gist(data);
 
     if (_data.indexOf(PHENOD.REQ_MSG_BAD) > -1) return null;
     else if (_data.indexOf(PHENOD.AUTH) > -1) return false;

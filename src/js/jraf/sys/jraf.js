@@ -257,3 +257,18 @@ function jraf_update_FF(jo,nd)
 	nd.sz = jo.sz;
 	nd.text = jo.text;
 }
+
+function jraf_node_up(node, ext_cb)
+{
+    var name = node.name;
+    var path;
+    if( node.parent == null )
+    {
+        path = '/';
+        name = '';
+    }
+    else
+        path = node.parent.str()+'/';
+
+    jraf_update_obj(path,name,ext_cb,node);    
+}

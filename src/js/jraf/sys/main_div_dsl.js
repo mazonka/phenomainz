@@ -7,6 +7,6 @@ function jq_get_main_dsl()
 {
     return $('<div/>',
     {
-        id: 'div_dslist'
+        id: 'div_main_dsl'
     });
 }

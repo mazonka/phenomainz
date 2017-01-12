@@ -1,25 +1,25 @@
 // (C) 2016
 'use strict';
 
-var g_sys_loaded_main_div_usr = 1;
+var g_sys_loaded_main_div_pfl = 1;
 
-function jq_get_main_usr()
+function jq_get_main_pfl()
 {
     var $div = $('<div/>',
     {
-        id: 'div_main_usr'
+        id: 'div_main_pfl'
     });
 
     var $name = $('<span/>',
         {
-            id: 'span_usr_name',
+            id: 'span_pfl_name',
             text: L_TXT.USER_NAME
         })
         .append($('<span/>'));
 
     var $logout = $('<span/>',
         {
-            id: 'span_usr_logout',
+            id: 'span_pfl_logout',
         })
         .append($('<button/>',
         {
@@ -28,38 +28,37 @@ function jq_get_main_usr()
 
     var $email = $('<span/>',
         {
-            id: 'span_usr_email',
+            id: 'span_pfl_email',
             text: L_TXT.EMAIL
         })
         .append($('<span/>'));
 
-    var $lastlog = $('<span/>',
+    var $timestamp = $('<span/>',
         {
-            id: 'span_usr_lastdate',
+            id: 'span_pfl_timestamp',
             text: L_TXT.LAST_LOGIN
         })
         .append($('<span/>'));
 
     var $logcounter = $('<span/>',
         {
-            id: 'span_usr_counter',
+            id: 'span_pfl_logcounter',
             text: L_TXT.COUNTER
         })
         .append($('<span/>'));
 
     var $quote = $('<span/>',
         {
-            id: 'span_usr_quote',
             text: L_TXT.VOLUME
         })
         .append($('<span/>',
         {
-            id: 'span_usr_vol_usg',
-            text: '0/'
+            id: 'span_pfl_volume',
+            text: '0'
         }))
         .append($('<span/>',
         {
-            id: 'span_usr_vol_lim',
+            id: 'span_pfl_quote',
         }));
 
     $div
@@ -70,7 +69,7 @@ function jq_get_main_usr()
         .append('<br/>')
         .append($logcounter)
         .append('<br/>')
-        .append($lastlog)
+        .append($timestamp)
         .append('<br/>')
         .append($quote)
         .append('<br/>')
