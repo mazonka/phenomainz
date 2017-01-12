@@ -52,7 +52,9 @@ string Jraf::request(gl::Token tok, string anonce)
             ///result += read_obj(p, cmd == "get", issu(sess));
             string pth;
             Cmdr er = read_tok_path(tok, pth, usr, false );
-            if ( !er.b ) return er.s;
+            // changed by ab
+            // if ( !er.b ) return er.s;
+            if ( !er.b ) return result.s += er.s;
             result += read_obj(pth, cmd == "get", usr );
         }
 
@@ -86,8 +88,11 @@ string Jraf::request(gl::Token tok, string anonce)
         if ( !result.b ) break;
         if ( !tok.next() ) break;
         string ts = tok.sub();
-        if ( ts != "+" ) return result.s + ' ' + err("[" + ts + "]").s;
-        result.s += " ";
+        if ( ts != "+" ) 
+            return result.s + ' ' + err("[" + ts + "]").s;
+        // changed by ab 
+        // result.s += " ";
+        result.s += " + ";
     }
 
     if ( result.s.empty() ) return bad().s;
