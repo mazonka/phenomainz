@@ -3,6 +3,13 @@
 
 var g_sys_loaded_eng_utils = 1;
 
+function log(text, data)
+{
+    console.log('========');
+    console.log(text + ':\n');
+    console.dir(data);
+}
+
 function eng_is_email(data)
 {
     return (/^[\w\.\d-_]+@[\w\.\d-_]+\.\w{2,6}$/i.test(data)) ? true :
@@ -180,10 +187,8 @@ function eng_get_resp_gist(data)
         arr[i] = arr[i]
             .replace(/^\s+|\r|\s+$/g, '')
             .split('\u0020')
-            .shift()
-        //arr[i] = arr[i].shift();
+            .shift();
     });
-    console.dir('response gist: ' + _data)
     //array with response gist ['OK', 'JRAF_ERR, 'JRAF_FAIL']
     return _data; 
 }
@@ -195,9 +200,9 @@ function eng_is_ok(data)
         PHENOD.REQ_MSG_BAD, PHENOD.REQ_PATH_BAD,
         PHENOD.AUTH, PHENOD.JRAF_ERR, PHENOD.JRAF_FAIL
     ];
-    var resp = eng_is_err(bad, _data);
-
-    return (!resp) ? false : true;
+    var resp = !eng_is_err(bad, _data);
+    
+    return resp;
 }
 
 // find elemets from stack in arr
@@ -231,7 +236,7 @@ function eng_get_data(data)
             if (el.length > 0) return el;
         });
     
-    if (_data.length === 0) _data = null;
+    if (_data.length === 0) _data = [null];
 
     return _data;
 }
@@ -248,17 +253,13 @@ function eng_get_parsed_profile(data)
 
     profile.su = (_data.shift() == 'a') ? true : false;
     profile.email = _data.shift();
-    
-    if (profile.email == '*')
-        profile.gist = false;
-    else
-        profile.gist = true;
-    
     profile.quote = _data.shift();
     profile.last = _data.shift();
     profile.cntr = _data.shift();
     profile.uname = _data.shift().split('/');
-    
+   
+    profile.gist = (profile.email != '*') ? true : false;
+
     return profile;
 }
 

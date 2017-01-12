@@ -39,3 +39,18 @@ function nc_logout(ext_cb, sid, pulse)
 
     ajx_send_command(cmd, int_cb, pulse);
 }
+
+function nc_ping(ext_cb, sid, pulse)
+{
+    var cmd = 'jraf ping';
+    var int_cb = function(data)
+    {
+        let resp = eng_is_ok(data);
+        let _data = eng_get_data(data);
+        let profile = eng_get_parsed_profile(_data[0]);
+
+        ext_cb(resp, data, profile);
+    };
+
+    ajx_send_command(cmd, int_cb, pulse);
+}

@@ -339,25 +339,15 @@ function wid_input_kwd($inp)
 function wid_fill_profile(profile)
 {
     /// zateret' dannye v profile v sluchae logout
-    if (profile.type === 'a')
-        $('#div_main_adm').show();
-    else 
-        $('#div_main_adm').hide();
+    (profile.su) ? $('#div_main_adm').show() : $('#div_main_adm').hide();
 
-    if (profile.email === '*') 
-    { 
-        $('#div_main_pfl').hide();
-        $('#div_main_dsl').hide();
-        $('#div_main_brs').hide();
-        return;
-    }
-
-    let ts = eng_get_lastdate(profile.timestamp);
+    if (profile.email === '*') return $('#div_main_dsl, #div_main_pfl').hide();
+        
+    let ts = eng_get_lastdate(profile.last);
     let date = [ts.yyyy, ts.mm, ts.dd].join('.');
     let time = [ts.h, ts.m, ts.s].join(':');
-    let timestamp = date + ', ' + time;
+    let last = date + ', ' + time;
 
-    
     $('#span_profile_logout button')
         .click(function()
         {
@@ -366,10 +356,11 @@ function wid_fill_profile(profile)
 
     $('#span_pfl_email span').html(profile.email);
     $('#span_pfl_quote').html('/' + profile.quote + 'Kb');
-    $('#span_pfl_timestamp span').html(timestamp);
-    $('#span_pfl_logcounter span').html(profile.logcounter);
+    $('#span_pfl_timestamp span').html(last);
+    $('#span_pfl_logcounter span').html(profile.cntr);
     
     $('#div_main_pfl').show();
+    $('#div_main_dsl').show();
 }
 
 function wid_fill_ds_list(list)

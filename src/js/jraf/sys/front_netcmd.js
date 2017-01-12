@@ -10,7 +10,7 @@ function wid_nc_profile()
         if (0)
         {}
         else if (resp) Boolean(profile) && wid_fill_profile(profile);
-        else if (resp === false) wid_ui_login(false);
+        //else if (resp === false) wid_ui_login(false); //Needs for AUTH
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 

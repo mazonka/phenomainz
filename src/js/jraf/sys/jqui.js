@@ -26,7 +26,7 @@ function jq_get_user_email()
             })
             .click(function()
             {
-                wid_nc_login();
+                wid_nc_login($(this).parent().find('input').val());
                 wid_close_modal_window();
             }));
 
