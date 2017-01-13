@@ -3,7 +3,7 @@
 
 var g_sys_loaded_front_netcmd = 1;
 
-function wid_nc_profile()
+function wid_nc_profile(sid)
 {
     var cb = function(resp, data, profile)
     {
@@ -13,7 +13,7 @@ function wid_nc_profile()
         else if (resp === null) wid_fill_auth(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
-
+    
     nc_profile(cb, g_sid, g_pulse);
 }
 

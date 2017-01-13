@@ -157,19 +157,32 @@ function wid_ask_logout()
 
 function wid_fill_auth(au, profile)
 {
-    if (au)
+    if (0)
+    {}
+    else if (au && profile.email != '*')
     {
         wid_fill_login(false);
         wid_fill_adm_panel(profile.su);
         wid_fill_profile(profile);
         wid_fill_dataset_list(true);
     }
+    else if (au && profile.email == '*')
+    {
+        wid_fill_login(true);
+        wid_fill_adm_panel(profile.su);
+        wid_fill_profile(false);
+        wid_fill_dataset_list(false)
+    }
     else 
     {
+        wid_fill_login(true);
         wid_fill_adm_panel(false);
         wid_fill_profile(false);
         wid_fill_dataset_list(false);
-        wid_fill_login(true);
+        
+        g_session = '0';
+        window.location.href = 
+            location.href.substr(0, location.href.indexOf('?')+1) + '0';
     }
 }
 
