@@ -81,10 +81,24 @@ button {
     margin: 0.2em;
 }
 
-#div_main_pfl img {
+#span_pfl_name {
+    cursor: pointer;
+}
+#span_pfl_name:hover {
+    color: #13A0F0;
+}
+
+#span_pfl_logout {
+    cursor: pointer;
+    margin-left: 1em;
+    padding: 1px;
+    border: 1px solid #DDDDDD;
+    border-radius: 1px !important;
+}
+
+#span_pfl_logout img {
     width: 16px;
     height: auto;
-    cursor: pointer;
 }
 
 #div_main_adm {

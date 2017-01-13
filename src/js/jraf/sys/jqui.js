@@ -44,9 +44,16 @@ function jq_get_profile(profile)
         .append($('<span/>', 
             {
                 id: 'span_pfl_name',
+            })
+            .click(function ()
+            {
+                wid_open_ch_name_window($(this).html());
             }));
 
-    var $logout = $('<span/>')
+    var $logout = $('<span/>',
+        {
+            id: 'span_pfl_logout'
+        })
         .append($('<label/>')
             .append($('<img/>',
             {   
@@ -122,7 +129,7 @@ function jq_get_adm_panel()
 }
 
 // gets object for change user name
-function jq_get_user_name(name)
+function jq_get_ch_name(name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',

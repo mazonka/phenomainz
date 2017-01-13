@@ -10,7 +10,7 @@ echo ${BIN}
 
 #comm="./phenod tcp_port=16000 dprn=1 dpul=1 dced=1 dwkr=1 cycle=10000"
 #comm="./phenod"
-comm="phenod"
+comm="phenod skcseed=pheno dpul=0"
 
 error() {
 	[ -z "$1" ] || echo ">>> $1"

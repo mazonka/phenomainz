@@ -211,13 +211,32 @@ function wid_fill_profile(profile)
     {
         wid_fill_name(profile.uname);
     });
+    
     jraf_node_up(g_jraf_root, function(){});
 }
 
 function wid_fill_name(uname)
 {
-    var f = g_jraf_root.kids['home'].kids['794562b89402c352'].kids['f']
-    log('name was changed', f)
+    uname = uname.split('/');
+    var hdir = uname[0];
+    var udir = uname[1];
+    log('udir',udir);
+    
+    if (hdir in g_jraf_root.kids)
+    {
+        if (udir in g_jraf_root.kids[hdir].kids)
+        {
+            if ('name' in g_jraf_root.kids[hdir].kids[udir].kids)
+            {
+                var n = g_jraf_root.kids[hdir].kids[udir].kids['name'].text;
+                (n == '')
+                    ? $('#span_pfl_name').html('*')
+                    : $('#span_pfl_name').html(n);
+            }
+
+        }
+    }
+
 }
 
 function wid_fill_dataset_list(checkbox)
@@ -232,7 +251,6 @@ function wid_fill_dataset_list(checkbox)
         $('#div_main_dsl').hide();
         $('#div_main_dsl_list').empty();
     }
-    return;
 }
 
 function wid_paint_borders($obj, color)
@@ -246,8 +264,9 @@ function wid_paint_borders($obj, color)
 
     for (let i = 0; i < borders.length; i++)
     {
-        (color !== undefined) ? $obj.css(borders[i], color): $obj.css(
-            borders[i], '');
+        (color !== undefined) 
+            ? $obj.css(borders[i], color)
+            : $obj.css(borders[i], '');
     }
 }
 
@@ -263,13 +282,11 @@ function wid_file_is_open(toggle)
         $Label.hover(
             function()
             {
-                $(this)
-                    .css('background', '#FF0000')
+                $(this).css('background', '#FF0000')
             },
             function()
             {
-                $(this)
-                    .css('background', '#FF0000')
+                $(this).css('background', '#FF0000')
             });
     }
     else
@@ -281,13 +298,11 @@ function wid_file_is_open(toggle)
         $Label.hover(
             function()
             {
-                $(this)
-                    .css('background', '#87CEEB')
+                $(this).css('background', '#87CEEB')
             },
             function()
             {
-                $(this)
-                    .css('background', '#FCFCFC')
+                $(this).css('background', '#FCFCFC')
             });
 
         return false;
@@ -313,9 +328,9 @@ function wid_open_email_window()
     wid_open_modal_window($obj, false, ui_init);
 }
 
-function wid_open_name_window(name)
+function wid_open_ch_name_window(name)
 {
-    var $obj = jq_get_user_profile(name);
+    var $obj = jq_get_ch_name(name);
     var ui_init = function()
     {
         $obj
@@ -341,8 +356,9 @@ function wid_input_kwd($inp)
     var val = $inp.val();
     var list = $inp.autocomplete('option', 'source');
 
-    (list.indexOf(val) == '-1' || val == '') ? $b.button('disable'): $b.button(
-        'enable');
+    (list.indexOf(val) == '-1' || val == '')
+        ? $b.button('disable')
+        : $b.button('enable');
 }
 
 
@@ -351,18 +367,6 @@ function wid_fill_ds_list(list)
     $('#' + TD_DSLIST)
         .children()
         .remove();
-    
-/*     for (let i = 0; i < list.n; i++) {
-        g_ds[i] = {};
-        g_ds[i].id = list.id[i];
-        g_ds[i].title = list.title[i];
-    }
-    
-    console.log(
-        g_ds.map(function(e)
-        {
-            return e.id;
-        }).indexOf('2')); */
         
     if (Boolean(list) && list.n > 0)
     {
