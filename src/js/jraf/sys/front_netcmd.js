@@ -7,10 +7,12 @@ function wid_nc_profile()
 {
     var cb = function(resp, data, profile)
     {
+        log('profile resp', resp);
+        log('profile data', profile);
         if (0)
         {}
-        else if (resp) Boolean(profile) && wid_fill_profile(profile);
-        //else if (resp === false) wid_fill_auth(false); //Needs for AUTH
+        else if (resp) Boolean(profile) && wid_fill_auth(true, profile);
+        else if (resp === null) wid_fill_auth(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
@@ -26,6 +28,7 @@ function wid_nc_login(email)
         if (0)
         {}
         else if (resp) wid_open_modal_window(M_TXT.EMAIL + email, true);
+        else if (resp === null) wid_fill_auth(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
@@ -39,7 +42,7 @@ function wid_nc_logout()
         if (0)
         {}
         else if (resp) wid_fill_auth(false);
-        else if (resp === false) wid_fill_auth(false);
+        else if (resp === null) wid_fill_auth(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 

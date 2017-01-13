@@ -7,7 +7,7 @@ function log(text, data)
 {
     console.log('========');
     console.log(text + ':\n');
-    if (data !== '') console.dir(data);
+    if (arguments.length == 2) console.dir(data);
 }
 
 function eng_is_email(data)
@@ -178,38 +178,45 @@ function eng_is_table(data)
     return table;
 }
 
-function eng_get_resp_gist(data)
+function eng_get_all_resp(data)
 {
-    var _data = data.split(' + ');
+    var resp = data.split(' + ');
     
-    _data.forEach(function(item, i, arr)
+    resp.forEach(function(item, i, arr)
     {
         arr[i] = arr[i]
             .replace(/^\s+|\r|\s+$/g, '')
             .split('\u0020')
             .shift();
     });
-    //array with response gist ['OK', 'JRAF_ERR, 'JRAF_FAIL']
-    return _data; 
+    /*
+    resp is an array with response headers list:
+    ['OK', 'JRAF_ERR, 'JRAF_FAIL', 'AUTH', REQ_MSG_BAD, REQ_PATH_BAD, etc]
+    */
+    return resp; 
 }
 
-function eng_is_ok(data)
+function eng_get_resp(data)
 {
-    var _data = eng_get_resp_gist(data);
-    var bad = [
-        PHENOD.REQ_MSG_BAD, PHENOD.REQ_PATH_BAD,
-        PHENOD.AUTH, PHENOD.JRAF_ERR, PHENOD.JRAF_FAIL
-    ];
-    var resp = !eng_is_err(bad, _data);
-    
-    return resp;
+    var resp = eng_get_all_resp(data);
+
+    if (eng_is_arr_el_equal(resp, PHENOD.OK)) return true;
+    if (eng_is_in_arr(resp, [PHENOD.AUTH])) return null;
+
+    return false;
 }
 
 // find elemets from stack in arr
-function eng_is_err(stack, arr) {
+function eng_is_in_arr(arr, stack) {
     return arr.some(function (v) {
         return stack.indexOf(v) >= 0;
     });
+}
+
+//return true if all "arr" elements are equal to "val"
+function eng_is_arr_el_equal(arr, val)
+{
+    return arr.every((v, i, arr) => v === val);
 }
 
 function eng_get_data(data)
@@ -245,48 +252,42 @@ function eng_get_parsed_profile(data)
 {
     var profile = {};
     var _data = data;
-
-    profile.gist = null;
     
-    if (!Boolean(_data)) return profile;
-    if (_data.length != 6) return profile;
+    if (!Boolean(_data)) return null;
+    if (_data.length != 6) return null;
 
     profile.su = (_data.shift() == 'a') ? true : false;
     profile.email = _data.shift();
     profile.quote = _data.shift();
-    profile.last = _data.shift();
+    profile.last = eng_get_profile_ts(_data.shift());
     profile.cntr = _data.shift();
-    profile.uname = _data.shift().split('/');
-   
-    profile.gist = (profile.email != '*') ? true : false;
+    profile.uname = _data.shift();//.split('/');
 
     return profile;
 }
 
-
-function eng_get_lastdate(data)
+function eng_get_profile_ts(data)
 {
-    var lastdate = {};
-    lastdate.ok = false;
+    var ts = {};
     data = data || '';
 
-    if (typeof data !== 'string' ||
-        +data === 0 ||
-        data.length !== 14)
+    if (typeof data !== 'string' 
+        || data === '*' 
+        || data.length !== 14
+    )
     {
-        return lastdate;
+        return '*';
     }
 
-    lastdate.yyyy = data.substring(0, 4);
-    lastdate.mm = data.substring(4, 6);
-    lastdate.dd = data.substring(6, 8);
-    lastdate.h = data.substring(8, 10);
-    lastdate.m = data.substring(10, 12);
-    lastdate.s = data.substring(12);
-
-    lastdate.ok = true;
-
-    return lastdate;
+    ts.yy = data.substring(0, 4);
+    ts.mm = data.substring(4, 6);
+    ts.dd = data.substring(6, 8);
+    ts.h = data.substring(8, 10);
+    ts.m = data.substring(10, 12);
+    ts.s = data.substring(12);
+       
+    return [ts.yy, ts.mm, ts.dd].join('.') + ', ' +
+        [ts.h, ts.m, ts.s].join(':');
 }
 
 function eng_get_ds_list(data)

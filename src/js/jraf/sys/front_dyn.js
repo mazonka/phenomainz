@@ -15,11 +15,7 @@ function wid_pulse()
 
             counter++;
 
-            if (counter > 0)
-            {
-                wid_open_shell_window(true);
-                return $Logo.attr('src', IMG.LOGO_WAIT);
-            }
+            if (counter > 0) return $Logo.attr('src', IMG.LOGO_WAIT);
         },
         done: function()
         {
@@ -28,14 +24,10 @@ function wid_pulse()
             Boolean(counter > 0) && counter--;
 
             if (counter == 0)
-            {
-                wid_open_shell_window(false);
-
                 return setTimeout(function()
                 {
                     $Logo.attr('src', IMG.LOGO_DONE);
                 }, 200);
-            }
         },
         fail: function()
         {
@@ -43,7 +35,6 @@ function wid_pulse()
 
             counter = 0;
             console.log('Server fault!');
-            wid_open_shell_window(false);
 
             return $Logo.attr('src', IMG.LOGO_FAIL);
         }
@@ -60,25 +51,6 @@ function img_preload(container)
             g_img_preload[i].onload = function() {};
             g_img_preload[i].src = container[i];
         }
-    }
-}
-
-function wid_open_shell_window(toggle)
-{
-    var $window = $('#div_main_pwm');
-    var $body = $('#div_main_pwm_content_body');
-    var width = $('body')
-        .outerWidth();
-
-    if (toggle)
-    {
-        //$body.html('<img id="img_logo" src="' + IMG.AJAX_LOAD + '">');
-        //$window.css('display', 'block');
-    }
-    else
-    {
-        //$body.empty();
-        //$window.css('display', 'none');
     }
 }
 
@@ -160,20 +132,15 @@ function wid_close_modal_window(f)
     var $window = $('#div_main_pwm');
     var $body = $('#div_main_pwm_content_body');
 
-    $body.children()
-        .remove();
+    $body.children().remove();
     $window.fadeOut({duration: 200});//css('display', 'none');
 
     (Boolean(f)) && f();
 
     $window.off('click');
-    $window.children()
-        .off('click');
-
-    $(document)
-        .off('keyup');
-    $(window)
-        .off('beforeunload');
+    $window.children().off('click');
+    $(document).off('keyup');
+    $(window).off('beforeunload');
 }
 
 
@@ -188,23 +155,53 @@ function wid_ask_logout()
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_fill_auth(au)
+function wid_fill_auth(au, profile)
 {
     if (au)
     {
-        $('#div_main_pfl').show();
-        wid_init_ui_button($('#div_main_pfl'));
-        $('#div_main_dsl').show();
-        wid_init_ui_button($('#div_main_dsl'));
-        $('#span_main_log').hide();
+        wid_fill_login(false);
+        wid_fill_adm_panel(profile.su);
+        wid_fill_profile(profile);
+        wid_fill_dataset_list(true);
     }
     else 
     {
-        $('#div_main_adm').hide();
-        $('#div_main_pfl').hide();
-        $('#div_main_dsl').hide();
-        $('#span_main_log').show();        
+        wid_fill_adm_panel(false);
+        wid_fill_profile(false);
+        wid_fill_dataset_list(false);
+        wid_fill_login(true);
     }
+}
+
+function wid_fill_profile(profile)
+{
+    var $p = $('#div_main_pfl');
+    if (!profile || profile.email === '*') return $p.empty().hide();
+    log('1')
+       
+    $p.html(jq_get_profile(profile)).show();
+
+}
+
+function wid_fill_adm_panel(checkbox)
+{
+    (checkbox) 
+            ? $('#div_main_adm').html(jq_get_adm_panel()).show() 
+            : $('#div_main_adm').empty().hide();
+}    
+
+function wid_fill_login(checkbox)
+{
+    (checkbox) 
+        ? $('#span_main_log').show()
+        : $('#span_main_log').hide();
+}
+
+function wid_fill_dataset_list()
+{
+    $('#div_main_dsl').show();
+    wid_init_ui_button($('#div_main_dsl'));
+    return;
 }
 
 function wid_paint_borders($obj, color)
@@ -221,20 +218,6 @@ function wid_paint_borders($obj, color)
         (color !== undefined) ? $obj.css(borders[i], color): $obj.css(
             borders[i], '');
     }
-}
-
-function wid_show_admin_panel(au)
-{
-    if (au)
-    {
-        $('#td_admin').html($('<div/>',
-            {
-                text: 'I am ADMIN'
-            }))
-            .show();
-        console.log('--admin user--');
-    }
-    else console.log('--common user--');
 }
 
 function wid_file_is_open(toggle)
@@ -331,40 +314,6 @@ function wid_input_kwd($inp)
         'enable');
 }
 
-function wid_fill_profile(profile)
-{
-    /// zateret' dannye v profile v sluchae logout
-    (profile.su) ? $('#div_main_adm').show() : $('#div_main_adm').hide();
-
-    if (profile.email === '*') 
-    {
-        $('#span_profile_logout button').off('click');
-        $('#span_pfl_email span').empty();
-        $('#span_pfl_quote').empty();
-        $('#span_pfl_timestamp span').empty();
-        $('#span_pfl_logcounter span').empty();
-        
-        return wid_fill_auth(false);
-    }
-    
-    let ts = eng_get_lastdate(profile.last);
-    let date = [ts.yyyy, ts.mm, ts.dd].join('.');
-    let time = [ts.h, ts.m, ts.s].join(':');
-    let last = date + ', ' + time;
-
-    $('#span_profile_logout button')
-        .click(function()
-        {
-            wid_window_logout();
-        });
-
-    $('#span_pfl_email span').html(profile.email);
-    $('#span_pfl_quote').html('/' + profile.quote + 'Kb');
-    $('#span_pfl_timestamp span').html(last);
-    $('#span_pfl_logcounter span').html(profile.cntr);
-    
-    wid_fill_auth(true);
-}
 
 function wid_fill_ds_list(list)
 {

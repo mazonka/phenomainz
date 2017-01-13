@@ -33,8 +33,102 @@ function jq_get_user_email()
     return $div;
 }
 
+function jq_get_profile(profile)
+{
+    var $profile = $('<span/>');
+    
+    var $name = $('<span/>',
+        {
+            id: 'span_pfl_name',
+            text: L_TXT.USER_NAME
+        })
+        .append($('<span/>'));
+
+    var $logout = $('<span/>',
+        {
+            id: 'span_pfl_logout',
+        })
+        .append($('<button/>',
+            {
+            text: B_TXT.LOGOUT
+            })
+            .click(function ()
+            {
+                wid_ask_logout();
+            }));
+
+    var $email = $('<span/>',
+        {
+            id: 'span_pfl_email',
+            text: L_TXT.EMAIL
+        })
+        .append($('<span/>',
+            {
+                text: profile.email
+            }));
+
+    var $last = $('<span/>',
+        {
+            id: 'span_pfl_timestamp',
+            text: L_TXT.LAST_LOGIN
+        })
+        .append($('<span/>',
+            {
+                text: profile.last
+            }));
+
+    var $cntr = $('<span/>',
+        {
+            id: 'span_pfl_logcounter',
+            text: L_TXT.COUNTER
+        })
+        .append($('<span/>',
+            {
+                text: profile.cntr
+            }));
+
+    var $quote = $('<span/>',
+        {
+            text: L_TXT.VOLUME
+        })
+        .append($('<span/>',
+        {
+            id: 'span_pfl_volume',
+            text: '0'
+        }))
+        .append($('<span/>',
+        {
+            id: 'span_pfl_quote',
+            text: '/' + profile.quote + 'Kb'
+        }));
+
+    $profile
+        .append($name)
+        .append($logout)
+        .append('<br/>')
+        .append($email)
+        .append('<br/>')
+        .append($cntr)
+        .append('<br/>')
+        .append($last)
+        .append('<br/>')
+        .append($quote)
+        .append('<br/>')
+    
+    return $profile;
+}
+
+
+function jq_get_adm_panel()
+{
+    return $('<span/>',
+        {
+            text: '__ADMIN PANEL MUST BE HERE__'
+        });
+}
+
 // gets object for change user name
-function jq_get_user_profile(name)
+function jq_get_user_name(name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',

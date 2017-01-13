@@ -8,16 +8,5 @@ function jq_get_main_adm()
     return $('<div/>',
         {
             id: 'div_main_adm'        
-        })
-        .html(jq_get_admin_panel());
-}
-
-function jq_get_admin_panel()
-{
-    var $span = $('<span/>',
-    {
-        text: 'ADMIN PANEL HERE'
-    });
-    
-    return $span;
+        });
 }
