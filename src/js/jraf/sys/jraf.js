@@ -1,18 +1,20 @@
 var g_sys_loaded_jraf = 1;
 
-var g_jraf_root = jraf_node({ parent : null });
+var g_jraf_root = jraf_node(null,null);
 
 var g_keep_loading = false;
 
-function jraf_node(ini)
+function jraf_node(prnt, ini)
 {
 	var node = {};
 	node.ver = 0;
-	node.sz = -1; // empty means some distant kids have binding
+	node.sz = -1; 
 	node.watch = 0; // 0,1,2 - none, monitor, bound
-	node.wid = null; // binding callback
+	// monitor means some distant kids have binding
+
+	node.wid = null; // binding callback ( do not set, use bind() )
 	node.name = '';
-	node.parent = null;
+	node.parent = prnt;
 	node.full = 0; // 0,1 - incomplete, complete/loaded
 	node.text = ''; // file body
 	node.kids = {}; // children
@@ -200,10 +202,11 @@ function jraf_update_obj(path,name,cbi,node)
 
 function jraf_update_DD(jo,nd,cbi)
 {
-	// first delete disappeared nodes
+	// first delete disappeared nodes (that are not watched)
 	for( let i in nd.kids )
 	{
 		if( i in jo.kids ) continue;
+		if( nd.kids[i].watch > 0 ) continue;
 		nd.rmkid(i);
 	}
 
@@ -213,11 +216,11 @@ function jraf_update_DD(jo,nd,cbi)
 		if( i in nd.kids ) continue;
 		var j = jo.kids[i];
 
-		var n = jraf_node();
+		var n = jraf_node(nd);
 		n.ver = j.ver;
 		n.sz = j.sz;
 		n.name = i;
-		n.parent = nd;
+		///n.parent = nd;
 
 		nd.kids[i] = n;
 	}

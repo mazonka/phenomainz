@@ -147,7 +147,7 @@ function cli_build_cmd_bind()
         let n = g_cwd;
         if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
         if( n == null ) return 'node does not exist';
-        if( n.full == 0 ) return 'node is not loaded';
+        ///if( n.full == 0 ) return 'node is not loaded';
         return n.bind(cli_view_update);
     };
     g_cli_commands.bind = { help : help, run : run };
@@ -169,7 +169,7 @@ function cli_build_cmd_unbind()
 
 function cli_build_cmd_md()
 {
-    var help = 'mkdir/md [node]: create new directory node';
+    var help = 'mkdir/md [node]: create new directory node on server';
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
@@ -178,6 +178,19 @@ function cli_build_cmd_md()
     };
     g_cli_commands.md = { help : help, run : run };
     g_cli_commands.mkdir = { help : help, run : run };
+}
+
+function cli_build_cmd_mk()
+{
+    var help = 'mk node: create new virtual node';
+    var run = function(c)
+    {
+	console.log("AAA 1");
+        if( c.length != 2 ) return 'need one argument';
+        cli_mk(g_cwd,c[1]);
+        return '';
+    };
+    g_cli_commands.mk = { help : help, run : run };
 }
 
 
@@ -228,8 +241,6 @@ function cli_list_that(node,dir)
 
 function cli_list_kids(node)
 {
-    if( node.full == 0 ) return 'node ['+node.str()+'] incomplete, use \'up\'';
-
     if( node.sz >= 0 ) return node.text;
 
     var mx = [0,0,0,0,0];
@@ -260,6 +271,8 @@ function cli_list_kids(node)
     var r  = '';
     for( let i=0; i<ar.length; i++)
         r += cli_list_formline(ar[i]) + '\n';
+
+    if( node.full == 0 ) r += 'node ['+node.str()+'] incomplete, use \'up\'\n';
 
     return r;
 }
@@ -316,6 +329,28 @@ function cli_write_md(cwd,name)
     };
 
     jraf_write_md(cwd,name,cb);
+}
+
+////////////////////////////////////////////////////////
+// mk
+
+function cli_mk(cwd,c)
+{
+	console.log("AAA 2");
+
+	var a = c.split('/');
+    a = a.filter(function(x){ return x.length > 0; });
+
+	for( let j in a)
+	{
+		let i = a[j];
+		if( !(i in cwd.kids) )
+			cwd.kids[i] = jraf_node(cwd,{name:i});
+
+		cwd = cwd.kids[i];
+	}
+
+	console.log(cwd);
 }
 
 ////////////////////////////////////////////////////////

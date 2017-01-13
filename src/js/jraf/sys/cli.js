@@ -114,8 +114,8 @@ function cli_view_update(node)
 {
     var r = node.str()+'\n';
     r += '-'.repeat(r.length-1) +'\n';
-    if( node.full==0 ) r += "incomplete";
-    else if( node.sz < 0 ) r += cli_list_that(node,false);
+    if( node.full==0 ) r += node.name + " incomplete\n";
+    if( node.sz < 0 ) r += cli_list_that(node,false);
     else r += node.text;
 
     $g_view[0].value = r;
@@ -253,6 +253,7 @@ function cli_build_commands()
     cli_build_cmd_bind();
     cli_build_cmd_unbind();
     cli_build_cmd_md();
+    cli_build_cmd_mk();
     //cli_build_cmd_js(); // run js file
     //cli_build_cmd_rm();
     //cli_build_cmd_edit();
