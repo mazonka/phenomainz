@@ -7,7 +7,7 @@ function log(text, data)
 {
     console.log('========');
     console.log(text + ':\n');
-    console.dir(data);
+    if (data !== '') console.dir(data);
 }
 
 function eng_is_email(data)

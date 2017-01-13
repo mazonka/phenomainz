@@ -22,9 +22,13 @@ function jq_get_main_pfl()
             id: 'span_pfl_logout',
         })
         .append($('<button/>',
-        {
+            {
             text: B_TXT.LOGOUT
-        }));
+            })
+            .click(function ()
+            {
+                wid_ask_logout();
+            }));
 
     var $email = $('<span/>',
         {

@@ -10,7 +10,7 @@ function wid_nc_profile()
         if (0)
         {}
         else if (resp) Boolean(profile) && wid_fill_profile(profile);
-        //else if (resp === false) wid_ui_login(false); //Needs for AUTH
+        //else if (resp === false) wid_fill_auth(false); //Needs for AUTH
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
@@ -38,10 +38,15 @@ function wid_nc_logout()
     {
         if (0)
         {}
-        else if (resp) wid_ui_login(false);
-        else if (resp === false) wid_ui_login(false);
+        else if (resp) wid_fill_auth(false);
+        else if (resp === false) wid_fill_auth(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
     nc_logout(cb, g_sid, g_pulse)
+}
+
+function wid_nc_ds_create()
+{
+    log('create dataset');
 }

@@ -86,8 +86,7 @@ function wid_open_modal_window(data, click, f_init, f_close)
     var $window = $('#div_main_pwm');
     var $content = $('#div_main_pwm_content');
     var $body = $('#div_main_pwm_content_body');
-    var width = $('body')
-        .outerWidth();
+    var width = $('body').outerWidth();
     var $obj;
     var esc = function(e)
     {
@@ -150,7 +149,7 @@ function wid_open_modal_window(data, click, f_init, f_close)
         $obj = data;
     }
 
-    $window.css('display', 'block');
+    $window.fadeIn({duration: 200});//css('display', 'block');
     $body.html($obj);
     Boolean(f_init) && f_init();
 }
@@ -162,7 +161,7 @@ function wid_close_modal_window(f)
 
     $body.children()
         .remove();
-    $window.css('display', 'none');
+    $window.fadeOut({duration: 200});//css('display', 'none');
 
     (Boolean(f)) && f();
 
@@ -177,7 +176,7 @@ function wid_close_modal_window(f)
 }
 
 
-function wid_window_logout()
+function wid_ask_logout()
 {
     var $obj = jq_get_yes_no(M_TXT.SURE);
     var init = function()
@@ -188,28 +187,19 @@ function wid_window_logout()
     wid_open_modal_window($obj, false, init);
 }
 
-function wid_ui_login(au)
+function wid_fill_auth(au)
 {
-    $('#' + TD_PROFILE).hide();
-    $('#td_admin').hide();
-    $('#' + TD_DSITEM_CREATE).hide();
-    $('#' + TD_LOGIN).show();
-    $('#' + TD_DSLIST)
-        .empty()
-        .hide();
-
     if (au)
     {
-        $('#' + TD_LOGIN).hide();
-        $('#' + TD_PROFILE).show();
-        $('#' + TD_DSITEM_CREATE).show();
-        $('#' + TD_DSLIST).show();
-        
-        wid_nc_admin_ping();
-        wid_nc_profile();
-        wid_nc_ds_list();
+        $('#div_main_pfl').show();
+        $('#span_main_log').hide();
     }
-
+    else 
+    {
+        $('#div_main_adm').hide();
+        $('#div_main_pfl').hide();
+        $('#span_main_log').show();        
+    }
 }
 
 function wid_paint_borders($obj, color)
@@ -304,7 +294,7 @@ function wid_open_email_window()
     wid_open_modal_window($obj, false, ui_init);
 }
 
-function wid_open_profile_window(name)
+function wid_open_name_window(name)
 {
     var $obj = jq_get_user_profile(name);
     var ui_init = function()
@@ -341,8 +331,17 @@ function wid_fill_profile(profile)
     /// zateret' dannye v profile v sluchae logout
     (profile.su) ? $('#div_main_adm').show() : $('#div_main_adm').hide();
 
-    if (profile.email === '*') return $('#div_main_dsl, #div_main_pfl').hide();
+    if (profile.email === '*') 
+    {
+        $('#span_profile_logout button').off('click');
+        $('#span_pfl_email span').empty();
+        $('#span_pfl_quote').empty();
+        $('#span_pfl_timestamp span').empty();
+        $('#span_pfl_logcounter span').empty();
         
+        return wid_fill_auth(false);
+    }
+    
     let ts = eng_get_lastdate(profile.last);
     let date = [ts.yyyy, ts.mm, ts.dd].join('.');
     let time = [ts.h, ts.m, ts.s].join(':');
@@ -359,8 +358,7 @@ function wid_fill_profile(profile)
     $('#span_pfl_timestamp span').html(last);
     $('#span_pfl_logcounter span').html(profile.cntr);
     
-    $('#div_main_pfl').show();
-    $('#div_main_dsl').show();
+    wid_fill_auth(true);
 }
 
 function wid_fill_ds_list(list)
