@@ -40,9 +40,10 @@ class Jraf
         struct User
         {
             bool su;
+			bool auth;
             string email, last, cntr; // filled in user()
             string quotaKb, uname; // filled later
-            User(bool s): su(s) {}
+            User(bool s, bool a): su(s), auth(a) {}
         };
 
         hq::AccessController access;
@@ -75,6 +76,9 @@ class Jraf
 
         static Cmdr bad()
         { return Cmdr(er::Code(er::REQ_MSG_BAD), false); }
+
+        static Cmdr auth()
+        { return Cmdr(er::Code(er::AUTH), false); }
 
         Cmdr aurequest(gl::Token & tok);
         Cmdr read_obj(string p, bool getonly, const User & su);

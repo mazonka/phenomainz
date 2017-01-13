@@ -44,7 +44,10 @@ string Jraf::request(gl::Token tok, string anonce)
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
             ///bool superuser = issu(sess);
+
             auto usr = user(sess);
+			if( !usr.auth ){ result += auth(); return result.s; }
+
             hq::LockRead lock(&access);
 
             ///if ( !tok.next() ) return bad().s;
@@ -62,7 +65,10 @@ string Jraf::request(gl::Token tok, string anonce)
         {
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
+
             auto usr = user(sess);
+			if( !usr.auth ){ result += auth(); return result.s; }
+
             hq::LockRead lock(&access);
             result += profile(usr);
         }
@@ -212,6 +218,7 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
     auto superuser = user(sess);
+    if( !superuser.auth ) return auth();
 
     if ( !tok.next() ) return err("command");
     string cmd = tok.sub();
@@ -267,13 +274,13 @@ Jraf::Cmdr Jraf::aureq_md(string pth)
 Jraf::User Jraf::user(string sess)
 {
     os::Path usr = users();
-    if ( !usr.isdir() ) return true;
+    if ( !usr.isdir() ) return User(true,true);
 
-    if ( sess == "0" ) return false;
+    if ( sess == "0" ) return User(false,true);
 
     os::Path in = login() + sess;
 
-    if ( !in.isfile() ) return false;
+    if ( !in.isfile() ) return User(false,false);
 
     string email = gl::file2word(in.str());
 
@@ -303,7 +310,7 @@ Jraf::User Jraf::user(string sess)
     string last = os::Timer::getGmd() + os::Timer::getHms();
     gl::str2file(file_last, last + '\n');
 
-    User r(superuser);
+    User r(superuser,true);
     r.email = email;
     r.cntr = scntr;
     r.last = last;

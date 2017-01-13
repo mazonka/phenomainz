@@ -1,7 +1,7 @@
 jraf profile 78c4fc9a59a4e947 -> OK a * * * * *
 
 jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
-jraf profile 78c4fc9a59a4e947 -> OK u * * * * *
+jraf profile 78c4fc9a59a4e947 -> AUTH
 
 [N/I] phmail: Sending to [a@b.c] au [http://server/jraf?78c4fc9a59a4e947]
 jraf login a@b.c http://server/ -> OK http://server/jraf?
@@ -11,3 +11,4 @@ jraf profile 78c4fc9a59a4e947 -> OK u a@b.c 10000 20170123123456 1 home/d648b243
 jraf login admin@server.com http://server/ -> OK http://server/jraf?
 jraf profile 090527c5235a0936 -> OK a admin@server.com 10000 20170123123456 1 home/4eda3605d00f0a83
 
+jraf profile 0 -> OK u * * * * *

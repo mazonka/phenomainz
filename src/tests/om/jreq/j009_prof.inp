@@ -23,4 +23,7 @@ cmd = [ jraf profile 090527c5235a0936 ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
+cmd = [ jraf profile 0 ]
+print { cmd "->" tcp self cmd }
+
 quit
