@@ -146,7 +146,13 @@ function cli_build_cmd_bind()
     {
         let n = g_cwd;
         if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
-        if( n == null ) return 'node does not exist';
+		var r = '';
+        if( n == null ) 
+		{	
+			if( c.length < 1 ) return 'node does not exist\n'
+			return 'node does not exist - binding virtual\n'
+			+ jraf_bind_virtual(g_cwd,c[1],cli_view_update);
+		}
         ///if( n.full == 0 ) return 'node is not loaded';
         return n.bind(cli_view_update);
     };
@@ -186,7 +192,7 @@ function cli_build_cmd_mk()
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
-        cli_mk(g_cwd,c[1]);
+		jraf_virtual_node(g_cwd,c[1])
         return '';
     };
     g_cli_commands.mk = { help : help, run : run };
@@ -359,24 +365,6 @@ function cli_write_rm(cwd,name)
     };
 
     jraf_write_rm(cwd,name,cb);
-}
-
-////////////////////////////////////////////////////////
-// mk
-
-function cli_mk(cwd,c)
-{
-	var a = c.split('/');
-    a = a.filter(function(x){ return x.length > 0; });
-
-	for( let j in a)
-	{
-		let i = a[j];
-		if( !(i in cwd.kids) )
-			cwd.kids[i] = jraf_node(cwd,{name:i});
-
-		cwd = cwd.kids[i];
-	}
 }
 
 ////////////////////////////////////////////////////////

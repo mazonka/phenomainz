@@ -275,3 +275,26 @@ function jraf_node_up(node, ext_cb)
 
     jraf_update_obj(path,name,ext_cb,node);    
 }
+
+function jraf_virtual_node(wd,c)
+{
+	var a = c.split('/');
+    a = a.filter(function(x){ return x.length > 0; });
+
+	for( let j in a)
+	{
+		let i = a[j];
+		if( !(i in wd.kids) )
+			wd.kids[i] = jraf_node(wd,{name:i});
+
+		wd = wd.kids[i];
+	}
+
+	return wd;
+}
+
+function jraf_bind_virtual(node,path,cb)
+{
+	return jraf_virtual_node(node,path).bind(cb);
+}
+
