@@ -51,7 +51,6 @@ function jraf_parse_wrt(data)
         return { err: data };
     }
 
-    o('AAA jraf_parse_wrt: '+data);
     r.msg = 'ok';
     return r;
 }
