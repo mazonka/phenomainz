@@ -2,6 +2,7 @@
 'use strict';
 
 var g_sys_loaded_front_dyn = 1;
+var g_pulse = wid_pulse();
 
 function wid_pulse()
 {
@@ -192,12 +193,16 @@ function wid_fill_auth(au)
     if (au)
     {
         $('#div_main_pfl').show();
+        wid_init_ui_button($('#div_main_pfl'));
+        $('#div_main_dsl').show();
+        wid_init_ui_button($('#div_main_dsl'));
         $('#span_main_log').hide();
     }
     else 
     {
         $('#div_main_adm').hide();
         $('#div_main_pfl').hide();
+        $('#div_main_dsl').hide();
         $('#span_main_log').show();        
     }
 }

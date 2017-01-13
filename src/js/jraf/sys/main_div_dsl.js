@@ -19,7 +19,7 @@ function jq_get_main_dsl()
             })
                 .append($('<button/>',
                     {
-                        id: B_TXT.CREATE_NEW
+                        text: B_TXT.CREATE_NEW
                     })
                     .click(function()
                     {
