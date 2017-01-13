@@ -248,7 +248,7 @@ Jraf::Cmdr Jraf::aureq_rm(string pth)
     if ( p.isdir() || p.isfile() ) return fail(pth);
 
     update_ver(pth);
-    update_ver(parent_str(pth));
+    ///update_ver(parent_str(pth));
 
     return ok(pth);
 }
@@ -435,8 +435,8 @@ Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 
     update_ver(pto);
     update_ver(pth);
-    update_ver(parent_str(pto));
-    update_ver(parent_str(pth));
+    ///update_ver(parent_str(pto));
+    ///update_ver(parent_str(pth));
 
     return ok(pto);
 }
