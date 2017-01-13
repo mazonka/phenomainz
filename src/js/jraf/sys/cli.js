@@ -256,8 +256,8 @@ function cli_build_commands()
     cli_build_cmd_mk();
     //cli_build_cmd_js(); // run js file
     cli_build_cmd_rm();
-    //cli_build_cmd_edit();
-    //cli_build_cmd_save();
+    cli_build_cmd_edit();
+    cli_build_cmd_save();
     //cli_build_cmd_loadmod(); // load js module into DOM head
 }
 

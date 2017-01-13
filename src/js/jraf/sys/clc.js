@@ -210,6 +210,33 @@ function cli_build_cmd_rm()
     g_cli_commands.rm = { help : help, run : run };
 }
 
+function cli_build_cmd_edit()
+{
+    var help = 'edit [node]: edit file';
+    var run = function(c)
+    {
+        let n = g_cwd;
+        if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+        if( n == null ) return 'node does not exist';
+		$g_edit[0].value = n.text;
+        return '';
+    };
+    g_cli_commands.edit = { help : help, run : run };
+}
+
+function cli_build_cmd_save()
+{
+    var help = 'save [node]: save file';
+    var run = function(c)
+    {
+        let n = g_cwd;
+        if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+        if( n == null ) return 'node does not exist';
+		n.text = $g_edit[0].value;
+        return 'FIXME - this must send to server';
+    };
+    g_cli_commands.save = { help : help, run : run };
+}
 
 //function cli_build_cmd_ ()
 
