@@ -71,12 +71,14 @@ const IMG = {
     LOGO_FB: 'img/f_logo.png',
     LOGO_LI: 'img/l_logo.png',
     LOGO_WINDOWS: 'img/w_logo.png',
-    CROSS: 'img/cross.png'
+    CROSS: 'img/cross.png',
+    LOGOUT: 'img/logout.png'
 };
 
 var g_img = [
     IMG.LOGO_WAIT, IMG.LOGO_DONE, IMG.LOGO_FAIL, IMG.AJAX_LOAD, IMG.CROSS,
-    IMG.LOGO_GOOGLE, IMG.LOGO_FB, IMG.LOGO_LI, IMG.LOGO_WINDOWS
+    IMG.LOGO_GOOGLE, IMG.LOGO_FB, IMG.LOGO_LI, IMG.LOGO_WINDOWS,
+    IMG.LOGOUT
 ];
 
 var g_img_preload = [];

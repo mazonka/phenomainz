@@ -39,27 +39,27 @@ function jq_get_profile(profile)
     
     var $name = $('<span/>',
         {
-            id: 'span_pfl_name',
             text: L_TXT.USER_NAME
         })
-        .append($('<span/>'));
-
-    var $logout = $('<span/>',
-        {
-            id: 'span_pfl_logout',
-        })
-        .append($('<button/>',
+        .append($('<span/>', 
             {
-            text: B_TXT.LOGOUT
-            })
-            .click(function ()
-            {
-                wid_ask_logout();
+                id: 'span_pfl_name',
             }));
+
+    var $logout = $('<span/>')
+        .append($('<label/>')
+            .append($('<img/>',
+            {   
+                id: 'img_logout',
+                src: IMG.LOGOUT
+            })))
+        .click(function ()
+        {
+            wid_ask_logout();
+        });
 
     var $email = $('<span/>',
         {
-            id: 'span_pfl_email',
             text: L_TXT.EMAIL
         })
         .append($('<span/>',
@@ -69,7 +69,6 @@ function jq_get_profile(profile)
 
     var $last = $('<span/>',
         {
-            id: 'span_pfl_timestamp',
             text: L_TXT.LAST_LOGIN
         })
         .append($('<span/>',
@@ -79,13 +78,8 @@ function jq_get_profile(profile)
 
     var $cntr = $('<span/>',
         {
-            id: 'span_pfl_logcounter',
-            text: L_TXT.COUNTER
+            text: L_TXT.COUNTER + profile.cntr
         })
-        .append($('<span/>',
-            {
-                text: profile.cntr
-            }));
 
     var $quote = $('<span/>',
         {

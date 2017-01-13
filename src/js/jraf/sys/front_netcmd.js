@@ -7,8 +7,6 @@ function wid_nc_profile()
 {
     var cb = function(resp, data, profile)
     {
-        log('profile resp', resp);
-        log('profile data', profile);
         if (0)
         {}
         else if (resp) Boolean(profile) && wid_fill_auth(true, profile);

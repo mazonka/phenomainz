@@ -173,14 +173,11 @@ function wid_fill_auth(au, profile)
     }
 }
 
-function wid_fill_profile(profile)
+function wid_fill_login(checkbox)
 {
-    var $p = $('#div_main_pfl');
-    if (!profile || profile.email === '*') return $p.empty().hide();
-    log('1')
-       
-    $p.html(jq_get_profile(profile)).show();
-
+    (checkbox) 
+        ? $('#span_main_log').show()
+        : $('#span_main_log').hide();
 }
 
 function wid_fill_adm_panel(checkbox)
@@ -190,17 +187,38 @@ function wid_fill_adm_panel(checkbox)
             : $('#div_main_adm').empty().hide();
 }    
 
-function wid_fill_login(checkbox)
+function wid_fill_profile(profile)
 {
-    (checkbox) 
-        ? $('#span_main_log').show()
-        : $('#span_main_log').hide();
+    var $p = $('#div_main_pfl');
+    if (!profile || profile.email === '*') return $p.empty().hide();
+
+    $p.html(jq_get_profile(profile)).show();
+
+    jraf_bind_virtual(g_jraf_root, profile.uname + '/name', function()
+    {
+        wid_fill_name(profile.uname);
+    });
+    jraf_node_up(g_jraf_root, function(){});
 }
 
-function wid_fill_dataset_list()
+function wid_fill_name(uname)
 {
-    $('#div_main_dsl').show();
-    wid_init_ui_button($('#div_main_dsl'));
+    var f = g_jraf_root.kids['home'].kids['794562b89402c352'].kids['f']
+    log('name was changed', f)
+}
+
+function wid_fill_dataset_list(checkbox)
+{
+    if (checkbox)
+    {
+        $('#div_main_dsl').show();
+        wid_init_ui_button($('#div_main_dsl_create'));
+    }    
+    else
+    {
+        $('#div_main_dsl').hide();
+        $('#div_main_dsl_list').empty();
+    }
     return;
 }
 

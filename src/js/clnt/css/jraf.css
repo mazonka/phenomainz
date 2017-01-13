@@ -79,8 +79,12 @@ button {
     width: 100%;
     text-align: right;
     margin: 0.2em;
-    /* border: 1px solid #DCDCDC; */
-    /* background-color: #F8F8FF; */
+}
+
+#div_main_pfl img {
+    width: 16px;
+    height: auto;
+    cursor: pointer;
 }
 
 #div_main_adm {
