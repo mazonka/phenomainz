@@ -219,14 +219,14 @@ function cli_extract_command(text)
     if( i == -1 || i+3 > t.length ) return '';
     var cmd = t.substr(i+gPRMT.length);
 
+    return cmd;
+}
+
+function cli_execute_command(cmd)
+{
     var c = cmd.split(' ');
     c = c.filter( function(x){ return x.length>0; } );
 
-    return c;
-}
-
-function cli_execute_command(c)
-{
     if( c.length < 1 ) return '';
 
     if( c[0] in g_cli_commands )
@@ -255,7 +255,7 @@ function cli_build_commands()
     cli_build_cmd_md();
     cli_build_cmd_mk();
     //cli_build_cmd_js(); // run js file
-    //cli_build_cmd_rm();
+    cli_build_cmd_rm();
     //cli_build_cmd_edit();
     //cli_build_cmd_save();
     //cli_build_cmd_loadmod(); // load js module into DOM head

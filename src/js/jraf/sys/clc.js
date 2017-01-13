@@ -169,7 +169,7 @@ function cli_build_cmd_unbind()
 
 function cli_build_cmd_md()
 {
-    var help = 'mkdir/md [node]: create new directory node on server';
+    var help = 'mkdir/md node: create new directory node on server';
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
@@ -185,12 +185,23 @@ function cli_build_cmd_mk()
     var help = 'mk node: create new virtual node';
     var run = function(c)
     {
-	console.log("AAA 1");
         if( c.length != 2 ) return 'need one argument';
         cli_mk(g_cwd,c[1]);
         return '';
     };
     g_cli_commands.mk = { help : help, run : run };
+}
+
+function cli_build_cmd_rm()
+{
+    var help = 'rm node: remove node on server';
+    var run = function(c)
+    {
+        if( c.length != 2 ) return 'need one argument';
+        cli_write_rm(g_cwd,c[1]);
+        return '';
+    };
+    g_cli_commands.rm = { help : help, run : run };
 }
 
 
@@ -317,7 +328,7 @@ function cli_update_node(node)
 
 function cli_write_md(cwd,name)
 {
-    var cb = function(jo)
+    var cb = function(jo,nd)
     {
         //console.log(jo);
         //console.log(nd);
@@ -332,12 +343,29 @@ function cli_write_md(cwd,name)
 }
 
 ////////////////////////////////////////////////////////
+// rm
+
+function cli_write_rm(cwd,name)
+{
+    var cb = function(jo,nd)
+    {
+        //console.log(jo);
+        //console.log(nd);
+        let s = '';
+        if( jo.err == '' ) s = jo.msg;
+        else s = jo.err;
+
+        $g_output[0].value += 'rm: ' + s + '\n';
+    };
+
+    jraf_write_rm(cwd,name,cb);
+}
+
+////////////////////////////////////////////////////////
 // mk
 
 function cli_mk(cwd,c)
 {
-	console.log("AAA 2");
-
 	var a = c.split('/');
     a = a.filter(function(x){ return x.length > 0; });
 
@@ -349,8 +377,6 @@ function cli_mk(cwd,c)
 
 		cwd = cwd.kids[i];
 	}
-
-	console.log(cwd);
 }
 
 ////////////////////////////////////////////////////////

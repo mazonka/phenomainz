@@ -16,6 +16,16 @@ function jraf_write_md(cwd,name,cbi)
     jraf_write_obj('md '+path, cb);
 }
 
+function jraf_write_rm(cwd,name,cbi)
+{
+    var cb = function(jo)
+    {
+        cbi(jo);
+    };
+
+    var path = cwd.str()+'/'+name;
+    jraf_write_obj('rm '+path, cb);
+}
 
 function jraf_write_obj(cmd, cb, extra)
 {
