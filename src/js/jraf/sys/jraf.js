@@ -36,11 +36,21 @@ function jraf_node(prnt, ini)
 		return r + '/' + this.name;
 	};
 
-	node.rmkid = function(kid)
+	node.rmkid = function(k)
 	{
-		if( !(kid in this.kids) ) return;
-		for( let i in this.kids ) this.kids[kid].rmkid(i);
-		delete this.kids[kid];
+		if( !(k in this.kids) ) return;
+
+		let kid = this.kids[k];
+		for( let i in kid.kids ) kid.rmkid(i);
+
+		if( kid.watch == 0 )
+			delete this.kids[k];
+		else
+		{
+			kid.full = 0;
+			kid.sz = -1;
+			text = '';
+		}
 	};
 
 	node.bind = function(fun)
@@ -206,7 +216,7 @@ function jraf_update_DD(jo,nd,cbi)
 	for( let i in nd.kids )
 	{
 		if( i in jo.kids ) continue;
-		if( nd.kids[i].watch > 0 ) continue;
+		///if( nd.kids[i].watch > 0 ) continue;
 		nd.rmkid(i);
 	}
 

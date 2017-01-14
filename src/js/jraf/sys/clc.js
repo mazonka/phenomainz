@@ -218,6 +218,8 @@ function cli_build_cmd_edit()
         let n = g_cwd;
         if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
         if( n == null ) return 'node does not exist';
+        if( n.sz < 0 ) return 'node is not file';
+        if( n.full == 0 ) return 'node is incomplete';
 		$g_edit[0].value = n.text;
         return '';
     };
@@ -230,12 +232,31 @@ function cli_build_cmd_save()
     var run = function(c)
     {
         let n = g_cwd;
-        if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
-        if( n == null ) return 'node does not exist';
-		n.text = $g_edit[0].value;
-        return 'FIXME - this must send to server';
+		var pth = g_cwd.str()+'/';
+        if( c.length > 1 )
+		{
+			let nm = c[1];
+			if( nm[0] == '/' ) pth = nm;
+			else pth += nm;
+		}
+		///n.text = $g_edit[0].value;
+        ///return 'FIXME - this must send to server';
+		return cli_save(pth,$g_edit[0].value);
     };
     g_cli_commands.save = { help : help, run : run };
+}
+
+function cli_build_cmd_cj()
+{
+    var help = 'cj [node]: run clij script';
+    var run = function(c)
+    {
+        let n = g_cwd;
+        if( c.length > 1 ) n = jraf_relative(g_cwd,c[1]);
+        if( n == null ) return 'node does not exist';
+		return cli_run_cj(n);
+    };
+    g_cli_commands.cj = { help : help, run : run };
 }
 
 //function cli_build_cmd_ ()
@@ -395,4 +416,42 @@ function cli_write_rm(cwd,name)
 }
 
 ////////////////////////////////////////////////////////
+// cj
+
+function cli_run_cj(node)
+{
+	if( node.sz < 0 ) return "error: not file";
+
+    var c = node.text.split('\n');
+    c = c.filter( function(x){ return x.length>0; } );
+
+	var r = '';
+	for( let i in c )
+		r += cli_execute_command(c[i].trim()) + '\n';
+
+	return r;
+
+}
+////////////////////////////////////////////////////////
+// save
+
+function cli_save(pth,body)
+{
+    var cb = function(jo,nd)
+    {
+        //console.log(jo);
+        //console.log(nd);
+        let s = '';
+        if( jo.err == '' ) s = jo.msg;
+        else s = jo.err;
+
+        $g_output[0].value += 'save: ' + s + '\n';
+    };
+
+    jraf_write_save(pth,body,cb);
+
+	return 'use \'up\' to refresh value';
+}
+////////////////////////////////////////////////////////
 //
+

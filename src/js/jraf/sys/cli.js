@@ -39,6 +39,14 @@ function cli_input_toend()
     o.scrollTop = o.scrollHeight;
 }
 
+function cli_output_toend()
+{
+    var o = $g_output[0];
+    var i = o.value.length;
+    o.setSelectionRange(i,i);
+    o.scrollTop = o.scrollHeight;
+}
+
 function cli_build_area()
 {
     var tbl = $('<table/>', { border: '0', width: '100%' } );
@@ -203,6 +211,8 @@ function cli_output_commnd(out)
 
     if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
     o.value += '\n'+out+cli_prompt();
+
+	cli_output_toend();
 }
 
 function cli_prompt()
@@ -255,6 +265,7 @@ function cli_build_commands()
     cli_build_cmd_md();
     cli_build_cmd_mk();
     //cli_build_cmd_js(); // run js file
+    cli_build_cmd_cj(); // run cj file
     cli_build_cmd_rm();
     cli_build_cmd_edit();
     cli_build_cmd_save();

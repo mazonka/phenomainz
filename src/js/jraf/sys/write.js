@@ -7,13 +7,16 @@ function o(x){ console.log(x); }
 
 function jraf_write_md(cwd,name,cbi)
 {
-    var cb = function(jo)
-    {
-        cbi(jo);
-    };
-
+    var cb = function(jo){ cbi(jo); };
     var path = cwd.str()+'/'+name;
     jraf_write_obj('md '+path, cb);
+}
+
+function jraf_write_save(pth,body,cbi)
+{
+    var cb = function(jo){ cbi(jo); };
+    var b64 = window.btoa(body);
+    jraf_write_obj('save '+pth+' '+body.length+' '+b64, cb);
 }
 
 function jraf_write_rm(cwd,name,cbi)
