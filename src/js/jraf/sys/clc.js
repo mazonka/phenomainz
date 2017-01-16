@@ -33,7 +33,7 @@ function cli_build_cmd_cls()
     var cls_help = 'cls [argument]: clear area\n'
             + '- cls in: clear command area (default)\n'
             + '- cls out: clear output area\n'
-            + '- cls edit: clear editor area\n';
+            + '- cls edit: clear editor area\n'
             + '- cls view: clear view (bind) area\n';
 
     var cls_run = function(c)
