@@ -34,6 +34,7 @@ function cli_build_cmd_cls()
             + '- cls in: clear command area (default)\n'
             + '- cls out: clear output area\n'
             + '- cls edit: clear editor area\n';
+            + '- cls view: clear view (bind) area\n';
 
     var cls_run = function(c)
     {
@@ -42,6 +43,7 @@ function cli_build_cmd_cls()
         if( ar == 'in' ){ $g_input[0].value='';  }
         else if( ar == 'out' ){ $g_output[0].value = ''; }
         else if( ar == 'edit' ){ $g_edit[0].value = ''; }
+        else if( ar == 'view' ){ $g_view[0].value = ''; }
         else return 'use in/out/edit';
         return '';
     };
@@ -141,7 +143,7 @@ function cli_build_cmd_cd()
 
 function cli_build_cmd_bind()
 {
-    var help = 'bind [node]: bind node to view area';
+    var help = 'bind [node]: bind node to view area\n';
     var run = function(c)
     {
         let n = g_cwd;
@@ -161,7 +163,7 @@ function cli_build_cmd_bind()
 
 function cli_build_cmd_unbind()
 {
-    var help = 'unbind [node]: unbind node';
+    var help = 'unbind [node]: unbind node\n';
     var run = function(c)
     {
         let n = g_cwd;
@@ -175,7 +177,7 @@ function cli_build_cmd_unbind()
 
 function cli_build_cmd_md()
 {
-    var help = 'mkdir/md node: create new directory node on server';
+    var help = 'mkdir/md node: create new directory node on server\n';
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
@@ -188,7 +190,7 @@ function cli_build_cmd_md()
 
 function cli_build_cmd_mk()
 {
-    var help = 'mk node: create new virtual node';
+    var help = 'mk node: create new virtual node\n';
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
@@ -200,7 +202,7 @@ function cli_build_cmd_mk()
 
 function cli_build_cmd_rm()
 {
-    var help = 'rm node: remove node on server';
+    var help = 'rm node: remove node on server\n';
     var run = function(c)
     {
         if( c.length != 2 ) return 'need one argument';
@@ -212,7 +214,7 @@ function cli_build_cmd_rm()
 
 function cli_build_cmd_edit()
 {
-    var help = 'edit [node]: edit file';
+    var help = 'edit [node]: edit file\n';
     var run = function(c)
     {
         let n = g_cwd;
@@ -228,7 +230,7 @@ function cli_build_cmd_edit()
 
 function cli_build_cmd_save()
 {
-    var help = 'save [node]: save file';
+    var help = 'save [node]: save file\n';
     var run = function(c)
     {
         let n = g_cwd;
@@ -239,8 +241,6 @@ function cli_build_cmd_save()
 			if( nm[0] == '/' ) pth = nm;
 			else pth += nm;
 		}
-		///n.text = $g_edit[0].value;
-        ///return 'FIXME - this must send to server';
 		return cli_save(pth,$g_edit[0].value);
     };
     g_cli_commands.save = { help : help, run : run };
@@ -248,7 +248,7 @@ function cli_build_cmd_save()
 
 function cli_build_cmd_cj()
 {
-    var help = 'cj [node]: run clij script';
+    var help = 'cj [node]: run clij script\n';
     var run = function(c)
     {
         let n = g_cwd;

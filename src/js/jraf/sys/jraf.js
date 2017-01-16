@@ -38,6 +38,8 @@ function jraf_node(prnt, ini)
 
 	node.rmkid = function(k)
 	{
+console.log('--- rmkid '+k);
+
 		if( !(k in this.kids) ) return;
 
 		let kid = this.kids[k];
@@ -197,7 +199,7 @@ function jraf_update_callback(jo,ex)
 
 	if( nd.watch == 2 ) nd.wid(nd);
 
-	console.log('FIXME jraf_update_callback: need tests for DF FD');
+	console.log('FIXME jraf_update_callback: need tests for FD');
 
 	ex.cbi(jo,nd);
 }
@@ -210,14 +212,30 @@ function jraf_update_obj(path,name,cbi,node)
 	jraf_read_obj(path,name,jraf_update_callback,ex);
 }
 
+function jraf_update_DF(jo,nd)
+{
+	{
+		let akids = {}; 
+		for( let i in nd.kids ) akids.i = 1;
+		for( let i in akids ) nd.rmkid(i);
+	}
+
+	nd.sz = jo.sz;
+	nd.text = jo.text;
+}
+
 function jraf_update_DD(jo,nd,cbi)
 {
 	// first delete disappeared nodes (that are not watched)
-	for( let i in nd.kids )
 	{
-		if( i in jo.kids ) continue;
-		///if( nd.kids[i].watch > 0 ) continue;
-		nd.rmkid(i);
+		let akids = {}; 
+		for( let i in nd.kids ) akids[i] = 1;
+
+		for( let i in akids )
+		{
+			if( i in jo.kids ) continue;
+			nd.rmkid(i);
+		}
 	}
 
 	// add new
@@ -240,9 +258,13 @@ function jraf_update_DD(jo,nd,cbi)
 	{
 		if( !(i in jo.kids) )
 		{
-			console.log('ERROR kids mismatch 152');
+			console.log('ERROR kids mismatch 152: i, jo.kids, nd.kids');
+			console.log(i);
+			console.log(jo.kids);
+			console.log(nd.kids);
 			return;
 		}
+
 		var n = nd.kids[i];
 		var j = jo.kids[i];
 
