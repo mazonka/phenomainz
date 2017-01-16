@@ -205,7 +205,7 @@ function jraf_update_callback(jo,ex)
 	}
 	else
 	{
-		if( jo.sz<0 ) jraf_update_FD(jo,nd);
+		if( jo.sz<0 ) jraf_update_FD(jo,nd,ex.cbi);
 		else jraf_update_FF(jo,nd);
 	}
 
@@ -234,6 +234,13 @@ function jraf_update_DF(jo,nd)
 
 	nd.sz = jo.sz;
 	nd.text = jo.text;
+}
+
+function jraf_update_FD(jo,nd,cbi)
+{
+	jraf_update_DD(jo,nd,cbi);
+	nd.sz = -1;
+	nd.text = '';
 }
 
 function jraf_update_DD(jo,nd,cbi)

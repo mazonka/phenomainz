@@ -137,7 +137,7 @@ function jraf_parse_obj(text,nm)
     var r = { err: '' };
     if( a[0] != 'OK' )
     {
-        console.log('Bad backend reply');
+        console.log('Backend reply: '+text);
         return { err: text };
     }
     r.ver = parseInt(a[1]);

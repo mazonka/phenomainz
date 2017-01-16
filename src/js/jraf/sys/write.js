@@ -50,7 +50,7 @@ function jraf_parse_wrt(data)
     var r = { err: '' };
     if( a[0] != "OK" )
     {
-        console.log("Bad backend reply");
+        console.log("Backend reply: "+ data);
         return { err: data };
     }
 
