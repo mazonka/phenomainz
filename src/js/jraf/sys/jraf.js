@@ -114,6 +114,18 @@ console.log('--- rmkid '+k);
 		return r;
 	};
 
+	node.callwid = function()
+	{
+		///console.log('callwid');
+		///console.log(this);
+		if( this.watch == 2 ) this.wid(this);
+		for( let i in this.kids )
+		{
+			let kid = this.kids[i];
+			if( kid.watch ) kid.callwid();
+		}
+	};
+
 	// initialize object
 	ini = ini || {};
 	for( let i in ini ) node[i] = ini[i];
@@ -258,11 +270,15 @@ function jraf_update_DD(jo,nd,cbi)
 	{
 		if( !(i in jo.kids) )
 		{
-			console.log('ERROR kids mismatch 152: i, jo.kids, nd.kids');
-			console.log(i);
-			console.log(jo.kids);
-			console.log(nd.kids);
-			return;
+			if( nd.kids[i].watch < 1 )
+			{
+				console.log('ERROR kids mismatch 152: i, jo.kids, nd.kids');
+				return;
+			}
+			// this is virtual
+			let vn = nd.kids[i];
+			vn.callwid();
+			continue;
 		}
 
 		var n = nd.kids[i];
