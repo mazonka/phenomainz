@@ -21,11 +21,7 @@ function jraf_write_save(pth,body,cbi)
 
 function jraf_write_rm(cwd,name,cbi)
 {
-    var cb = function(jo)
-    {
-        cbi(jo);
-    };
-
+    var cb = function(jo){ cbi(jo); };
     var path = cwd.str()+'/'+name;
     jraf_write_obj('rm '+path, cb);
 }
