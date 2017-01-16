@@ -1,7 +1,7 @@
 --
 OK /aaa/bbb
 root ver ... OK 1 -1
-save file .. JRAF_FAIL /aaa/bbb
+save file .. JRAF_FAIL cannot create /aaa/bbb
 root ver ... OK 1 -1
 save file .. OK 10
 root ver ... OK 2 -1

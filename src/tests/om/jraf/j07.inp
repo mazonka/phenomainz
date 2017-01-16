@@ -1,0 +1,11 @@
+
+print [ -- ]
+print tcp self [ jraf au 0 md / ]
+print { [ save 1 ..... ] tcp self [ jraf au 0 save /c1 0 ] }
+print { [ put 2 ...... ] tcp self [ jraf au 0 put /c2 0 0 ] }
+print { [ read 1 ..... ] tcp self [ jraf read 0 /c1 ] }
+print { [ read 2 ..... ] tcp self [ jraf read 0 /c2 ] }
+print { [ root ....... ] tcp self [ jraf read 0 / ] }
+
+quit
+

@@ -252,7 +252,7 @@ Jraf::Cmdr Jraf::aureq_rm(string pth)
     os::Path p = root(pth);
 
     p.erase();
-    if ( p.isdir() || p.isfile() ) return fail(pth);
+    if ( p.isdir() || p.isfile() ) return fail("rm "+ pth);
 
     update_ver(pth);
     ///update_ver(parent_str(pth));
@@ -265,7 +265,7 @@ Jraf::Cmdr Jraf::aureq_md(string pth)
     os::Path p = root(pth);
     if ( p.isdir() ) return ok(pth);
     os::FileSys::trymkdir(p);
-    if ( !p.isdir() ) return fail(pth);
+    if ( !p.isdir() ) return fail("md " + pth);
     update_ver(pth);
     return ok(pth);
 }
@@ -375,15 +375,19 @@ Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
     if ( !tok.next() ) return err("size");
     int siz = gl::toi(tok.sub());
 
-    if ( !tok.next() ) return err("text");
-    string text = ma::b64dec(tok.sub());
+	string text;
+    if ( siz )
+	{
+		if( !tok.next() ) return err("text");
+	    text = ma::b64dec(tok.sub());
+	}
 
     if ( (int)text.size() != siz ) return err("size mismatch");
 
     os::Path f = root(pth);
 
     if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
-    if ( !f.isfile() ) return fail(pth);
+    if ( !f.isfile() ) return fail("cannot create " + pth);
 
     int fsz = f.filesize();
 
@@ -438,7 +442,7 @@ Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 
     bool k = os::rename(f1.str(), f2.str());
     if ( !k ) return fail(pth + " -> " + pto);
-    if ( f1.isdir() || f1.isfile() ) return fail(pth);
+    if ( f1.isdir() || f1.isfile() ) return fail("mv "+pth);
 
     update_ver(pto);
     update_ver(pth);
