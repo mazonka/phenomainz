@@ -324,6 +324,8 @@ function jraf_node_up(node, ext_cb)
     else
         path = node.parent.str()+'/';
 
+	ext_cb = ext_cb || function(){};
+
     jraf_update_obj(path,name,ext_cb,node);    
 }
 
@@ -346,6 +348,24 @@ function jraf_virtual_node(wd,c)
 
 function jraf_bind_virtual(node,path,cb)
 {
-	return jraf_virtual_node(node,path).bind(cb);
+	var leaf = jraf_virtual_node(node,path);
+	var r = leaf.bind(cb);
+
+	if( leaf.full > 0 ) return r;
+	// find top incomplete node
+	var n = leaf;
+	while(n.parent != null)
+	{
+		if( n.parent.full > 0 ) break;
+		n = n.parent;
+	}
+
+	///console.log('--- AAA');
+	///console.log(n);
+	///console.log(cb);
+
+	jraf_node_up(n);
+
+	return r;
 }
 
