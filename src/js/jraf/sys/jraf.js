@@ -38,8 +38,6 @@ function jraf_node(prnt, ini)
 
 	node.rmkid = function(k)
 	{
-console.log('--- rmkid '+k);
-
 		if( !(k in this.kids) ) return;
 
 		let kid = this.kids[k];
@@ -210,8 +208,6 @@ function jraf_update_callback(jo,ex)
 	}
 
 	if( nd.watch == 2 ) nd.wid(nd);
-
-	console.log('FIXME jraf_update_callback: need tests for FD');
 
 	ex.cbi(jo,nd);
 }

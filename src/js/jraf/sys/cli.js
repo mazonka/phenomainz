@@ -211,8 +211,6 @@ function cli_output_commnd(out)
 
     if( out.length > 0 && out[out.length-1] != '\n' ) out += '\n';
     o.value += '\n'+out+cli_prompt();
-
-	cli_output_toend();
 }
 
 function cli_prompt()
@@ -339,4 +337,10 @@ function cli_backspace()
 
     if( cli_prompt() == text.substr(i) ) return false;
     return true;
+}
+
+function cli_output(s)
+{
+    $g_output[0].value += s + '\n';
+	cli_output_toend();
 }

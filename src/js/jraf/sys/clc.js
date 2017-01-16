@@ -361,7 +361,8 @@ function cli_update_node(node)
         else
             s = jo.err;
 
-        $g_output[0].value += 'up ['+nd.str()+'] ' + s + '\n';
+        ///$g_output[0].value += 'up ['+nd.str()+'] ' + s + '\n';
+		cli_output('up ['+nd.str()+'] ' + s);
     };
 
     var name = node.name;
@@ -390,7 +391,8 @@ function cli_write_md(cwd,name)
         if( jo.err == '' ) s = jo.msg;
         else s = jo.err;
 
-        $g_output[0].value += 'mkdir: ' + s + '\n';
+        ///$g_output[0].value += 'mkdir: ' + s + '\n';
+		cli_output('mkdir: ' + s);
     };
 
     jraf_write_md(cwd,name,cb);
@@ -409,7 +411,8 @@ function cli_write_rm(cwd,name)
         if( jo.err == '' ) s = jo.msg;
         else s = jo.err;
 
-        $g_output[0].value += 'rm: ' + s + '\n';
+        ///$g_output[0].value += 'rm: ' + s + '\n';
+		cli_output('rm: ' + s);
     };
 
     jraf_write_rm(cwd,name,cb);
@@ -445,7 +448,8 @@ function cli_save(pth,body)
         if( jo.err == '' ) s = jo.msg;
         else s = jo.err;
 
-        $g_output[0].value += 'save: ' + s + '\n';
+        ///$g_output[0].value += 'save: ' + s + '\n';
+		cli_output('save: ' + s);
     };
 
     jraf_write_save(pth,body,cb);
