@@ -210,34 +210,17 @@ function wid_fill_profile(profile)
 
     jraf_bind_virtual(g_jraf_root, profile.uname + '/name', function()
     {
-        wid_fill_name(profile.uname);
+        wid_fill_name(this.text);
     });
     
-    jraf_node_up(g_jraf_root, function(){});
+    jraf_node_up(g_jraf_root);
 }
 
-function wid_fill_name(uname)
+function wid_fill_name(text)
 {
-    uname = uname.split('/');
-    var hdir = uname[0];
-    var udir = uname[1];
-    log('udir',udir);
+    var $wid =  $('#span_pfl_name');
     
-    if (hdir in g_jraf_root.kids)
-    {
-        if (udir in g_jraf_root.kids[hdir].kids)
-        {
-            if ('name' in g_jraf_root.kids[hdir].kids[udir].kids)
-            {
-                var n = g_jraf_root.kids[hdir].kids[udir].kids['name'].text;
-                (n == '')
-                    ? $('#span_pfl_name').html('*')
-                    : $('#span_pfl_name').html(n);
-            }
-
-        }
-    }
-
+    $wid.html(text || '*');   
 }
 
 function wid_fill_dataset_list(checkbox)
