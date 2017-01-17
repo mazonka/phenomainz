@@ -34,7 +34,7 @@ function jq_get_user_email()
     return $div;
 }
 
-function jq_get_profile(profile)
+function jq_get_profile(profile, node)
 {
     var $profile = $('<span/>');
     
@@ -48,8 +48,9 @@ function jq_get_profile(profile)
             })
             .click(function ()
             {
-                wid_open_ch_name_window($(this).html());
-            }));
+                wid_open_ch_name_window(node, $(this).html());
+            })
+        );
 
     var $logout = $('<span/>',
         {
@@ -130,7 +131,7 @@ function jq_get_adm_panel()
 }
 
 // gets object for change user name
-function jq_get_ch_name(name)
+function jq_get_ch_name(node, name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',
@@ -140,22 +141,15 @@ function jq_get_ch_name(name)
         .append($('<input/>',
             {
                 val: name,
-                id: 'input_user_name'
             })
             .attr('maxlength', INPUT_MAX)
             .on('input', function()
             {
-                wid_input_name($(this))
+                wid_input_name($(this), node)
             }))
         .append($('<button/>',
             {
-                id: 'button_user_name',
                 text: B_TXT.SUBMIT
-            })
-            .click(function()
-            {
-                wid_nc_name($(this));
-                wid_close_modal_window();
             }));
 
     return $obj;

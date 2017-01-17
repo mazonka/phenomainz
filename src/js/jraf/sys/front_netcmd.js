@@ -48,6 +48,13 @@ function wid_nc_logout()
     nc_logout(cb, g_sid, g_pulse)
 }
 
+function wid_write_name(node, text)
+{
+    jraf_write_save(node, text, function(){
+        jraf_node_up(jraf_virtual_node(g_jraf_root, node));
+    });
+}
+
 function wid_nc_ds_create()
 {
     log('create dataset');

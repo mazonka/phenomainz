@@ -4,9 +4,9 @@
 function front_evt_hdl_js(){}
 var g_sys_loaded_front_evt_hdl = 1;
 
-function wid_click_logout(_this)
+function wid_click_logout($obj)
 {
-    _this.find('.button-yes-button')
+    $obj.find('.button-yes-button')
         .button()
         .click(function ()
         {
@@ -14,7 +14,7 @@ function wid_click_logout(_this)
             wid_close_modal_window();
         });
     
-    _this.find('.button-no-button')
+    $obj.find('.button-no-button')
         .button()
         .click(function ()
         {
@@ -54,48 +54,61 @@ function wid_input_email($obj)
     }
 }
 
-function wid_input_name($obj)
+function wid_input_name($obj, node)
 {
-    var $btn = $('#button_user_name');
-    var name = $('#input_user_name').val();
-
-    name = name.replace(/^\s+|\s+$/g, '');
+    var $div = $obj.parent();
+    var $btn = $div.find('button');
+    var $inp = $div.find('input');
+    log('div', $div)
+    log('inp', $inp)
     
-    if (eng_is_valid_str(name))
+    var text = $inp
+        .val()
+        .replace(/^\s+|\s+$/g, '');
+    
+    if (eng_is_valid_str(text))
     {
-        wid_paint_borders($obj);
-
-        $btn.button('enable');
-        $obj.on('keypress', function(event)
-        {
-            if (event.keyCode === 13)
+        wid_paint_borders($inp);
+        
+        $btn
+            .off('click')
+            .button('enable')
+            .click(function()
             {
-                wid_nc_name(name || '*');
+                wid_write_name(node, text || '*');
                 wid_close_modal_window();
-            }
-            $obj.off('keypress');
-        });
+            });
+        
+        $inp
+            .off('keyup')
+            .keyup(function(event)
+            {
+                if (event.keyCode === 13)
+                {
+                    wid_write_name(node, text || '*');
+                    wid_close_modal_window();
+                }
+            });
     }
     else
     {
-        if (Boolean(name)) wid_paint_borders($obj, 'red');
-        else wid_paint_borders($obj);
-
+        wid_paint_borders($inp, 'red');
+        
         $btn.button('disable');
-        $obj.off('keypress');
+        $inp.off('keyup');
     }
 }
 
-function wid_click_ds_list_header(_this)
+function wid_click_ds_list_header($obj)
 {
-    var active = _this.accordion('option', 'active');
+    var active = $obj.accordion('option', 'active');
 
     if (active !== false)
     {
-        let did = _this
+        let did = $obj
             .find('h1.ui-accordion-header-active')
             .attr('data-id');
-        let $dsitem_content = _this.find('div.ui-accordion-content-active');
+        let $dsitem_content = $obj.find('div.ui-accordion-content-active');
         let $dsitem_props = $dsitem_content.find('div.dsprops-div');
         let $dsitem_files = $dsitem_content.find('div.dsfiles-div');
 

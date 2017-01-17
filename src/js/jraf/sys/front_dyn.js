@@ -189,38 +189,57 @@ function wid_fill_auth(au, profile)
 
 function wid_fill_login(checkbox)
 {
-    (checkbox) 
-        ? $('#span_main_log').show()
-        : $('#span_main_log').hide();
+    var $log = $('#span_main_log');
+    
+    (checkbox) ? $log.show() : $log.hide();
 }
 
 function wid_fill_adm_panel(checkbox)
 {
-    (checkbox) 
-            ? $('#div_main_adm').html(jq_get_adm_panel()).show() 
-            : $('#div_main_adm').empty().hide();
+    var $adm = $('#div_main_adm');
+    
+    (checkbox) ? $adm.html(jq_get_adm_panel()).show() : $adm.empty().hide();
 }    
 
 function wid_fill_profile(profile)
 {
     var $p = $('#div_main_pfl');
+    var nd_name = profile.uname + '/name';
+    
     if (!profile || profile.email === '*') return $p.empty().hide();
 
-    $p.html(jq_get_profile(profile)).show();
+    $p.html(jq_get_profile(profile, nd_name)).show();
 
-    jraf_bind_virtual(g_jraf_root, profile.uname + '/name', function()
+    jraf_bind_virtual(g_jraf_root, nd_name, function()
     {
-        wid_fill_name(this.text);
+        wid_fill_name(nd_name, this.text);
     });
     
     jraf_node_up(g_jraf_root);
 }
 
-function wid_fill_name(text)
+function wid_fill_name(nd, text)
 {
     var $wid =  $('#span_pfl_name');
     
     $wid.html(text || '*');   
+}
+
+function wid_open_ch_name_window(node, name)
+{
+    var $obj = jq_get_ch_name(node, name);
+    var ui_init = function()
+    {
+        $obj
+            .find('button')
+            .button()
+            .button('disable');
+        $obj
+            .find('input')
+            .focus();
+    };
+
+    wid_open_modal_window($obj, false, ui_init);
 }
 
 function wid_fill_dataset_list(checkbox)
@@ -311,24 +330,6 @@ function wid_open_email_window()
 
     wid_open_modal_window($obj, false, ui_init);
 }
-
-function wid_open_ch_name_window(name)
-{
-    var $obj = jq_get_ch_name(name);
-    var ui_init = function()
-    {
-        $obj
-            .find('button')
-            .button()
-            .button('disable');
-        $obj
-            .find('input')
-            .focus();
-    };
-
-    wid_open_modal_window($obj, false, ui_init);
-}
-
 
 function wid_auth(auth_network)
 {}
