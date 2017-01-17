@@ -1,6 +1,8 @@
 // (C) 2016
 'use strict';
 
+function cli_js(){}
+
 var g_sys_loaded_cli = 1;
 
 var $g_div_cli;

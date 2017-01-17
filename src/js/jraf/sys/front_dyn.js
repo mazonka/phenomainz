@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function front_dyn_js(){}
 var g_sys_loaded_front_dyn = 1;
 var g_pulse = wid_pulse();
 

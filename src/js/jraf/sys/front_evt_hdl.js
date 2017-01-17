@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function front_evt_hdl_js(){}
 var g_sys_loaded_front_evt_hdl = 1;
 
 function wid_click_logout(_this)

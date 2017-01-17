@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function main_div_hdr_js(){}
 var g_sys_loaded_main_div_hdr = 1;
 
 function jq_get_main_hdr()

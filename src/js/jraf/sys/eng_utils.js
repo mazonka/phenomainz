@@ -1,6 +1,7 @@
 // (C) 2016;
 'use strict';
 
+function eng_utils_js(){}
 var g_sys_loaded_eng_utils = 1;
 
 function log(text, data)

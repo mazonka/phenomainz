@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function jqui_init_js(){}
 var g_sys_loaded_jqui_init = 1;
 
 function wid_init_ui_accordion($obj, f)

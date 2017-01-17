@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function eng_netcmd_js(){}
 var g_sys_loaded_eng_netcmd = 1;
 
 function nc_profile(ext_cb, sid, pulse)

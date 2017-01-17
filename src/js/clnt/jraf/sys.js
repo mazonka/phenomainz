@@ -8,6 +8,7 @@
 
 var g_session;
 var $g_div_main;
+var g_sys_files = {};
 
 function jraf_ajax(cmd, callback, extra) {
     $.post('/','command=' + cmd)
@@ -70,19 +71,25 @@ function jraf_boot(id)
             document.head.append(sc);
         }
 
+        for( var i in jo.kids ) g_sys_files[i.replace('.','_')] = 1;
+	    console.log('sys objects: '+ Object.keys(g_sys_files).length);
+
         for( var i in jo.kids )
         {
             jraf_read_obj('/sys/',i, cb, i+' : ');
         }
+
+	    sys_loaded2();
     }
 
     jraf_read_obj('/', 'sys', sysjs);
 
     console.log('sys loading started');
-    sys_loaded();
+    //sys_loaded1();
+    //sys_loaded2();
 }
 
-function sys_loaded()
+function sys_loaded1()
 {
     if( typeof g_sys_loaded_clc === 'undefined'
         || typeof g_sys_loaded_jraf === 'undefined'
@@ -114,6 +121,44 @@ function sys_loaded()
 
     console.log('sys loaded');
     start_shell();
+}
+
+/*
+example
+var global;
+try {
+  global = Function('return this')() || (42, eval)('this');
+} catch(e) {
+  global = window;
+}
+*/
+
+function sys_loaded2()
+{
+	for( let i in g_sys_files )
+	{
+		if( typeof window[i] === 'undefined' )
+	    {
+			console.log('waiting for '+i);
+    	    setTimeout(sys_loaded2,500);
+	        return;
+	    }
+		else
+		{
+			///console.log(i);
+			///console.log(typeof window[i]);
+			///console.log(window[i]);
+		}
+	}
+
+    console.log('sys loaded');
+
+	for( let i in g_sys_files )
+	{
+		window[i]();
+	}
+
+    console.log('sys started');
 }
 
 function jraf_read_obj(path, ob, cb, extra)

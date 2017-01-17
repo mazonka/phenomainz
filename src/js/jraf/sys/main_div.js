@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function main_div_js(){}
 var g_sys_loaded_main_div = 1;
 var g_sid = g_session;
 

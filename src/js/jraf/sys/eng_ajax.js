@@ -2,6 +2,7 @@
 'use strict';
 
 var g_sys_loaded_eng_ajax = 1;
+function eng_ajax_js(){}
 
 function ajx_send_command(cmd, callback, progress)
 {

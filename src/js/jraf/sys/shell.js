@@ -1,6 +1,7 @@
 // (C) 2016
 'use strict';
 
+function shell_js(){ start_shell(); }
 var g_sys_loaded_shell = 1;
 
 function start_shell()
