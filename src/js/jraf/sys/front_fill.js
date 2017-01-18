@@ -14,31 +14,38 @@ function wid_fill_adm_panel(checkbox)
 {
     var $adm = $('#div_main_adm');
     
-    (checkbox) ? $adm.html(jq_get_adm_panel()).show() : $adm.empty().hide();
+    if (checkbox) 
+    {
+        $adm.html(jq_get_adm_panel()).show();
+        wid_init_ui_button($adm);
+    }
+    else $adm.empty().hide();
+        
 }    
 
 function wid_fill_profile(profile)
 {
     var $p = $('#div_main_pfl');
-    var nd_name = profile.uname + '/name';
     
     if (!profile || profile.email === '*') return $p.empty().hide();
 
-    $p.html(jq_get_profile(profile, nd_name)).show();
-
-    jraf_bind_virtual(g_jraf_root, nd_name, function()
-    {
-        wid_fill_name(nd_name, this.text);
-    });
-    
-    jraf_node_up(g_jraf_root);
+    $p.html(jq_get_profile(profile)).show();
 }
 
-function wid_fill_name(nd, text)
+function wid_fill_name(uname)
 {
-    var $wid =  $('#span_pfl_name');
+    var node = uname + '/name';
+    var $name =  jq_get_name(node);
     
-    $wid.html(text || '*');   
+    $('#span_pfl_name').append($name);
+    
+    jraf_bind_virtual(g_jraf_root, node, function()
+    {
+        $name.html(this.text || '*');   
+    });
+    
+    jraf_node_up(jraf_virtual_node(g_jraf_root, node));    
+    
 }
 
 function wid_fill_dataset_list(checkbox)

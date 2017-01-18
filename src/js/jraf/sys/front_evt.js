@@ -58,9 +58,6 @@ function evt_input_name($obj, node)
     var $div = $obj.parent();
     var $btn = $div.find('button');
     var $inp = $div.find('input');
-    log('div', $div)
-    log('inp', $inp)
-    
     var text = $inp
         .val()
         .replace(/^\s+|\s+$/g, '');

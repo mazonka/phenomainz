@@ -7,6 +7,6 @@ function start_main()
 {
     if (0) return;
     
-    wid_fill_main();
+    //wid_fill_main();
     wid_nc_profile();
 }

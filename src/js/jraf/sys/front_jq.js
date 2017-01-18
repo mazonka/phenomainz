@@ -33,23 +33,15 @@ function jq_get_user_email()
     return $div;
 }
 
-function jq_get_profile(profile, node)
+function jq_get_profile(profile)
 {
     var $profile = $('<span/>');
     
     var $name = $('<span/>',
         {
-            text: L_TXT.USER_NAME
-        })
-        .append($('<span/>', 
-            {
-                id: 'span_pfl_name',
-            })
-            .click(function ()
-            {
-                wid_open_chname_window(node, $(this).html());
-            })
-        );
+            text: L_TXT.USER_NAME,
+            id: 'span_pfl_name'
+        });
 
     var $logout = $('<span/>',
         {
@@ -120,6 +112,17 @@ function jq_get_profile(profile, node)
     return $profile;
 }
 
+function jq_get_name(node)
+{
+    return $('<span/>',
+        {
+            id: 'span_pfl_name_name'
+        })
+        .click(function ()
+        {
+            wid_open_chname_window(node, $(this).html());
+        });
+}
 
 function jq_get_adm_panel()
 {
@@ -127,12 +130,17 @@ function jq_get_adm_panel()
         {
             text: '__ADMIN PANEL MUST BE HERE__'
         });
-    var $btn = $('<button/>')
+        
+    var $btn = $('<button/>', 
+        {   
+            text: 'Create users dir'
+        })
         .click(function()
         {
             evt_click_create_users_dir();
         });
         
+    $span.append('<br/>');
     $span.append($btn);
     return $span;
 }

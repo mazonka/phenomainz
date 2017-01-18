@@ -2,7 +2,6 @@
 'use strict';
 
 function front_netcmd_js(){}
-var g_sys_loaded_front_netcmd = 1;
 
 function wid_nc_profile(sid)
 {

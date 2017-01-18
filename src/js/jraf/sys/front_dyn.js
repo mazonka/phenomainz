@@ -175,6 +175,8 @@ function wid_open_logout_window()
 
 function wid_init_ui(au, profile)
 {
+    wid_fill_main();
+    
     if (0)
     {}
     else if (au && profile.email != '*')
@@ -182,6 +184,7 @@ function wid_init_ui(au, profile)
         wid_fill_login(false);
         wid_fill_adm_panel(profile.su);
         wid_fill_profile(profile);
+        wid_fill_name(profile.uname);
         wid_fill_dataset_list(true);
     }
     else if (au && profile.email == '*')
