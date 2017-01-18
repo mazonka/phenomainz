@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function jqui_js(){}
+function wid_jq_js(){}
 var g_sys_loaded_jqui = 1;
 
 function jq_get_user_email()

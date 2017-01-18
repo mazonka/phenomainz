@@ -15,7 +15,7 @@ function wid_nc_profile(sid)
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
     
-    nc_profile(cb, g_sid, g_pulse);
+    nc_profile(cb, g_session, g_pulse);
 }
 
 function wid_nc_login(email)
@@ -45,7 +45,7 @@ function wid_nc_logout()
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
-    nc_logout(cb, g_sid, g_pulse)
+    nc_logout(cb, g_session, g_pulse)
 }
 
 function wid_write_name(node, text)
