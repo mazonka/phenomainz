@@ -10,8 +10,8 @@ function wid_nc_profile(sid)
     {
         if (0)
         {}
-        else if (resp) Boolean(profile) && wid_fill_auth(true, profile);
-        else if (resp === null) wid_fill_auth(false);
+        else if (resp) Boolean(profile) && wid_init_ui(true, profile);
+        else if (resp === null) wid_init_ui(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
     
@@ -27,7 +27,7 @@ function wid_nc_login(email)
         if (0)
         {}
         else if (resp) wid_open_modal_window(M_TXT.EMAIL + email, true);
-        else if (resp === null) wid_fill_auth(false);
+        else if (resp === null) wid_init_ui(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
@@ -40,19 +40,12 @@ function wid_nc_logout()
     {
         if (0)
         {}
-        else if (resp) wid_fill_auth(false);
-        else if (resp === null) wid_fill_auth(false);
+        else if (resp) wid_init_ui(false);
+        else if (resp === null) wid_init_ui(false);
         else wid_open_modal_window(M_TXT.ERROR + data, true);
     };
 
     nc_logout(cb, g_session, g_pulse)
-}
-
-function wid_write_name(node, text)
-{
-    jraf_write_save(node, text, function(){
-        jraf_node_up(jraf_virtual_node(g_jraf_root, node));
-    });
 }
 
 function wid_nc_ds_create()

@@ -1,8 +1,7 @@
 // (C) 2016
 'use strict';
 
-function wid_jq_js(){}
-var g_sys_loaded_jqui = 1;
+function front_jq_js(){}
 
 function jq_get_user_email()
 {
@@ -18,7 +17,7 @@ function jq_get_user_email()
             .attr('maxlength', INPUT_MAX)
             .on('input', function()
             {
-                wid_input_email($(this));
+                evt_input_email($(this));
             }))
         .append($('<button/>',
             {
@@ -48,7 +47,7 @@ function jq_get_profile(profile, node)
             })
             .click(function ()
             {
-                wid_open_ch_name_window(node, $(this).html());
+                wid_open_chname_window(node, $(this).html());
             })
         );
 
@@ -64,7 +63,7 @@ function jq_get_profile(profile, node)
             })))
         .click(function ()
         {
-            wid_ask_logout();
+            wid_open_logout_window();
         });
 
     var $email = $('<span/>',
@@ -124,14 +123,22 @@ function jq_get_profile(profile, node)
 
 function jq_get_adm_panel()
 {
-    return $('<span/>',
+    var $span = $('<span/>',
         {
             text: '__ADMIN PANEL MUST BE HERE__'
         });
+    var $btn = $('<button/>')
+        .click(function()
+        {
+            evt_click_create_users_dir();
+        });
+        
+    $span.append($btn);
+    return $span;
 }
 
 // gets object for change user name
-function jq_get_ch_name(node, name)
+function jq_get_chname(node, name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',
@@ -145,7 +152,7 @@ function jq_get_ch_name(node, name)
             .attr('maxlength', INPUT_MAX)
             .on('input', function()
             {
-                wid_input_name($(this), node)
+                evt_input_name($(this), node)
             }))
         .append($('<button/>',
             {
