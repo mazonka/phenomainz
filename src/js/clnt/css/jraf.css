@@ -81,10 +81,11 @@ button {
     margin: 0.2em;
 }
 
-#span_pfl_name {
+#span_user_name {
     cursor: pointer;
 }
-#span_pfl_name:hover {
+
+#span_user_name:hover {
     color: #13A0F0;
 }
 
@@ -96,7 +97,7 @@ button {
     border-radius: 1px !important;
 }
 
-#span_pfl_logout img {
+#img_user_logout {
     width: 16px;
     height: auto;
 }

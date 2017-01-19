@@ -53,6 +53,16 @@ function evt_input_email($obj)
     }
 }
 
+function evt_click_name()
+{
+    wid_open_chname_window(name, $(this).html());
+}
+
+function evt_keyup_esc(e)
+{
+    e.keyCode == 27 && wid_init_modal_window(false);
+}
+
 function evt_input_name($obj, node)
 {
     var $div = $obj.parent();

@@ -258,16 +258,16 @@ function eng_get_parsed_profile(data)
     if (_data.length != 6) return null;
 
     profile.su = (_data.shift() == 'a') ? true : false;
-    profile.email = _data.shift();
-    profile.quote = _data.shift();
-    profile.last = eng_get_profile_ts(_data.shift());
-    profile.cntr = _data.shift();
-    profile.uname = _data.shift();//.split('/');
+    profile.ml = _data.shift();
+    profile.qt = _data.shift();
+    profile.ls = eng_get_date_time(_data.shift());
+    profile.cn = _data.shift();
+    profile.nm = _data.shift();//.split('/');
 
     return profile;
 }
 
-function eng_get_profile_ts(data)
+function eng_get_date_time(data)
 {
     var ts = {};
     data = data || '';

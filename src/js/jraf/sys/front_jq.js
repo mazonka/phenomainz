@@ -36,52 +36,40 @@ function jq_get_user_email()
 function jq_get_profile(profile)
 {
     var $profile = $('<span/>');
-    
-    var $name = $('<span/>',
-        {
-            text: L_TXT.USER_NAME,
-            id: 'span_pfl_name'
-        });
-
-    var $logout = $('<span/>',
+    var $nt = $('<span/>',
+    {
+        text: L_TXT.USER_NAME
+    });
+    var $nm = $('<span/>',
+    {
+        id: 'span_user_name'
+    });
+    var $lo = $('<span/>',
         {
             id: 'span_pfl_logout'
         })
-        .append($('<label/>')
-            .append($('<img/>',
-            {   
-                id: 'img_logout',
-                src: IMG.LOGOUT
-            })))
-        .click(function ()
+        .append($('<img/>',
         {
-            wid_open_logout_window();
+            id: 'img_user_logout',
+            src: IMG.LOGOUT
+        }))
+        .click(function()
+        {
+            wid_open_logout_window()
         });
-
-    var $email = $('<span/>',
-        {
-            text: L_TXT.EMAIL
-        })
-        .append($('<span/>',
-            {
-                text: profile.email
-            }));
-
-    var $last = $('<span/>',
-        {
-            text: L_TXT.LAST_LOGIN
-        })
-        .append($('<span/>',
-            {
-                text: profile.last
-            }));
-
-    var $cntr = $('<span/>',
-        {
-            text: L_TXT.COUNTER + profile.cntr
-        })
-
-    var $quote = $('<span/>',
+    var $ml = $('<span/>',
+    {
+        text: L_TXT.EMAIL + profile.ml
+    });
+    var $ls = $('<span/>',
+    {
+        text: L_TXT.LAST_LOGIN + profile.ls
+    });
+    var $cn = $('<span/>',
+    {
+        text: L_TXT.COUNTER + profile.cn
+    });
+    var $qt = $('<span/>',
         {
             text: L_TXT.VOLUME
         })
@@ -92,36 +80,24 @@ function jq_get_profile(profile)
         }))
         .append($('<span/>',
         {
-            id: 'span_pfl_quote',
-            text: '/' + profile.quote + 'Kb'
+            text: '/' + profile.qt + 'Kb'
         }));
 
     $profile
-        .append($name)
-        .append($logout)
+        .append($nt)
+        .append($nm)
+        .append($lo)
         .append('<br/>')
-        .append($email)
+        .append($ml)
         .append('<br/>')
-        .append($cntr)
+        .append($cn)
         .append('<br/>')
-        .append($last)
+        .append($ls)
         .append('<br/>')
-        .append($quote)
+        .append($qt)
         .append('<br/>')
-    
-    return $profile;
-}
 
-function jq_get_name(node)
-{
-    return $('<span/>',
-        {
-            id: 'span_pfl_name_name'
-        })
-        .click(function ()
-        {
-            wid_open_chname_window(node, $(this).html());
-        });
+    return $profile;
 }
 
 function jq_get_adm_panel()
@@ -158,10 +134,11 @@ function jq_get_chname(node, name)
                 val: name,
             })
             .attr('maxlength', INPUT_MAX)
-            .on('input', function()
-            {
-                evt_input_name($(this), node)
-            }))
+            // .on('input', function()
+            // {
+                // evt_input_name($(this), node)
+            // })
+        )
         .append($('<button/>',
             {
                 text: B_TXT.SUBMIT

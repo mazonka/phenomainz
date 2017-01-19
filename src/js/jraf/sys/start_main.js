@@ -6,6 +6,7 @@ function start_main_js(){}
 function start_main()
 {
     if (0) return;
+    var f = function() {};
     
     //wid_fill_main();
     wid_nc_profile();

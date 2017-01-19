@@ -6,9 +6,9 @@
 ///jraf.vers = 0;
 ///jraf.cb = null;
 
+var g_sys_files = {};
 var g_session;
 var $g_div_main;
-var g_sys_files = {};
 
 function jraf_ajax(cmd, callback, extra) {
     $.post('/','command=' + cmd)
@@ -79,7 +79,7 @@ function jraf_boot(id)
             jraf_read_obj('/sys/',i, cb, i+' : ');
         }
 
-	    sys_loaded2();
+	    sys_loaded();
     }
 
     jraf_read_obj('/', 'sys', sysjs);
@@ -87,40 +87,6 @@ function jraf_boot(id)
     console.log('sys loading started');
     //sys_loaded1();
     //sys_loaded2();
-}
-
-function sys_loaded1()
-{
-    if( typeof g_sys_loaded_clc === 'undefined'
-        || typeof g_sys_loaded_jraf === 'undefined'
-        || typeof g_sys_loaded_write === 'undefined'
-        || typeof g_sys_loaded_cli === 'undefined'
-        || typeof g_sys_loaded_shell === 'undefined'
-        || typeof g_sys_loaded_main_div === 'undefined'
-        || typeof g_sys_loaded_main_div_hdr === 'undefined'
-        || typeof g_sys_loaded_main_div_adm === 'undefined'
-        || typeof g_sys_loaded_main_div_pfl === 'undefined'
-        || typeof g_sys_loaded_main_div_dsl === 'undefined'
-        || typeof g_sys_loaded_main_div_brs === 'undefined'
-        || typeof g_sys_loaded_main_div_pmw === 'undefined'
-        || typeof g_sys_loaded_front_msg === 'undefined'
-        || typeof g_sys_loaded_front_var === 'undefined'
-        || typeof g_sys_loaded_front_dyn === 'undefined'
-        || typeof g_sys_loaded_eng_utils === 'undefined'
-        || typeof g_sys_loaded_eng_ajax === 'undefined'
-        || typeof g_sys_loaded_eng_netcmd === 'undefined'
-        || typeof g_sys_loaded_jqui === 'undefined'
-        || typeof g_sys_loaded_jqui_init === 'undefined'
-        || typeof g_sys_loaded_front_evt_hdl === 'undefined'
-        || typeof g_sys_loaded_front_netcmd === 'undefined'
-    )
-    {
-        setTimeout(sys_loaded,50);
-        return;
-    }
-
-    console.log('sys loaded');
-    start_shell();
 }
 
 /*
@@ -133,14 +99,14 @@ try {
 }
 */
 
-function sys_loaded2()
+function sys_loaded()
 {
 	for( let i in g_sys_files )
 	{
 		if( typeof window[i] === 'undefined' )
 	    {
 			console.log('waiting for '+i);
-    	    setTimeout(sys_loaded2,500);
+    	    setTimeout(sys_loaded,500);
 	        return;
 	    }
 		else

@@ -72,93 +72,15 @@ function wid_paint_borders($obj, color)
     }
 }
 
-function wid_open_modal_window(data, click, f_init, f_close)
+function wid_init_modal_window(cl, ifn, cfn)
 {
-    var $window = $('#div_main_pwm');
-    var $content = $('#div_main_pwm_content');
-    var $body = $('#div_main_pwm_content_body');
-    var width = $('body').outerWidth();
-    var $obj;
-    var esc = function(e)
-    {
-        e.keyCode == 27 && wid_close_modal_window(f_close);
-    };
-
-    if (!Boolean(data))
-    {
-        return wid_close_modal_window(f_close);
-    }
-
-    $content.width(width);
-
-    if (click)
-    {
-        $window.click(function()
-            {
-                wid_close_modal_window(f_close);
-            })
-            .children()
-            .click(function()
-            {
-                wid_close_modal_window(f_close);
-            });
-    }
-    else
-    {
-        $window.click(function()
-            {
-                wid_close_modal_window(f_close);
-            })
-            .children()
-            .click(function(e)
-            {
-                return false;
-            });
-    }
-
-    $(document)
-        .keyup(function(event)
-        {
-            esc(event);
-        })
-
-    $(window)
-        .on('beforeunload', function()
-        {
-            return M_TXT.RELOAD;
-        })
-
-    if (typeof data == 'string')
-    {
-        $obj = $('<p>',
-        {
-            text: data
-        });
-    }
-    else
-    {
-        $obj = data;
-    }
-
-    $window.fadeIn({duration: 200});//css('display', 'block');
-    $body.html($obj);
-    Boolean(f_init) && f_init();
+    wid_fill_modal(cl, ifn, cfn);
 }
 
-function wid_close_modal_window(f)
+function wid_close_modal_window(fn)
 {
-    var $window = $('#div_main_pwm');
-    var $body = $('#div_main_pwm_content_body');
-
-    $body.children().remove();
-    $window.fadeOut({duration: 200});//css('display', 'none');
-
-    (Boolean(f)) && f();
-
-    $window.off('click');
-    $window.children().off('click');
-    $(document).off('keyup');
-    $(window).off('beforeunload');
+    wid_erase_modal();
+    Boolean(fn) && fn();
 }
 
 
@@ -179,51 +101,74 @@ function wid_init_ui(au, profile)
     
     if (0)
     {}
-    else if (au && profile.email != '*')
+    else if (au && profile.ml != '*')
     {
-        wid_fill_login(false);
-        wid_fill_adm_panel(profile.su);
-        wid_fill_profile(profile);
-        wid_fill_name(profile.uname);
-        wid_fill_dataset_list(true);
+        wid_init_login(false);
+        wid_init_admpanel(profile.su);
+        wid_init_profile(profile);
+        wid_init_name(profile.nm);
+        wid_init_dataset_list(true);
     }
     else if (au && profile.email == '*')
     {
-        wid_fill_login(true);
-        wid_fill_adm_panel(profile.su);
-        wid_fill_profile(false);
-        wid_fill_dataset_list(false)
+        wid_init_login(true);
+        wid_init_admpanel(profile.su);
+        wid_init_dataset_list(false)
     }
     else 
     {
-        wid_fill_login(true);
-        wid_fill_adm_panel(false);
-        wid_fill_profile(false);
-        wid_fill_dataset_list(false);
+        wid_init_login(true);
+        wid_init_admpanel(false);
+        wid_init_dataset_list(false);
         
-        g_session = '0';
-        window.location.href = 
-            location.href.substr(0, location.href.indexOf('?')+1) + '0';
+        if (g_session != '0') {
+            window.location.href = 
+                location.href.substr(0, location.href.indexOf('?') + 1) + '0';
+        }
     }
 }
 
-function wid_open_chname_window(node, name)
+function wid_init_login(ch)
 {
-    var $obj = jq_get_chname(node, name);
-    var ui_init = function()
-    {
-        $obj
-            .find('button')
-            .button()
-            .button('disable');
-        $obj
-            .find('input')
-            .focus();
-    };
-
-    wid_open_modal_window($obj, false, ui_init);
+    wid_fill_login(ch);
 }
 
+function wid_init_admpanel(su)
+{
+    wid_fill_adm_panel(su);
+}
+
+function wid_init_profile(profile)
+{
+    if (!profile || profile.ml === '*') profile = null;
+    wid_fill_profile(profile); 
+}
+
+function wid_init_name(uname)
+{
+    var node = uname + '/name';
+    
+    jraf_bind_virtual(g_jraf_root, node, function()
+    {
+        wid_fill_name(node, this.text || '*', this);
+    });    
+    //jraf_node_up(jraf_virtual_node(g_jraf_root, node));
+}
+
+
+function wid_open_chname_window(node, text)
+{
+    var f = function()
+    {
+        wid_fill_modal_chname(node, text);
+    }
+    wid_init_modal_window(false, f);
+}
+
+function wid_init_dataset_list(ch)
+{
+    wid_fill_dataset_list(ch);
+}
 
 function wid_upload_file()
 {
@@ -246,4 +191,3 @@ function wid_open_email_window()
 
 function wid_auth(auth_network)
 {}
-
