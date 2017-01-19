@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_jq_js(){}
+function wid_jq_js(){}
 
 function jq_get_user_email()
 {

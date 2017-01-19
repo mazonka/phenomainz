@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_jq_init_js(){}
+function wid_jq_init_js(){}
 
 function wid_init_ui_accordion($obj, f)
 {

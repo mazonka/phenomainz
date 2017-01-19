@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_evt_js(){}
+function wid_evt_js(){}
 
 function evt_click_logout($obj)
 {

@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_fill_js(){}
+function wid_fill_js(){}
 
 function wid_fill_login(ch)
 {
@@ -37,7 +37,7 @@ function wid_fill_name(node, name)
     var $obj = $('#span_user_name');
     var f = function (wid)
     {
-        wid_open_chname_window(node, name);
+        wid_init_chname_window(node, name);
     }
 
     $obj.off().click(f)

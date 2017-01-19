@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_netcmd_js(){}
+function wid_netcmd_js(){}
 
 function wid_nc_profile(sid)
 {

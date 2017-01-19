@@ -1,7 +1,7 @@
 // (C) 2016
 'use strict';
 
-function front_msg_js(){}
+function wid_msg_js(){}
 var g_sys_loaded_front_msg = 1;
 
 const B_TXT = {
