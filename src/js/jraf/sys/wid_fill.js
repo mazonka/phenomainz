@@ -37,7 +37,7 @@ function wid_fill_name(node, name)
     var $obj = $('#span_user_name');
     var f = function (wid)
     {
-        wid_init_chname_window(node, name);
+        wid_init_modal_name(node, name);
     }
 
     $obj.off().click(f)
@@ -93,23 +93,120 @@ function wid_erase_modal()
     $body.children().remove();
 }
 
-function wid_fill_modal_chname(node, text)
+function wid_fill_modal_email()
 {
     var $body = $('#div_main_pwm_content_body');
-    var $wid = jq_get_chname(node, text);
+    var $wid = jq_get_modal_email();
     var $input = $wid.find('input');
+    var $button = $wid.find('button');
+    
+    $body.html($wid);
+    $button.button()
+        .button('disable')
+        .click(function()
+        {
+            wid_close_modal_window(function(){wid_nc_login($input.val())});
+        });
+        
+    $input.focus()
+        .on('input', function() { 
+            var data = $(this).val();
+            
+            if (eng_is_email(data))
+            {
+                $button.button('enable');
+                wid_paint_borders($(this));
 
-    $input.on('input', function()
-    {
-        evt_input_name($input, node);
-    });
+                $(this).on('keypress', function(event)
+                {
+                    if (Boolean(event.keyCode === 13))
+                        wid_close_modal_window(function()
+                        {
+                            wid_nc_login(data)
+                        });
+                    
+                    $(this).off('keypress');
+                });
+            }
+            else
+            {
+                (Boolean(data)) 
+                    ? wid_paint_borders($(this), 'red')
+                    : wid_paint_borders($(this));
+
+                $button.button('disable');
+                $(this).off('keypress');
+            }            
+        });
+}
+
+
+function wid_fill_modal_logout()
+{
+    var $body = $('#div_main_pwm_content_body');
+    var $wid = jq_get_yes_no(M_TXT.SURE);
+    
+    $body.html($wid);
+    
+    $wid.find('.button-yes-button')
+        .button()
+        .click(function ()
+        {
+            wid_close_modal_window(function(){ wid_nc_logout() });
+        });
+        
+    $wid.find('.button-no-button')
+        .button()
+        .click(function ()
+        {
+            wid_close_modal_window();
+        });
+}
+
+function wid_fill_modal_name(node, text)
+{
+    var $body = $('#div_main_pwm_content_body');
+    var $wid = jq_get_modal_name(node, text);
+    var $input = $wid.find('input');
+    var $button = $wid.find('button');
 
     $body.html($wid);
-    $body.find('button')
-        .button()
-        .button('disable');
-    $body.find('input')
-        .focus();
+    $button.button().button('disable');
+    $input.focus()
+        .on('input', function()
+        {
+            var text = $input.val().replace(/^\s+|\s+$/g, '');
+            
+            if (eng_is_valid_str(text))
+            {
+                wid_paint_borders($input);
+                
+                $button.button('enable')
+                    .off('click')
+                    .click(function()
+                    {
+                        jraf_write_name(node, text || '*');
+                        wid_close_modal_window();
+                    });
+                
+                $input.off('keyup')
+                    .keyup(function(event)
+                    {
+                        if (event.keyCode === 13)
+                        {
+                            jraf_write_name(node, text || '*');
+                            wid_close_modal_window();
+                        }
+                    });
+            }
+            else
+            {
+                wid_paint_borders($input, 'red');
+                
+                $button.button('disable');
+                $input.off('keyup');
+            }        
+        });
 }
 
 function wid_fill_dataset_list(checkbox)

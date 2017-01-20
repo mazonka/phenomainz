@@ -17,7 +17,7 @@ function wid_init_ui(au, profile)
         wid_init_name(profile.nm);
         wid_init_dataset_list(true);
     }
-    else if (au && profile.email == '*')
+    else if (au && profile.ml == '*')
     {
         wid_init_login(true);
         wid_init_admpanel(profile.su);
@@ -47,15 +47,12 @@ function wid_close_modal_window(fn)
     Boolean(fn) && fn();
 }
 
-function wid_open_logout_window()
+function wid_init_logout_window()
 {
-    var $obj = jq_get_yes_no(M_TXT.SURE);
-    var init = function()
+    wid_init_modal_window(false, function()
     {
-        evt_click_logout($obj);
-    }
-
-    wid_open_modal_window($obj, false, init);
+        wid_fill_modal_logout();
+    });
 }
 
 function wid_init_login(ch)
@@ -86,12 +83,12 @@ function wid_init_name(uname)
 }
 
 
-function wid_init_chname_window(node, text)
+function wid_init_modal_name(node, text)
 {
     wid_init_modal_window(false, function()
     {
-        wid_fill_modal_chname(node, text);
-    };);
+        wid_fill_modal_name(node, text);
+    });
 }
 
 function wid_init_dataset_list(ch)
@@ -106,16 +103,11 @@ function wid_upload_file()
 
 function wid_auth(auth_network)
 {}
-function wid_open_email_window()
-{
-    var $obj = jq_get_user_email();
-    var ui_init = function()
-    {
-        $obj.find('button')
-            .button()
-            .button('disable');
-        $obj.find('input').focus();
-    };
 
-    wid_open_modal_window($obj, false, ui_init);
+function wid_init_modal_email()
+{
+    wid_init_modal_window(false, function()
+    {
+        wid_fill_modal_email();
+    });
 }

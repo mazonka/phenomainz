@@ -11,7 +11,7 @@ function wid_nc_profile(sid)
         {}
         else if (resp) Boolean(profile) && wid_init_ui(true, profile);
         else if (resp === null) wid_init_ui(false);
-        else wid_open_modal_window(M_TXT.ERROR + data, true);
+        else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
     
     nc_profile(cb, g_session, g_pulse);
@@ -25,9 +25,9 @@ function wid_nc_login(email)
     {
         if (0)
         {}
-        else if (resp) wid_open_modal_window(M_TXT.EMAIL + email, true);
+        else if (resp) wid_init_modal_window(true, M_TXT.EMAIL + email);
         else if (resp === null) wid_init_ui(false);
-        else wid_open_modal_window(M_TXT.ERROR + data, true);
+        else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
 
     nc_login(cb, email, url, g_pulse)
@@ -41,7 +41,7 @@ function wid_nc_logout()
         {}
         else if (resp) wid_init_ui(false);
         else if (resp === null) wid_init_ui(false);
-        else wid_open_modal_window(M_TXT.ERROR + data, true);
+        else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
 
     nc_logout(cb, g_session, g_pulse)

@@ -3,59 +3,9 @@
 
 function wid_evt_js(){}
 
-function evt_click_logout($obj)
-{
-    $obj.find('.button-yes-button')
-        .button()
-        .click(function ()
-        {
-            wid_nc_logout();
-            wid_close_modal_window();
-        });
-    
-    $obj.find('.button-no-button')
-        .button()
-        .click(function ()
-        {
-            wid_close_modal_window();
-        });
-}
-
-function evt_input_email($obj)
-{
-    var $btn = $('#button_user_email');
-    var data = $obj.val();
-    
-    if (eng_is_email(data))
-    {
-        $btn.button('enable');
-        wid_paint_borders($obj);
-
-        $obj.on('keypress', function(event)
-        {
-            if (Boolean(event.keyCode === 13))
-            {
-                wid_nc_login(data);
-                wid_close_modal_window();
-            }
-            
-            $obj.off('keypress');
-        });
-    }
-    else
-    {
-        (Boolean(data)) 
-            ? wid_paint_borders($obj, 'red')
-            : wid_paint_borders($obj);
-
-        $btn.button('disable');
-        $obj.off('keypress');
-    }
-}
-
 function evt_click_name()
 {
-    wid_open_chname_window(name, $(this).html());
+    wid_open_name_window(name, $(this).html());
 }
 
 function evt_keyup_esc(e)

@@ -74,7 +74,7 @@ function jq_get_p_button()
         }))
         .click(function ()
         {
-            wid_open_email_window()
+            wid_init_modal_email()
         });
 }
 

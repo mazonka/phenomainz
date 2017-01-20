@@ -3,32 +3,12 @@
 
 function wid_jq_js(){}
 
-function jq_get_user_email()
+function jq_get_modal_email()
 {
     var $div = $('<div/>')
-        .append($('<label/>',
-        {
-            text: L_TXT.EMAIL
-        }))
-        .append($('<input/>',
-            {
-                id: 'input_user_email'
-            })
-            .attr('maxlength', INPUT_MAX)
-            .on('input', function()
-            {
-                evt_input_email($(this));
-            }))
-        .append($('<button/>',
-            {
-                id: 'button_user_email',
-                text: B_TXT.SEND_EMAIL
-            })
-            .click(function()
-            {
-                wid_nc_login($(this).parent().find('input').val());
-                wid_close_modal_window();
-            }));
+        .append($('<label/>', { text: L_TXT.EMAIL }))
+        .append($('<input/>').attr('maxlength', INPUT_MAX))
+        .append($('<button/>', { text: B_TXT.SEND_EMAIL }));
 
     return $div;
 }
@@ -55,7 +35,7 @@ function jq_get_profile(profile)
         }))
         .click(function()
         {
-            wid_open_logout_window()
+            wid_init_logout_window()
         });
     var $ml = $('<span/>',
     {
@@ -122,7 +102,7 @@ function jq_get_adm_panel()
 }
 
 // gets object for change user name
-function jq_get_chname(node, name)
+function jq_get_modal_name(node, name)
 {
     var $obj = $('<div/>')
         .append($('<label/>',
@@ -134,10 +114,6 @@ function jq_get_chname(node, name)
                 val: name,
             })
             .attr('maxlength', INPUT_MAX)
-            // .on('input', function()
-            // {
-                // evt_input_name($(this), node)
-            // })
         )
         .append($('<button/>',
             {
