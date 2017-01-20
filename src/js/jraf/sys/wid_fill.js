@@ -12,24 +12,35 @@ function wid_fill_login(ch)
 
 function wid_fill_adm_panel(ch)
 {
-    var $adm = $('#div_main_adm');
+    var $wid = $('#div_main_adm');
     
     if (ch)
-    {
-        $adm.html(jq_get_adm_panel()).show();
-        wid_init_ui_button($adm);
-    }
-    else $adm.empty().hide();
+    {   
+        let $panel = jq_get_adm_panel()
+        let $button = $panel.find('button');
         
+        $wid.html($panel).show();
+        $button.button()
+            .click(function() { evt_click_create_users_dir() });
+    }
+    else 
+        $wid.empty().hide();
 }    
 
 function wid_fill_profile(profile)
 {
     var $p = $('#div_main_pfl');
     
-    (profile) 
-        ? $p.html(jq_get_profile(profile)).show()
-        : $p.empty().hide()
+    if (profile)
+    {
+        let $wid = jq_get_profile(profile)
+        
+        $wid.find('#span_pfl_logout')
+            .click(function() { wid_init_logout_window() });
+        $p.html($wid).show();
+    }
+    else
+        $p.empty().hide()
 }
 
 function wid_fill_name(node, name)
@@ -214,7 +225,7 @@ function wid_fill_dataset_list(checkbox)
     if (checkbox)
     {
         $('#div_main_dsl').show();
-        wid_init_ui_button($('#div_main_dsl_create'));
+        $('#div_main_dsl_create').find('button').button();
     }    
     else
     {
