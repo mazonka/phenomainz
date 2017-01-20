@@ -82,7 +82,6 @@ function wid_init_name(uname)
     //jraf_node_up(jraf_virtual_node(g_jraf_root, node));
 }
 
-
 function wid_init_modal_name(node, text)
 {
     wid_init_modal_window(false, function()
@@ -90,6 +89,15 @@ function wid_init_modal_name(node, text)
         wid_fill_modal_name(node, text);
     });
 }
+
+function wid_init_modal_email()
+{
+    wid_init_modal_window(false, function()
+    {
+        wid_fill_modal_email();
+    });
+}
+
 
 function wid_init_dataset_list(ch)
 {
@@ -101,13 +109,15 @@ function wid_upload_file()
     return false;
 }
 
-function wid_auth(auth_network)
-{}
-
-function wid_init_modal_email()
+function wid_auth(srv)
 {
-    wid_init_modal_window(false, function()
+    log('try auth with', srv);
+    if (0)
+    {}
+    else if (srv == 'phenomainz')
     {
-        wid_fill_modal_email();
-    });
+        wid_init_modal_email()
+    }
+    else
+    {}
 }

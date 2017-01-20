@@ -5,66 +5,28 @@ function wid_jq_js(){}
 
 function jq_get_modal_email()
 {
-    var $div = $('<div/>')
+    return $('<div/>')
         .append($('<label/>', { text: L_TXT.EMAIL }))
         .append($('<input/>').attr('maxlength', INPUT_MAX))
         .append($('<button/>', { text: B_TXT.SEND_EMAIL }));
-
-    return $div;
 }
 
 function jq_get_profile(profile)
 {
     var $profile = $('<span/>');
-    var $nt = $('<span/>',
-    {
-        text: L_TXT.USER_NAME
-    });
-    var $nm = $('<span/>',
-    {
-        id: 'span_user_name'
-    });
-    var $lo = $('<span/>',
-        {
-            id: 'span_pfl_logout'
-        })
-        .append($('<img/>',
-        {
-            id: 'img_user_logout',
-            src: IMG.LOGOUT
-        }))
-        .click(function()
-        {
-            wid_init_logout_window()
-        });
-    var $ml = $('<span/>',
-    {
-        text: L_TXT.EMAIL + profile.ml
-    });
-    var $ls = $('<span/>',
-    {
-        text: L_TXT.LAST_LOGIN + profile.ls
-    });
-    var $cn = $('<span/>',
-    {
-        text: L_TXT.COUNTER + profile.cn
-    });
-    var $qt = $('<span/>',
-        {
-            text: L_TXT.VOLUME
-        })
-        .append($('<span/>',
-        {
-            id: 'span_pfl_volume',
-            text: '0'
-        }))
-        .append($('<span/>',
-        {
-            text: '/' + profile.qt + 'Kb'
-        }));
+    var $nt = $('<span/>', { text: L_TXT.USER_NAME });
+    var $nm = $('<span/>', { id: 'span_user_name' });
+    var $lo = $('<span/>', { id: 'span_pfl_logout' })
+        .append($('<img/>', { id: 'img_user_logout', src: IMG.LOGOUT }))
+        .click(function() { wid_init_logout_window() });
+    var $ml = $('<span/>', { text: L_TXT.EMAIL + profile.ml });
+    var $ls = $('<span/>', { text: L_TXT.LAST_LOGIN + profile.ls });
+    var $cn = $('<span/>', { text: L_TXT.COUNTER + profile.cn });
+    var $qt = $('<span/>', { text: L_TXT.VOLUME })
+        .append($('<span/>', { id: 'span_pfl_volume', text: '0' }))
+        .append($('<span/>', { text: '/' + profile.qt + 'Kb' }));
 
-    $profile
-        .append($nt)
+    $profile.append($nt)
         .append($nm)
         .append($lo)
         .append('<br/>')
@@ -82,98 +44,49 @@ function jq_get_profile(profile)
 
 function jq_get_adm_panel()
 {
-    var $span = $('<span/>',
-        {
-            text: '__ADMIN PANEL MUST BE HERE__'
-        });
+    var $span = $('<span/>', { text: '__ADMIN PANEL MUST BE HERE__' });
         
-    var $btn = $('<button/>', 
-        {   
-            text: 'Create users dir'
-        })
-        .click(function()
-        {
-            evt_click_create_users_dir();
-        });
+    var $btn = $('<button/>', { text: 'Create users dir' })
+        .click(function() { evt_click_create_users_dir(); });
         
-    $span.append('<br/>');
-    $span.append($btn);
+    $span.append('<br/>')
+        .append($btn);
+        
     return $span;
 }
 
 // gets object for change user name
 function jq_get_modal_name(node, name)
 {
-    var $obj = $('<div/>')
-        .append($('<label/>',
-        {
-            text: 'Name'
-        }))
-        .append($('<input/>',
-            {
-                val: name,
-            })
-            .attr('maxlength', INPUT_MAX)
-        )
-        .append($('<button/>',
-            {
-                text: B_TXT.SUBMIT
-            }));
-
-    return $obj;
+    return $('<div/>').append($('<label/>', { text: 'Name' }))
+        .append($('<input/>', { val: name }).attr('maxlength', INPUT_MAX))
+        .append($('<button/>', { text: B_TXT.SUBMIT }));
 }
 
 // gets yes/no object for the operation that needs to be confirmed
 function jq_get_yes_no(msg)
 {
-    var $obj = $('<div/>');
-
-    $obj.append($('<div/>',
-        {
-            text: msg
-        }))
-        .append($('<button/>',
-            {
-                text: B_TXT.NO
-            })
-            .addClass('button-no-button'))
-        .append($('<button/>',
-            {
-                text: B_TXT.YES
-            })
-            .addClass('button-yes-button')
-        );
-
-    return $obj;
+    return $('<div/>')
+        .append($('<div/>', { text: msg }))
+        .append($('<button/>', { text: B_TXT.NO }).addClass('button-no-button'))
+        .append($('<button/>', { text: B_TXT.YES }).addClass('button-yes-button'));
 }
 
 // gets datset list object
 function jq_get_ds_list(l, did, title)
 {
-    var $obj = $('<div/>',
-    {
-        id: DIV_DS_LIST
-    });
+    var $obj = $('<div/>', { id: DIV_DS_LIST });
 
     for (let i = 0; i < +l; i++)
     {
         let $h1 = jq_get_ds_h1(did[i], title[i]);
 
-        $obj.append($h1);
-
-        $obj.append($('<div/>',
-            {
-                id: DIV_DS + did[i],
-            })
-            .attr('data-id', did[i])
-            .addClass('dsitem-content-div')
-            .append($('<div/>')
-                .addClass('dsprops-div')
-            )
-            .append($('<div/>')
-                .addClass('dsfiles-div')
-            )
-        );
+        $obj.append($h1)
+            .append($('<div/>', { id: DIV_DS + did[i] })
+                .attr('data-id', did[i])
+                .addClass('dsitem-content-div')
+                .append($('<div/>').addClass('dsprops-div'))
+                .append($('<div/>').addClass('dsfiles-div')));
     }
 
     return $obj;
@@ -182,17 +95,11 @@ function jq_get_ds_list(l, did, title)
 // gets dataset h3 title object
 function jq_get_ds_h1(did, title)
 {
-    var $obj = $('<h1/>',
-        {
-            id: H1_DS + did,
-        })
+    var $obj = $('<h1/>', { id: H1_DS + did })
         .attr('data-id', did)
         .addClass('dsitem-header-h1');
 
-    $obj.append($('<span/>',
-            {
-                text: eng_get_accordion_header(did, title)
-            })
+    $obj.append($('<span/>', { text: eng_get_accordion_header(did, title)})
             .addClass('dsitem-header-title')
         )
         .append(jq_get_ds_item_del(did));

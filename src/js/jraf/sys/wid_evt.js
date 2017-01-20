@@ -15,7 +15,13 @@ function evt_keyup_esc(e)
 
 function evt_click_create_users_dir()
 {
-    var dpath = '/.jraf.sys/users';
+    var dir = '.jraf.sys/users';
     
-    jraf_create_dir(g_jraf_root, dpath, function () {console.log() })
+    jraf_create_dir(g_jraf_root, dir, function (a) { console.log(a)})
+}
+
+function evt_click_create_dataset()
+{
+    
+    jraf_create_dir(g_jraf_root, dir, function (a) { console.log(a)})
 }

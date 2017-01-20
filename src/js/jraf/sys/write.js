@@ -9,7 +9,7 @@ function o(x){ console.log(x); }
 function jraf_write_md(cwd,name,cbi)
 {
     var cb = function(jo){ cbi(jo); };
-    var path = cwd.str()+'/'+name;
+    var path = (cwd.str() == '/') ? cwd.str() + name : cwd.str() + '/' +name;
     jraf_write_obj('md '+path, cb);
 }
 
