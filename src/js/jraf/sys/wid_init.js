@@ -6,7 +6,7 @@ function wid_init_js(){}
 function wid_init_ui(au, profile)
 {
     wid_fill_main();
-    
+
     if (0)
     {}
     else if (au && profile.ml != '*')
@@ -23,14 +23,14 @@ function wid_init_ui(au, profile)
         wid_init_admpanel(profile.su);
         wid_init_dataset_list(false)
     }
-    else 
+    else
     {
         wid_init_login(true);
         wid_init_admpanel(false);
         wid_init_dataset_list(false);
-        
+
         if (g_session != '0') {
-            window.location.href = 
+            window.location.href =
                 location.href.substr(0, location.href.indexOf('?') + 1) + '0';
         }
     }
@@ -68,17 +68,17 @@ function wid_init_admpanel(su)
 function wid_init_profile(profile)
 {
     if (!profile || profile.ml === '*') profile = null;
-    wid_fill_profile(profile); 
+    wid_fill_profile(profile);
 }
 
 function wid_init_name(uname)
 {
     var node = uname + '/name';
-    
+
     jraf_bind_virtual(g_jraf_root, node, function()
     {
         wid_fill_name(node, this.text || '*', this);
-    });    
+    });
     //jraf_node_up(jraf_virtual_node(g_jraf_root, node));
 }
 

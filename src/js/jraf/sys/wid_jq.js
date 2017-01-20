@@ -17,7 +17,7 @@ function jq_get_profile(profile)
     var $nt = $('<span/>', { text: L_TXT.USER_NAME });
     var $nm = $('<span/>', { id: 'span_user_name' });
     var $lo = $('<span/>', { id: 'span_pfl_logout' })
-        .append($('<img/>', { id: 'img_user_logout', src: IMG.LOGOUT }));        
+        .append($('<img/>', { id: 'img_user_logout', src: IMG.LOGOUT }));
     var $ml = $('<span/>', { text: L_TXT.EMAIL + profile.ml });
     var $ls = $('<span/>', { text: L_TXT.LAST_LOGIN + profile.ls });
     var $cn = $('<span/>', { text: L_TXT.COUNTER + profile.cn });
@@ -45,9 +45,9 @@ function jq_get_adm_panel()
 {
     var $span = $('<span/>', { text: '__ADMIN PANEL MUST BE HERE__' });
     var $btn = $('<button/>', { text: 'Create users dir' });
-                
+
     $span.append('<br/>').append($btn);
-        
+
     return $span;
 }
 
