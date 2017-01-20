@@ -2,7 +2,7 @@
 // (C) 2016
 'use strict';
 
-function wid_utils() {}
+function wid_utils_js() {}
 
 var g_pulse = wid_pulse();
 
