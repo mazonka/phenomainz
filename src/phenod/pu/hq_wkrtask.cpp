@@ -112,8 +112,6 @@ string Worker2::process(bool * recog)
         else if ( ( tok.is("note") || tok.is("n") ) && (en || pn.note) )
             return note();
 
-        else if ( tok.is("quit")  && (en || pn.quit) )
-            return quit();
 
         else if ( tok.is("tunnel")  && (en || pn.tunnel) )
             return tunnel();
@@ -125,6 +123,9 @@ string Worker2::process(bool * recog)
             return drop();
 
     */
+    else if ( tok.is("quit")  && (en || pn.quit) )
+        return quit();
+
     else if ( ( tok.c_str()[0] == '/' )  && (en || pn.file) )
         return file(true, false);
 
