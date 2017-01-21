@@ -13,12 +13,5 @@ fi
 die(){ echo $1; exit 1; }
 
 sh phenod_start.sh || die "starting phenod failed"
-
 sh wget_cmds.sh || die "Commands failed"
 
-exit
-
-rm -rf jroot
-./phenod -qln dwkr=0 phdb=test.db jraf_root=wroot tcp_port=16001
-rm -f test.db
-rm -rf wroot

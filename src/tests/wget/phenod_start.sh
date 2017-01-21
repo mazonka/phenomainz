@@ -6,10 +6,10 @@ test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
 # detect platform
 PLAT=`sh platform.sh`
 execdir=_bin_${PLAT}
-echo "Platform detected $PLAT"
+#echo "Platform detected $PLAT"
 
 xpwd=`sh execdir.sh`
-echo "phenod found at $xpwd"
+#echo "phenod found at $xpwd"
 cd $xpwd
 
 rm -rf wroot

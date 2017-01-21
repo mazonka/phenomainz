@@ -16,7 +16,7 @@ cmd="wget http://localhost:16001 -o wget.log -O wget.out"
 
 while read LINE
 do
-rm wget.out
+rm -f wget.out
 cm="$cmd --post-file=$LINE.i"
 echo $cm
 $cm
