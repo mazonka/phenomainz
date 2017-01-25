@@ -25,6 +25,7 @@ then
 	echo "$LINE - ok"
 else
 	echo "$LINE - FAILED see wget.out"
+	echo "ATTENTION: phenod is left running for inspection"
 	exit
 fi
 rm -f wget.log wget.out
