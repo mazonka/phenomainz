@@ -44,7 +44,10 @@ function jq_get_profile(profile)
 function jq_get_adm_panel()
 {
     var $span = $('<span/>', { text: '__ADMIN PANEL MUST BE HERE__' });
-    var $btn = $('<button/>', { text: 'Create users dir' });
+    var $btn = $('<button/>', { 
+        id: 'button_adm_create_dir_users',
+        text: 'Create users dir' 
+    });
 
     $span.append('<br/>').append($btn);
 

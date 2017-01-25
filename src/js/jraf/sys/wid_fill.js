@@ -3,6 +3,55 @@
 
 function wid_fill_js(){}
 
+function wid_fill_ui(au, profile)
+{
+    wid_fill_main();
+
+    if (0)
+    {}
+    else if (au && profile.ml != '*')
+    {
+        wid_fill_login(false);
+        wid_fill_adm_panel(profile.su);
+        wid_fill_profile(profile);
+        wid_fill_dataset_list(true);
+    }
+    else if (au && profile.ml == '*')
+    {
+        wid_fill_login(true);
+        wid_fill_adm_panel(profile.su);
+        wid_fill_dataset_list(false)
+    }
+    else
+    {
+        wid_fill_login(true);
+        wid_fill_adm_panel(false);
+        wid_fill_dataset_list(false);
+
+        if (g_session != '0') 
+        {
+            window.location.href =
+                location.href.substr(0, location.href.indexOf('?') + 1) + '0';
+        }
+    }
+}
+
+function wid_fill_auth(srv)
+{
+    log('::auth:', srv);
+    if (0)
+    {}
+    else if (srv == 'phenomainz')
+    {    
+        wid_init_modal_window(false, function()
+        {
+            wid_fill_modal_email();
+        });
+    }
+    else
+    {}
+}
+
 function wid_fill_login(ch)
 {
     var $log = $('#span_main_log');
@@ -10,18 +59,25 @@ function wid_fill_login(ch)
     (ch) ? $log.show() : $log.hide();
 }
 
-function wid_fill_adm_panel(ch)
+function wid_fill_adm_panel(su)
 {
     var $wid = $('#div_main_adm');
+    var node = 'jraf.sys/users';
 
-    if (ch)
+    if (su)
     {
         let $panel = jq_get_adm_panel()
         let $button = $panel.find('button');
-
+        let f = function() 
+        { 
+            jraf_create_dir(g_jraf_root, '.jraf.sys/users', function (a) 
+            {
+                console.log(a)
+            });
+        };
+        
         $wid.html($panel).show();
-        $button.button()
-            .click(function() { wid_jraf_create_udir() });
+        // $button.button().click(f);
     }
     else
         $wid.empty().hide();
@@ -30,29 +86,47 @@ function wid_fill_adm_panel(ch)
 function wid_fill_profile(profile)
 {
     var $p = $('#div_main_pfl');
+    if (!profile || profile.ml === '*') profile = null;
 
     if (profile)
     {
         let $wid = jq_get_profile(profile)
-
-        $wid.find('#span_pfl_logout')
-            .click(function() { wid_init_logout_window() });
+        let f = function() 
+        {  
+            wid_init_modal_window(false, function()
+            {
+                wid_fill_modal_logout();
+            });        
+        };
+        
+        $wid.find('#span_pfl_logout').click(f);
         $p.html($wid).show();
+        wid_fill_name(profile.nm);
     }
     else
         $p.empty().hide()
 }
 
-function wid_fill_name(node, name)
+function wid_fill_name(name)
 {
     var $obj = $('#span_user_name');
-    var f = function (wid)
-    {
-        wid_init_modal_name(node, name);
-    }
+    var node = uname + '/name';
+    var f = function () 
+    { 
+        wid_init_modal_window(false, function() 
+        {
+            wid_fill_modal_name(node, name); 
+        }); 
+    };
 
     $obj.off().click(f)
     $obj.html(name);
+    
+    jraf_bind_virtual(g_jraf_root, node, function()
+    {
+        wid_fill_name(node, this.text || '*', this);
+    });
+    //jraf_node_up(jraf_virtual_node(g_jraf_root, node));
 }
 
 function wid_fill_modal(cl, ifn, cfn)

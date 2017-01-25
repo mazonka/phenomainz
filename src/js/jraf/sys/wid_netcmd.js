@@ -9,8 +9,8 @@ function wid_nc_profile(sid)
     {
         if (0)
         {}
-        else if (resp) Boolean(profile) && wid_init_ui(true, profile);
-        else if (resp === null) wid_init_ui(false);
+        else if (resp) Boolean(profile) && wid_fill_ui(true, profile);
+        else if (resp === null) wid_fill_ui(false);
         else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
     
@@ -26,7 +26,7 @@ function wid_nc_login(email)
         if (0)
         {}
         else if (resp) wid_init_modal_window(true, M_TXT.EMAIL + email);
-        else if (resp === null) wid_init_ui(false);
+        else if (resp === null) wid_fill_ui(false);
         else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
 
@@ -39,8 +39,8 @@ function wid_nc_logout()
     {
         if (0)
         {}
-        else if (resp) wid_init_ui(false);
-        else if (resp === null) wid_init_ui(false);
+        else if (resp) wid_fill_ui(false);
+        else if (resp === null) wid_fill_ui(false);
         else wid_init_modal_window(true, M_TXT.ERROR + data);
     };
 

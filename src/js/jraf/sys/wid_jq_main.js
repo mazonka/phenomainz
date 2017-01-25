@@ -45,7 +45,7 @@ function jq_get_login_button(img, srv)
     return $('<label/>')
         .addClass('auth-button')
         .append($('<img/>', { src: img }))
-        .click(function () { wid_auth(srv) });
+        .click(function () { wid_fill_auth(srv) });
 }
 
 function jq_get_main_dsl()
