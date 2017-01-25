@@ -70,7 +70,7 @@ function wid_fill_adm_panel(su)
         let $button = $panel.find('button');
         let f = function() 
         { 
-            jraf_create_dir(g_jraf_root, '.jraf.sys/users', function (a) 
+            jraf_write_md(g_jraf_root, node, function (a) 
             {
                 console.log(a)
             });
@@ -254,13 +254,20 @@ function wid_fill_modal_name(node, text)
 
             if (eng_is_valid_str(text))
             {
+                let f = function()
+                { 
+                    jraf_write_save(node, text || '*', function()
+                    {
+                        jraf_node_up(jraf_virtual_node(g_jraf_root, node));
+                    });
+                };
                 wid_paint_borders($input);
-
+                
                 $button.button('enable')
                     .off('click')
                     .click(function()
                     {
-                        jraf_write_name(node, text || '*');
+                        f();
                         wid_close_modal_window();
                     });
 
@@ -269,7 +276,7 @@ function wid_fill_modal_name(node, text)
                     {
                         if (event.keyCode === 13)
                         {
-                            jraf_write_name(node, text || '*');
+                            f()
                             wid_close_modal_window();
                         }
                     });
