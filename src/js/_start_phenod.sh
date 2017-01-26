@@ -3,9 +3,8 @@
 # (C) 2016
 #
 
-PLAT=${PLAT:-msc}
+uname -o | grep -i "Linux" > /dev/null && PLAT="unx" || PLAT="msc"
 BIN=_bin_${PLAT}
-
 echo ${BIN}
 
 #comm="./phenod tcp_port=16000 dprn=1 dpul=1 dced=1 dwkr=1 cycle=10000"
