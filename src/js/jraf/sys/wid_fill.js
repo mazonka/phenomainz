@@ -62,7 +62,7 @@ function wid_fill_login(ch)
 function wid_fill_adm_panel(su)
 {
     var $wid = $('#div_main_adm');
-    var node = 'jraf.sys/users';
+    var node = '.jraf.sys/users';
 
     if (su)
     {
@@ -77,7 +77,7 @@ function wid_fill_adm_panel(su)
         };
         
         $wid.html($panel).show();
-        // $button.button().click(f);
+        $button.button().click(f);
     }
     else
         $wid.empty().hide();
