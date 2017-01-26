@@ -101,30 +101,30 @@ function wid_fill_profile(profile)
         
         $wid.find('#span_pfl_logout').click(f);
         $p.html($wid).show();
-        wid_fill_name(profile.nm);
+        wid_fill_name(profile.un);
     }
     else
         $p.empty().hide()
 }
 
-function wid_fill_name(name)
+function wid_fill_name(uname)
 {
-    var $obj = $('#span_user_name');
     var node = uname + '/name';
-    var f = function () 
-    { 
-        wid_init_modal_window(false, function() 
-        {
-            wid_fill_modal_name(node, name); 
-        }); 
-    };
-
-    $obj.off().click(f)
-    $obj.html(name);
     
     jraf_bind_virtual(g_jraf_root, node, function()
     {
-        wid_fill_name(node, this.text || '*', this);
+        var $obj = $('#span_user_name');
+        var name = this.text || '*';
+        var f = function () 
+        { 
+            wid_init_modal_window(false, function() 
+            {
+                    wid_fill_modal_name(node, name); 
+            }); 
+        };
+        
+        $obj.html(name);
+        $obj.off().click(f)
     });
     //jraf_node_up(jraf_virtual_node(g_jraf_root, node));
 }

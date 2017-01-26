@@ -262,7 +262,7 @@ function eng_get_parsed_profile(data)
     profile.qt = _data.shift();
     profile.ls = eng_get_date_time(_data.shift());
     profile.cn = _data.shift();
-    profile.nm = _data.shift();//.split('/');
+    profile.un = _data.shift();//.split('/');
 
     return profile;
 }
