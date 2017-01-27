@@ -12,7 +12,7 @@ fi
 
 die(){ echo $1; exit 1; }
 
-cmd="wget http://localhost:16001 -o wget.log -O wget.out"
+cmd=`cat cmd.wget`
 
 while read LINE
 do
