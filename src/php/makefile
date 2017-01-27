@@ -6,14 +6,12 @@ else
 	PLAT=unx
 endif
 
-BIN=../_bin_$(PLAT)
+BIN=../_bin_$(PLAT)/phclnt
 
 all: $(BIN) $(BIN)/jraf.php
 
 $(BIN):
-	@echo Create folders tree in $(BIN_CLI) ...
 	@mkdir -p $(BIN)
 
-$(BIN)/jraf.php: $(BIN)/jraf.php
-	@echo Copy $(SRC_CLI) to $(BIN_CLI)...
+$(BIN)/jraf.php: jraf.php
 	cp *.php $(BIN)
