@@ -22,13 +22,14 @@ rm -f wget.log wget.out
 if test -f $LINE.i; then
 
 	cm="$cmd --post-file=$LINE.i"
-	echo $cm
+	#echo $cm
 	$cm
 
 	if cmp $LINE.o wget.out
 	then
 	echo "$LINE - ok"
 	else
+	echo $cm
 	echo "$LINE - FAILED see wget.out"
 	echo "ATTENTION: phenod is left running for inspection"
 	exit
