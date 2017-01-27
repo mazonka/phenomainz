@@ -16,18 +16,28 @@ cmd="wget http://localhost:16001 -o wget.log -O wget.out"
 
 while read LINE
 do
-rm -f wget.out
-cm="$cmd --post-file=$LINE.i"
-echo $cm
-$cm
-if cmp $LINE.o wget.out
-then
+
+rm -f wget.log wget.out
+
+if test -f $LINE.i; then
+
+	cm="$cmd --post-file=$LINE.i"
+	echo $cm
+	$cm
+
+	if cmp $LINE.o wget.out
+	then
 	echo "$LINE - ok"
-else
+	else
 	echo "$LINE - FAILED see wget.out"
 	echo "ATTENTION: phenod is left running for inspection"
 	exit
+	fi
+
+else
+	echo "SKIPPED $LINE.i"
 fi
+
 rm -f wget.log wget.out
 done < cmds.list
 
