@@ -31,8 +31,7 @@ if test -f $LINE.i; then
 	else
 	echo $cm
 	echo "$LINE - FAILED see wget.out"
-	echo "ATTENTION: phenod is left running for inspection"
-	exit
+	exit 1
 	fi
 
 else

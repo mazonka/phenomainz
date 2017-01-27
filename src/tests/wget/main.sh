@@ -13,5 +13,13 @@ fi
 die(){ echo $1; exit 1; }
 
 sh phenod_start.sh || die "starting phenod failed"
-sh wget_cmds.sh || die "Commands failed"
+
+if sh wget_cmds.sh
+then
+:
+else
+die "ATTENTION: phenod is left running for inspection"
+fi
+
+sh phenod_stop.sh
 
