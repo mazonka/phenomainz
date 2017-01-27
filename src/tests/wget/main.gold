@@ -1,5 +1,0 @@
-testing wget -- OK
-./phenod -cqx dwkr=1 quit=1 phdb=wget.db jraf_root=wroot tcp_port=16001 skcseed=1
-testing wget -- OK
-wget http://localhost:16001 -o wget.log -O wget.out --post-file=ping.i
-ping - ok
