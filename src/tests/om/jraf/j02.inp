@@ -26,7 +26,7 @@ print [ -- read /aaa -- JRAF_ERR bad path /aaa ]
 print tcp self [ jraf read 0 /aaa ]
 
 print [ -- + read /aaa -- OK 0 -1 1 0 -1 bbb ]
-print tcp self [ jraf au 0 md /aaa/bbb/ccc + read 0 /aaa ]
+print tcp self [ jraf au 0 md /aaa/bbb/ccc : read 0 /aaa ]
 
 quit
 

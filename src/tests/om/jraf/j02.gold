@@ -15,4 +15,4 @@ OK /aaa
 -- read /aaa -- JRAF_ERR bad path /aaa
 JRAF_ERR bad path /aaa
 -- + read /aaa -- OK 0 -1 1 0 -1 bbb
-OK /aaa/bbb/ccc + OK 3 -1 1 2 -1 bbb
+OK /aaa/bbb/ccc : OK 3 -1 1 2 -1 bbb
