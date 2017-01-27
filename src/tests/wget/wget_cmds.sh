@@ -43,6 +43,3 @@ rm -f wget.log wget.out
 done < cmds.list
 
 
-$cmd --post-data="command=quit"
-rm -f wget.log wget.out
-
