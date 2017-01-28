@@ -33,12 +33,9 @@ all: mk_dir tar_x_jq cp_jq tar_x_hello.js cp_hello.js mk_clnt mk_jraf done
 mk_dir:
 	@echo Create folders tree in $(BIN_CLI) ...
 	@mkdir -p $(BIN_CLI)/css
-	@mkdir -p $(BIN_CLI)/eng
-	@mkdir -p $(BIN_CLI)/front
 	@mkdir -p $(BIN_CLI)/img
 	@mkdir -p $(BIN_CLI_LIB)
 	@mkdir -p $(BIN_CLI_LIB)/images
-	@mkdir -p $(BIN_CLI)/ui
 	@mkdir -p $(BIN_CLI)/jraf
 	@mkdir -p $(BIN_JRAF)
 
@@ -82,11 +79,8 @@ cp_hello.js: $(SRC_CLI_LIB)/$(HELLO_JS)
 mk_clnt: $(SRC_CLI)/index.html
 	@echo Copy $(SRC_CLI) to $(BIN_CLI)...
 	cp -puv $(SRC_CLI)/css/*.css $(BIN_CLI)/css/
-	cp -puv $(SRC_CLI)/eng/*.js $(BIN_CLI)/eng/
-	cp -puv $(SRC_CLI)/front/*.js $(BIN_CLI)/front/
 	cp -puv $(SRC_CLI)/img/*.* $(BIN_CLI)/img/
 	cp -puv $(SRC_CLI)/jraf/*.js $(BIN_CLI)/jraf/
-	cp -puv $(SRC_CLI)/ui/*.js $(BIN_CLI)/ui/
 	cp -puv $(SRC_CLI)/conf.phd ../$(BIN)/conf.phd
 	cp -puv $(SRC_CLI)/favicon.ico $(BIN_CLI)/favicon.ico
 	cp -puv $(SRC_CLI)/jraf.phd ../$(BIN)/jraf.phd
@@ -113,11 +107,8 @@ clean:
 
 checkin: $(BIN_CLI)
 	cp -fpuv $(BIN_CLI)/css/*.css $(SRC_CLI)/css/
-	cp -fpuv $(BIN_CLI)/eng/*.js $(SRC_CLI)/eng/
-	cp -fpuv $(BIN_CLI)/front/*.js $(SRC_CLI)/front/
 	cp -fpuv $(BIN_CLI)/img/*.png $(SRC_CLI)/img/
 	cp -fpuv $(BIN_CLI)/img/*.gif $(SRC_CLI)/img/
-	cp -fpuv $(BIN_CLI)/ui/*.js $(SRC_CLI)/ui/
 	cp -fpuv $(BIN_CLI)/*.html $(SRC_CLI)/
 	cp -fpuv $(BIN_CLI)/jraf/*.js $(SRC_CLI)/jraf/
 	cp -pruv $(BIN_JRAF)/sys/. $(SRC_JRAF)/sys
