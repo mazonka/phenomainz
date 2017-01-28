@@ -48,8 +48,10 @@ function process($cmd)
 
 	if( count($toks) == 1 ) cmd1($toks[0]);
 
-	var_dump($toks);
-	echo "command: ".$cmd;
+	if( $toks[0] == "jraf" ) cmd_jraf($toks);
+
+	//var_dump($toks);
+	//echo "command: ".$cmd;
 	err("REQ_MSG_BAD");
 }
 
@@ -64,6 +66,11 @@ function cmd1($c)
 {
 	if( $c == "ping" ) ok("");
 	err("REQ_MSG_BAD ".$c);
+}
+
+function cmd_jraf($toks)
+{
+	ok("OKK");
 }
 
 ?>
