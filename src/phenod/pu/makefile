@@ -27,9 +27,9 @@ SGDIR=../sg
 INC := $(INC) -I$(SGDIR)
 SGLIB=$(SGDIR)/$O/htsglib$(LEXT)
 
-Q3DIR=../q3
-INC := $(INC) -I$(Q3DIR)
-Q3LIB=$(Q3DIR)/$O/q3lib$(LEXT)
+#Q3DIR=../q3
+#INC := $(INC) -I$(Q3DIR)
+#Q3LIB=$(Q3DIR)/$O/q3lib$(LEXT)
 
 JRDIR=../jr
 INC := $(INC) -I$(JRDIR)

@@ -685,3 +685,11 @@ void Phdb::dataset_setc(string daid, const std::vector<ColDesc> & v)
     }
 }
 
+string Profile::dump() const
+{
+    string r;
+    r += "[" + prid + "] [" + mail + "] [" + name;
+    r += "] [" + last + "] [" + cntr + "]";
+    return r;
+}
+

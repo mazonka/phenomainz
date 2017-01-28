@@ -77,14 +77,6 @@ string AutQueue::dump() const
     return r;
 }
 
-string Profile::dump() const
-{
-    string r;
-    r += "[" + prid + "] [" + mail + "] [" + name;
-    r += "] [" + last + "] [" + cntr + "]";
-    return r;
-}
-
 void AutQueue::addAob(const AutObject & ao)
 {
     aos[ao.seid] = ao;
