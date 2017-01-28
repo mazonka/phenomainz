@@ -317,6 +317,10 @@ function Jraf_aurequest($tok)
     if ( !$tok->next() ) return jerr("command");
     $cmd = $tok->sub();
 
+    $pth = '';
+    $er = Jraf_read_tok_path($tok, $pth, $superuser, TRUE);
+    if ( !$er->b ) return $er;
+
 	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
 
@@ -352,6 +356,41 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     return err("command [" + cmd + "] unknown");
 }
 
+*/
+
+function Jraf_read_tok_path($tok, &$pth, $su, $wr)
+{
+    if ( !$tok->next() ) return jerr("path");
+    $p = $tok->sub();
+
+    $p = str_replace("//", "/",$p);
+
+    if ( !(strpos($p,"..") === FALSE) ) return jerr("..");
+
+	return jerr("Jraf_read_tok_path NI ".$p);
+}
+
+/* C++
+Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, User & su, bool wr)
+{
+    if ( !tok.next() ) return err("path");
+    string p = tok.sub();
+
+    gl::replaceAll(p, "//", "/");
+
+    if ( p.find("..") != string::npos ) return err("..");
+
+    if ( p.empty() ) return err("empty");
+
+    while ( !p.empty() && p[p.size() - 1] == '/' )
+        p = p.substr(0, p.size() - 1);
+
+    if ( special(p, su.su) ) return fail("system path");
+    if ( !check_au_path(p, su, wr) ) return fail("denied");
+
+    pth = p;
+    return Cmdr();
+}
 */
 
 function Jraf_user($sess)
@@ -632,27 +671,6 @@ Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 
     update_ver(pth);
     return ok(gl::tos(f.filesize()));
-}
-
-Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, User & su, bool wr)
-{
-    if ( !tok.next() ) return err("path");
-    string p = tok.sub();
-
-    gl::replaceAll(p, "//", "/");
-
-    if ( p.find("..") != string::npos ) return err("..");
-
-    if ( p.empty() ) return err("empty");
-
-    while ( !p.empty() && p[p.size() - 1] == '/' )
-        p = p.substr(0, p.size() - 1);
-
-    if ( special(p, su.su) ) return fail("system path");
-    if ( !check_au_path(p, su, wr) ) return fail("denied");
-
-    pth = p;
-    return Cmdr();
 }
 
 Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
