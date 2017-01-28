@@ -40,7 +40,7 @@ class Jraf
         struct User
         {
             bool su;
-			bool auth;
+            bool auth;
             string email, last, cntr; // filled in user()
             string quotaKb, uname; // filled later
             User(bool s, bool a): su(s), auth(a) {}

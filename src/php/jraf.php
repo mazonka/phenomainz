@@ -159,7 +159,6 @@ function Jraf_client_version()
 {
     $p = Jraf_sys_dir() -> plus_s("version");
 	$ps = $p->s;
-	///$fever = @file_get_contents($ps);
 	$fever = OsPath::file_get_contents($ps);
 
     if ( $fever === FALSE || $fever == '' ) return jerr("no file system found [" . $ps . "]");
