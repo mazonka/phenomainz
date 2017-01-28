@@ -1,0 +1,712 @@
+0
+1
+phe0
+36
+001.gold
+3
+OK
+
+001.inp
+31
+print tcp self [ ping ]
+quit
+
+001.sts
+174
+#!/bin/sh
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+002.gold
+190
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://127.0.0.1:16000/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://127.0.0.1:16000/home?96db1e5f246844c9]
+OK
+
+002.inp
+40
+print tcp self [ login aaa@bbb ]
+quit
+
+002.sts
+184
+#!/bin/sh
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+003.gold
+247
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://127.0.0.1:16000/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://127.0.0.1:16000/home?96db1e5f246844c9]
+OK
+96db1e5f246844c9: [1] [aaa@bbb] [] [20001122001122] [1]
+
+
+003.inp
+90
+set date "20001122"
+set time "001122"
+print tcp self [ login aaa@bbb ]
+net auth
+quit
+
+003.sts
+197
+#!/bin/sh
+# test login
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+004.gold
+767
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://127.0.0.1:16000/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://127.0.0.1:16000/home?96db1e5f246844c9]
+OK
+96db1e5f246844c9: [1] [aaa@bbb] [] [20001122001122] [1]
+
+===================================
+AAA349 Aob: 20232512c272da3f 2
+cmd: phmail login aaa@ccc http://127.0.0.1:16000/home?20232512c272da3f
+[N/I] phmail: Sending to [aaa@ccc] au [http://127.0.0.1:16000/home?20232512c272da3f]
+OK
+20232512c272da3f: [2] [aaa@ccc] [] [20001122001122] [1]
+96db1e5f246844c9: [1] [aaa@bbb] [] [20001122001122] [1]
+
+===================================
+OK
+OK
+===================================
+OK
+20232512c272da3f: [2] [aaa@ccc] [] [20001122001122] [1]
+
+===================================
+AUTH
+
+004.inp
+526
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb ]
+net auth
+print [ =================================== ]
+
+print tcp self [ login aaa@ccc ]
+net auth
+print [ =================================== ]
+
+print tcp self [ au 96db1e5f246844c9 ping ]
+print tcp self [ au 20232512c272da3f ping ]
+print [ =================================== ]
+
+print tcp self [ au 96db1e5f246844c9 logout ]
+net auth
+print [ =================================== ]
+
+print tcp self [ au 96db1e5f246844c9 ping ]
+
+quit
+
+004.sts
+198
+#!/bin/sh
+# test logout
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+005.gold
+760
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== login done
+OK Kg== aaa@bbb 20001122001122 1 10
+=================================== profile done
+OK
+=================================== name done
+OK vasia aaa@bbb 20001122001122 1 10
+=================================== profile done
+96db1e5f246844c9: [1] [aaa@bbb] [vasia] [20001122001122] [1]
+
+xxxxxxxxxxxxxxx
+OK
+AAA349 Aob: 20232512c272da3f 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?20232512c272da3f
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?20232512c272da3f]
+OK
+20232512c272da3f: [1] [aaa@bbb] [vasia] [20001122001122] [2]
+
+
+005.inp
+622
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== login done ]
+print tcp self [ au 96db1e5f246844c9 profile ]
+print [ =================================== profile done ]
+print tcp self [ au 96db1e5f246844c9 name vasia ]
+print [ =================================== name done ]
+print tcp self [ au 96db1e5f246844c9 profile ]
+print [ =================================== profile done ]
+net auth
+print [ xxxxxxxxxxxxxxx ]
+print tcp self [ au 96db1e5f246844c9 logout ]
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+net auth
+quit
+
+005.sts
+208
+#!/bin/sh
+# test profile and name
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+006.gold
+497
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== login done
+OK
+=== file list
+OK 0
+=== file new & list]
+OK 1
+OK 2
+OK 2 1 Kg== 0 2 Kg== 0
+=== file put
+OK
+OK 2 1 MTIzNDU2Nzg5MA== 0 2 Kg== 0
+OK MTIzNDU2Nzg5MA==
+=== file put
+OK 10
+OK 20
+OK 1 1 Kg== 20
+=== file del
+OK
+OK 1 2 Kg== 20
+OK
+OK 0
+=================================== profile done
+
+006.inp
+1231
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== login done ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print [ === file list ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 list ]
+print [ === file new & list]
+print tcp self [ au 96db1e5f246844c9 ds file 1 new ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 new ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 list ]
+print [ === file put ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 setdescr 1 MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 list ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 getdescr 1 ]
+print [ === file put ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 put 2 0 10 MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 put 2 10 10 MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds list ]
+print [ === file del ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 del 1 ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 list ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 del 2 ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 list ]
+print [ =================================== profile done ]
+quit
+
+006.sts
+212
+#!/bin/sh
+# test files
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+#rm -rf files
+
+
+007.gold
+492
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== create/delete
+OK
+OK 1 1 Kg== 0
+OK
+OK 2 1 2 Kg== Kg== 0
+OK
+OK 1 2 Kg== 0
+=================================== update
+OK
+OK
+OK 1 2 YWJj 0
+=================================== get
+OK 2 YWJj MTIzNDU2Nzg5MA== : :
+OK
+OK 2 YWJj MTIzNDU2Nzg5MA== : :
+=================================== done
+
+007.inp
+1010
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== create/delete ]
+print tcp self [ au 96db1e5f246844c9 dataset create ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print tcp self [ au 96db1e5f246844c9 dataset create ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print tcp self [ au 96db1e5f246844c9 dataset delete 1 ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print [ =================================== update ]
+print tcp self [ au 96db1e5f246844c9 dataset update 2 title YWJj ]
+print tcp self [ au 96db1e5f246844c9 dataset update 2 descr MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print [ =================================== get ]
+print tcp self [ au 96db1e5f246844c9 dataset get 2 ]
+print tcp self [ au 96db1e5f246844c9 dataset update 2 categ 1 ]
+print tcp self [ au 96db1e5f246844c9 ds get 2 ]
+print [ =================================== done ]
+quit
+
+007.sts
+199
+#!/bin/sh
+# test dataset
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+007_1.gold
+446
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=================================== create
+OK
+OK 1 1 Kg== 0
+=================================== get
+OK 1 Kg== Kg== : :
+=================================== update
+OK
+OK
+OK
+=================================== get
+OK 1 Kg== Kg== : :
+=================================== done
+
+007_1.inp
+779
+set date "20001122"
+set time "001122"
+
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ =================================== create ]
+print tcp self [ au 96db1e5f246844c9 dataset create ]
+print tcp self [ au 96db1e5f246844c9 dataset list ]
+print [ =================================== get ]
+print tcp self [ au 96db1e5f246844c9 dataset get 1 ]
+print [ =================================== update ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 title Kg== ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 descr Kg== ]
+print tcp self [ au 96db1e5f246844c9 dataset update 1 categ Kg== ]
+print [ =================================== get ]
+print tcp self [ au 96db1e5f246844c9 dataset get 1 ]
+print [ =================================== done ]
+quit
+
+007_1.sts
+199
+#!/bin/sh
+# test dataset
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+008.gold
+821
+=== login1
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login aaa@bbb http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [aaa@bbb] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=== admin
+Worker2::phadmin: unathorized access [au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA==]
+AUTH + REQ_MSG_BAD [addkw]
+=== logout
+OK
+=== login2
+AAA349 Aob: 20232512c272da3f 2
+cmd: phmail login admin@server.com http://aaa.bbb/home?20232512c272da3f
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?20232512c272da3f]
+OK
+=== admin ping
+REQ_MSG_BAD [xing]
+OK
+=== admin keywords
+OK
+OK
+OK 2 MTIzNDU2Nzg5MA== YWJj
+OK
+OK 2 Kg== YWJj
+OK
+OK 2 Kg== YWJj
+===================================
+=== admin categs
+OK
+OK 1 1 MTIzNDU2Nzg5MA== 0
+=== chcat
+OK
+OK 1 1 YWJj 0
+OK 0
+OK
+OK 1 2 YWJj 1
+===================================
+
+008.inp
+1532
+set date "20001122"
+set time "001122"
+
+print [ === login1 ]
+print tcp self [ login aaa@bbb http://aaa.bbb ]
+print [ === admin ]
+print tcp self [ au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA== ]
+print [ === logout ]
+print tcp self [ au 96db1e5f246844c9 logout ]
+print [ === login2 ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === admin ping ]
+print tcp self [ au 20232512c272da3f admin xing ]
+print tcp self [ au 20232512c272da3f admin ping ]
+
+print [ === admin keywords ]
+print tcp self [ au 20232512c272da3f admin addkw MTIzNDU2Nzg5MA== ]
+print tcp self [ au 20232512c272da3f admin addkw YWJj ]
+print tcp self [ au 20232512c272da3f keywords ]
+print tcp self [ au 20232512c272da3f admin chkw MTIzNDU2Nzg5MA== Kg== ]
+print tcp self [ au 20232512c272da3f keywords ]
+print tcp self [ au 20232512c272da3f admin chkw MTIzNDU2Nzg5MA== Kg== ]
+print tcp self [ au 20232512c272da3f keywords ]
+print [ =================================== ]
+
+print [ === admin categs ]
+print tcp self [ au 20232512c272da3f admin addcat MTIzNDU2Nzg5MA== 0 ]
+print tcp self [ au 20232512c272da3f cat kids 0 ]
+print [ === chcat ]
+print tcp self [ au 20232512c272da3f admin chcat 1 YWJj ]
+#print tcp self [ au 20232512c272da3f cat get 1 ]
+print tcp self [ au 20232512c272da3f cat kids 0 ]
+print tcp self [ au 20232512c272da3f cat kids 1 ]
+print tcp self [ au 20232512c272da3f admin addcat YWJj 1 ]
+print tcp self [ au 20232512c272da3f cat kids 1 ]
+print [ =================================== ]
+
+quit
+
+008.sts
+237
+#!/bin/sh
+# test admin and keywords
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+rm -f dbo.log
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+009.gold
+515
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=== admin keywords
+OK
+OK
+OK 2 MTIzNDU2Nzg5MA== YWJj
+OK
+OK 1 Kg== Kg== : :
+OK
+OK
+OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
+OK
+OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==
+===================================
+=== admin categories
+OK
+OK
+OK
+OK
+OK 1 Kg== Kg== :3:C3:2:C2:1:C1 :MTIzNDU2Nzg5MA==
+===================================
+
+009.inp
+1124
+set date "20001122"
+set time "001122"
+
+print [ === login ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === admin keywords ]
+print tcp self [ au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 admin addkw YWJj ]
+print tcp self [ au 96db1e5f246844c9 keywords ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds addkw 1 MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds addkw 1 YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds delkw 1 YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print [ =================================== ]
+
+print [ === admin categories ]
+print tcp self [ au 96db1e5f246844c9 admin addcat C1 0 ]
+print tcp self [ au 96db1e5f246844c9 admin addcat C2 1 ]
+print tcp self [ au 96db1e5f246844c9 admin addcat C3 2 ]
+print tcp self [ au 96db1e5f246844c9 ds update 1 categ 3 ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print [ =================================== ]
+
+quit
+
+009.sts
+229
+#!/bin/sh
+# test categories and keywords
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+rm -f dbo.log
+./phenod -cqln skcseed=1 dwkr=0 s=$cwd/$in.inp phdb=test.db
+rm -f test.db
+
+010.gold
+417
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+=== columns
+OK
+OK 0
+setc <dsN> <cN> xy name unit desc ... <cN> xy name unit desc
+OK
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
+OK
+OK 2 1 x YWJj YWJj YWJj 3 y YWJj YWJj MTIzNDU2Nzg5MA==
+===================================
+
+010.inp
+659
+set date "20001122"
+set time "001122"
+
+print [ === login ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === columns ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print [ setc <dsN> <cN> xy name unit desc ... <cN> xy name unit desc  ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 1 1 x YWJj YWJj MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 2 3 y YWJj YWJj MTIzNDU2Nzg5MA== 1 x YWJj YWJj YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print [ =================================== ]
+
+quit
+
+010.sts
+213
+#!/bin/sh
+# test columns
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+rm -f dbo.log
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+011.gold
+517
+=== login
+AAA349 Aob: 96db1e5f246844c9 1
+cmd: phmail login admin@server.com http://aaa.bbb/home?96db1e5f246844c9
+[N/I] phmail: Sending to [admin@server.com] au [http://aaa.bbb/home?96db1e5f246844c9]
+OK
+===
+OK
+OK
+OK 2 MTIzNDU2Nzg5MA== YWJj
+OK
+OK 1 Kg== Kg== : :
+OK
+OK
+OK 1 Kg== Kg== : :MTIzNDU2Nzg5MA==:YWJj
+OK
+OK 1 1 x YWJj YWJj MTIzNDU2Nzg5MA==
+===================================
+OK 1
+OK
+OK 1 1 Kg== 0
+OK
+OK
+OK 0 0
+===================================
+OK
+OK 1 Kg== Kg== : :
+OK 0
+===================================
+
+011.inp
+1332
+set date "20001122"
+set time "001122"
+
+print [ === login ]
+print tcp self [ login admin@server.com http://aaa.bbb ]
+
+print [ === ]
+print tcp self [ au 96db1e5f246844c9 admin addkw MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 admin addkw YWJj ]
+print tcp self [ au 96db1e5f246844c9 keywords ]
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds addkw 1 MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds addkw 1 YWJj ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds setc 1 1 1 x YWJj YWJj MTIzNDU2Nzg5MA== ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+
+print [ =================================== ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 new ]
+print tcp self [ au 96db1e5f246844c9 ds delete 1 ]
+print tcp self [ au 96db1e5f246844c9 ds list ]
+print tcp self [ au 96db1e5f246844c9 ds file 1 del 1 ]
+print tcp self [ au 96db1e5f246844c9 ds delete 1 ]
+print tcp self [ au 96db1e5f246844c9 ds list ]
+print [ =================================== ]
+
+print tcp self [ au 96db1e5f246844c9 ds create ]
+print tcp self [ au 96db1e5f246844c9 ds get 1 ]
+print tcp self [ au 96db1e5f246844c9 ds cols 1 ]
+print [ =================================== ]
+
+
+quit
+
+011.sts
+222
+#!/bin/sh
+# test that deletion DS
+
+in=$(basename $0)
+in=${in%.*} 
+
+cwd=`pwd`
+test -f /usr/bin/cygpath && cwd=`cygpath -m $cwd`
+
+cd $1
+rm -f dbo.log
+./phenod -cqln skcseed=1 dwkr=0 phdb=test.db s=$cwd/$in.inp
+rm -f test.db
+
+0
