@@ -31,6 +31,10 @@ Q3DIR=../q3
 INC := $(INC) -I$(Q3DIR)
 Q3LIB=$(Q3DIR)/$O/q3lib$(LEXT)
 
+JRDIR=../jr
+INC := $(INC) -I$(JRDIR)
+JRLIB=$(JRDIR)/$O/jrlib$(LEXT)
+
 src = ph_files.cpp hq_conflict.cpp \
 	hq_connector.cpp hq_logger.cpp hq_svttask.cpp hq_servant.cpp \
 	hq_wkrtask.cpp hq_publisher.cpp hq_config.cpp hq_reorgan.cpp \
@@ -52,9 +56,9 @@ $O:
 	mkdir -p $O
 
 $(trg): $O/%$(EEXT):%.cpp $O/$(MYLIB)$(LEXT) $(DBLIB) $(SGLIB) \
-	$(OSLIB) $(MALIB) $(GLLIB) $(Q3LIB)
+	$(OSLIB) $(MALIB) $(GLLIB) $(Q3LIB) $(JRLIB)
 	$(COMPILER) $(OPT) $(INC) $< $O/$(MYLIB)$(LEXT) $(DBLIB) \
-	$(SGLIB) $(Q3LIB) $(OSLIB) $(MALIB) $(GLLIB) $(LDF) $(EOUT)$@
+	$(SGLIB) $(Q3LIB) $(JRLIB) $(OSLIB) $(MALIB) $(GLLIB) $(LDF) $(EOUT)$@
 	@rm -f $O/%$(OEXT):%.cpp
 
 $(obj): $O/%$(OEXT):%.cpp *.h
@@ -87,3 +91,6 @@ $(SGLIB):
 
 $(Q3LIB):
 	cd $(Q3DIR) && make PLAT=$(PLAT)
+
+$(JRLIB):
+	cd $(JRDIR) && make PLAT=$(PLAT)
