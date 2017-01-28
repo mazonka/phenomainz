@@ -46,8 +46,3 @@ function wid_nc_logout()
 
     nc_logout(cb, g_session, g_pulse)
 }
-
-function wid_jraf_create_ds()
-{
-    log('create dataset');
-}

@@ -53,9 +53,7 @@ function jq_get_main_dsl()
     return $('<div/>', { id: 'div_main_dsl' })
         .append($('<div/>', { id: 'div_main_dsl_list' }))
         .append($('<div/>', { id: 'div_main_dsl_create' })
-            .append($('<button/>', { text: B_TXT.CREATE_NEW })
-                .click(function() { wid_jraf_create_ds(); })
-            )
+            .append($('<button/>', { text: B_TXT.CREATE_NEW }))
         );
 }
 

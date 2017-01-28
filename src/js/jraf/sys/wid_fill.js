@@ -14,7 +14,7 @@ function wid_fill_ui(au, profile)
         wid_fill_login(false);
         wid_fill_adm_panel(profile.su);
         wid_fill_profile(profile);
-        wid_fill_dataset_list(true);
+        wid_fill_dataset_list(true, profile.un);
     }
     else if (au && profile.ml == '*')
     {
@@ -52,11 +52,11 @@ function wid_fill_auth(srv)
     {}
 }
 
-function wid_fill_login(ch)
+function wid_fill_login(sf)
 {
     var $log = $('#span_main_log');
 
-    (ch) ? $log.show() : $log.hide();
+    (sf) ? $log.show() : $log.hide();
 }
 
 function wid_fill_adm_panel(su)
@@ -291,16 +291,30 @@ function wid_fill_modal_name(node, text)
         });
 }
 
-function wid_fill_dataset_list(checkbox)
+function wid_fill_dataset_list(sf, uname)
 {
-    if (checkbox)
+    var $list = $('#div_main_dsl_list');
+    var $main =$('#div_main_dsl');
+    var node = uname + '/datasets';
+    var cl = function()
+    { 
+        jraf_write_md(g_jraf_root, node, function (a) {});
+        jraf_node_up(jraf_virtual_node(g_jraf_root, node)) 
+    };
+
+    if (!sf) return $main.hide();
+    
+    $main.show();
+    $('#div_main_dsl_create').find('button')
+        .button()
+        .click(cl);
+    
+    jraf_bind_virtual(g_jraf_root, node, function()
     {
-        $('#div_main_dsl').show();
-        $('#div_main_dsl_create').find('button').button();
-    }
-    else
-    {
-        $('#div_main_dsl').hide();
-        $('#div_main_dsl_list').empty();
-    }
+        $list.append($('<span/>', {text: 'kids\n'}));
+        jraf_node_up(jraf_virtual_node(g_jraf_root, node, function()
+        {
+            console.log(Object.keys(this.kids.length));
+        }));
+    });
 }

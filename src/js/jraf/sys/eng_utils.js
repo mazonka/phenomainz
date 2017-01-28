@@ -179,9 +179,20 @@ function eng_is_table(data)
     return table;
 }
 
+function eng_get_resp_list(data)
+{
+    data = data.split(':');
+    data.forEach(function(item, i, arr)
+    {
+        arr[i] = arr[i].replace(/^\s+|\s+$/g, '')
+    });
+    
+    return data;
+}
+
 function eng_get_all_resp(data)
 {
-    var resp = data.split(' + ');
+    var resp = eng_get_resp_list(data);
     
     resp.forEach(function(item, i, arr)
     {
@@ -222,7 +233,7 @@ function eng_is_arr_el_equal(arr, val)
 
 function eng_get_data(data)
 {
-    var _data = data.split(' + ');
+    var _data = eng_get_resp_list(data);
 
     _data.forEach(function(item, i, arr)
     {
