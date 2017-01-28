@@ -18,4 +18,5 @@ $(BIN)/jraf.php: jraf.php
 
 checkin:
 	cp -fpuv $(BIN)/jraf.php ./
+	cp -fpuv $(BIN)/ospath.php ./
 

@@ -1,4 +1,9 @@
 <?php
+require 'ospath.php';
+
+$root_dir = '../wroot';
+$be_version = '10420';
+$sys_name = ".jraf.sys";
 
 if( empty($_POST) )
 {
@@ -99,12 +104,15 @@ class Token
 }
 
 function jbad(){ return new Cmdr("REQ_MSG_BAD", 0); }
-function jok(){ return new Cmdr("OK", 1); }
-function jerr(){ return new Cmdr("JRAF_ERR ".$s, 0); }
+function jok1(){ return new Cmdr("OK", 1); }
+function jok2($s){ return new Cmdr("OK ".$s, 1); }
+function jerr($s){ return new Cmdr("JRAF_ERR ".$s, 0); }
 function jraf_req($tokarr){	echo jraf_request($tokarr);	exit; }
 
 function jraf_request($tokarr)
 {
+	global $be_version;
+
 	$tok = new Token($tokarr);
 	$result = new Cmdr('',1);
 
@@ -113,7 +121,19 @@ function jraf_request($tokarr)
         if ( $tok->next() == 0 ) return jbad()->s;
         $cmd = $tok->sub();
 
-        if ( $cmd == "ping" ) $result->add(jok());
+        if ( $cmd == "ping" ) $result->add(jok1());
+
+        else if ( $cmd == "version" )
+        {
+            if ( !$tok->next() ) $result -> add( jbad() );
+            else
+            {
+                $w = $tok->sub();
+                if ( $w == "backend" ) $result -> add( jok2($be_version) );
+                else if ( $w == "client" ) $result -> add( Jraf_client_version() );
+                else $result -> add( jbad() );
+            }
+        }
 
         else
         {
@@ -133,6 +153,29 @@ function jraf_request($tokarr)
 
     return $result->s;
 }
+
+function Jraf_client_version()
+{
+    $p = Jraf_sys_dir() -> plus("version") ->str();
+    $fever = gl_file2str($p);
+
+    if ( $fever == '' ) return jerr("no file system found [" . p . "]");
+
+    return jok(fever);
+}
+
+function Jraf_sys_dir()
+{
+	global $sys_name;
+	return Jraf_root($sys_name);
+}
+
+function Jraf_root($s)
+{
+	global $root_dir;
+	return new OsPath($root_dir);
+}
+
 
 /* C++
 string Jraf::request(gl::Token tok, string anonce)
