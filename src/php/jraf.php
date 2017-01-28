@@ -50,14 +50,15 @@ function jprocess($cmd)
 {
 	$toks = explode(" ",$cmd);
 	if( empty($toks) ) err("REQ_MSG_HEAD");
-
-	if( count($toks) == 1 ) cmd1($toks[0]);
+	if( count($toks) < 1 ) err("REQ_MSG_HEAD");
 
 	if( $toks[0] == "jraf" ) jraf_req($toks);
 
+	if( count($toks) < 2 ) cmd1($toks[0]);
+
 	//var_dump($toks);
 	//echo "command: ".$cmd;
-	err("REQ_MSG_BAD");
+	err("REQ_MSG_BAD XXX");
 }
 
 function ok($s)
