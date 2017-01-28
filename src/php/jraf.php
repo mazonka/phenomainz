@@ -1,6 +1,7 @@
 <?php
 require 'ospath.php';
 
+$root_dir = 'jraf';
 $root_dir = 'wroot';
 $be_version = '10420';
 $sys_name = ".jraf.sys";
@@ -136,6 +137,16 @@ function jraf_request($tokarr)
             }
         }
 
+        else if ( $cmd == "au" )
+        {
+            if( !LockWrite_lock() ) $result -> add( jerr("JRAF_LOCK") );
+			else
+			{
+	            $result -> add( Jraf_aurequest($tok) );
+    	        LockWrite_unlock();
+			}
+        }
+
         else
         {
             $result -> add( jerr("bad command [" . $cmd . "]") );
@@ -155,33 +166,7 @@ function jraf_request($tokarr)
     return $result->s;
 }
 
-function Jraf_client_version()
-{
-    $p = Jraf_sys_dir() -> plus_s("version");
-	$ps = $p->s;
-	$fever = OsPath::file_get_contents($ps);
-
-    if ( $fever === FALSE || $fever == '' ) return jerr("no file system found [" . $ps . "]");
-
-    return jok(fever);
-}
-
-function Jraf_sys_dir()
-{
-	global $sys_name;
-	return Jraf_root($sys_name);
-}
-
-function Jraf_root($s)
-{
-	global $root_dir;
-	$r = new OsPath($root_dir);
-	$r->add_s($s);
-	return $r;
-}
-
-
-/* C++
+/*C++
 string Jraf::request(gl::Token tok, string anonce)
 {
     Cmdr result;
@@ -260,7 +245,76 @@ string Jraf::request(gl::Token tok, string anonce)
     if ( result.s.empty() ) return bad().s;
     return result.s;
 }
+*/
 
+function Jraf_client_version()
+{
+    $p = Jraf_sys_dir() -> plus_s("version");
+	$ps = $p->s;
+	$fever = OsPath::file_get_contents($ps);
+
+    if ( $fever === FALSE || $fever == '' ) return jerr("no file system found [" . $ps . "]");
+
+    return jok2($fever);
+}
+
+function Jraf_sys_dir()
+{
+	global $sys_name;
+	return Jraf_root($sys_name);
+}
+
+function Jraf_root($s)
+{
+	global $root_dir;
+	$r = new OsPath($root_dir);
+	$r->add_s($s);
+	return $r;
+}
+
+function Jraf_aurequest($tok)
+{
+    if ( !$tok->next() ) return jerr("session id");
+    $sess = $tok->sub();
+
+	return jerr("Jraf_aurequest NI ".$sess);
+}
+
+/* C++
+Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
+{
+    if ( !tok.next() ) return err("session id");
+    string sess = tok.sub();
+    auto superuser = user(sess);
+    if( !superuser.auth ) return auth();
+
+    if ( !tok.next() ) return err("command");
+    string cmd = tok.sub();
+
+    string pth;
+    Cmdr er = read_tok_path(tok, pth, superuser, true);
+    if ( !er.b ) return er;
+
+    if (0) {}
+
+    else if ( cmd == "md" ) return aureq_md(pth);
+    else if ( cmd == "rm" ) return aureq_rm(pth);
+    else if ( cmd == "put" ) return aureq_put(tok, pth, true);
+    else if ( cmd == "save" ) return aureq_put(tok, pth, false);
+    else if ( cmd == "mv" )
+    {
+        string pto;
+        er = read_tok_path(tok, pto, superuser, true);
+        if ( !er.b ) return er;
+        return aureq_mv(pth, pto);
+    }
+
+    return err("command [" + cmd + "] unknown");
+}
+
+*/
+
+/* C++
 
 Jraf::Cmdr Jraf::client_version()
 {
@@ -366,37 +420,6 @@ Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
     return err("bad path " + pth);
 }
 
-
-Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
-{
-    if ( !tok.next() ) return err("session id");
-    string sess = tok.sub();
-    auto superuser = user(sess);
-    if( !superuser.auth ) return auth();
-
-    if ( !tok.next() ) return err("command");
-    string cmd = tok.sub();
-
-    string pth;
-    Cmdr er = read_tok_path(tok, pth, superuser, true);
-    if ( !er.b ) return er;
-
-    if (0) {}
-
-    else if ( cmd == "md" ) return aureq_md(pth);
-    else if ( cmd == "rm" ) return aureq_rm(pth);
-    else if ( cmd == "put" ) return aureq_put(tok, pth, true);
-    else if ( cmd == "save" ) return aureq_put(tok, pth, false);
-    else if ( cmd == "mv" )
-    {
-        string pto;
-        er = read_tok_path(tok, pto, superuser, true);
-        if ( !er.b ) return er;
-        return aureq_mv(pth, pto);
-    }
-
-    return err("command [" + cmd + "] unknown");
-}
 
 
 Jraf::Cmdr Jraf::aureq_rm(string pth)
