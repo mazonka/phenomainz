@@ -1,7 +1,7 @@
 <?php
 require 'ospath.php';
 
-$root_dir = '../wroot';
+$root_dir = 'wroot';
 $be_version = '10420';
 $sys_name = ".jraf.sys";
 
@@ -34,7 +34,7 @@ exit;
 function loadPhd($auid)
 {
 	//echo "Loading Phd ".$auid;
-	$file = file_get_contents("../jraf.phd");
+	$file = OsPath::file_get_contents("jraf.phd");
 	$file = str_replace("$$$",$auid,$file);
 	echo $file;
 }
@@ -156,12 +156,12 @@ function jraf_request($tokarr)
 
 function Jraf_client_version()
 {
-    $p = Jraf_sys_dir() -> plus("version");
+    $p = Jraf_sys_dir() -> plus_s("version");
 	$ps = $p->s;
-    //$fever = OsPath::file2str($p);
-	$fever = file_get_contents($ps);
+	///$fever = @file_get_contents($ps);
+	$fever = OsPath::file_get_contents($ps);
 
-    if ( $fever == '' ) return jerr("no file system found [" . $ps . "]");
+    if ( $fever === FALSE || $fever == '' ) return jerr("no file system found [" . $ps . "]");
 
     return jok(fever);
 }
@@ -175,7 +175,9 @@ function Jraf_sys_dir()
 function Jraf_root($s)
 {
 	global $root_dir;
-	return new OsPath($root_dir);
+	$r = new OsPath($root_dir);
+	$r->add_s($s);
+	return $r;
 }
 
 

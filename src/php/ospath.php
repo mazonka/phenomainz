@@ -1,19 +1,22 @@
 <?php
+
+$CWD = '../';
+
 class OsPath
 {
-	public $s;
+	public $s = '';
 	function __construct($p){ $this->s = $p; }
 
-	function plus($x)
+	function plus_s($x)
 	{ 
 		$t = clone $this;
-		$t->add($x);
+		$t->add_s($x);
 		return $t;
-	}
+	}              
 
-	function add($p)
+	function add_s($ps)
 	{ 
-		$ps = $p->s;
+		//$ps = $p->s;
 		if( $this->s == '' )
 		{
 			$this->s = $ps;
@@ -28,9 +31,14 @@ class OsPath
                 $this->s .= $ps;
         }
         else
+		
             $this->s .= '/' . $ps;
 	}
 
-	//static function file2str($p){}
+	static function file_get_contents($p)
+	{
+		global $CWD;
+		return @file_get_contents($CWD.$p);
+	}
 }
 ?>
