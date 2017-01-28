@@ -144,7 +144,7 @@ function jraf_request($tokarr)
         if ( $result->b == 0 ) break;
         if ( $tok->next() == 0 ) break;
         $ts = $tok->sub();
-        if ( $ts != ":" ) return $result->s . " : " . jerr("[" . ts . "]")->s;
+        if ( $ts != ":" ) return $result->s . " : " . jerr("[" . $ts . "]")->s;
         
         $result->s .= " : ";
 	}
@@ -156,10 +156,12 @@ function jraf_request($tokarr)
 
 function Jraf_client_version()
 {
-    $p = Jraf_sys_dir() -> plus("version") ->str();
-    $fever = gl_file2str($p);
+    $p = Jraf_sys_dir() -> plus("version");
+	$ps = $p->s;
+    //$fever = OsPath::file2str($p);
+	$fever = file_get_contents($ps);
 
-    if ( $fever == '' ) return jerr("no file system found [" . p . "]");
+    if ( $fever == '' ) return jerr("no file system found [" . $ps . "]");
 
     return jok(fever);
 }
