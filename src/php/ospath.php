@@ -44,8 +44,12 @@ class OsPath
 		global $CWD;
 		return @file_get_contents($CWD.$p);
 	}
+
+	function isdir(){ return is_dir($CWD.$s); }
 }
 
+$LockWrite_locked = FALSE;
+$LockWrite_cwd = '';
 function LockWrite_lock()
 {
 	global $LOCKD, $LOCKF_UP, $LOCKF_DN;
@@ -60,11 +64,21 @@ function LockWrite_lock()
 		file_put_contents($fdn,'z');
 	}
 
-	for( $i=0; $i<10; ++$i )
+	for( $i=0; $i<50; ++$i )
 	{
-		if( rename($fdn,$fup) ) return TRUE;
-		echo ' '.$i.' ';
-		usleep(1000*100); // 100ms
+		if( !rename($fdn,$fup) )
+		{
+			//echo ' '.$i.' ';
+			usleep(1000*100); // 100ms
+			continue;
+		}
+
+		global $LockWrite_locked, $LockWrite_cwd;
+		$LockWrite_locked = TRUE;
+		register_shutdown_function(LockWrite_abort);
+		$cwd = getcwd();
+		$LockWrite_cwd = str_replace("\\","/",$cwd);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -78,6 +92,19 @@ function LockWrite_unlock()
 	$fdn = $LOCKD.'/'.$LOCKF_DN;
 
 	rename($fup,$fdn);
+	global $LockWrite_locked;
+	$LockWrite_locked = FALSE;
+}
+
+function LockWrite_abort()
+{
+	global $LockWrite_locked, $LockWrite_cwd, $LOCKD;
+	if( $LockWrite_locked )
+	{
+		$LOCKD = $LockWrite_cwd.'/'.$LOCKD;
+		echo ' LockWrite_abort ['.$LOCKD.'] ';
+		LockWrite_unlock();
+	}
 }
 
 ?>

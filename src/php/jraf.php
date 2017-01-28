@@ -4,7 +4,8 @@ require 'ospath.php';
 $root_dir = 'jraf';
 $root_dir = 'wroot';
 $be_version = '10420';
-$sys_name = ".jraf.sys";
+$sys_name = '.jraf.sys';
+$users_dir = 'users';
 
 if( empty($_POST) )
 {
@@ -62,7 +63,7 @@ function jprocess($cmd)
 	err("REQ_MSG_BAD XXX");
 }
 
-function ok($s)
+function retok($s)
 {
 	if( $s == "" ) echo "OK";
 	else echo "OK ".$s;
@@ -71,7 +72,7 @@ function ok($s)
 
 function cmd1($c)
 {
-	if( $c == "ping" ) ok("");
+	if( $c == "ping" ) retok("");
 	err("REQ_MSG_BAD ".$c);
 }
 
@@ -105,10 +106,32 @@ class Token
 	function sub(){ return $this->ref[$this->index]; }
 }
 
+class User
+{
+///            bool su;
+///            bool auth;
+///            string email, last, cntr; // filled in user()
+///            string quotaKb, uname; // filled later
+///            User(bool s, bool a): su(s), auth(a) {}
+	public $su;
+	public $auth;
+	public $email, $last, $cntr;
+	public $quotaKb, $uname;
+
+	function __construct($a,$b)
+	{
+		$this->su = $a;
+		$this->auth = $b;
+	}
+}
+
 function jbad(){ return new Cmdr("REQ_MSG_BAD", 0); }
 function jok1(){ return new Cmdr("OK", 1); }
 function jok2($s){ return new Cmdr("OK ".$s, 1); }
 function jerr($s){ return new Cmdr("JRAF_ERR ".$s, 0); }
+function jfail($s){ return new Cmdr("JRAF_FAIL ".$s, 0); }
+function jauth(){ return new Cmdr("AUTH", 0); }
+
 function jraf_req($tokarr){	echo jraf_request($tokarr);	exit; }
 
 function jraf_request($tokarr)
@@ -139,7 +162,7 @@ function jraf_request($tokarr)
 
         else if ( $cmd == "au" )
         {
-            if( !LockWrite_lock() ) $result -> add( jerr("JRAF_LOCK") );
+            if( !LockWrite_lock() ) $result -> add( jfail("busy") );
 			else
 			{
 	            $result -> add( Jraf_aurequest($tok) );
@@ -272,12 +295,29 @@ function Jraf_root($s)
 	return $r;
 }
 
+function Jraf_users()
+{
+	global $users_dir;
+	return Jraf_sys_dir()->plus_s($users_dir);
+}
+// C++ os::Path users() const { return sys_dir() + jraf::users; }
+
+
+
+
+
 function Jraf_aurequest($tok)
 {
     if ( !$tok->next() ) return jerr("session id");
     $sess = $tok->sub();
 
-	return jerr("Jraf_aurequest NI ".$sess);
+    $superuser = Jraf_user($sess);
+    if( !$superuser->auth ) return jauth();
+
+    if ( !$tok->next() ) return jerr("command");
+    $cmd = $tok->sub();
+
+	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
 
 /* C++
@@ -312,6 +352,63 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
     return err("command [" + cmd + "] unknown");
 }
 
+*/
+
+function Jraf_user($sess)
+{
+    $usr = Jraf_users();
+    if ( !$usr->isdir() ) return new User(TRUE,TRUE);
+
+	return jerr("Jraf_user NI");
+}
+
+/* C++
+Jraf::User Jraf::user(string sess)
+{
+    os::Path usr = users();
+    if ( !usr.isdir() ) return User(true,true);
+
+    if ( sess == "0" ) return User(false,true);
+
+    os::Path in = login() + sess;
+
+    if ( !in.isfile() ) return User(false,false);
+
+    string email = gl::file2word(in.str());
+
+    bool superuser = jraf::matchConf("admin", email);
+
+    // update stat
+
+    os::Path udir = users() + email;
+    if ( !udir.isdir() )
+    {
+        udir.mkdir();
+        if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
+
+        new_user(email);
+    }
+
+    // set counter
+    string file_cntr = (udir + "counter").str();
+    string scntr = gl::file2word( file_cntr );
+    int icntr = 0;
+    if ( !scntr.empty() ) icntr = gl::toi(scntr);
+    scntr = gl::tos(++icntr);
+    gl::str2file(file_cntr, scntr + '\n');
+
+    // set access
+    string file_last = (udir + "access").str();
+    string last = os::Timer::getGmd() + os::Timer::getHms();
+    gl::str2file(file_last, last + '\n');
+
+    User r(superuser,true);
+    r.email = email;
+    r.cntr = scntr;
+    r.last = last;
+
+    return r;
+}
 */
 
 /* C++
@@ -445,54 +542,6 @@ Jraf::Cmdr Jraf::aureq_md(string pth)
     if ( !p.isdir() ) return fail("md " + pth);
     update_ver(pth);
     return ok(pth);
-}
-
-///bool Jraf::issu(string sess)
-Jraf::User Jraf::user(string sess)
-{
-    os::Path usr = users();
-    if ( !usr.isdir() ) return User(true,true);
-
-    if ( sess == "0" ) return User(false,true);
-
-    os::Path in = login() + sess;
-
-    if ( !in.isfile() ) return User(false,false);
-
-    string email = gl::file2word(in.str());
-
-    bool superuser = jraf::matchConf("admin", email);
-
-    // update stat
-
-    os::Path udir = users() + email;
-    if ( !udir.isdir() )
-    {
-        udir.mkdir();
-        if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
-
-        new_user(email);
-    }
-
-    // set counter
-    string file_cntr = (udir + "counter").str();
-    string scntr = gl::file2word( file_cntr );
-    int icntr = 0;
-    if ( !scntr.empty() ) icntr = gl::toi(scntr);
-    scntr = gl::tos(++icntr);
-    gl::str2file(file_cntr, scntr + '\n');
-
-    // set access
-    string file_last = (udir + "access").str();
-    string last = os::Timer::getGmd() + os::Timer::getHms();
-    gl::str2file(file_last, last + '\n');
-
-    User r(superuser,true);
-    r.email = email;
-    r.cntr = scntr;
-    r.last = last;
-
-    return r;
 }
 
 void Jraf::set_user_uname(User & su)

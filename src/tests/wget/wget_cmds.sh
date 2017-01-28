@@ -23,6 +23,7 @@ run()
 	else
 	echo $cm
 	echo "$1 - FAILED see wget.out"
+	diff $1.o wget.out | grep -v "No newline at end of file"
 	exit 1
 	fi
 }
