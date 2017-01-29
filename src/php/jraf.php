@@ -335,6 +335,18 @@ function Jraf_aureq_md($pth)
 }
 
 /* C++
+Jraf::Cmdr Jraf::aureq_md(string pth)
+{
+    os::Path p = root(pth);
+    if ( p.isdir() ) return ok(pth);
+    os::FileSys::trymkdir(p);
+    if ( !p.isdir() ) return fail("md " + pth);
+    update_ver(pth);
+    return ok(pth);
+}
+*/
+
+/* C++
 Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
 {
     if ( !tok.next() ) return err("session id");
@@ -580,16 +592,6 @@ Jraf::Cmdr Jraf::aureq_rm(string pth)
     update_ver(pth);
     ///update_ver(parent_str(pth));
 
-    return ok(pth);
-}
-
-Jraf::Cmdr Jraf::aureq_md(string pth)
-{
-    os::Path p = root(pth);
-    if ( p.isdir() ) return ok(pth);
-    os::FileSys::trymkdir(p);
-    if ( !p.isdir() ) return fail("md " + pth);
-    update_ver(pth);
     return ok(pth);
 }
 
