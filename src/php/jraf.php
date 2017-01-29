@@ -321,7 +321,17 @@ function Jraf_aurequest($tok)
     $er = Jraf_read_tok_path($tok, $pth, $superuser, TRUE);
     if ( !$er->b ) return $er;
 
+    //ab.start
+    if (0) {}
+        
+    else if ( $cmd == "md") return Jraf_aureq_md($pth);
+    //ab.end
+
 	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
+}
+
+function Jraf_aureq_md($pth)
+{
 }
 
 /* C++
