@@ -1,0 +1,1 @@
+command=jraf au 0 md /aaa/ : au 0 save /aaa/bbb 10 MTIzNDU2Nzg5MA== : au 0 mv /aaa/bbb /aaa/ccc : read 0 /aaa/ccc : get 0 /aaa/bbb
