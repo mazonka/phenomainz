@@ -8,8 +8,11 @@ PLAT=`sh platform.sh`
 execdir=_bin_${PLAT}
 #echo "Platform detected $PLAT"
 
-xpwd=`sh execdir.sh`
-#echo "phenod found at $xpwd"
+die(){ echo $1; exit 1; }
+
+xpwd=`sh execdir.sh` || die "phenod_start.sh: cannot find phenod"
+
+echo "phenod found at $xpwd"
 cd $xpwd
 
 rm -rf wroot

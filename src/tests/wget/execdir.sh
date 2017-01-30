@@ -20,8 +20,9 @@ xpwd=`pwd`
 if [ "$xpwd" = "$xpwo" ]; then
    die "Cannot find phenod"
 fi
-xpwo=$xpwd/$execdir
+#echo "[$xpwd] = [$xpwo]"
+xpwo=$xpwd
 done
 
-echo $xpwo
+echo $xpwo/$execdir
 

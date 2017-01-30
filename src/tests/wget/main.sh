@@ -12,7 +12,7 @@ fi
 
 die(){ echo $1; exit 1; }
 
-sh phenod_start.sh || die "starting phenod failed"
+sh phenod_start.sh || die "main.sh: starting phenod failed"
 
 if sh wget_cmds.sh
 then
