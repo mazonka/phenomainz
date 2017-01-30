@@ -45,9 +45,18 @@ class OsPath
 		return @file_get_contents($CWD.$p);
 	}
 
-	function isdir(){ return is_dir($CWD.$this->s); }
+	function isdir()
+	{
+		global $CWD;
+		return is_dir($CWD.$this->s);
+	}
 
-	function trymkdir(){ mkdir($CWD.$this->s,0777,TRUE); }
+	function trymkdir()
+	{
+		global $CWD;
+		$d = $CWD.$this->s;
+		mkdir($d,0777,TRUE);
+	}
 }
 
 $LockWrite_locked = FALSE;
@@ -77,7 +86,7 @@ function LockWrite_lock()
 
 		global $LockWrite_locked, $LockWrite_cwd;
 		$LockWrite_locked = TRUE;
-		register_shutdown_function(LockWrite_abort);
+		register_shutdown_function('LockWrite_abort');
 		$cwd = getcwd();
 		$LockWrite_cwd = str_replace("\\","/",$cwd);
 		return TRUE;
