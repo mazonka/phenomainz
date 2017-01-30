@@ -351,8 +351,19 @@ function Jraf_aurequest($tok)
 
     else if ( $cmd == "md") return Jraf_aureq_md($pth);
     else if ( $cmd == "rm") return Jraf_aureq_rm($pth);
+    else if ( $cmd == "put" ) return Jraf_aureq_put($tok, $pth, TRUE);
+    else if ( $cmd == "save" ) return Jraf_aureq_put($tok, $pth, FALSE);
+    else if ( $cmd == "mv" )
+    {
+        $pto = '';
+        $er = Jraf_read_tok_path($tok, $pto, $usr, TRUE);
+        if ( !$er->b ) return $er;
+        return Jraf_aureq_mv($pth, $pto);
+    }
 
-    return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
+    return jerr("command [" . cmd . "] unknown");
+
+    ///return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
 
 /* C++
@@ -610,7 +621,7 @@ function Jraf_read_obj($pth, $getonly, $u)
 
     if ( $p->isdir() )
     {
-        $q = ver . " -1";
+        $q = $ver . " -1";
         if ( $getonly ) return jok2($q);
 
         $dir = $p->readDirectory();
