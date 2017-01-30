@@ -45,10 +45,13 @@ class OsPath
 		return @file_get_contents($CWD.$p);
 	}
 
-	static function file_put_contents($p,$t)
+	static function file_put_contents($p,$t,$f)
 	{
 		global $CWD;
-		return file_put_contents($CWD.$p,$t);
+        if ( $f == 0) return file_put_contents($CWD.$p,$t);
+        if ( $f == 1) return file_put_contents($CWD.$p,$t, FILE_APPEND );
+        
+        
 	}
 
 	function isdir()
@@ -63,6 +66,12 @@ class OsPath
         return is_file($CWD.$this->s);
     }
 
+    function file_size()
+    {
+        global $CWD;
+        return @filesize($CWD.$this->s);
+    }
+    
 	function trymkdir()
 	{
 		global $CWD;

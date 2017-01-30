@@ -419,6 +419,51 @@ function Jraf_aureq_rm($pth)
     return jok2($pth);
 }
 
+function Jraf_aureq_put($tok, $pth, $append)
+{
+    $pos = -1;
+    if ( $append )
+    {
+        if ( !$tok->next() ) return jerr("position");
+        $pos = intval($tok->sub());
+    }
+
+    if ( !$tok->next() ) return jerr("size");
+    $siz = intval($tok->sub());
+
+    $text = '';
+    if ( $siz )
+    {
+        if( !$tok->next() ) return jerr("text");
+        $text = base64_decode($tok->sub());
+    }
+    
+    if ( strlen($text) != $siz ) return jerr("size mismatch" . ' ' . $text);
+    
+    $f = Jraf_root($pth);
+    
+    if ( !$f->isfile() ) { OsPath::file_put_contents($f->s,'',0); }
+    if ( !$f->isfile() ) return jfail("cannot create " . $pth);
+    
+    $fsz = $f->file_size();
+    
+    if ( $append )
+    {
+        if ( $fsz != $pos ) return jfail(strval($fsz));
+        
+        OsPath::file_put_contents($f->s, $text,1);
+        //of << text;
+    }
+    else
+    {
+        OsPath::file_put_contents($f->s, $text,0);
+        //of << text;
+    }
+
+    Jraf_update_ver($pth);    
+    return jok2($f->file_size());
+}
+
 function Jraf_read_tok_path($tok, &$pth, $su, $wr)
 {
     if ( !$tok->next() ) return jerr("path");
@@ -600,7 +645,7 @@ function Jraf_setver($p, $v)
     if ( !$opar->isdir() ) $opar->trymkdir();
     if ( !$opar->isdir() ) throw "Failed to make dir " . $parent;
 
-    OsPath::file_put_contents($q->s,$v);
+    OsPath::file_put_contents($q->s,$v,0);
 }
 
 function Jraf_parent_str($spth) // str -> str
@@ -657,9 +702,10 @@ function Jraf_read_obj($pth, $getonly, $u)
 
     if ( $p->isfile() )
     {
-        $r = ver . ' ' . $p->filesize();
+        $r = $ver . ' ' . $p->file_size();
         if ( $getonly ) return jok2($r);
-        $r .= ' ' . base64_encode( $p->file_get_contents() );
+        // $r .= ' ' . base64_encode( $p->file_get_contents() );
+        $r .= ' ' . base64_encode( OsPath::file_get_contents($p->s) );
         return jok2($r);
     }
 
