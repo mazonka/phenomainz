@@ -3,7 +3,6 @@ error_reporting(-1);
 require 'ospath.php';
 
 $root_dir = 'jraf';
-$root_dir = 'wroot';
 $be_version = '10420';
 $sys_name = '.jraf.sys';
 $ver_name = '.jraf.ver';
@@ -28,12 +27,28 @@ if( empty($_POST) )
 if(isset($_POST['command']) )
 {
     $cmd = $_POST['command'];
-	jprocess($cmd);
+
+	$test = FALSE;
+	if( isset($_GET['test']) && $_GET['test']=='test' ) $test = TRUE;
+
+	if( !$test ) jprocess($cmd);
+	else
+	{	
+///		echo ' AAA '.$test;
+
+		global $root_dir;
+		$root_dir = 'wroot';
+		jprocess($cmd);
+		OsPath::rmdirr($root_dir);
+	}
+
 	exit;
 }
 
 var_dump($_POST);
 exit;
+
+// no call to exit beyond this point
 
 function loadPhd($auid)
 {
