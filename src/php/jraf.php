@@ -5,6 +5,7 @@ $root_dir = 'jraf';
 $root_dir = 'wroot';
 $be_version = '10420';
 $sys_name = '.jraf.sys';
+$ver_name = '.jraf.ver';
 $users_dir = 'users';
 
 if( empty($_POST) )
@@ -330,22 +331,6 @@ function Jraf_aurequest($tok)
 	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
 
-function Jraf_aureq_md($pth)
-{
-}
-
-/* C++
-Jraf::Cmdr Jraf::aureq_md(string pth)
-{
-    os::Path p = root(pth);
-    if ( p.isdir() ) return ok(pth);
-    os::FileSys::trymkdir(p);
-    if ( !p.isdir() ) return fail("md " + pth);
-    update_ver(pth);
-    return ok(pth);
-}
-*/
-
 /* C++
 Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
 {
@@ -380,14 +365,49 @@ Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
 
 */
 
+function Jraf_aureq_md($pth)
+{
+    $p = Jraf_root($pth);
+    if ( $p->isdir() ) return jok2($pth);
+    $p->trymkdir();
+    if ( !$p->isdir() ) return jfail("md " + $pth);
+    Jraf_update_ver($pth);
+    return jok($pth);
+}
+
+/* C++
+Jraf::Cmdr Jraf::aureq_md(string pth)
+{
+    os::Path p = root(pth);
+    if ( p.isdir() ) return ok(pth);
+    os::FileSys::trymkdir(p);
+    if ( !p.isdir() ) return fail("md " + pth);
+    update_ver(pth);
+    return ok(pth);
+}
+*/
+
 function Jraf_read_tok_path($tok, &$pth, $su, $wr)
 {
     if ( !$tok->next() ) return jerr("path");
     $p = $tok->sub();
 
-    $p = str_replace("//", "/",$p);
+	while( strpos($p,"//") !== FALSE )
+    	$p = str_replace("//", "/",$p);
 
-    if ( !(strpos($p,"..") === FALSE) ) return jerr("..");
+    if ( strpos($p,"..") !== FALSE ) return jerr("..");
+
+	if ( $p == '' ) return jerr("empty");
+
+    while ( $p != '' && substr($p,-1) == '/' )
+        $p = substr($p, 0, strlen($p) - 1);
+
+	if ( Jraf_special($p, $su->su) ) return jfail("system path");
+
+    if ( !Jraf_check_au_path($p, $su, $wr) ) return jfail("denied");
+
+    $pth = $p;
+    return new Cmdr('',1);
 
 	return jerr("Jraf_read_tok_path NI ".$p);
 }
@@ -412,6 +432,67 @@ Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, User & su, bool wr
 
     pth = p;
     return Cmdr();
+}
+*/
+
+function Jraf_special($s,$su)
+{
+	global $ver_name, $sys_name;
+    if ( strpos($s,$ver_name) !== FALSE ) return TRUE;
+
+    if ($su) return FALSE;
+
+    if ( strpos($s,$sys_name) !== FALSE ) return TRUE;
+
+    return FALSE;
+}
+
+/* C++
+bool Jraf::special(string s, bool su)
+{
+    if ( s.find(jraf::ver_name) != string::npos ) return true;
+
+    if (su) return false;
+
+    if ( s.find(jraf::sys_name) != string::npos ) return true;
+
+    return false;
+};
+*/
+
+function Jraf_check_au_path($pth,$su,$write)
+{
+    if ( $su->su ) return TRUE;
+    if ( !$write ) return TRUE;
+
+    Jraf_set_user_uname($su);
+    if ( $su->uname == '' ) return FALSE;
+
+    $rpth = Jraf_root($pth)->s;
+    $hdir = Jraf_home() -> plus($su->uname) -> s;
+
+    $hsz = strlen($hdir);
+    if ( strlen($rpth) < $hsz ) return FALSE;
+
+    return ( substr($rpth, 0, $hsz) == $hdir );
+}
+
+/* C++
+bool Jraf::check_au_path(string pth, User & su, bool write)
+{
+    if ( su.su ) return true;
+    if ( !write ) return true;
+
+    set_user_uname(su);
+    if ( su.uname.empty() ) return false;
+
+    string rpth = root(pth).str();
+    string hdir = (home() + su.uname).str();
+
+    auto hsz = hdir.size();
+    if ( rpth.size() < hsz ) return false;
+
+    return ( rpth.substr(0, hsz) == hdir );
 }
 */
 
@@ -472,6 +553,28 @@ Jraf::User Jraf::user(string sess)
 }
 */
 
+function Jraf_update_ver($pth)
+{
+	echo "Jraf_update_ver NI";
+	exit;
+}
+
+/* C++
+void Jraf::update_ver(os::Path pth)
+{
+    if ( special(pth.str(), false) ) return;
+
+    string v = getver(pth);
+    v = gl::tos( gl::toi(v) + 1 );
+    setver(pth, v);
+
+    string up = parent_str(pth);
+    if ( up == pth.str() ) return;
+
+    update_ver(up);
+}
+*/
+
 /* C++
 
 Jraf::Cmdr Jraf::client_version()
@@ -514,17 +617,6 @@ void Jraf::setver(const os::Path & p, string v)
     of << v << '\n';
     if ( !of ) throw gl::ex("Bad access to " + q.str());
 }
-
-bool Jraf::special(string s, bool su)
-{
-    if ( s.find(jraf::ver_name) != string::npos ) return true;
-
-    if (su) return false;
-
-    if ( s.find(jraf::sys_name) != string::npos ) return true;
-
-    return false;
-};
 
 Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
 {
@@ -608,35 +700,6 @@ void Jraf::set_user_quota(User & su)
     else quota = "0";
 }
 
-bool Jraf::check_au_path(string pth, User & su, bool write)
-{
-    if ( su.su ) return true;
-    if ( !write ) return true;
-
-    ///string uname = gl::file2word((users() + su.email + "uname").str());
-    ///if ( !jraf::isuname(uname) ) return false;
-    ///su.uname = uname;
-    set_user_uname(su);
-    if ( su.uname.empty() ) return false;
-
-    string rpth = root(pth).str();
-    string hdir = (home() + su.uname).str();
-
-    ///os::Cout() << "AAA 3 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
-
-    auto hsz = hdir.size();
-    if ( rpth.size() < hsz ) return false;
-    ///os::Cout() << "AAA 4 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
-
-    //os::Cout() << "email, quotaKb, last, cntr, uname" << os::endl;
-    //os::Cout() << su.email << ", " << su.quotaKb << ", "<< su.last << ", " << su.cntr << ", " << su.uname << os::endl;
-
-    return ( rpth.substr(0, hsz) == hdir );
-
-    ///os::Cout() << "Jraf::check_au_path - NI" << os::endl;
-    ///return true;
-}
-
 Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
 {
     // (put) pos, sz, text
@@ -715,20 +778,6 @@ string Jraf::parent_str(os::Path pth)
     if ( pth.size() < 2 ) return "";
     string up = pth.strP(pth.size() - 2);
     return up;
-}
-
-void Jraf::update_ver(os::Path pth)
-{
-    if ( special(pth.str(), false) ) return;
-
-    string v = getver(pth);
-    v = gl::tos( gl::toi(v) + 1 );
-    setver(pth, v);
-
-    string up = parent_str(pth);
-    if ( up == pth.str() ) return;
-
-    update_ver(up);
 }
 
 Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)

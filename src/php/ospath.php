@@ -45,7 +45,9 @@ class OsPath
 		return @file_get_contents($CWD.$p);
 	}
 
-	function isdir(){ return is_dir($CWD.$s); }
+	function isdir(){ return is_dir($CWD.$this->s); }
+
+	function trymkdir(){ mkdir($CWD.$this->s,0777,TRUE); }
 }
 
 $LockWrite_locked = FALSE;
