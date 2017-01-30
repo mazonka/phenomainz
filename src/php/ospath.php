@@ -56,6 +56,12 @@ class OsPath
 		global $CWD;
 		return is_dir($CWD.$this->s);
 	}
+    
+    function isfile()
+    {
+        global $CWD;
+        return is_file($CWD.$this->s);
+    }
 
 	function trymkdir()
 	{
