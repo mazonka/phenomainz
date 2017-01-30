@@ -1,0 +1,1 @@
+command=jraf au 0 md / : au 0 save /c1 0 : au 0 put /c2 0 0 : read 0 /c1 : read 0 /c2 : read 0 /
