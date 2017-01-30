@@ -59,19 +59,13 @@ function loadPhd($auid)
 }
 
 
-function XXX_err($s)
-{
-	echo $s;
-	exit;
-}
-
 function jprocess($cmd) // void
 {
 	$toks = explode(" ",$cmd);
-	if( empty($toks) ){ err("REQ_MSG_HEAD"); return; }
-	if( count($toks) < 1 ){ err("REQ_MSG_HEAD"); return; }
+	if( empty($toks) ){ echo("REQ_MSG_HEAD"); return; }
+	if( count($toks) < 1 ){ echo("REQ_MSG_HEAD"); return; }
 
-	if( $toks[0] == "jraf" ){ jraf_req($toks); return; }
+	if( $toks[0] == "jraf" ){ echo_jraf_req($toks); return; }
 
 	if( count($toks) < 2 ){ cmd1($toks[0]); return; }
 
@@ -151,7 +145,7 @@ function jerr($s){ return new Cmdr("JRAF_ERR ".$s, 0); }
 function jfail($s){ return new Cmdr("JRAF_FAIL ".$s, 0); }
 function jauth(){ return new Cmdr("AUTH", 0); }
 
-function XXX_jraf_req($tokarr){	echo jraf_request($tokarr);	exit; }
+function echo_jraf_req($tokarr){ echo jraf_request($tokarr); }
 
 function jraf_request($tokarr)
 {
