@@ -1,0 +1,1 @@
+command=jraf au 0 md /a : read 0 /.jraf.ver/.jraf.sys.jraf.ver
