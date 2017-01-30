@@ -64,13 +64,13 @@ class OsPath
 		@mkdir($d,0777,TRUE);
 	}
 
-	static function rmdirr($d)
+	static function del_rec($d)
 	{
 		global $CWD;
 
 		if ( !is_dir($CWD.$d) )
 		{
-			return;
+            return @unlink($d);
 		}
 
 		$files = array_diff(scandir($CWD.$d), array('.','..')); 
@@ -79,7 +79,7 @@ class OsPath
 			$rp = $CWD.$d.'/'.$f;
 			if(is_dir($rp))
 			{
-				OsPath::rmdirr($d.'/'.$f);
+				OsPath::del_rec($d.'/'.$f);
 			}
 			else
 			{
@@ -89,6 +89,8 @@ class OsPath
 		return rmdir($CWD.$d); 
 	}
 
+    function erase(){ return OsPath::del_rec($this->s); }
+    
 	function size() // -> int
 	{
 		$n = 1;

@@ -37,7 +37,7 @@ if(isset($_POST['command']) )
 		global $root_dir;
 		$root_dir = 'wroot';
 		jprocess($cmd);
-		//OsPath::rmdirr($root_dir);
+		//OsPath::del_rec($root_dir);
 	}
 
 	exit;
@@ -329,6 +329,7 @@ function Jraf_aurequest($tok)
     if (0) {}
         
     else if ( $cmd == "md") return Jraf_aureq_md($pth);
+    else if ( $cmd == "rm") return Jraf_aureq_rm($pth);
 
 	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
@@ -373,6 +374,15 @@ function Jraf_aureq_md($pth)
     if ( $p->isdir() ) return jok2($pth);
     $p->trymkdir();
     if ( !$p->isdir() ) return jfail("md " . $pth);
+    Jraf_update_ver($pth);
+    return jok2($pth);
+}
+
+function Jraf_aureq_rm($pth)
+{
+    $p = Jraf_root($pth);
+    $p->erase();
+    if ( $p->isdir() || $p->isfile() ) return jfail("rm " . $pth);
     Jraf_update_ver($pth);
     return jok2($pth);
 }
