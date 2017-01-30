@@ -50,8 +50,12 @@ class OsPath
 		global $CWD;
         if ( $f == 0) return file_put_contents($CWD.$p,$t);
         if ( $f == 1) return file_put_contents($CWD.$p,$t, FILE_APPEND );
-        
-        
+	}
+
+	static function rename($f1,$f2)
+	{
+		global $CWD;
+		return @rename($CWD.$f1,$CWD.$f2);
 	}
 
 	function isdir()

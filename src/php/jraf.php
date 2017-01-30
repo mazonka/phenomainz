@@ -710,59 +710,49 @@ function Jraf_read_obj($pth, $getonly, $u)
 
 }
 
-/* C++
-Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
+function Jraf_aureq_mv($pth, $pto)
 {
-    if ( special(pth, u.su) ) return err("sys path");
+    $f1 = Jraf_root($pth);
+    $dir = $f1->isdir();
 
-    os::Path rp(pth);
-    os::Path p = root(pth);
-    string ver = getver(pth);
+    if ( $dir ) return jfail("moving direcrories not allowed");
+    // the reason is that it would require recursive copying
+    // of the version files sub-tree, since it cannot be moved
 
-    if ( p.isdir() )
-    {
-        string q = ver + " -1";
-        if ( getonly ) return ok(q);
+    $f2 = Jraf_root($pto);
 
-        os::Dir dir = os::FileSys::readDirEx(p, true, true);
+    $k = OsPath::rename($f1->s, $f2->s);
+    if ( !$k ) return jfail($pth . " -> " . $pto);
+    if ( $f1->isdir() || $f1->isfile() ) return jfail("mv ".$pth);
 
-        string r;
-        int cntr = 0;
+    Jraf_update_ver($pto);
+    Jraf_update_ver($pth);
 
-        for ( auto i : dir.dirs )
-        {
-            if ( special(i, u.su) ) continue;
-            r += ' ' + getver(rp + i);
-            r += " -1";
-            r += ' ' + i;
-            cntr++;
-        }
-
-        for ( auto i : dir.files )
-        {
-            if ( special(i.first, u.su) ) continue;
-            r += ' ' + getver(rp + i.first);
-            r += ' ' + gl::tos(i.second);
-            r += ' ' + i.first;
-            cntr++;
-        }
-
-        q += ' ' + gl::tos(cntr);
-
-        return ok(q + r);
-    }
-
-    if ( p.isfile() )
-    {
-        string r = ver + ' ' + gl::tos(p.filesize());
-        if ( getonly ) return ok(r);
-        r += ' ' + ma::b64enc( gl::file2str(p.str()) );
-        return ok(r);
-    }
-
-    return err("bad path " + pth);
+    return jok2($pto);
 }
 
+
+/* C++
+Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
+{
+    os::Path f1 = root(pth);
+    bool dir = f1.isdir();
+
+    if ( dir ) return fail("moving direcrories not allowed");
+    // the reason is that it would require recursive copying
+    // of the version files sub-tree, since it cannot be moved
+
+    os::Path f2 = root(pto);
+
+    bool k = os::rename(f1.str(), f2.str());
+    if ( !k ) return fail(pth + " -> " + pto);
+    if ( f1.isdir() || f1.isfile() ) return fail("mv "+pth);
+
+    update_ver(pto);
+    update_ver(pth);
+
+    return ok(pto);
+}
 */
 
 // ===================================================================
@@ -795,27 +785,6 @@ void Jraf::set_user_quota(User & su)
     string quota = gl::file2word((users() + su.email + "quota").str());
     if ( !quota.empty() ) su.quotaKb = quota;
     else quota = "0";
-}
-
-Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
-{
-    os::Path f1 = root(pth);
-    bool dir = f1.isdir();
-
-    if ( dir ) return fail("moving direcrories not allowed");
-    // the reason is that it would require recursive copying
-    // of the version files sub-tree, since it cannot be moved
-
-    os::Path f2 = root(pto);
-
-    bool k = os::rename(f1.str(), f2.str());
-    if ( !k ) return fail(pth + " -> " + pto);
-    if ( f1.isdir() || f1.isfile() ) return fail("mv "+pth);
-
-    update_ver(pto);
-    update_ver(pth);
-
-    return ok(pto);
 }
 
 Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
