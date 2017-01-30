@@ -61,7 +61,7 @@ class OsPath
 	{
 		global $CWD;
 		$d = $CWD.$this->s;
-		mkdir($d,0777,TRUE);
+		@mkdir($d,0777,TRUE);
 	}
 
 	static function rmdirr($d)

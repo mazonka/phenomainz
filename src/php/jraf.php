@@ -372,7 +372,7 @@ function Jraf_aureq_md($pth)
     $p = Jraf_root($pth);
     if ( $p->isdir() ) return jok2($pth);
     $p->trymkdir();
-    if ( !$p->isdir() ) return jfail("md " + $pth);
+    if ( !$p->isdir() ) return jfail("md " . $pth);
     Jraf_update_ver($pth);
     return jok2($pth);
 }
