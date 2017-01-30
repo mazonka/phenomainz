@@ -17,6 +17,10 @@ run()
 	#echo $cm
 	$cm
 
+	if test -f $1.sh; then
+	sh $1.sh >> wget.out
+	fi
+
 	if cmp $1.o wget.out
 	then
 	echo "$1 - ok"
