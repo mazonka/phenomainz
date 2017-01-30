@@ -59,38 +59,40 @@ function loadPhd($auid)
 }
 
 
-function err($s)
+function XXX_err($s)
 {
 	echo $s;
 	exit;
 }
 
-function jprocess($cmd)
+function jprocess($cmd) // void
 {
 	$toks = explode(" ",$cmd);
-	if( empty($toks) ) err("REQ_MSG_HEAD");
-	if( count($toks) < 1 ) err("REQ_MSG_HEAD");
+	if( empty($toks) ){ err("REQ_MSG_HEAD"); return; }
+	if( count($toks) < 1 ){ err("REQ_MSG_HEAD"); return; }
 
-	if( $toks[0] == "jraf" ) jraf_req($toks);
+	if( $toks[0] == "jraf" ){ jraf_req($toks); return; }
 
-	if( count($toks) < 2 ) cmd1($toks[0]);
+	if( count($toks) < 2 ){ cmd1($toks[0]); return; }
 
 	//var_dump($toks);
 	//echo "command: ".$cmd;
-	err("REQ_MSG_BAD XXX");
+	echo "REQ_MSG_BAD XXX ".$cmd;
 }
 
-function retok($s)
+function echook($s)
 {
 	if( $s == "" ) echo "OK";
 	else echo "OK ".$s;
-	exit;
 }
 
 function cmd1($c)
 {
-	if( $c == "ping" ) retok("");
-	err("REQ_MSG_BAD ".$c);
+	if(0){}
+
+	else if( $c == "ping" ) echook("");
+	else 
+		echo "REQ_MSG_BAD ".$c;
 }
 
 class Cmdr
@@ -149,7 +151,7 @@ function jerr($s){ return new Cmdr("JRAF_ERR ".$s, 0); }
 function jfail($s){ return new Cmdr("JRAF_FAIL ".$s, 0); }
 function jauth(){ return new Cmdr("AUTH", 0); }
 
-function jraf_req($tokarr){	echo jraf_request($tokarr);	exit; }
+function XXX_jraf_req($tokarr){	echo jraf_request($tokarr);	exit; }
 
 function jraf_request($tokarr)
 {

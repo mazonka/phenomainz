@@ -57,6 +57,21 @@ class OsPath
 		$d = $CWD.$this->s;
 		mkdir($d,0777,TRUE);
 	}
+
+	static function rmdirr($p)
+	{
+		global $CWD;
+		$d = $CWD.$p;
+
+		if ( !is_dir($d) ) return;
+
+		$files = array_diff(scandir($d), array('.','..')); 
+		foreach ($files as $f)
+		{
+			(is_dir("$d/$f")) ? rmdirr("$d/$f") : unlink("$d/$f"); 
+	    } 
+		return rmdir($d); 
+	}
 }
 
 $LockWrite_locked = FALSE;
