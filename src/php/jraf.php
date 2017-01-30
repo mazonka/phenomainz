@@ -450,14 +450,11 @@ function Jraf_aureq_put($tok, $pth, $append)
     if ( $append )
     {
         if ( $fsz != $pos ) return jfail(strval($fsz));
-        
         OsPath::file_put_contents($f->s, $text,1);
-        //of << text;
     }
     else
     {
         OsPath::file_put_contents($f->s, $text,0);
-        //of << text;
     }
 
     Jraf_update_ver($pth);    
@@ -691,7 +688,7 @@ function Jraf_read_obj($pth, $getonly, $u)
             if ( Jraf_special($name, $u->su) ) continue;
             $r .= ' ' . Jraf_getver($rp -> plus_s($name) -> s);
             $r .= ' ' . $size;
-            $r .= ' ' + $name;
+            $r .= ' ' . $name;
             $cntr++;
         }
 
@@ -798,54 +795,6 @@ void Jraf::set_user_quota(User & su)
     string quota = gl::file2word((users() + su.email + "quota").str());
     if ( !quota.empty() ) su.quotaKb = quota;
     else quota = "0";
-}
-
-Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
-{
-    // (put) pos, sz, text
-    // (save) sz, text
-
-    int pos = -1;
-    if ( append )
-    {
-        if ( !tok.next() ) return err("position");
-        pos = gl::toi(tok.sub());
-    }
-
-    if ( !tok.next() ) return err("size");
-    int siz = gl::toi(tok.sub());
-
-    string text;
-    if ( siz )
-    {
-        if( !tok.next() ) return err("text");
-        text = ma::b64dec(tok.sub());
-    }
-
-    if ( (int)text.size() != siz ) return err("size mismatch");
-
-    os::Path f = root(pth);
-
-    if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
-    if ( !f.isfile() ) return fail("cannot create " + pth);
-
-    int fsz = f.filesize();
-
-    if ( append )
-    {
-        if ( fsz != pos ) return fail(gl::tos(fsz));
-
-        std::ofstream of(f.str().c_str(), std::ios::app | std::ios::binary );
-        of << text;
-    }
-    else
-    {
-        std::ofstream of(f.str().c_str(), std::ios::binary);
-        of << text;
-    }
-
-    update_ver(pth);
-    return ok(gl::tos(f.filesize()));
 }
 
 Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
