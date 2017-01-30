@@ -45,6 +45,12 @@ class OsPath
 		return @file_get_contents($CWD.$p);
 	}
 
+	static function file_put_contents($p,$t)
+	{
+		global $CWD;
+		return file_put_contents($CWD.$p,$t);
+	}
+
 	function isdir()
 	{
 		global $CWD;
@@ -58,20 +64,88 @@ class OsPath
 		mkdir($d,0777,TRUE);
 	}
 
-	static function rmdirr($p)
+	static function rmdirr($d)
 	{
 		global $CWD;
-		$d = $CWD.$p;
 
-		if ( !is_dir($d) ) return;
+		if ( !is_dir($CWD.$d) )
+		{
+			return;
+		}
 
-		$files = array_diff(scandir($d), array('.','..')); 
+		$files = array_diff(scandir($CWD.$d), array('.','..')); 
 		foreach ($files as $f)
 		{
-			(is_dir("$d/$f")) ? rmdirr("$d/$f") : unlink("$d/$f"); 
+			$rp = $CWD.$d.'/'.$f;
+			if(is_dir($rp))
+			{
+				OsPath::rmdirr($d.'/'.$f);
+			}
+			else
+			{
+				unlink($rp);
+			}
 	    } 
-		return rmdir($d); 
+		return rmdir($CWD.$d); 
 	}
+
+	function size() // -> int
+	{
+		$n = 1;
+		$pos = 0;
+		while(TRUE)
+		{
+			$pos = strpos($this->s,'/',$pos);
+			if( $pos === FALSE ) break;
+			$n++; $pos++;
+		}
+
+		return $n;
+	}
+
+	/* C++
+	int os::Path::size() const
+	{
+	    int n = 1;
+	    size_t pos = 0;
+	    while ( (pos = s.find( SL, pos )) != std::string::npos )
+	    { n++; pos++; }
+	    return n;
+	}
+	*/
+
+	function strPstr($i)
+	{
+		$n = 0;
+		$pos = 0;
+		while(TRUE)
+		{
+			$pos = strpos($this->s,'/',$pos);
+			if( $pos === FALSE ) break;
+			$n++;
+			if( $n > $i ) break;
+			$pos++;
+		}
+
+		if ( $n == 0 || $pos === FALSE ) return $this->s;
+		return substr($this->s, 0, $pos);
+	}
+
+	/* C++
+    int n = 0;
+    size_t pos = 0;
+
+    while ( (pos = s.find( SL, pos )) != std::string::npos )
+    {
+        n++;
+        if ( n > i ) break;
+        pos++;
+    }
+
+    if ( n == 0 || pos == std::string::npos ) return str();
+    return s.substr(0, pos);
+	*/	
+
 }
 
 $LockWrite_locked = FALSE;

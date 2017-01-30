@@ -34,7 +34,7 @@ if(isset($_POST['command']) )
 	if( !$test ) jprocess($cmd);
 	else
 	{	
-///		echo ' AAA '.$test;
+		///echo ' AAA test '.$test;
 
 		global $root_dir;
 		$root_dir = 'wroot';
@@ -294,10 +294,28 @@ function Jraf_client_version()
     return jok2($fever);
 }
 
+/* C++
+Jraf::Cmdr Jraf::client_version()
+{
+    string p = (sys_dir() + "version").str();
+    string fever = gl::file2str(p);
+
+    if ( fever.empty() ) return err("no file system found [" + p + "]");
+
+    return ok(fever);
+}
+*/
+
 function Jraf_sys_dir()
 {
 	global $sys_name;
 	return Jraf_root($sys_name);
+}
+
+function Jraf_ver_dir()
+{
+	global $ver_name;
+	return Jraf_root($ver_name);
 }
 
 function Jraf_root($s)
@@ -334,11 +352,9 @@ function Jraf_aurequest($tok)
     $er = Jraf_read_tok_path($tok, $pth, $superuser, TRUE);
     if ( !$er->b ) return $er;
 
-    //ab.start
     if (0) {}
         
     else if ( $cmd == "md") return Jraf_aureq_md($pth);
-    //ab.end
 
 	return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
@@ -384,7 +400,7 @@ function Jraf_aureq_md($pth)
     $p->trymkdir();
     if ( !$p->isdir() ) return jfail("md " + $pth);
     Jraf_update_ver($pth);
-    return jok($pth);
+    return jok2($pth);
 }
 
 /* C++
@@ -567,8 +583,21 @@ Jraf::User Jraf::user(string sess)
 
 function Jraf_update_ver($pth)
 {
-	echo "Jraf_update_ver NI";
-	exit;
+    if ( Jraf_special($pth, FALSE) ) return;
+
+
+    $v = Jraf_getver($pth);
+    $v = ''.( $v + 1 );
+
+    Jraf_setver($pth, $v);
+
+	///echo " Jraf_update_ver [".$v."] ";
+	///return;
+
+    $up = Jraf_parent_str($pth);
+    if ( $up == $pth ) return;
+
+    Jraf_update_ver($up);
 }
 
 /* C++
@@ -587,18 +616,51 @@ void Jraf::update_ver(os::Path pth)
 }
 */
 
-/* C++
-
-Jraf::Cmdr Jraf::client_version()
+function Jraf_zero($s, $d = "0")
 {
-    string p = (sys_dir() + "version").str();
-    string fever = gl::file2str(p);
-
-    if ( fever.empty() ) return err("no file system found [" + p + "]");
-
-    return ok(fever);
+    return $s=='' ? $d : $s;
 }
 
+function Jraf_ver_path($p)
+{
+    global $ver_name;
+    $q = $p.$ver_name;
+    $q = Jraf_ver_dir() -> plus_s($q);
+    return $q;
+}
+
+function Jraf_getver($p)
+{
+    $q = Jraf_ver_path($p);
+	///echo "Jraf_getver q=".$q->s;
+	///return "X";
+    $ver = OsPath::file_get_contents( $q->s );
+	$ver = trim($ver);
+    $ver = Jraf_zero($ver);
+	///echo " Jraf_getver ver=".$ver.' ';
+	///return "X";
+
+    return $ver;
+}
+
+function Jraf_setver($p, $v)
+{
+
+    $q = Jraf_ver_path($p);
+	///echo " Jraf_setver q=".$q->s;
+    $parent = Jraf_parent_str($q->s);
+	///echo " Jraf_setver parent=".$parent;
+	///return;
+
+	$opar = new OsPath($parent);
+
+    if ( !$opar->isdir() ) $opar->trymkdir();
+    if ( !$opar->isdir() ) throw "Failed to make dir " . $parent;
+
+	OsPath::file_put_contents($q->s,$v);
+}
+
+/* C++
 os::Path Jraf::ver_path(const os::Path & p) const
 {
     os::Path q = p;
@@ -607,13 +669,11 @@ os::Path Jraf::ver_path(const os::Path & p) const
     return q;
 }
 
-
 string Jraf::getver(const os::Path & p) const
 {
     os::Path q = ver_path(p);
     string ver = gl::file2word( q.str() );
     ver = zero(ver);
-    ///return gl::tos(gl::toi(ver));
     return ver;
 }
 
@@ -629,6 +689,31 @@ void Jraf::setver(const os::Path & p, string v)
     of << v << '\n';
     if ( !of ) throw gl::ex("Bad access to " + q.str());
 }
+
+*/
+
+function Jraf_parent_str($spth) // str -> str
+{
+	$pth = new OsPath($spth);
+	if( $pth->size() < 2 ) return '';
+	$up = $pth->strPstr($pth->size()-2);
+	return $up;
+}
+
+/*C++
+string Jraf::parent_str(os::Path pth)
+{
+    string spth = pth.str();
+
+    if ( pth.size() < 2 ) return "";
+    string up = pth.strP(pth.size() - 2);
+    return up;
+}
+*/
+
+// ===================================================================
+
+/*C++
 
 Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
 {
@@ -694,7 +779,6 @@ Jraf::Cmdr Jraf::aureq_rm(string pth)
     if ( p.isdir() || p.isfile() ) return fail("rm "+ pth);
 
     update_ver(pth);
-    ///update_ver(parent_str(pth));
 
     return ok(pth);
 }
@@ -777,19 +861,8 @@ Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 
     update_ver(pto);
     update_ver(pth);
-    ///update_ver(parent_str(pto));
-    ///update_ver(parent_str(pth));
 
     return ok(pto);
-}
-
-string Jraf::parent_str(os::Path pth)
-{
-    string spth = pth.str();
-
-    if ( pth.size() < 2 ) return "";
-    string up = pth.strP(pth.size() - 2);
-    return up;
 }
 
 Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
