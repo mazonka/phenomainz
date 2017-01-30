@@ -602,13 +602,61 @@ function Jraf_parent_str($spth) // str -> str
 
 function Jraf_read_obj($pth, $getonly, $u)
 {
-    
-    return jerr("Jraf_read_obj NI " . $pth);
+    if ( Jraf_special($pth, $u->su) ) return jerr("sys path");
+
+    $rp = new OsPath($pth);
+    $p = Jraf_root($pth);
+    $ver = Jraf_getver($pth);
+
+    if ( $p->isdir() )
+    {
+        $q = ver . " -1";
+        if ( $getonly ) return jok2($q);
+
+        $dir = $p->readDirectory();
+
+        $r = '';
+        $cntr = 0;
+
+        foreach( $dir[0] as $i )
+        {
+            if ( Jraf_special($i, $u->su) ) continue;
+            $r .= ' ' . Jraf_getver( $rp -> plus_s($i) -> s );
+            $r .= " -1";
+            $r .= ' ' + $i;
+            $cntr++;
+        }
+
+        foreach ( $dir[1] as $i )
+        {
+			$name = $i[0];
+			$size = $i[1];
+			
+            if ( Jraf_special($name, $u->su) ) continue;
+            $r .= ' ' . Jraf_getver($rp -> plus_s($name) -> s);
+            $r .= ' ' . $size;
+            $r .= ' ' + $name;
+            $cntr++;
+        }
+
+        $q .= ' ' . $cntr;
+
+        return jok2($q . $r);
+    }
+
+    if ( $p->isfile() )
+    {
+        $r = ver . ' ' . $p->filesize();
+        if ( $getonly ) return jok2($r);
+        $r .= ' ' . base64_encode( $p->file_get_contents() );
+        return jok2($r);
+    }
+
+    return jerr("bad path " . $pth);
+
 }
-// ===================================================================
 
-/*C++
-
+/* C++
 Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
 {
     if ( special(pth, u.su) ) return err("sys path");
@@ -661,6 +709,11 @@ Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
     return err("bad path " + pth);
 }
 
+*/
+
+// ===================================================================
+
+/*C++
 
 
 Jraf::Cmdr Jraf::aureq_rm(string pth)
