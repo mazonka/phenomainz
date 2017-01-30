@@ -1,0 +1,1 @@
+command=jraf au 0 md /aaa/ : au 0 put /aaa/bbb 0 10 MTIzNDU2Nzg5MA== : au 0 put /aaa/bbb 10 10 MTIzNDU2Nzg5MA== : read 0 /aaa/bbb
