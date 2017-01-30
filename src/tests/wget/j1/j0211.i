@@ -1,1 +1,1 @@
-command=jraf au 0 md /aaa/bbb/ccc : read 0 /aaa
+command=jraf au 0 md /aaa/bbb : au 0 md /aaa/ccc : read 0 /aaa

@@ -634,7 +634,7 @@ function Jraf_read_obj($pth, $getonly, $u)
             if ( Jraf_special($i, $u->su) ) continue;
             $r .= ' ' . Jraf_getver( $rp -> plus_s($i) -> s );
             $r .= " -1";
-            $r .= ' ' + $i;
+            $r .= ' ' . $i;
             $cntr++;
         }
 

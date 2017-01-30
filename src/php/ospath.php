@@ -154,6 +154,32 @@ class OsPath
     return s.substr(0, pos);
 	*/	
 
+	function readDirectory()
+	{
+		global $CWD;
+
+		$dirs = array();
+		$fils = array();
+
+		$d = $this->s;
+
+		$entries = array_diff(scandir($CWD.$d), array('.','..')); 
+
+		foreach ($entries as $e)
+		{
+			$rp = $CWD.$d.'/'.$e;
+			if(is_dir($rp))
+			{
+				$dirs[] = $e;
+			}
+			else
+			{
+				$fils[] = array (  $e, filesize($rp) );
+			}
+	    } 
+
+		return array ( $dirs, $fils );
+	}
 }
 
 $LockWrite_locked = FALSE;
