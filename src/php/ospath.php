@@ -48,8 +48,8 @@ class OsPath
 	static function file_put_contents($p,$t,$f)
 	{
 		global $CWD;
-        if ( $f == 0) return file_put_contents($CWD.$p,$t);
-        if ( $f == 1) return file_put_contents($CWD.$p,$t, FILE_APPEND );
+        if ( $f == 0) return @file_put_contents($CWD.$p,$t);
+        if ( $f == 1) return @file_put_contents($CWD.$p,$t, FILE_APPEND );
 	}
 
 	static function rename($f1,$f2)
@@ -83,29 +83,31 @@ class OsPath
 		@mkdir($d,0777,TRUE);
 	}
 
-	static function del_rec($d)
+	static function del_rec($pth)
 	{
 		global $CWD;
 
-		if ( !is_dir($CWD.$d) )
+		$tp = $CWD.$pth;
+
+		if ( !is_dir($tp) )
 		{
-            return @unlink($d);
+            return @unlink($tp);
 		}
 
-		$files = array_diff(scandir($CWD.$d), array('.','..')); 
+		$files = array_diff(scandir($CWD.$pth), array('.','..')); 
 		foreach ($files as $f)
 		{
-			$rp = $CWD.$d.'/'.$f;
+			$rp = $tp.'/'.$f;
 			if(is_dir($rp))
 			{
-				OsPath::del_rec($d.'/'.$f);
+				OsPath::del_rec($pth.'/'.$f);
 			}
 			else
 			{
 				unlink($rp);
 			}
 	    } 
-		return rmdir($CWD.$d); 
+		return rmdir($tp); 
 	}
 
     function erase(){ return OsPath::del_rec($this->s); }

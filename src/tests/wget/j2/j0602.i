@@ -1,0 +1,1 @@
+command=jraf au 0 md /aaa : au 0 save /aaa/c1 10 MTIzNDU2Nzg5MA== : au 0 rm /aaa/c1 : get 0 /
