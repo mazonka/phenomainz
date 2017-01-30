@@ -1,0 +1,1 @@
+command=jraf au 0 md /aaa/bbb : au 0 md /aaa/ccc
