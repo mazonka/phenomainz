@@ -1,0 +1,1 @@
+command=jraf read 0 /aaa
