@@ -1,0 +1,1 @@
+command=jraf au 0 put a 0 1 Kg== : read 0 a
