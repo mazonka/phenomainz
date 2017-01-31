@@ -48,8 +48,8 @@ class OsPath
 	static function file_put_contents($p,$t,$f)
 	{
 		global $CWD;
-        if ( $f == 0) return @file_put_contents($CWD.$p,$t);
-        if ( $f == 1) return @file_put_contents($CWD.$p,$t, FILE_APPEND );
+        if ( $f == 0) return @file_put_contents($CWD.$p, $t);
+        if ( $f == 1) return @file_put_contents($CWD.$p, $t, FILE_APPEND);
 	}
 
 	static function rename($f1,$f2)
@@ -73,7 +73,9 @@ class OsPath
     function file_size()
     {
         global $CWD;
-        return @filesize($CWD.$this->s);
+        if ( !file_exists($CWD.$this->s) ) return 0;
+
+        return filesize($CWD.$this->s);
     }
     
 	function trymkdir()

@@ -58,6 +58,10 @@ function loadPhd($auid)
 
 function jprocess($cmd) // void
 {
+    //ab
+    $r = Jraf_root('');
+    $r->trymkdir();
+    
     $toks = explode(" ",$cmd);
     if( empty($toks) ){ echo("REQ_MSG_HEAD"); return; }
     if( count($toks) < 1 ){ echo("REQ_MSG_HEAD"); return; }
@@ -450,14 +454,13 @@ function Jraf_aureq_put($tok, $pth, $append)
     if ( $append )
     {
         if ( $fsz != $pos ) return jfail(strval($fsz));
-        OsPath::file_put_contents($f->s, $text,1);
+        OsPath::file_put_contents($f->s, $text, 1);
     }
     else
-    {
-        OsPath::file_put_contents($f->s, $text,0);
-    }
+        OsPath::file_put_contents($f->s, $text, 0);
 
-    Jraf_update_ver($pth);    
+    Jraf_update_ver($pth);
+
     return jok2($f->file_size());
 }
 
