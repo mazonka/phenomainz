@@ -5,8 +5,8 @@ function wid_fill_js(){}
 
 function wid_fill_ui(au, profile)
 {
-    wid_fill_main();
-
+    
+    
     if (0)
     {}
     else if (au && profile.ml != '*')

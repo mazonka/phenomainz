@@ -5,6 +5,7 @@ function wid_init_js(){}
 
 function wid_init_modal_window(cl, ifn, cfn)
 {
+    console.log('1');
     wid_fill_modal(cl, ifn, cfn);
 }
 

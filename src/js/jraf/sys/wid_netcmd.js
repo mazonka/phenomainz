@@ -7,6 +7,7 @@ function wid_nc_profile(sid)
 {
     var cb = function(resp, data, profile)
     {
+        wid_fill_main();
         if (0)
         {}
         else if (resp) Boolean(profile) && wid_fill_ui(true, profile);
