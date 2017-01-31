@@ -79,6 +79,9 @@ string Worker2::ph_login()
 
 string Worker2::ph_script(string cmd, string ag)
 {
+	// set default jraf
+	if( cmd.empty() ) cmd = "jraf";
+
     os::Cout() << "Auth request [" << cmd << "] [" << ag << "]" << os::endl;
 
     // support: "home?sid", "jraf?sid"
