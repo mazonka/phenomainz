@@ -9,6 +9,22 @@ $ver_name = '.jraf.ver';
 $users_dir = 'users';
 $login_dir = 'login';
 
+// encoding section
+$skc_seed = ''.rand().time();
+$skc_salt = '';
+$skc_ivec = '';
+function hashHex($x){ return hash('sha256',$x); }
+function hex16($x){ return substr(hashHex($x),0,16); }
+function jnonce(){ global $skc_salt; return hex16($skc_salt); }
+function skc_init()
+{
+	global $skc_seed, $skc_salt, $skc_ivec;
+	$skc_ivec = hashHex($skc_seed);
+	$skc_salt = hashHex($skc_ivec . $skc_seed);
+}
+skc_init();
+// end of encoding section
+
 if( empty($_POST) )
 {
     $auid = "0";
@@ -35,10 +51,14 @@ if(isset($_POST['command']) )
     if( !$test ) jprocess($cmd);
     else
     {
-        global $root_dir;
+        global $root_dir, $skc_seed;
+
         $root_dir = 'wroot';
+
+		$skc_seed = '1';
+		skc_init();
+
         jprocess($cmd);
-        //OsPath::del_rec($root_dir);
     }
 
     exit;
@@ -198,6 +218,7 @@ function jraf_request($tokarr)
         
         else if ( $cmd == "login" ||  $cmd == "logout" )
         {
+			///
             /*if( !LockWrite_lock() ) $result -> add( jfail("busy") );
             else
             {
@@ -205,7 +226,14 @@ function jraf_request($tokarr)
                 LockWrite_unlock();
             }*/
             // nonce = anonce; ??????
-            $result -> add( Jraf_login($tok, $cmd == "login") );
+            /// $result -> add( Jraf_login($tok, $cmd == "login") );
+
+            if( !LockWrite_lock() ) $result -> add( jfail("busy") );
+            else
+            {
+	            $result -> add( Jraf_login($tok, $cmd == "login") );
+                LockWrite_unlock();
+            }
         }
         
         else
@@ -563,7 +591,9 @@ function Jraf_user($sess) // => User
 
     if ( $sess == "0" ) return new User(false,true);
 
-    $in = Jraf_login_dir() . sess;
+    echo "Jraf_user NI";
+    exit;
+    // $in = Jraf_login_dir() . sess; ???
     
     if ( !$in->isfile() ) return new User(false, false);
     
@@ -605,11 +635,12 @@ function Jraf_login($tok, $in)
         if ( $tok->next() ) $server = $tok->sub();
         
         if ( !Jraf_ismail($em) ) return jerr("bad email");
-        $nonce = '';
-        $f = Jraf_root($dir->s . '/' . $nonce);
+        $nonce = jnonce();
+        ///$f = Jraf_root($dir->s . '/' . $nonce);
+		$f = $dir->plus_s($nonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
-        //Jraf_sendmail($server, $nonce, $em);
+        Jraf_sendmail($server, $nonce, $em);
 
         return jok2($server);
     }
@@ -630,9 +661,9 @@ function Jraf_ismail($email)
     return true;
 }
 
-function Jraf_sendmail($server, $nonce, $em)
+function Jraf_sendmail(&$server, $nonce, $em)
 {
-    
+    $server .= 'XXX';
 }
 /* C++
 Jraf::User Jraf::user(string sess)
