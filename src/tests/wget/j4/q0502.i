@@ -1,0 +1,1 @@
+command=jraf au 0 md /.jraf.sys/a : read 0 /.jraf.sys/a : au 0 md /.jraf.sys/users : au 0 read /.jraf.sys/a
