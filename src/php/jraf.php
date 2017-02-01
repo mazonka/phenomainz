@@ -544,8 +544,8 @@ function Jraf_user($sess) // => User
 
     if ( $sess == "0" ) return new User(FALSE,TRUE);
 
-	echo "Jraf_user NI";
-	exit;
+    echo "Jraf_user NI";
+    exit;
     return jerr("Jraf_user NI");
 }
 
@@ -685,9 +685,9 @@ function Jraf_read_obj($pth, $getonly, $u)
 
         foreach ( $dir[1] as $i )
         {
-			$name = $i[0];
-			$size = $i[1];
-			
+            $name = $i[0];
+            $size = $i[1];
+
             if ( Jraf_special($name, $u->su) ) continue;
             $r .= ' ' . Jraf_getver($rp -> plus_s($name) -> s);
             $r .= ' ' . $size;

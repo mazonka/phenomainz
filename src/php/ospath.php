@@ -8,26 +8,26 @@ $LOCKF_DN = 'jphp.dn';
 
 class OsPath
 {
-	public $s = '';
-	function __construct($p){ $this->s = $p; }
+    public $s = '';
+    function __construct($p){ $this->s = $p; }
 
-	function plus_s($x)
-	{ 
-		$t = clone $this;
-		$t->add_s($x);
-		return $t;
-	}              
+    function plus_s($x)
+    { 
+        $t = clone $this;
+        $t->add_s($x);
+        return $t;
+    }              
 
-	function add_s($ps)
-	{ 
-		//$ps = $p->s;
-		if( $this->s == '' )
-		{
-			$this->s = $ps;
-			return;
-		}
+    function add_s($ps)
+    { 
+        //$ps = $p->s;
+        if( $this->s == '' )
+        {
+            $this->s = $ps;
+            return;
+        }
 
-		if( $ps == '' ) return;
+        if( $ps == '' ) return;
 
         if ( substr($ps,0,1) == '/' )
         {
@@ -35,141 +35,141 @@ class OsPath
                 $this->s .= $ps;
         }
         else
-		
+        
             $this->s .= '/' . $ps;
-	}
+    }
 
-	static function file_get_contents($p)
-	{
-		global $CWD;
-		clearstatcache();
-		return @file_get_contents($CWD.$p);
-	}
+    static function file_get_contents($p)
+    {
+        global $CWD;
+        clearstatcache();
+        return @file_get_contents($CWD.$p);
+    }
 
-	static function file_put_contents($p,$t,$f)
-	{
-		global $CWD;
+    static function file_put_contents($p,$t,$f)
+    {
+        global $CWD;
         if ( $f == 0) $r = @file_put_contents($CWD.$p, $t);
         if ( $f == 1) $r = @file_put_contents($CWD.$p, $t, FILE_APPEND);
-		clearstatcache();
-		return $r;
-	}
+        clearstatcache();
+        return $r;
+    }
 
-	static function rename($f1,$f2)
-	{
-		global $CWD;
-		$r = @rename($CWD.$f1,$CWD.$f2);
-		clearstatcache();
-		return $r;
-	}
+    static function rename($f1,$f2)
+    {
+        global $CWD;
+        $r = @rename($CWD.$f1,$CWD.$f2);
+        clearstatcache();
+        return $r;
+    }
 
-	function isdir()
-	{
-		global $CWD;
-		clearstatcache();
-		return is_dir($CWD.$this->s);
-	}
+    function isdir()
+    {
+        global $CWD;
+        clearstatcache();
+        return is_dir($CWD.$this->s);
+    }
     
     function isfile()
     {
         global $CWD;
-		clearstatcache();
+        clearstatcache();
         return is_file($CWD.$this->s);
     }
 
     function file_size()
     {
         global $CWD;
-		clearstatcache();
+        clearstatcache();
         if ( !file_exists($CWD.$this->s) ) return 0;
         $sz = filesize($CWD.$this->s);
-		return $sz;
+        return $sz;
     }
     
-	function trymkdir()
-	{
-		global $CWD;
-		$d = $CWD.$this->s;
-		@mkdir($d,0777,TRUE);
-		clearstatcache();
-	}
+    function trymkdir()
+    {
+        global $CWD;
+        $d = $CWD.$this->s;
+        @mkdir($d,0777,TRUE);
+        clearstatcache();
+    }
 
-	static function del_rec($pth)
-	{
-		global $CWD;
+    static function del_rec($pth)
+    {
+        global $CWD;
 
-		$tp = $CWD.$pth;
+        $tp = $CWD.$pth;
 
-		if ( !is_dir($tp) )
-		{
+        if ( !is_dir($tp) )
+        {
             return @unlink($tp);
-			clearstatcache();
-		}
+            clearstatcache();
+        }
 
-		$files = array_diff(scandir($CWD.$pth), array('.','..')); 
-		foreach ($files as $f)
-		{
-			$rp = $tp.'/'.$f;
-			if(is_dir($rp))
-			{
-				OsPath::del_rec($pth.'/'.$f);
-			}
-			else
-			{
-				unlink($rp);
-				clearstatcache();
-			}
-	    } 
-		$r = rmdir($tp); 
-		clearstatcache();
-		return $r; 
-	}
+        $files = array_diff(scandir($CWD.$pth), array('.','..')); 
+        foreach ($files as $f)
+        {
+            $rp = $tp.'/'.$f;
+            if(is_dir($rp))
+            {
+                OsPath::del_rec($pth.'/'.$f);
+            }
+            else
+            {
+                unlink($rp);
+                clearstatcache();
+            }
+        } 
+        $r = rmdir($tp); 
+        clearstatcache();
+        return $r; 
+    }
 
     function erase(){ return OsPath::del_rec($this->s); }
     
-	function size() // -> int
-	{
-		$n = 1;
-		$pos = 0;
-		while(TRUE)
-		{
-			$pos = strpos($this->s,'/',$pos);
-			if( $pos === FALSE ) break;
-			$n++; $pos++;
-		}
+    function size() // -> int
+    {
+        $n = 1;
+        $pos = 0;
+        while(TRUE)
+        {
+            $pos = strpos($this->s,'/',$pos);
+            if( $pos === FALSE ) break;
+            $n++; $pos++;
+        }
 
-		return $n;
-	}
+        return $n;
+    }
 
-	/* C++
-	int os::Path::size() const
-	{
-	    int n = 1;
-	    size_t pos = 0;
-	    while ( (pos = s.find( SL, pos )) != std::string::npos )
-	    { n++; pos++; }
-	    return n;
-	}
-	*/
+    /* C++
+    int os::Path::size() const
+    {
+        int n = 1;
+        size_t pos = 0;
+        while ( (pos = s.find( SL, pos )) != std::string::npos )
+        { n++; pos++; }
+        return n;
+    }
+    */
 
-	function strPstr($i)
-	{
-		$n = 0;
-		$pos = 0;
-		while(TRUE)
-		{
-			$pos = strpos($this->s,'/',$pos);
-			if( $pos === FALSE ) break;
-			$n++;
-			if( $n > $i ) break;
-			$pos++;
-		}
+    function strPstr($i)
+    {
+        $n = 0;
+        $pos = 0;
+        while(TRUE)
+        {
+            $pos = strpos($this->s,'/',$pos);
+            if( $pos === FALSE ) break;
+            $n++;
+            if( $n > $i ) break;
+            $pos++;
+        }
 
-		if ( $n == 0 || $pos === FALSE ) return $this->s;
-		return substr($this->s, 0, $pos);
-	}
+        if ( $n == 0 || $pos === FALSE ) return $this->s;
+        return substr($this->s, 0, $pos);
+    }
 
-	/* C++
+    /* C++
     int n = 0;
     size_t pos = 0;
 
@@ -182,93 +182,93 @@ class OsPath
 
     if ( n == 0 || pos == std::string::npos ) return str();
     return s.substr(0, pos);
-	*/	
+    */    
 
-	function readDirectory()
-	{
-		global $CWD;
+    function readDirectory()
+    {
+        global $CWD;
 
-		$dirs = array();
-		$fils = array();
+        $dirs = array();
+        $fils = array();
 
-		$d = $this->s;
+        $d = $this->s;
 
-		$entries = array_diff(scandir($CWD.$d), array('.','..')); 
+        $entries = array_diff(scandir($CWD.$d), array('.','..')); 
 
-		foreach ($entries as $e)
-		{
-			$rp = $CWD.$d.'/'.$e;
-			if(is_dir($rp))
-			{
-				$dirs[] = $e;
-			}
-			else
-			{
-				$fils[] = array (  $e, filesize($rp) );
-			}
-	    } 
+        foreach ($entries as $e)
+        {
+            $rp = $CWD.$d.'/'.$e;
+            if(is_dir($rp))
+            {
+                $dirs[] = $e;
+            }
+            else
+            {
+                $fils[] = array (  $e, filesize($rp) );
+            }
+        } 
 
-		return array ( $dirs, $fils );
-	}
+        return array ( $dirs, $fils );
+    }
 }
 
 $LockWrite_locked = FALSE;
 $LockWrite_cwd = '';
 function LockWrite_lock()
 {
-	global $LOCKD, $LOCKF_UP, $LOCKF_DN;
+    global $LOCKD, $LOCKF_UP, $LOCKF_DN;
 
-	$fup = $LOCKD.'/'.$LOCKF_UP;
-	$fdn = $LOCKD.'/'.$LOCKF_DN;
+    $fup = $LOCKD.'/'.$LOCKF_UP;
+    $fdn = $LOCKD.'/'.$LOCKF_DN;
 
-	if( !is_dir($LOCKD) )
-	{
-		mkdir($LOCKD);
-		if( !is_dir($LOCKD) ) die("Cannot create ".$LOCKD);
-		file_put_contents($fdn,'z');
-	}
+    if( !is_dir($LOCKD) )
+    {
+        mkdir($LOCKD);
+        if( !is_dir($LOCKD) ) die("Cannot create ".$LOCKD);
+        file_put_contents($fdn,'z');
+    }
 
-	for( $i=0; $i<50; ++$i )
-	{
-		if( !rename($fdn,$fup) )
-		{
-			//echo ' '.$i.' ';
-			usleep(1000*100); // 100ms
-			continue;
-		}
+    for( $i=0; $i<50; ++$i )
+    {
+        if( !rename($fdn,$fup) )
+        {
+            //echo ' '.$i.' ';
+            usleep(1000*100); // 100ms
+            continue;
+        }
 
-		global $LockWrite_locked, $LockWrite_cwd;
-		$LockWrite_locked = TRUE;
-		register_shutdown_function('LockWrite_abort');
-		$cwd = getcwd();
-		$LockWrite_cwd = str_replace("\\","/",$cwd);
-		return TRUE;
-	}
+        global $LockWrite_locked, $LockWrite_cwd;
+        $LockWrite_locked = TRUE;
+        register_shutdown_function('LockWrite_abort');
+        $cwd = getcwd();
+        $LockWrite_cwd = str_replace("\\","/",$cwd);
+        return TRUE;
+    }
 
-	return FALSE;
+    return FALSE;
 }
 
 function LockWrite_unlock()
 {
-	global $LOCKD, $LOCKF_UP, $LOCKF_DN;
+    global $LOCKD, $LOCKF_UP, $LOCKF_DN;
 
-	$fup = $LOCKD.'/'.$LOCKF_UP;
-	$fdn = $LOCKD.'/'.$LOCKF_DN;
+    $fup = $LOCKD.'/'.$LOCKF_UP;
+    $fdn = $LOCKD.'/'.$LOCKF_DN;
 
-	rename($fup,$fdn);
-	global $LockWrite_locked;
-	$LockWrite_locked = FALSE;
+    rename($fup,$fdn);
+    global $LockWrite_locked;
+    $LockWrite_locked = FALSE;
 }
 
 function LockWrite_abort()
 {
-	global $LockWrite_locked, $LockWrite_cwd, $LOCKD;
-	if( $LockWrite_locked )
-	{
-		$LOCKD = $LockWrite_cwd.'/'.$LOCKD;
-		echo ' LockWrite_abort ['.$LOCKD.'] ';
-		LockWrite_unlock();
-	}
+    global $LockWrite_locked, $LockWrite_cwd, $LOCKD;
+    if( $LockWrite_locked )
+    {
+        $LOCKD = $LockWrite_cwd.'/'.$LOCKD;
+        echo ' LockWrite_abort ['.$LOCKD.'] ';
+        LockWrite_unlock();
+    }
 }
 
 ?>
