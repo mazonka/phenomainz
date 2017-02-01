@@ -58,10 +58,6 @@ function loadPhd($auid)
 
 function jprocess($cmd) // void
 {
-    //ab
-    $r = Jraf_root('');
-    $r->trymkdir();
-    
     $toks = explode(" ",$cmd);
     if( empty($toks) ){ echo("REQ_MSG_HEAD"); return; }
     if( count($toks) < 1 ){ echo("REQ_MSG_HEAD"); return; }
