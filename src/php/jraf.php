@@ -537,11 +537,15 @@ function Jraf_check_au_path($pth,$su,$write)
     return ( substr($rpth, 0, $hsz) == $hdir );
 }
 
-function Jraf_user($sess)
+function Jraf_user($sess) // => User
 {
     $usr = Jraf_users();
     if ( !$usr->isdir() ) return new User(TRUE,TRUE);
 
+    if ( $sess == "0" ) return new User(FALSE,TRUE);
+
+	echo "Jraf_user NI";
+	exit;
     return jerr("Jraf_user NI");
 }
 
