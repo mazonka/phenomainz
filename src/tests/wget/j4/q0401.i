@@ -1,1 +1,1 @@
-command=jraf au 0 put a 0 1 Kg== : read 0 a
+command=jraf au 0 md /.jraf.sys/a : au 0 put /.jraf.sys/b 0 1 Kg== : read 0 /.jraf.sys/a : read 0 /.jraf.sys/b
