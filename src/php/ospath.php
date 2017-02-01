@@ -12,14 +12,14 @@ class OsPath
     function __construct($p){ $this->s = $p; }
 
     function plus_s($x)
-    { 
+    {
         $t = clone $this;
         $t->add_s($x);
         return $t;
-    }              
+    }
 
     function add_s($ps)
-    { 
+    {
         //$ps = $p->s;
         if( $this->s == '' )
         {
@@ -35,7 +35,7 @@ class OsPath
                 $this->s .= $ps;
         }
         else
-        
+
             $this->s .= '/' . $ps;
     }
 
@@ -69,7 +69,7 @@ class OsPath
         clearstatcache();
         return is_dir($CWD.$this->s);
     }
-    
+
     function isfile()
     {
         global $CWD;
@@ -85,12 +85,12 @@ class OsPath
         $sz = filesize($CWD.$this->s);
         return $sz;
     }
-    
+
     function trymkdir()
     {
         global $CWD;
         $d = $CWD.$this->s;
-        @mkdir($d,0777,TRUE);
+        @mkdir($d,0777,true);
         clearstatcache();
     }
 
@@ -106,7 +106,7 @@ class OsPath
             clearstatcache();
         }
 
-        $files = array_diff(scandir($CWD.$pth), array('.','..')); 
+        $files = array_diff(scandir($CWD.$pth), array('.','..'));
         foreach ($files as $f)
         {
             $rp = $tp.'/'.$f;
@@ -119,22 +119,22 @@ class OsPath
                 unlink($rp);
                 clearstatcache();
             }
-        } 
-        $r = rmdir($tp); 
+        }
+        $r = rmdir($tp);
         clearstatcache();
-        return $r; 
+        return $r;
     }
 
     function erase(){ return OsPath::del_rec($this->s); }
-    
+
     function size() // -> int
     {
         $n = 1;
         $pos = 0;
-        while(TRUE)
+        while(true)
         {
             $pos = strpos($this->s,'/',$pos);
-            if( $pos === FALSE ) break;
+            if( $pos === false ) break;
             $n++; $pos++;
         }
 
@@ -156,16 +156,16 @@ class OsPath
     {
         $n = 0;
         $pos = 0;
-        while(TRUE)
+        while(true)
         {
             $pos = strpos($this->s,'/',$pos);
-            if( $pos === FALSE ) break;
+            if( $pos === false ) break;
             $n++;
             if( $n > $i ) break;
             $pos++;
         }
 
-        if ( $n == 0 || $pos === FALSE ) return $this->s;
+        if ( $n == 0 || $pos === false ) return $this->s;
         return substr($this->s, 0, $pos);
     }
 
@@ -182,7 +182,7 @@ class OsPath
 
     if ( n == 0 || pos == std::string::npos ) return str();
     return s.substr(0, pos);
-    */    
+    */
 
     function readDirectory()
     {
@@ -193,7 +193,7 @@ class OsPath
 
         $d = $this->s;
 
-        $entries = array_diff(scandir($CWD.$d), array('.','..')); 
+        $entries = array_diff(scandir($CWD.$d), array('.','..'));
 
         foreach ($entries as $e)
         {
@@ -206,13 +206,13 @@ class OsPath
             {
                 $fils[] = array (  $e, filesize($rp) );
             }
-        } 
+        }
 
         return array ( $dirs, $fils );
     }
 }
 
-$LockWrite_locked = FALSE;
+$LockWrite_locked = false;
 $LockWrite_cwd = '';
 function LockWrite_lock()
 {
@@ -238,14 +238,14 @@ function LockWrite_lock()
         }
 
         global $LockWrite_locked, $LockWrite_cwd;
-        $LockWrite_locked = TRUE;
+        $LockWrite_locked = true;
         register_shutdown_function('LockWrite_abort');
         $cwd = getcwd();
         $LockWrite_cwd = str_replace("\\","/",$cwd);
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 function LockWrite_unlock()
@@ -257,7 +257,7 @@ function LockWrite_unlock()
 
     rename($fup,$fdn);
     global $LockWrite_locked;
-    $LockWrite_locked = FALSE;
+    $LockWrite_locked = false;
 }
 
 function LockWrite_abort()
