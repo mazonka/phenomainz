@@ -18,6 +18,12 @@
 KeyArea::KeyArea(const std::vector<string> & ini_skc_keys, const string & skcseed):
     access2keyArea(1)
 {
+    seed_reset(skcseed);
+    skcKeys = ini_skc_keys;
+}
+
+void KeyArea::seed_reset(const string & skcseed)
+{
     string seed = skcseed;
     if ( skcseed.empty() )
     {
@@ -39,8 +45,6 @@ KeyArea::KeyArea(const std::vector<string> & ini_skc_keys, const string & skcsee
             ivec = ma::skc::hashHex(os.str());
         }
     }
-
-    skcKeys = ini_skc_keys;
 
     if ( skcseed.empty() )
     {

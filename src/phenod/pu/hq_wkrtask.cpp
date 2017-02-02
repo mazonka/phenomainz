@@ -43,14 +43,20 @@ string Worker2::process(bool * recog)
     if ( ( tok.is("ping") || tok.is("p") ) && (en || pn.ping) )
         return er::Code(er::OK);
 
-    if ( ( tok.is("login") || tok.is("l") ) && (en || pn.ping) )
-        return ph_login();
+    //if ( ( tok.is("login") || tok.is("l") ) && (en || pn.ping) )
+    //    return ph_login();
 
-    if ( tok.is("au") && (en || pn.ping) )
-        return ph_aucmd();
+    //if ( tok.is("au") && (en || pn.ping) )
+    //    return ph_aucmd();
 
-    if ( tok.is("jraf") && (en || pn.ping) )
+    if ( tok.is("jraf") && pn.jr ) // FIXME change to jr/jw
         return ph_jraf();
+
+    if ( tok.is("reseed") && pn.reseed )
+	{
+		///os::Cout()<<"AAA "<<en<<pn.reseed<<os::endl;
+        return reseed();
+	}
 
     /*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
             return info();
@@ -926,4 +932,19 @@ string Worker2::drop()
         return er::Code(er::REQ_MSG_BAD);
 
     return Drop(gs).process(tok.sub(), tok.rest());
+}
+
+string Worker2::reseed()
+{
+    KeyArea & ka = gs->keyArea;
+    sgl::Mutex mutex_ka(ka.access2keyArea);
+    string cfgseed = gs->config->skc_seed;
+
+    if ( !cfgseed.empty() )
+    {
+        os::Cout() << "Reseed\n";
+        ka.seed_reset(cfgseed);
+    }
+
+    return er::Code(er::OK);
 }

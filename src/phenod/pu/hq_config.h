@@ -64,6 +64,8 @@ struct PublicNetCmd
     bool ping;
     bool tunnel;
     bool drop;
+    bool jr, jw;
+    bool reseed;
 };
 
 } // cfg

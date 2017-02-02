@@ -37,6 +37,8 @@ class KeyArea
         string showPkcKey() const { return pubKey.str(); }
 
     public:
+
+        void seed_reset(const string & skcseed);
         KeyArea(const std::vector<string> & skckeys, const string & skcseed);
 
         void addSkcKey(const string & k);

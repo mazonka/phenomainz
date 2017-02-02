@@ -456,8 +456,9 @@ void Config::oneOption(const string & s)
 void cfg::PublicNetCmd::all(bool v)
 {
     admin = quit = conflict = add = connect = unlink = pleb = v;
-    file = data = first = html = info = job = last = drop = v;
+    file = data = first = html = info = job = last = v;
     lastdata = list = note = range = record = zero = ping = tunnel = v;
+    drop = jr = jw = reseed = v;
 }
 
 void cfg::PublicNetCmd::set(string s, bool v)
@@ -486,6 +487,9 @@ void cfg::PublicNetCmd::set(string s, bool v)
     else if ( s == "ping" )     ping = v;
     else if ( s == "tunnel" )   tunnel = v;
     else if ( s == "drop" )   drop = v;
+    else if ( s == "jr" )   jr = v;
+    else if ( s == "jw" )   jw = v;
+    else if ( s == "reseed" )   reseed = v;
 
     else
         throw gl::ex("");
@@ -515,6 +519,9 @@ cfg::PublicNetCmd::PublicNetCmd()
     , ping(true)
     , tunnel(true)
     , drop(true)
+    , jr(true)
+    , jw(true)
+    , reseed(false)
 {}
 
 void Config::setHttpGetProxy(const string & s)
