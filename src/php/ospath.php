@@ -236,6 +236,7 @@ function LockWrite_lock()
             usleep(1000*100); // 100ms
             continue;
         }
+        clearstatcache();
 
         global $LockWrite_locked, $LockWrite_cwd;
         $LockWrite_locked = true;
@@ -256,6 +257,7 @@ function LockWrite_unlock()
     $fdn = $LOCKD.'/'.$LOCKF_DN;
 
     rename($fup,$fdn);
+    clearstatcache();
     global $LockWrite_locked;
     $LockWrite_locked = false;
 }
