@@ -488,7 +488,11 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
     if ( in )
     {
         string server;
+
         if ( tok.next() ) server = tok.sub();
+		else return err("arg required <server> or '*'");
+
+		if( server=="*" ) server = "";
 
         if ( !gl::ismail(em) ) return err("bad email");
         gl::str2file( (dir + nonce).str(), em);

@@ -8,11 +8,11 @@ cmd = [ jraf au 0 md /.jraf.sys/users ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf login a@b.c ]
+cmd = [ jraf login a@b.c * ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf login admin@server.com ]
+cmd = [ jraf login admin@server.com * ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
@@ -31,11 +31,11 @@ cmd = [ jraf read 0 /.jraf.sys/login ]
 #print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf login admin/server.com ]
+cmd = [ jraf login admin/server.com * ]
 print { cmd "->" tcp self cmd }
-cmd = [ jraf login admin=server.com ]
+cmd = [ jraf login admin=server.com * ]
 print { cmd "->" tcp self cmd }
-cmd = [ jraf login -dmin@server.com ]
+cmd = [ jraf login -dmin@server.com * ]
 print { cmd "->" tcp self cmd }
 
 quit

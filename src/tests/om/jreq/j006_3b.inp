@@ -4,7 +4,7 @@ set time "123456"
 print { [ users .. ] tcp self [ jraf au 0 md /.jraf.sys/users ] }
 print [ ]
 
-cmd = [ jraf login admin@server.com ]
+cmd = [ jraf login admin@server.com * ]
 print { cmd "->" tcp self cmd }
 print [ ]
 

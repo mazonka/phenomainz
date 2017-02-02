@@ -1,9 +1,9 @@
 jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
 
 [N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?20232512c272da3f]
-jraf login admin@server.com -> OK http://127.0.0.1:16000/jraf?
+jraf login admin@server.com * -> OK http://127.0.0.1:16000/jraf?
 [N/I] phmail: Sending to [admim@server.com] au [http://127.0.0.1:16000/jraf?73d24a440544ac5e]
-jraf login admim@server.com -> OK http://127.0.0.1:16000/jraf?
+jraf login admim@server.com * -> OK http://127.0.0.1:16000/jraf?
 
 jraf read 20232512c272da3f /.jraf.sys/users -> OK 0 -1 1 0 -1 admin@server.com
 jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com -> OK 0 -1 4 0 15 access 0 2 counter 0 6 quota 0 17 uname

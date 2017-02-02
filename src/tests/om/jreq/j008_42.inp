@@ -5,9 +5,9 @@ cmd = [ jraf au 0 md /.jraf.sys/users ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf login admin@server.com ]
+cmd = [ jraf login admin@server.com * ]
 print { cmd "->" tcp self cmd }
-cmd = [ jraf login admim@server.com ]
+cmd = [ jraf login admim@server.com * ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
