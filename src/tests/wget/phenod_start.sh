@@ -16,7 +16,7 @@ echo "phenod found at $xpwd"
 cd $xpwd
 
 rm -rf wroot
-opt1="phdb=wget.db jraf_root=wroot tcp_port=16001 skcseed=1"
+opt1="phdb=wget.db jraf_root=wroot tcp_port=16001 skcseed=1 let=reseed"
 comm="./phenod -cqx dwkr=1 quit=1 $opt1"
 echo $comm
 

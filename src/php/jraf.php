@@ -18,9 +18,9 @@ function hex16($x){ return substr(hashHex($x),0,16); }
 function jnonce(){ global $skc_salt; return hex16($skc_salt); }
 function skc_init()
 {
-	global $skc_seed, $skc_salt, $skc_ivec;
-	$skc_ivec = hashHex($skc_seed);
-	$skc_salt = hashHex($skc_ivec . $skc_seed);
+    global $skc_seed, $skc_salt, $skc_ivec;
+    $skc_ivec = hashHex($skc_seed);
+    $skc_salt = hashHex($skc_ivec . $skc_seed);
 }
 skc_init();
 // end of encoding section
@@ -55,8 +55,8 @@ if(isset($_POST['command']) )
 
         $root_dir = 'wroot';
 
-		$skc_seed = '1';
-		skc_init();
+        $skc_seed = '1';
+        skc_init();
 
         jprocess($cmd);
     }
@@ -84,6 +84,7 @@ function jprocess($cmd) // void
     if( count($toks) < 1 ){ echo("REQ_MSG_HEAD"); return; }
 
     if( $toks[0] == "jraf" ){ echo_jraf_req($toks); return; }
+    if( $toks[0] == "reseed" ){ echook(); return; }
 
     if( count($toks) < 2 ){ cmd1($toks[0]); return; }
 
@@ -218,7 +219,7 @@ function jraf_request($tokarr)
         
         else if ( $cmd == "login" ||  $cmd == "logout" )
         {
-			///
+            ///
             /*if( !LockWrite_lock() ) $result -> add( jfail("busy") );
             else
             {
@@ -231,7 +232,7 @@ function jraf_request($tokarr)
             if( !LockWrite_lock() ) $result -> add( jfail("busy") );
             else
             {
-	            $result -> add( Jraf_login($tok, $cmd == "login") );
+                $result -> add( Jraf_login($tok, $cmd == "login") );
                 LockWrite_unlock();
             }
         }
@@ -683,14 +684,14 @@ function Jraf_login($tok, $in)
     {
         $server = '';
         if ( $tok->next() && ( ($server = $tok->sub()) != ":" ) ) {}
-		else return jerr("arg required <server> or '*'");
+        else return jerr("arg required <server> or '*'");
 
-		if( $server == '*' ) $server = '';
+        if( $server == '*' ) $server = '';
         
         if ( !Jraf_ismail($em) ) return jerr("bad email");
         $nonce = jnonce();
         ///$f = Jraf_root($dir->s . '/' . $nonce);
-		$f = $dir->plus_s($nonce);
+        $f = $dir->plus_s($nonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
         Jraf_sendmail($server, $nonce, $em);

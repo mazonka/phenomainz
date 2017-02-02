@@ -13,7 +13,7 @@ fi
 die(){ echo $1; exit 1; }
 run()
 {
-	cm="$cmd --post-file=reseed.i"
+	cm="$cmd --post-data=command=reseed"
 	#echo $cm
 	$cm
 
