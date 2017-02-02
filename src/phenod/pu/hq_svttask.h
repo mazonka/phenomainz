@@ -78,7 +78,6 @@ class SvtTaskString : public SvtTask
 
 class SvtTaskSeq : public SvtTask
 {
-        ///string text;
         bool glue;
 
     public:
@@ -125,13 +124,9 @@ class SvtTaskRecpwd : public SvtTask
 class SvtTaskTcp : public SvtTask
 {
         string saddr;
-        ///os::IpAddr makeIpAddr(const string & ip);
-    protected:
-        ///string proc(const gl::Protocol & p);
     public:
         SvtTaskTcp(GlobalSpace * g, const vs & cmd, size_t & i);
         string process();
-        ///string process() { return proc(gl::ProtHq(gl::Protocol::Client)); }
 };
 
 class SvtTaskHash : public SvtTask

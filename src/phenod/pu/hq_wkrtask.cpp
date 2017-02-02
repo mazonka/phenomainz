@@ -53,10 +53,7 @@ string Worker2::process(bool * recog)
         return ph_jraf();
 
     if ( tok.is("reseed") && pn.reseed )
-	{
-		///os::Cout()<<"AAA "<<en<<pn.reseed<<os::endl;
         return reseed();
-	}
 
     /*    else if ( ( tok.is("info") || tok.is("i") ) && (en || pn.info) )
             return info();
@@ -816,7 +813,6 @@ string Worker2::tunnel()
 
 string Worker2::tunnel(GlobalSpace * gx, const string & ipport, const string & cmd)
 {
-    ///sgl::Client c(gx->clntProtocol, gx->config->netLimits, ipport);
     sgl::Client c(gx->netenv.link(ipport));
 
     if ( !c.isok() )
@@ -847,7 +843,6 @@ string Worker2::admin()
         return er::Code(er::REQ_BUSY);
     }
 
-    ///string subcmd;
     if ( cmd == "enable" || cmd == "disable" )
     {
         if ( !tok.next() ) return er::Code(er::REQ_MSG_BAD);

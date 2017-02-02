@@ -6,7 +6,6 @@
 #include "gl_except.h"
 
 #include "dbo.h"
-///#include "ut.h"
 
 using namespace std;
 

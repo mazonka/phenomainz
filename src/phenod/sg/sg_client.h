@@ -21,12 +21,10 @@ struct Link
 class Client
 {
         bool ok;
-        ///gl::ProtHq prot;
         os::IpAddr addr;
         os::net::TcpClient tcpClient;
 
     public:
-        ///Client(gl::Protocol * prot, gl::NetworkLimits nl, const string & link) throw ();
         Client(const Link & link) throw ();
 
         bool isok() const { return ok; }

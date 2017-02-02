@@ -11,8 +11,6 @@
 #include "hq_svttask.h"
 #include "hq_globalspace.h"
 
-///string AutArea::ph_conf = "conf.phd";
-
 
 AutObject AutArea::newAob_email(string ses_id, string email)
 {
@@ -32,7 +30,6 @@ AutObject AutArea::newAob_email(string ses_id, string email)
 
     if ( !phdb.get_by_email(email, pr) )
         throw gl::ex("ph database corrupted or not accessible");
-    ///os::Cout() << "AAA826 ph database corrupted or not accessible" << os::endl;
 
     AutObject ao(ses_id, pr);
 
@@ -110,7 +107,6 @@ void AutArea::update_name(const AutObject & ao, string newname)
         return;
     }
 
-    ///que.aos[ao.seid].profile.name = newname;
     que.refresh(phdb, ao);
 }
 

@@ -109,7 +109,6 @@ SvtTask * SvtTask::parse(GlobalSpace * gs, const vs & cmd, size_t & i)
 
 const string & SvtTask::at(const vs & q, size_t i)
 {
-    ///if ( i < 0 ) throw gl::Never("Servant parser - bad index");
     if ( i >= q.size() ) throw gl::Never("Servant parser - not enough args: " + gl::tos(i));
     return q[i];
 }
@@ -132,7 +131,6 @@ string SvtTaskQuit::process()
 
     if ( !gs->config->noSecretary )
     {
-        ///gl::ProtHq prot(gl::ProtHq::Client);
         auto f = gs->config;
         os::net::TcpClient c(&f->clntHq, f->seIpLink, f->netLimits, nullptr);
         if ( c.isConnected() ) c.send_msg("bye");
@@ -383,32 +381,14 @@ void SvtTask::translateIpAddr(string & s)
         throw gl::ex("Bad tcp address $1, expecting ip:port", s);
 }
 
-/*///
-os::IpAddr SvtTaskTcp::makeIpAddr(const string & x)
-{
-    string s = x;
-    translateIpAddr(s);
-
-    bool ok = false;
-    os::IpAddr r(s, ok);
-    if ( !ok ) throw gl::ex("Bad address $1", s);
-    return r;
-}
-*/
-
 string SvtTaskTcp::process()
 {
     if ( tasks.size() != 1 ) throw gl::Never("Internal error: bad tcp statement");
-    ///os::net::TcpClient c(&prot, makeIpAddr(saddr), gs->config->netLimits);
     string text = tasks[0]->process();
-
-    ///c.send_msg(text);
-    ///string r = c.recvMsgOrEmpty();
 
     string srv = saddr;
     translateIpAddr(srv);
 
-    ///sgl::Client x(gs->clntProtocol, gs->config->netLimits, srv );
     sgl::Client x(gs->netenv.link(srv));
     if ( !x.isok() ) return "unreachable";
     string r = x.ask(text);
@@ -760,8 +740,6 @@ string SvtTaskAgent::process()
 
     return "";
 }
-
-///string SvtTaskTcp::process() { return proc(*(gs->clntProtocol)); }
 
 SvtTaskNet::SvtTaskNet(GlobalSpace * g, const vs & cmd, size_t & i): SvtTask(g)
 {

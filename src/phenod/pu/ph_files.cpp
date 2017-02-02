@@ -20,15 +20,12 @@ os::Path ds_file2(os::Path f, string fiid)
 
 gl::intint ds_file_put(string daid, string fiid, string pos, const string & s)
 {
-    ///os::Path f = "files";
-    ///f += gl::tos(10000+gl::toi(daid));
     os::Path f = ds_file1(daid);
     os::FileSys::trymkdir(f);
 
     if ( !f.isdir() )
         return -2;
 
-    ///f += gl::tos(10000+gl::toi(fiid));
     f = ds_file2(f, fiid);
 
     if ( !f.isfile() ) { std::ofstream of(f.str().c_str()); }
@@ -68,10 +65,6 @@ gl::intint calc_usage(std::map<string, gl::vstr> & fnames)
     {
         for ( auto & fiid : daid.second )
         {
-            ///os::Path f = ds_file1(daid.first);
-            ///f = ds_file2(f, fiid);
-            ///int sz = f.filesize();
-            ///us += (gl::intint)(unsigned)sz;
             us += (gl::intint)(unsigned)getsize(daid.first, fiid);
         }
     }

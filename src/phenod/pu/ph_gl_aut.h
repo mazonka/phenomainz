@@ -40,7 +40,6 @@ class AutQueue
 
 struct AutArea
 {
-    ///static string ph_conf;
     Phdb phdb;
     Jraf jraf;
 
@@ -51,15 +50,10 @@ struct AutArea
         : phdb(dbfile), jraf(jroot), access2autArea(1), que(sz)
     { jraf::testConf(); }
 
-    ///void testConf();
-
     AutObject newAob_email(string id, string email);
     void update_name(const AutObject & ao, string newname);
-    ///AutObject getAob_seid(string seid) const { return que.getAob_seid(seid); }
 
     static string dump_safe(GlobalSpace * gs);
-    ///static string loadConf(string name);
-    ///static bool matchConf(string name, string val);
 };
 
 #endif

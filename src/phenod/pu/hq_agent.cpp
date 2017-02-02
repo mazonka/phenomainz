@@ -273,8 +273,6 @@ void Agent::download(const string & srv, const string & date)
 
         n++;
     }
-
-    ///os::Cout() << "DOWNLOAD " << cur_slice << ' ' << date_fr << ' ' << date_to << '\n';
 }
 
 void Agent::saveSlice(const string & file, const string & data)
@@ -361,8 +359,6 @@ void Agent::build()
 
         oflist << '\n';
     }
-
-    ///os::Cout() << "LIST " << inDir.str() << ' ' << ouDir.str() << ' ' << outFile << '\n';
 }
 
 
@@ -428,12 +424,7 @@ void Agent::validate(const string & cmd)
         }
 
         if (!cool) of << '\n';
-
-        ///os::Cout() << "VALIDATE " << gl::tos(ni) << ' ' << dn << '\n';
     }
-
-
-    ///os::Cout() << "VALIDATE " << inFile << ' ' << ouFile << '\n';
 }
 
 std::vector<gl::intint> Agent::enquire(const string & dn, const vecstr & srvs)
@@ -462,12 +453,8 @@ std::vector<gl::intint> Agent::enquire(const string & dn, const vecstr & srvs)
 
             goto done;
         }
-bad:
-        print("Server " + srvs[i] + " returned unexpected data [" + data + "]");
-done:
-        r.push_back(rr);
-
-        ///os::Cout() << "ENQUIRE " << gl::tos(rr) << ' ' << data << '\n';
+bad:    print("Server " + srvs[i] + " returned unexpected data [" + data + "]");
+done:   r.push_back(rr);
     }
 
     return r;
@@ -563,8 +550,6 @@ void Agent::dragging(string sub, string dn, string srv, gl::intint srvN, gl::int
         for ( int i = 0; ( data.size() < 2 || data.substr(0, 2) != "OK" ) && i < 10; i++ )
             data = fetch(srv, cmd);
     }
-
-    ///os::Cout() << "DRAG " << dn << ' ' << srv << ' ' << dirI << ' ' << gl::tos(srvN) << ' ' << gl::tos(maxN)  << ' ' << '\n';
 }
 
 void Agent::sorti()

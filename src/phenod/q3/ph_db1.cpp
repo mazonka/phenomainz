@@ -571,17 +571,11 @@ int Phdb::ds_file_list(string daid, string fiid, gl::vstr & ids, gl::vstr & des)
 
     db.result.erase(db.result.begin());
 
-    ///string r;
-
-    ///r += gl::tos(db.result.size());
-
     for ( auto & rc : db.result )
     {
         if ( rc.size() != 2 )
             throw gl::ex(string("Phdb::ds_file_list") + " [" + ss + "] - failed 1");
 
-        ///r += ' ' + star(rc[0]);
-        ///r += ' ' + star(rc[1]);
         ids.push_back(star(rc[0]));
         des.push_back(star(rc[1]));
     }
