@@ -1,0 +1,1 @@
+command=jraf au 0 md /.jraf.sys/users : login admin@server.com * : logout 96db1e5f246844c9
