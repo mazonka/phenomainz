@@ -1,3 +1,1 @@
-OK /.jraf.sys/users : OK http://127.0.0.1:16000/jraf? : JRAF_ERR bad command [jraf]
-==
-96db1e5f246844c9
+OK /.jraf.sys/users : JRAF_ERR arg required <server> or '*'
