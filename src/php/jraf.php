@@ -597,79 +597,17 @@ function Jraf_user($sess) // => User
     
     if ( !$in->isfile() ) return new User(false, false);
     
-    $email = Jraf_file2word($in->s);
+    //$email = Jraf_file2word($in->s); need use OsPath::file_get_contents
     
     echo "Jraf_user NI";
     exit;
     return jerr("Jraf_user NI");
 }
 
-function Jraf_file2word($file)
-{
-    if ( !file_exists($file) ) return '';
-
-    $r = file_get_contents($file);
-    
-    if ( !file_exists($file) ) return '';
-    
-    return $r;
-}
-
-function Jraf_login($tok, $in)
-{
-    if ( !$tok->next() ) return jerr("need arg");
-    $em = $tok->sub();
-
-    if ( !Jraf_users()->isdir() ) return jfail("no users");
-
-    $dir = Jraf_login_dir();
-    if ( !$dir->isdir() )
-    {
-        $dir->trymkdir();
-        if ( !$dir->isdir() ) return jfail("login directory fails");
-    }
-
-    if ( $in )
-    {
-        $server = '';
-        if ( $tok->next() ) $server = $tok->sub();
-        
-        if ( !Jraf_ismail($em) ) return jerr("bad email");
-        $nonce = jnonce();
-        ///$f = Jraf_root($dir->s . '/' . $nonce);
-		$f = $dir->plus_s($nonce);
-        OsPath::file_put_contents($f->s, $em, 0);
-
-        Jraf_sendmail($server, $nonce, $em);
-
-        return jok2($server);
-    }
-
-    // logout
-
-    //(dir + em).erase();
-
-    //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
-
-    return jok1();    
-}
-
-function Jraf_ismail($email)
-{
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
-
-    return true;
-}
-
-function Jraf_sendmail(&$server, $nonce, $em)
-{
-    $server .= 'XXX';
-}
 /* C++
 Jraf::User Jraf::user(string sess)
 {
-    os::Path usr = users();
-    if ( !usr.isdir() ) return User(true,true);
+    ...
 
     if ( sess == "0" ) return User(false,true);
 
@@ -713,6 +651,101 @@ Jraf::User Jraf::user(string sess)
     return r;
 }
 */
+
+/*///
+function Jraf_file2word($file)
+{
+    if ( !file_exists($file) ) return '';
+
+    $r = file_get_contents($file);
+    
+    if ( !file_exists($file) ) return '';
+    
+    return $r;
+}
+*/
+
+function Jraf_login($tok, $in)
+{
+    if ( !$tok->next() ) return jerr("need arg");
+    $em = $tok->sub();
+
+    if ( !Jraf_users()->isdir() ) return jfail("no users");
+
+    $dir = Jraf_login_dir();
+    if ( !$dir->isdir() )
+    {
+        $dir->trymkdir();
+        if ( !$dir->isdir() ) return jfail("login directory fails");
+    }
+
+    if ( $in )
+    {
+        $server = '';
+        if ( $tok->next() && ( ($server = $tok->sub()) != ":" ) ) {}
+		else return jerr("arg required <server> or '*'");
+
+		if( $server == '*' ) $server = '';
+        
+        if ( !Jraf_ismail($em) ) return jerr("bad email");
+        $nonce = jnonce();
+        ///$f = Jraf_root($dir->s . '/' . $nonce);
+		$f = $dir->plus_s($nonce);
+        OsPath::file_put_contents($f->s, $em, 0);
+
+        Jraf_sendmail($server, $nonce, $em);
+
+        return jok2($server);
+    }
+
+    // logout
+
+    //(dir + em).erase();
+
+    //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
+
+    return jok1();    
+}
+
+function Jraf_ismail($email)
+{
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+
+    return true;
+}
+
+function Jraf_sendmail(&$url, $nonce, $em)
+{
+    ///$server .= 'XXX';
+
+    if ( $url == '' ) $url = Jraf_loadConf("server");
+
+/*
+    if ( url.empty() ) url = jraf::loadConf("server");
+
+    if ( url.empty() ) throw gl::ex("jraf::sendmail: empty url");
+    auto i = url.find('?');
+
+    if ( i == string::npos )
+    {
+        if ( url[url.size() - 1] != '/' ) url += '/';
+        url += "jraf?";
+    }
+    else
+        url = url.substr(0, i + 1);
+
+    string furl = url + gl::tos(sid);
+
+    string cmd = jraf::loadConf("phmail");
+    if ( cmd.empty() ) cmd = "phmail";
+
+    cmd += " login " + em + " " + furl;
+
+    cmd = os::THISDIR + cmd;
+    std::system(cmd.c_str());
+*/
+
+}
 
 function Jraf_update_ver($pth)
 {
