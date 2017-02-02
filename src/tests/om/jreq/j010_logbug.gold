@@ -1,0 +1,4 @@
+jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
+
+jraf login a@b.c : ping -> JRAF_ERR arg required <server> or '*'
+

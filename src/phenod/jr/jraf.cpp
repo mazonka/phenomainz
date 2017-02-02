@@ -489,7 +489,7 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
     {
         string server;
 
-        if ( tok.next() ) server = tok.sub();
+        if ( tok.next() && (server = tok.sub()) != ":" );
 		else return err("arg required <server> or '*'");
 
 		if( server=="*" ) server = "";
