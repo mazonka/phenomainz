@@ -8,6 +8,7 @@ $sys_name = '.jraf.sys';
 $ver_name = '.jraf.ver';
 $users_dir = 'users';
 $login_dir = 'login';
+$thisload = 'jraf.php?';
 
 // encoding section
 $skc_seed = ''.rand().time();
@@ -51,12 +52,14 @@ if(isset($_POST['command']) )
     if( !$test ) jprocess($cmd);
     else
     {
-        global $root_dir, $skc_seed;
+        global $root_dir, $skc_seed, $thisload;
 
         $root_dir = 'wroot';
 
         $skc_seed = '1';
         skc_init();
+
+        $thisload = 'jraf?';
 
         jprocess($cmd);
     }
@@ -715,11 +718,33 @@ function Jraf_ismail($email)
     return true;
 }
 
-function Jraf_sendmail(&$url, $nonce, $em)
+function Jraf_sendmail(&$url, $sid, $em) // => void
 {
     ///$server .= 'XXX';
 
-    if ( $url == '' ) $url = Jraf_loadConf("server");
+    if ( $url == '' ) $url = Jraf_config('server','');
+    if ( $url == '' ) { echo "sendmail: empty url"; return; }
+
+    $i = strpos($url,'?');
+
+    if( $i === false )
+    {
+        if ( $url[strlen($url) - 1] != '/' ) $url .= '/';
+        global $thisload;
+        $url .= $thisload;
+    }
+    else
+        $url = substr($url, 0, $i + 1);
+
+    $furl = $url . $sid;
+
+    // sending email
+    $mail_to = $em;
+    $mail_subj = 'login';
+    $mail_msg = $furl;
+
+    @mail($mail_to,$mail_subj,$mail_msg);
+    //echo ' Email: '.$furl.' ';
 
 /*
     if ( url.empty() ) url = jraf::loadConf("server");
@@ -746,6 +771,26 @@ function Jraf_sendmail(&$url, $nonce, $em)
     std::system(cmd.c_str());
 */
 
+}
+
+function Jraf_config($key,$val)
+{
+    $fstr = OsPath::file_get_contents("conf.phd");
+    $words = preg_split("/[\s]+/", $fstr);
+    //var_dump($words);
+
+    $sz = count($words);
+
+    if( $sz%2 ) return FALSE;
+
+    for( $i=0; $i<$sz; $i += 2 )
+    {
+        if( $words[$i] != $key ) continue;
+        if( $val == '' ) return $words[$i+1];
+        else if( $val == $words[$i+1] ) return TRUE;
+    }
+
+    return FALSE;
 }
 
 function Jraf_update_ver($pth)
