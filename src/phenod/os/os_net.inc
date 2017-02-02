@@ -220,7 +220,6 @@ os::net::Socket * os::net::TcpAcceptor::returnSocketConnected(gl::NetworkLimits 
     error = getnameinfo((struct sockaddr *)&fromAddr, fromAddrSize, hostname,
                         MAXHOSTNAMELEN, 0, 0, 0);
 
-    ///string addrip = "0.0.0.0";
     string addrnm = "<unknown>";
     if (!error)
         addrnm = hostname;

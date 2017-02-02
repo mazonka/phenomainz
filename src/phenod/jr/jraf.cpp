@@ -43,20 +43,14 @@ string Jraf::request(gl::Token tok, string anonce)
         {
             if ( !tok.next() ) return err("session id").s;
             string sess = tok.sub();
-            ///bool superuser = issu(sess);
 
             auto usr = user(sess);
             if ( !usr.auth ) { result += auth(); return result.s; }
 
             hq::LockRead lock(&access);
 
-            ///if ( !tok.next() ) return bad().s;
-            ///string p = tok.sub();
-            ///result += read_obj(p, cmd == "get", issu(sess));
             string pth;
             Cmdr er = read_tok_path(tok, pth, usr, false );
-            // changed by ab
-            // if ( !er.b ) return er.s;
             if ( !er.b ) return result.s += er.s;
             result += read_obj(pth, cmd == "get", usr );
         }
@@ -128,7 +122,6 @@ string Jraf::getver(const os::Path & p) const
     os::Path q = ver_path(p);
     string ver = gl::file2word( q.str() );
     ver = zero(ver);
-    ///return gl::tos(gl::toi(ver));
     return ver;
 }
 
@@ -251,7 +244,6 @@ Jraf::Cmdr Jraf::aureq_rm(string pth)
     if ( p.isdir() || p.isfile() ) return fail("rm " + pth);
 
     update_ver(pth);
-    ///update_ver(parent_str(pth));
 
     return ok(pth);
 }
@@ -266,7 +258,6 @@ Jraf::Cmdr Jraf::aureq_md(string pth)
     return ok(pth);
 }
 
-///bool Jraf::issu(string sess)
 Jraf::User Jraf::user(string sess)
 {
     os::Path usr = users();
@@ -332,28 +323,20 @@ bool Jraf::check_au_path(string pth, User & su, bool write)
     if ( su.su ) return true;
     if ( !write ) return true;
 
-    ///string uname = gl::file2word((users() + su.email + "uname").str());
-    ///if ( !jraf::isuname(uname) ) return false;
-    ///su.uname = uname;
     set_user_uname(su);
     if ( su.uname.empty() ) return false;
 
     string rpth = root(pth).str();
     string hdir = (home() + su.uname).str();
 
-    ///os::Cout() << "AAA 3 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
 
     auto hsz = hdir.size();
     if ( rpth.size() < hsz ) return false;
-    ///os::Cout() << "AAA 4 ["<<rpth<<"] ["<<hdir<<"]" << os::endl;
 
     //os::Cout() << "email, quotaKb, last, cntr, uname" << os::endl;
     //os::Cout() << su.email << ", " << su.quotaKb << ", "<< su.last << ", " << su.cntr << ", " << su.uname << os::endl;
 
     return ( rpth.substr(0, hsz) == hdir );
-
-    ///os::Cout() << "Jraf::check_au_path - NI" << os::endl;
-    ///return true;
 }
 
 Jraf::Cmdr Jraf::aureq_put(gl::Token & tok, string pth, bool append)
@@ -442,8 +425,7 @@ Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 
     update_ver(pto);
     update_ver(pth);
-    ///update_ver(parent_str(pto));
-    ///update_ver(parent_str(pth));
+	// no parent updating is required as it is automatic
 
     return ok(pto);
 }

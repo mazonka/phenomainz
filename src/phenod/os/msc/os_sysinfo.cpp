@@ -76,9 +76,6 @@ std::string os::random8()
         throw gl::ex("os::random8 error, !::CryptGenRandom");
     }
 
-    ///for (DWORD i = 0; i < rand8sz; ++i)
-    /// random8buffer += static_cast<unsigned char>(pbBuffer[i]);
-
     string ret((char *)pbBuffer, rand8sz);
 
     if (!::CryptReleaseContext(hProvider, 0))

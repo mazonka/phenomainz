@@ -106,7 +106,6 @@ void Agent::config(const string & s)
     if (false);
     else if ( s == "logfile"  || s == "lf" ) setshow(logfile, val);
     else if ( s == "webpath"  || s == "wp" ) setshow(webpath, val);
-    ///else if ( s == "protocol" || s == "pr" ) setshow_prot(val);
     else if ( s == "database" || s == "db" ) setshow(database, val);
     else if ( s == "logcomm"  || s == "lc" ) setshow(logcomm, val);
     else throw gl::ex("Agent bad command: " + s);
@@ -208,12 +207,9 @@ void Agent::downlast(const string & srv, string num, string slice)
     for ( int j = b; j <= n; j++ )
     {
         string file = slice.substr(0, i + 1) + gl::tos(j);
-        ///os::Cout() << "DOWNLAST s: " << file << '\n';
         string sget = "slice " + database + " get " + file;
         saveSlice((dir + file).str(), fetch(srv, sget));
     }
-
-    ///os::Cout() << "DOWNLAST " << num << ' ' << n << '\n';
 }
 
 void Agent::download(const string & srv, const string & date)
@@ -227,8 +223,6 @@ void Agent::download(const string & srv, const string & date)
     os::Path dir(as[0]);
     if ( !dir.isdir() )
         return print("Directory does not exist [" + dir.str() + "]");
-
-    ///os::Cout() << "DOWNLOAD " << srv << ' ' << date << ' ' << dir.str() << '\n';
 
     string s = fetch(srv, "slice " + database);
     if ( s.size() < 4 || s.substr(0, 2) != "OK" )

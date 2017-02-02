@@ -31,7 +31,6 @@ class Jraf
             string s; bool b;
 
             Cmdr(): b(true) {}
-            ///explicit Cmdr(string a): s(a), b(true) {}
             Cmdr(string a, bool k): s(a), b(k) {}
             void operator+=(Cmdr c) { s += c.s; b &= c.b; }
             Cmdr operator+(Cmdr c) { Cmdr r(*this); r += c; return r; }
@@ -51,7 +50,6 @@ class Jraf
         string nonce;
 
         static bool special(string s, bool su);
-        ///bool issu(string sess);
         User user(string sess);
 
         os::Path root(string s) const { return os::Path(root_dir) + s; }

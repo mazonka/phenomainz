@@ -1,7 +1,5 @@
 // Hasq Technology Pty Ltd (C) 2013-2016
 
-///#include <cstdio>
-
 typedef struct in_addr TypeIpa;
 
 inline TypeIpa & native(os::PlaceholderAddr & p) { return *gl::p2p<TypeIpa>(&p); }

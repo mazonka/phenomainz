@@ -1,7 +1,5 @@
 // Hasq Technology Pty Ltd (C) 2013-2016
 
-///#include <iostream> // debug FIX
-
 #include <cstring>
 
 #include "gl_except.h"

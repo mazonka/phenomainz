@@ -166,31 +166,6 @@ string os::net::NetInitialiser::list_ips(bool all)
     return allips;
 }
 
-/*///
-os::net::TcpClient::X os::net::TcpClient::proxy(const gl::Protocol * p, IpAddr ia)
-{
-    X r(ia);
-
-    const string & s = NetInitialiser::httpget_proxy_server;
-    if ( s.empty() ) return r;
-
-    const gl::HttpGet * g = dynamic_cast<const gl::HttpGet *>(p);
-
-    if ( !g )
-        throw gl::ex("Cannot use client proxy with protocol other than HttpGet");
-
-    bool ok = false;
-    IpAddr xsrv( s, ok );
-
-    if ( !ok )
-        throw gl::ex("Cannot resolve proxy server");
-
-    r.addr = xsrv;
-    r.proxy = true;
-    return r;
-}
-*/
-
 os::net::TcpClient::TcpClient(const gl::Protocol * p, IpAddr il,
                               gl::NetworkLimits nl, const gl::ProxyData * px) :
     TcpSocket(p, il, nl)

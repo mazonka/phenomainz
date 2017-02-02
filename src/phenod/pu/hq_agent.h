@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-///#include "hq_globalspace.h"
-
 using std::string;
 
 class GlobalSpace;
