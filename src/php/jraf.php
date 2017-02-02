@@ -222,19 +222,10 @@ function jraf_request($tokarr)
         
         else if ( $cmd == "login" ||  $cmd == "logout" )
         {
-            ///
-            /*if( !LockWrite_lock() ) $result -> add( jfail("busy") );
-            else
-            {
-                $result -> add( Jraf_aurequest($tok) );
-                LockWrite_unlock();
-            }*/
-            // nonce = anonce; ??????
-            /// $result -> add( Jraf_login($tok, $cmd == "login") );
-
             if( !LockWrite_lock() ) $result -> add( jfail("busy") );
             else
             {
+                ///$nonce = jnonce();
                 $result -> add( Jraf_login($tok, $cmd == "login") );
                 LockWrite_unlock();
             }
@@ -371,7 +362,7 @@ function Jraf_root($s)
     return $r;
 }
 
-function Jraf_users()
+function Jraf_users_dir()
 {
     global $users_dir;
     return Jraf_sys_dir()->plus_s($users_dir);
@@ -416,40 +407,6 @@ function Jraf_aurequest($tok)
 
     ///return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
 }
-
-/* C++
-Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
-{
-    if ( !tok.next() ) return err("session id");
-    string sess = tok.sub();
-    auto superuser = user(sess);
-    if( !superuser.auth ) return auth();
-
-    if ( !tok.next() ) return err("command");
-    string cmd = tok.sub();
-
-    string pth;
-    Cmdr er = read_tok_path(tok, pth, superuser, true);
-    if ( !er.b ) return er;
-
-    if (0) {}
-
-    else if ( cmd == "md" ) return aureq_md(pth);
-    else if ( cmd == "rm" ) return aureq_rm(pth);
-    else if ( cmd == "put" ) return aureq_put(tok, pth, true);
-    else if ( cmd == "save" ) return aureq_put(tok, pth, false);
-    else if ( cmd == "mv" )
-    {
-        string pto;
-        er = read_tok_path(tok, pto, superuser, true);
-        if ( !er.b ) return er;
-        return aureq_mv(pth, pto);
-    }
-
-    return err("command [" + cmd + "] unknown");
-}
-
-*/
 
 function Jraf_aureq_md($pth)
 {
@@ -536,29 +493,6 @@ function Jraf_read_tok_path($tok, &$pth, $su, $wr)
     return jerr("Jraf_read_tok_path NI ".$p);
 }
 
-/* C++
-Jraf::Cmdr Jraf::read_tok_path(gl::Token & tok, string & pth, User & su, bool wr)
-{
-    if ( !tok.next() ) return err("path");
-    string p = tok.sub();
-
-    gl::replaceAll(p, "//", "/");
-
-    if ( p.find("..") != string::npos ) return err("..");
-
-    if ( p.empty() ) return err("empty");
-
-    while ( !p.empty() && p[p.size() - 1] == '/' )
-        p = p.substr(0, p.size() - 1);
-
-    if ( special(p, su.su) ) return fail("system path");
-    if ( !check_au_path(p, su, wr) ) return fail("denied");
-
-    pth = p;
-    return Cmdr();
-}
-*/
-
 function Jraf_special($s,$su)
 {
     global $ver_name, $sys_name;
@@ -590,18 +524,47 @@ function Jraf_check_au_path($pth,$su,$write)
 
 function Jraf_user($sess) // => User
 {
-    $usr = Jraf_users();
+    $usr = Jraf_users_dir();
     if ( !$usr->isdir() ) return new User(true,true);
 
-    if ( $sess == "0" ) return new User(false,true);
+    if ( $sess == '0' ) return new User(false,true);
 
-    echo "Jraf_user NI";
-    exit;
-    // $in = Jraf_login_dir() . sess; ???
+    $in = Jraf_login_dir()->plus_s($sess);
     
     if ( !$in->isfile() ) return new User(false, false);
     
-    //$email = Jraf_file2word($in->s); need use OsPath::file_get_contents
+    $email = OsPath::file_get_contents($in->s);
+    
+    $superuser = Jraf_config('admin', $email);
+
+    $udir = Jraf_users_dir()->plus_s($email);
+    if ( !$udir->isdir())
+    {
+        $udir->trymkdir();
+        if ( !$udir->isdir() ) throw "Cannot create ".$udir->s;
+        
+        //Jraf_new_user($email);
+    }
+    
+    //set counter
+    $file_cntr = $udir->plus_s("counter");
+    $scntr = OsPath::file_get_contents($file_cntr->s);
+    $icntr = 0;
+    if (! empty($scntr) ) $icntr = +$scntr;
+    $icntr++;
+    OsPath::file_put_contents($file_cntr, $icntr + '\n', 0);
+
+    //set access
+    $file_last = $udir->plus_s("access");
+    $last = @date('YmdHis');
+    echo $last;
+    
+    $user = new User($superuser, true);
+    $user->email = $email;
+    $user->cntr = $icntr;
+    $user->last = $last;
+    
+    return $user;
     
     echo "Jraf_user NI";
     exit;
@@ -625,7 +588,7 @@ Jraf::User Jraf::user(string sess)
 
     // update stat
 
-    os::Path udir = users() + email;
+    os::Path udir = users() + email; ->
     if ( !udir.isdir() )
     {
         udir.mkdir();
@@ -674,7 +637,7 @@ function Jraf_login($tok, $in)
     if ( !$tok->next() ) return jerr("need arg");
     $em = $tok->sub();
 
-    if ( !Jraf_users()->isdir() ) return jfail("no users");
+    if ( !Jraf_users_dir()->isdir() ) return jfail("no users");
 
     $dir = Jraf_login_dir();
     if ( !$dir->isdir() )
@@ -693,7 +656,6 @@ function Jraf_login($tok, $in)
         
         if ( !Jraf_ismail($em) ) return jerr("bad email");
         $nonce = jnonce();
-        ///$f = Jraf_root($dir->s . '/' . $nonce);
         $f = $dir->plus_s($nonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
@@ -705,10 +667,12 @@ function Jraf_login($tok, $in)
     // logout
 
     //(dir + em).erase();
+    Jraf_aureq_rm($dir->plus_s($em));
 
     //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
-
-    return jok1();    
+    
+    echo "logout";
+    exit;
 }
 
 function Jraf_ismail($email)
@@ -791,6 +755,11 @@ function Jraf_config($key,$val)
     }
 
     return FALSE;
+}
+
+function Jraf_match_config()
+{
+    
 }
 
 function Jraf_update_ver($pth)
