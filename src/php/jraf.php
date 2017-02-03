@@ -552,12 +552,12 @@ function Jraf_user($sess) // => User
     $icntr = 0;
     if (! empty($scntr) ) $icntr = +$scntr;
     $icntr++;
-    OsPath::file_put_contents($file_cntr, $icntr + '\n', 0);
+    OsPath::file_put_contents($file_cntr->s, $icntr + '\n', 0);
 
     //set access
     $file_last = $udir->plus_s("access");
     $last = @date('YmdHis');
-    echo $last;
+    OsPath::file_put_contents($file_last->s, $last + '\n', 0);
     
     $user = new User($superuser, true);
     $user->email = $email;
@@ -619,19 +619,6 @@ Jraf::User Jraf::user(string sess)
 }
 */
 
-/*///
-function Jraf_file2word($file)
-{
-    if ( !file_exists($file) ) return '';
-
-    $r = file_get_contents($file);
-    
-    if ( !file_exists($file) ) return '';
-    
-    return $r;
-}
-*/
-
 function Jraf_login($tok, $in)
 {
     if ( !$tok->next() ) return jerr("need arg");
@@ -667,11 +654,12 @@ function Jraf_login($tok, $in)
     // logout
 
     //(dir + em).erase();
-    Jraf_aureq_rm($dir->plus_s($em));
+    OsPath::del_rec($dir->plus_s($em)->s);
 
     //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
+    return jok1();
     
-    echo "logout";
+    echo "Jraf_login NI";
     exit;
 }
 
@@ -898,49 +886,22 @@ function Jraf_aureq_mv($pth, $pto)
     return jok2($pto);
 }
 
+function Jraf_new_user($email)
+{
+    $usr = Jraf_users_dir()->plus_s($email);
+    
+    $quotaKb = '10000';
+    $x = hash("sha256", $email, false);
+    $uname = hash("sha256", $x.$email, false);
+    $uname = substr($uname, 0, 16);
+    
+    echo "Jraf_new_user NI";
+    exit;
+    
+}
+
 
 /* C++
-Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
-{
-    os::Path f1 = root(pth);
-    bool dir = f1.isdir();
-
-    if ( dir ) return fail("moving direcrories not allowed");
-    // the reason is that it would require recursive copying
-    // of the version files sub-tree, since it cannot be moved
-
-    os::Path f2 = root(pto);
-
-    bool k = os::rename(f1.str(), f2.str());
-    if ( !k ) return fail(pth + " -> " + pto);
-    if ( f1.isdir() || f1.isfile() ) return fail("mv "+pth);
-
-    update_ver(pto);
-    update_ver(pth);
-
-    return ok(pto);
-}
-*/
-
-// ===================================================================
-
-/*C++
-
-
-Jraf::Cmdr Jraf::aureq_rm(string pth)
-{
-    if ( pth.empty() ) return fail("root cannot be removed");
-
-    os::Path p = root(pth);
-
-    p.erase();
-    if ( p.isdir() || p.isfile() ) return fail("rm "+ pth);
-
-    update_ver(pth);
-
-    return ok(pth);
-}
-
 void Jraf::set_user_uname(User & su)
 {
     string uname = gl::file2word((users() + su.email + "uname").str());
