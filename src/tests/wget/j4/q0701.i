@@ -1,0 +1,1 @@
+command=jraf login a@b.c http://server/
