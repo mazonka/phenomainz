@@ -8,13 +8,14 @@ $sys_name = '.jraf.sys';
 $ver_name = '.jraf.ver';
 $users_dir = 'users';
 $login_dir = 'login';
+$home_dir = 'home';
 $thisload = 'jraf.php?';
 
 // encoding section
 $skc_seed = ''.rand().time();
 $skc_salt = '';
 $skc_ivec = '';
-function hashHex($x){ return hash('sha256',$x); }
+function hashHex($x){ return hash('sha256',$x,false); }
 function hex16($x){ return substr(hashHex($x),0,16); }
 function jnonce(){ global $skc_salt; return hex16($skc_salt); }
 function skc_init()
@@ -374,6 +375,12 @@ function Jraf_login_dir()
     return Jraf_sys_dir()->plus_s($login_dir);
 }
 
+function Jraf_home_dir()
+{
+    global $home_dir;
+    return Jraf_root($home_dir);
+}
+
 function Jraf_aurequest($tok)
 {
     if ( !$tok->next() ) return jerr("session id");
@@ -514,7 +521,7 @@ function Jraf_check_au_path($pth,$su,$write)
     if ( $su->uname == '' ) return false;
 
     $rpth = Jraf_root($pth)->s;
-    $hdir = Jraf_home() -> plus($su->uname) -> s;
+    $hdir = Jraf_home_dir() -> plus($su->uname) -> s;
 
     $hsz = strlen($hdir);
     if ( strlen($rpth) < $hsz ) return false;
@@ -543,7 +550,7 @@ function Jraf_user($sess) // => User
         $udir->trymkdir();
         if ( !$udir->isdir() ) throw "Cannot create ".$udir->s;
         
-        //Jraf_new_user($email);
+        Jraf_new_user($email);
     }
     
     //set counter
@@ -888,16 +895,30 @@ function Jraf_aureq_mv($pth, $pto)
 
 function Jraf_new_user($email)
 {
-    $usr = Jraf_users_dir()->plus_s($email);
+    $udir = Jraf_users_dir()->plus_s($email);
     
     $quotaKb = '10000';
-    $x = hash("sha256", $email, false);
-    $uname = hash("sha256", $x.$email, false);
-    $uname = substr($uname, 0, 16);
+    $uname = hex16($email . hex16($email));
     
-    echo "Jraf_new_user NI";
-    exit;
+    $file_quota = ($udir->plus_s('quote'));
+    OsPath::file_put_contents($file_quota->s, $quotaKb.'\n', 0);
     
+    $file_uname = ($udir->plus_s('uname'));
+    OsPath::file_put_contents($file_uname->s, $uname.'\n', 0);
+    
+    $hm = Jraf_home_dir();
+    
+    if ( !$hm->isdir() )
+    {
+        $hm->trymkdir();
+        if ( !$hm->isdir() ) die('Cannot create ' . $hm->s );
+    }
+    
+    $hm->plus_s($uname)->trymkdir();
+    
+    ///
+    ///echo 'Jraf_new_user NI';
+    ///exit;
 }
 
 
