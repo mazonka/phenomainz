@@ -500,9 +500,11 @@ void Jraf::new_user(string email)
 
     // set quota and uname
     string quotaKb = "10000";
-    string x = ma::skc::hashHex(email);
-    string uname = ma::skc::enc(x, email, x, x);
-    uname = ma::toHex(uname).substr(0, 16);
+    string x = ma::skc::hashHex(email).substr(0, 16);
+    string uname = ma::skc::hashHex(email + x).substr(0, 16);
+    
+    /// string uname = ma::skc::enc(x, email, x, x);
+    /// uname = ma::toHex(uname).substr(0, 16);
 
     string file_quota = (udir + "quota").str();
     gl::str2file(file_quota, quotaKb + '\n');
