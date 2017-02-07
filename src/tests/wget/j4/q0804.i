@@ -1,0 +1,1 @@
+command=jraf au 0 md /.jraf.sys/users : login admim@server.com * : read 5aeb1f6c5cd9c44a /x
