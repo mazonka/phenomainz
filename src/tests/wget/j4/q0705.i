@@ -1,1 +1,1 @@
-command=jraf au 0 md /.jraf.sys/users login -dmin@server.com *
+command=jraf au 0 md /.jraf.sys/users : login -dmin@server.com *
