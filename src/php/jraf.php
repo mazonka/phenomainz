@@ -15,6 +15,7 @@ $thisload = 'jraf.php?';
 $skc_seed = ''.rand().time();
 $skc_salt = '';
 $skc_ivec = '';
+$anonce = '';
 function hashHex($x){ return hash('sha256',$x,false); }
 function hex16($x){ return substr(hashHex($x),0,16); }
 function jnonce(){ global $skc_salt; return hex16($skc_salt); }
@@ -559,12 +560,12 @@ function Jraf_user($sess) // => User
     $icntr = 0;
     if (! empty($scntr) ) $icntr = +$scntr;
     $icntr++;
-    OsPath::file_put_contents($file_cntr->s, $icntr + '\n', 0);
+    OsPath::file_put_contents($file_cntr->s, $icntr . '\n', 0);
 
     //set access
     $file_last = $udir->plus_s("access");
     $last = @date('YmdHis');
-    OsPath::file_put_contents($file_last->s, $last + '\n', 0);
+    OsPath::file_put_contents($file_last->s, $last . '\n', 0);
     
     $user = new User($superuser, true);
     $user->email = $email;
@@ -649,11 +650,14 @@ function Jraf_login($tok, $in)
         if( $server == '*' ) $server = '';
         
         if ( !Jraf_ismail($em) ) return jerr("bad email");
-        $nonce = jnonce();
-        $f = $dir->plus_s($nonce);
+
+        global $anonce;
+        $anonce = hex16($anonce . jnonce());
+        
+        $f = $dir->plus_s($anonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
-        Jraf_sendmail($server, $nonce, $em);
+        Jraf_sendmail($server, $anonce, $em);
 
         return jok2($server);
     }
@@ -900,11 +904,11 @@ function Jraf_new_user($email)
     $quotaKb = '10000';
     $uname = hex16($email . hex16($email));
     
-    $file_quota = ($udir->plus_s('quote'));
-    OsPath::file_put_contents($file_quota->s, $quotaKb.'\n', 0);
+    $file_quota = ($udir->plus_s('quota'));
+    OsPath::file_put_contents($file_quota->s, $quotaKb."\n", 0);
     
     $file_uname = ($udir->plus_s('uname'));
-    OsPath::file_put_contents($file_uname->s, $uname.'\n', 0);
+    OsPath::file_put_contents($file_uname->s, $uname."\n", 0);
     
     $hm = Jraf_home_dir();
     
