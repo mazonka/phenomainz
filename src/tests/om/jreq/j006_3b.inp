@@ -8,7 +8,7 @@ cmd = [ jraf login admin@server.com * ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-id = [ 20232512c272da3f ]
+id = [ 0419742eed414745 ]
 au = { [ jraf au ] id }
 read = { [ jraf read ] id }
 

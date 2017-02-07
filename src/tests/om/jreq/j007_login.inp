@@ -23,7 +23,7 @@ cmd = [ jraf logout 0 ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf logout 73d24a440544ac5e ]
+cmd = [ jraf logout 5315348a14b10534 ]
 print { cmd "->" tcp self cmd }
 print [ ]
 

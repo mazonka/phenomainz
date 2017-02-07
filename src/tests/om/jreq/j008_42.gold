@@ -1,31 +1,31 @@
 jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
 
-[N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?20232512c272da3f]
+[N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?0419742eed414745]
 jraf login admin@server.com * -> OK http://127.0.0.1:16000/jraf?
-[N/I] phmail: Sending to [admim@server.com] au [http://127.0.0.1:16000/jraf?73d24a440544ac5e]
+[N/I] phmail: Sending to [admim@server.com] au [http://127.0.0.1:16000/jraf?acdcf29e3200b4c6]
 jraf login admim@server.com * -> OK http://127.0.0.1:16000/jraf?
 
-jraf read 20232512c272da3f /.jraf.sys/users -> OK 0 -1 1 0 -1 admin@server.com
-jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com -> OK 0 -1 4 0 15 access 0 2 counter 0 6 quota 0 17 uname
+jraf read 0419742eed414745 /.jraf.sys/users -> OK 0 -1 1 0 -1 admin@server.com
+jraf read 0419742eed414745 /.jraf.sys/users/admin@server.com -> OK 0 -1 4 0 15 access 0 2 counter 0 6 quota 0 17 uname
 
-jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com/access -> OK 0 15 MjAxNzAxMjMxMjM0NTYK
-jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com/counter -> OK 0 2 NAo=
-jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com/quota -> OK 0 6 MTAwMDAK
-jraf read 20232512c272da3f /.jraf.sys/users/admin@server.com/uname -> OK 0 17 NGVkYTM2MDVkMDBmMGE4Mwo=
-jraf read 73d24a440544ac5e /.jraf.sys/users/admim@server.com/uname -> JRAF_FAIL system path
+jraf read 0419742eed414745 /.jraf.sys/users/admin@server.com/access -> OK 0 15 MjAxNzAxMjMxMjM0NTYK
+jraf read 0419742eed414745 /.jraf.sys/users/admin@server.com/counter -> OK 0 2 NAo=
+jraf read 0419742eed414745 /.jraf.sys/users/admin@server.com/quota -> OK 0 6 MTAwMDAK
+jraf read 0419742eed414745 /.jraf.sys/users/admin@server.com/uname -> OK 0 17 MzRkM2FlN2M1ZTJjZGViYgo=
+jraf read acdcf29e3200b4c6 /.jraf.sys/users/admim@server.com/uname -> JRAF_FAIL system path
 
 -- su creates file and nosu reads
-jraf au 20232512c272da3f put /z 0 1 Kg== -> OK 1
-jraf read 73d24a440544ac5e /z -> OK 1 1 Kg==
+jraf au 0419742eed414745 put /z 0 1 Kg== -> OK 1
+jraf read acdcf29e3200b4c6 /z -> OK 1 1 Kg==
 
 -- write/read file outside
-jraf au 73d24a440544ac5e put /x 0 1 Kg== -> JRAF_FAIL denied
-jraf read 73d24a440544ac5e /x -> JRAF_ERR bad path /x
-jraf au 73d24a440544ac5e put /x1234567890x1234567890 0 1 Kg== -> JRAF_FAIL denied
+jraf au acdcf29e3200b4c6 put /x 0 1 Kg== -> JRAF_FAIL denied
+jraf read acdcf29e3200b4c6 /x -> JRAF_ERR bad path /x
+jraf au acdcf29e3200b4c6 put /x1234567890x1234567890 0 1 Kg== -> JRAF_FAIL denied
 
 -- write/read file inside
-jraf au 73d24a440544ac5e put /home/59ce4171da91ebbe/y 0 1 Kg== -> OK 1
-jraf read 73d24a440544ac5e /home/59ce4171da91ebbe/y -> OK 1 1 Kg==
+jraf au acdcf29e3200b4c6 put /home/885118cdd900767c/y 0 1 Kg== -> OK 1
+jraf read acdcf29e3200b4c6 /home/885118cdd900767c/y -> OK 1 1 Kg==
 
 
 ==========
@@ -34,8 +34,8 @@ login
 users
 
 jroot/.jraf.sys/login:
-20232512c272da3f
-73d24a440544ac5e
+0419742eed414745
+acdcf29e3200b4c6
 
 jroot/.jraf.sys/users:
 admim@server.com
@@ -55,10 +55,10 @@ uname
 
 ==========
 jroot/home/:
-4eda3605d00f0a83
-59ce4171da91ebbe
+34d3ae7c5e2cdebb
+885118cdd900767c
 
-jroot/home/4eda3605d00f0a83:
+jroot/home/34d3ae7c5e2cdebb:
 
-jroot/home/59ce4171da91ebbe:
+jroot/home/885118cdd900767c:
 y
