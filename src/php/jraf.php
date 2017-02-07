@@ -30,7 +30,7 @@ skc_init();
 
 if( empty($_POST) )
 {
-    $auid = "0";
+    $auid = '0';
     if( !empty($_GET) )
     {
         foreach( $_GET as $pn => $pv )
@@ -76,40 +76,40 @@ exit;
 
 function loadPhd($auid)
 {
-    $file = OsPath::file_get_contents("jraf.phd");
-    $file = str_replace("$$$",$auid,$file);
+    $file = OsPath::file_get_contents('jraf.phd');
+    $file = str_replace('$$$',$auid,$file);
     echo $file;
 }
 
 
 function jprocess($cmd) // void
 {
-    $toks = explode(" ",$cmd);
-    if( empty($toks) ){ echo("REQ_MSG_HEAD"); return; }
-    if( count($toks) < 1 ){ echo("REQ_MSG_HEAD"); return; }
+    $toks = explode(' ',$cmd);
+    if( empty($toks) ){ echo('REQ_MSG_HEAD'); return; }
+    if( count($toks) < 1 ){ echo('REQ_MSG_HEAD'); return; }
 
-    if( $toks[0] == "jraf" ){ echo_jraf_req($toks); return; }
-    if( $toks[0] == "reseed" ){ echook(); return; }
+    if( $toks[0] == 'jraf' ){ echo_jraf_req($toks); return; }
+    if( $toks[0] == 'reseed' ){ echook(); return; }
 
     if( count($toks) < 2 ){ cmd1($toks[0]); return; }
 
     //var_dump($toks);
-    echo "REQ_MSG_BAD ".$cmd;
+    echo 'REQ_MSG_BAD '.$cmd;
 }
 
 function echook($s)
 {
-    if( $s == "" ) echo "OK";
-    else echo "OK ".$s;
+    if( $s == '' ) echo 'OK';
+    else echo 'OK '.$s;
 }
 
 function cmd1($c)
 {
     if(0){}
 
-    else if( $c == "ping" ) echook("");
+    else if( $c == 'ping' ) echook('');
     else
-        echo "REQ_MSG_BAD ".$c;
+        echo 'REQ_MSG_BAD '.$c;
 }
 
 class Cmdr
@@ -156,12 +156,12 @@ class User
     }
 }
 
-function jbad(){ return new Cmdr("REQ_MSG_BAD", 0); }
-function jok1(){ return new Cmdr("OK", 1); }
-function jok2($s){ return new Cmdr("OK ".$s, 1); }
-function jerr($s){ return new Cmdr("JRAF_ERR ".$s, 0); }
-function jfail($s){ return new Cmdr("JRAF_FAIL ".$s, 0); }
-function jauth(){ return new Cmdr("AUTH", 0); }
+function jbad(){ return new Cmdr('REQ_MSG_BAD', 0); }
+function jok1(){ return new Cmdr('OK', 1); }
+function jok2($s){ return new Cmdr('OK '.$s, 1); }
+function jerr($s){ return new Cmdr('JRAF_ERR '.$s, 0); }
+function jfail($s){ return new Cmdr('JRAF_FAIL '.$s, 0); }
+function jauth(){ return new Cmdr('AUTH', 0); }
 
 function echo_jraf_req($tokarr){ echo jraf_request($tokarr); }
 
@@ -177,23 +177,23 @@ function jraf_request($tokarr)
         if ( $tok->next() == 0 ) return jbad()->s;
         $cmd = $tok->sub();
 
-        if ( $cmd == "ping" ) $result->add(jok1());
+        if ( $cmd == 'ping' ) $result->add(jok1());
 
-        else if ( $cmd == "version" )
+        else if ( $cmd == 'version' )
         {
             if ( !$tok->next() ) $result -> add( jbad() );
             else
             {
                 $w = $tok->sub();
-                if ( $w == "backend" ) $result -> add( jok2($be_version) );
-                else if ( $w == "client" ) $result -> add( Jraf_client_version() );
+                if ( $w == 'backend' ) $result -> add( jok2($be_version) );
+                else if ( $w == 'client' ) $result -> add( Jraf_client_version() );
                 else $result -> add( jbad() );
             }
         }
 
-        else if ( $cmd == "au" )
+        else if ( $cmd == 'au' )
         {
-            if( !LockWrite_lock() ) $result -> add( jfail("busy") );
+            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
                 $result -> add( Jraf_aurequest($tok) );
@@ -201,9 +201,9 @@ function jraf_request($tokarr)
             }
         }
 
-        else if ( $cmd == "read" || $cmd == "get" )
+        else if ( $cmd == 'read' || $cmd == 'get' )
         {
-            if ( !$tok->next() ) return jerr("session id")->s;
+            if ( !$tok->next() ) return jerr('session id')->s;
 
             $sess = $tok->sub();
             $usr = Jraf_user($sess);
@@ -219,32 +219,32 @@ function jraf_request($tokarr)
 
             if ( !$er->b ) return $result->s . $er->s;
 
-            $result -> add( Jraf_read_obj($pth, $cmd == "get", $usr) );
+            $result -> add( Jraf_read_obj($pth, $cmd == 'get', $usr) );
         }
         
-        else if ( $cmd == "login" ||  $cmd == "logout" )
+        else if ( $cmd == 'login' ||  $cmd == 'logout' )
         {
-            if( !LockWrite_lock() ) $result -> add( jfail("busy") );
+            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
                 ///$nonce = jnonce();
-                $result -> add( Jraf_login($tok, $cmd == "login") );
+                $result -> add( Jraf_login($tok, $cmd == 'login') );
                 LockWrite_unlock();
             }
         }
         
         else
         {
-            $result -> add( jerr("bad command [" . $cmd . "]") );
+            $result -> add( jerr('bad command [' . $cmd . ']') );
             break;
         }
 
         if ( $result->b == 0 ) break;
         if ( $tok->next() == 0 ) break;
         $ts = $tok->sub();
-        if ( $ts != ":" ) return $result->s . " : " . jerr("[" . $ts . "]")->s;
+        if ( $ts != ':' ) return $result->s . ' : ' . jerr('[' . $ts . ']')->s;
 
-        $result->s .= " : ";
+        $result->s .= ' : ';
     }
 
     if ( $result->s == '' ) return jbad()->s;
@@ -335,11 +335,11 @@ string Jraf::request(gl::Token tok, string anonce)
 
 function Jraf_client_version()
 {
-    $p = Jraf_sys_dir() -> plus_s("version");
+    $p = Jraf_sys_dir() -> plus_s('version');
     $ps = $p->s;
     $fever = OsPath::file_get_contents($ps);
 
-    if ( $fever === false || $fever == '' ) return jerr("no file system found [" . $ps . "]");
+    if ( $fever === false || $fever == '' ) return jerr('no file system found [' . $ps . ']');
 
     return jok2($fever);
 }
@@ -384,13 +384,13 @@ function Jraf_home_dir()
 
 function Jraf_aurequest($tok)
 {
-    if ( !$tok->next() ) return jerr("session id");
+    if ( !$tok->next() ) return jerr('session id');
     $sess = $tok->sub();
 
     $usr = Jraf_user($sess);
     if( !$usr->auth ) return jauth();
 
-    if ( !$tok->next() ) return jerr("command");
+    if ( !$tok->next() ) return jerr('command');
     $cmd = $tok->sub();
 
     $pth = '';
@@ -399,11 +399,11 @@ function Jraf_aurequest($tok)
 
     if (0) {}
 
-    else if ( $cmd == "md") return Jraf_aureq_md($pth);
-    else if ( $cmd == "rm") return Jraf_aureq_rm($pth);
-    else if ( $cmd == "put" ) return Jraf_aureq_put($tok, $pth, true);
-    else if ( $cmd == "save" ) return Jraf_aureq_put($tok, $pth, false);
-    else if ( $cmd == "mv" )
+    else if ( $cmd == 'md') return Jraf_aureq_md($pth);
+    else if ( $cmd == 'rm') return Jraf_aureq_rm($pth);
+    else if ( $cmd == 'put' ) return Jraf_aureq_put($tok, $pth, true);
+    else if ( $cmd == 'save' ) return Jraf_aureq_put($tok, $pth, false);
+    else if ( $cmd == 'mv' )
     {
         $pto = '';
         $er = Jraf_read_tok_path($tok, $pto, $usr, true);
@@ -411,9 +411,9 @@ function Jraf_aurequest($tok)
         return Jraf_aureq_mv($pth, $pto);
     }
 
-    return jerr("command [" . cmd . "] unknown");
+    return jerr('command [' . cmd . '] unknown');
 
-    ///return jerr("Jraf_aurequest NI ".$sess.' '.$cmd);
+    ///return jerr('Jraf_aurequest NI '.$sess.' '.$cmd);
 }
 
 function Jraf_aureq_md($pth)
@@ -421,7 +421,7 @@ function Jraf_aureq_md($pth)
     $p = Jraf_root($pth);
     if ( $p->isdir() ) return jok2($pth);
     $p->trymkdir();
-    if ( !$p->isdir() ) return jfail("md " . $pth);
+    if ( !$p->isdir() ) return jfail('md ' . $pth);
     Jraf_update_ver($pth);
     return jok2($pth);
 }
@@ -430,7 +430,7 @@ function Jraf_aureq_rm($pth)
 {
     $p = Jraf_root($pth);
     $p->erase();
-    if ( $p->isdir() || $p->isfile() ) return jfail("rm " . $pth);
+    if ( $p->isdir() || $p->isfile() ) return jfail('rm ' . $pth);
     Jraf_update_ver($pth);
     return jok2($pth);
 }
@@ -440,26 +440,26 @@ function Jraf_aureq_put($tok, $pth, $append)
     $pos = -1;
     if ( $append )
     {
-        if ( !$tok->next() ) return jerr("position");
+        if ( !$tok->next() ) return jerr('position');
         $pos = intval($tok->sub());
     }
 
-    if ( !$tok->next() ) return jerr("size");
+    if ( !$tok->next() ) return jerr('size');
     $siz = intval($tok->sub());
 
     $text = '';
     if ( $siz )
     {
-        if( !$tok->next() ) return jerr("text");
+        if( !$tok->next() ) return jerr('text');
         $text = base64_decode($tok->sub());
     }
 
-    if ( strlen($text) != $siz ) return jerr("size mismatch" . ' ' . $text);
+    if ( strlen($text) != $siz ) return jerr('size mismatch' . ' ' . $text);
 
     $f = Jraf_root($pth);
 
     if ( !$f->isfile() ) { OsPath::file_put_contents($f->s,'',0); }
-    if ( !$f->isfile() ) return jfail("cannot create " . $pth);
+    if ( !$f->isfile() ) return jfail('cannot create ' . $pth);
 
     $fsz = $f->file_size();
 
@@ -478,27 +478,27 @@ function Jraf_aureq_put($tok, $pth, $append)
 
 function Jraf_read_tok_path($tok, &$pth, $su, $wr)
 {
-    if ( !$tok->next() ) return jerr("path");
+    if ( !$tok->next() ) return jerr('path');
     $p = $tok->sub();
 
-    while( strpos($p,"//") !== false )
-        $p = str_replace("//", "/",$p);
+    while( strpos($p,'//') !== false )
+        $p = str_replace('//', '/',$p);
 
-    if ( strpos($p,"..") !== false ) return jerr("..");
+    if ( strpos($p,'..') !== false ) return jerr('..');
 
-    if ( $p == '' ) return jerr("empty");
+    if ( $p == '' ) return jerr('empty');
 
     while ( $p != '' && substr($p,-1) == '/' )
         $p = substr($p, 0, strlen($p) - 1);
 
-    if ( Jraf_special($p, $su->su) ) return jfail("system path");
+    if ( Jraf_special($p, $su->su) ) return jfail('system path');
 
-    if ( !Jraf_check_au_path($p, $su, $wr) ) return jfail("denied");
+    if ( !Jraf_check_au_path($p, $su, $wr) ) return jfail('denied');
 
     $pth = $p;
     return new Cmdr('',1);
 
-    return jerr("Jraf_read_tok_path NI ".$p);
+    return jerr('Jraf_read_tok_path NI '.$p);
 }
 
 function Jraf_special($s,$su)
@@ -549,23 +549,23 @@ function Jraf_user($sess) // => User
     if ( !$udir->isdir())
     {
         $udir->trymkdir();
-        if ( !$udir->isdir() ) throw "Cannot create ".$udir->s;
+        if ( !$udir->isdir() ) throw 'Cannot create '.$udir->s;
         
         Jraf_new_user($email);
     }
     
     //set counter
-    $file_cntr = $udir->plus_s("counter");
+    $file_cntr = $udir->plus_s('counter');
     $scntr = OsPath::file_get_contents($file_cntr->s);
     $icntr = 0;
     if (! empty($scntr) ) $icntr = +$scntr;
     $icntr++;
-    OsPath::file_put_contents($file_cntr->s, $icntr . '\n', 0);
+    OsPath::file_put_contents($file_cntr->s, $icntr . "\n", 0);
 
     //set access
-    $file_last = $udir->plus_s("access");
+    $file_last = $udir->plus_s('access');
     $last = @date('YmdHis');
-    OsPath::file_put_contents($file_last->s, $last . '\n', 0);
+    OsPath::file_put_contents($file_last->s, $last . "\n", 0);
     
     $user = new User($superuser, true);
     $user->email = $email;
@@ -574,9 +574,9 @@ function Jraf_user($sess) // => User
     
     return $user;
     
-    echo "Jraf_user NI";
+    echo 'Jraf_user NI';
     exit;
-    return jerr("Jraf_user NI");
+    return jerr('Jraf_user NI');
 }
 
 /* C++
@@ -629,27 +629,27 @@ Jraf::User Jraf::user(string sess)
 
 function Jraf_login($tok, $in)
 {
-    if ( !$tok->next() ) return jerr("need arg");
+    if ( !$tok->next() ) return jerr('need arg');
     $em = $tok->sub();
 
-    if ( !Jraf_users_dir()->isdir() ) return jfail("no users");
+    if ( !Jraf_users_dir()->isdir() ) return jfail('no users');
 
     $dir = Jraf_login_dir();
     if ( !$dir->isdir() )
     {
         $dir->trymkdir();
-        if ( !$dir->isdir() ) return jfail("login directory fails");
+        if ( !$dir->isdir() ) return jfail('login directory fails');
     }
 
     if ( $in )
     {
         $server = '';
-        if ( $tok->next() && ( ($server = $tok->sub()) != ":" ) ) {}
-        else return jerr("arg required <server> or '*'");
+        if ( $tok->next() && ( ($server = $tok->sub()) != ':' ) ) {}
+        else return jerr('arg required <server> or \'*\'');
 
         if( $server == '*' ) $server = '';
         
-        if ( !Jraf_ismail($em) ) return jerr("bad email");
+        if ( !Jraf_ismail($em) ) return jerr('bad email');
 
         global $anonce;
         $anonce = hex16($anonce . jnonce());
@@ -670,7 +670,7 @@ function Jraf_login($tok, $in)
     //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
     return jok1();
     
-    echo "Jraf_login NI";
+    echo 'Jraf_login NI';
     exit;
 }
 
@@ -686,7 +686,7 @@ function Jraf_sendmail(&$url, $sid, $em) // => void
     ///$server .= 'XXX';
 
     if ( $url == '' ) $url = Jraf_config('server','');
-    if ( $url == '' ) { echo "sendmail: empty url"; return; }
+    if ( $url == '' ) { echo 'sendmail: empty url'; return; }
 
     $i = strpos($url,'?');
 
@@ -738,8 +738,8 @@ function Jraf_sendmail(&$url, $sid, $em) // => void
 
 function Jraf_config($key,$val)
 {
-    $fstr = OsPath::file_get_contents("conf.phd");
-    $words = preg_split("/[\s]+/", $fstr);
+    $fstr = OsPath::file_get_contents('conf.phd');
+    $words = preg_split('/[\s]+/', $fstr);
     //var_dump($words);
 
     $sz = count($words);
@@ -777,7 +777,7 @@ function Jraf_update_ver($pth)
     Jraf_update_ver($up);
 }
 
-function Jraf_zero($s, $d = "0")
+function Jraf_zero($s, $d = '0')
 {
     return $s=='' ? $d : $s;
 }
@@ -806,7 +806,7 @@ function Jraf_setver($p, $v)
     $opar = new OsPath($parent);
 
     if ( !$opar->isdir() ) $opar->trymkdir();
-    if ( !$opar->isdir() ) throw "Failed to make dir " . $parent;
+    if ( !$opar->isdir() ) throw 'Failed to make dir ' . $parent;
 
     OsPath::file_put_contents($q->s,$v,0);
 }
@@ -821,7 +821,7 @@ function Jraf_parent_str($spth) // str -> str
 
 function Jraf_read_obj($pth, $getonly, $u)
 {
-    if ( Jraf_special($pth, $u->su) ) return jerr("sys path");
+    if ( Jraf_special($pth, $u->su) ) return jerr('sys path');
 
     $rp = new OsPath($pth);
     $p = Jraf_root($pth);
@@ -829,7 +829,7 @@ function Jraf_read_obj($pth, $getonly, $u)
 
     if ( $p->isdir() )
     {
-        $q = $ver . " -1";
+        $q = $ver . ' -1';
         if ( $getonly ) return jok2($q);
 
         $dir = $p->readDirectory();
@@ -841,7 +841,7 @@ function Jraf_read_obj($pth, $getonly, $u)
         {
             if ( Jraf_special($i, $u->su) ) continue;
             $r .= ' ' . Jraf_getver( $rp -> plus_s($i) -> s );
-            $r .= " -1";
+            $r .= ' -1';
             $r .= ' ' . $i;
             $cntr++;
         }
@@ -872,7 +872,7 @@ function Jraf_read_obj($pth, $getonly, $u)
         return jok2($r);
     }
 
-    return jerr("bad path " . $pth);
+    return jerr('bad path ' . $pth);
 
 }
 
@@ -881,15 +881,15 @@ function Jraf_aureq_mv($pth, $pto)
     $f1 = Jraf_root($pth);
     $dir = $f1->isdir();
 
-    if ( $dir ) return jfail("moving direcrories not allowed");
+    if ( $dir ) return jfail('moving direcrories not allowed');
     // the reason is that it would require recursive copying
     // of the version files sub-tree, since it cannot be moved
 
     $f2 = Jraf_root($pto);
 
     $k = OsPath::rename($f1->s, $f2->s);
-    if ( !$k ) return jfail($pth . " -> " . $pto);
-    if ( $f1->isdir() || $f1->isfile() ) return jfail("mv ".$pth);
+    if ( !$k ) return jfail($pth . ' -> ' . $pto);
+    if ( $f1->isdir() || $f1->isfile() ) return jfail('mv '.$pth);
 
     Jraf_update_ver($pto);
     Jraf_update_ver($pth);
@@ -905,10 +905,10 @@ function Jraf_new_user($email)
     $uname = hex16($email . hex16($email));
     
     $file_quota = ($udir->plus_s('quota'));
-    OsPath::file_put_contents($file_quota->s, $quotaKb."\n", 0);
+    OsPath::file_put_contents($file_quota->s, $quotaKb . "\n", 0);
     
     $file_uname = ($udir->plus_s('uname'));
-    OsPath::file_put_contents($file_uname->s, $uname."\n", 0);
+    OsPath::file_put_contents($file_uname->s, $uname . "\n", 0);
     
     $hm = Jraf_home_dir();
     
