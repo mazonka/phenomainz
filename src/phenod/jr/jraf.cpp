@@ -334,7 +334,6 @@ bool Jraf::check_au_path(string pth, User & su, bool write)
     string rpth = root(pth).str();
     string hdir = (home() + su.uname).str();
 
-
     auto hsz = hdir.size();
     if ( rpth.size() < hsz ) return false;
 
