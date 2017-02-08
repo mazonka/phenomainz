@@ -4,8 +4,7 @@ cwd=`sh execdir.sh`
 wr=$cwd/wroot
 echo ""
 echo "=="
-#ls -1 $wr/home
+pushd $wr >/dev/null
+ls -1 .jraf.sys/users/admin@server.com/access 
+popd >/dev/null
 rm -rf $wr
-
-
-
