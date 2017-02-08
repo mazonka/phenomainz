@@ -496,9 +496,8 @@ function Jraf_read_tok_path($tok, &$pth, $su, $wr)
     if ( !Jraf_check_au_path($p, $su, $wr) ) return jfail('denied');
 
     $pth = $p;
-    return new Cmdr('',1);
 
-    return jerr('Jraf_read_tok_path NI '.$p);
+    return new Cmdr('',1);
 }
 
 function Jraf_special($s,$su)
@@ -573,59 +572,7 @@ function Jraf_user($sess) // => User
     $user->last = $last;
     
     return $user;
-    
-    echo 'Jraf_user NI';
-    exit;
-    return jerr('Jraf_user NI');
 }
-
-/* C++
-Jraf::User Jraf::user(string sess)
-{
-    ...
-
-    if ( sess == "0" ) return User(false,true);
-
-    os::Path in = login() + sess;
-
-    if ( !in.isfile() ) return User(false,false);
-
-    string email = gl::file2word(in.str());
-
-    bool superuser = jraf::matchConf("admin", email);
-
-    // update stat
-
-    os::Path udir = users() + email; ->
-    if ( !udir.isdir() )
-    {
-        udir.mkdir();
-        if ( !udir.isdir() ) throw gl::ex("Cannot create " + udir.str());
-
-        new_user(email);
-    }
-
-    // set counter
-    string file_cntr = (udir + "counter").str();
-    string scntr = gl::file2word( file_cntr );
-    int icntr = 0;
-    if ( !scntr.empty() ) icntr = gl::toi(scntr);
-    scntr = gl::tos(++icntr);
-    gl::str2file(file_cntr, scntr + '\n');
-
-    // set access
-    string file_last = (udir + "access").str();
-    string last = os::Timer::getGmd() + os::Timer::getHms();
-    gl::str2file(file_last, last + '\n');
-
-    User r(superuser,true);
-    r.email = email;
-    r.cntr = scntr;
-    r.last = last;
-
-    return r;
-}
-*/
 
 function Jraf_login($tok, $in)
 {
@@ -654,14 +601,8 @@ function Jraf_login($tok, $in)
         global $j_nonce;
         
         $j_a = j_anonce();
-        
-        // echo "  j_nonce = $j_nonce  ";
-        // echo "  j_anonce = $j_a  ";
-        
         $j_nonce = hex16($j_nonce . $j_a);
-        
-        // echo "  j_nonce = $j_nonce  ";
-        
+
         $f = $dir->plus_s($j_nonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
@@ -671,15 +612,12 @@ function Jraf_login($tok, $in)
     }
 
     // logout
+    $dir->plus_s($em)->erase();
 
-    //(dir + em).erase();
-    OsPath::del_rec($dir->plus_s($em)->s);
-
+    //FIXME
     //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
-    return jok1();
     
-    echo 'Jraf_login NI';
-    exit;
+    return jok1();
 }
 
 function Jraf_ismail($email)
@@ -715,33 +653,6 @@ function Jraf_sendmail(&$url, $sid, $em) // => void
     $mail_msg = $furl;
 
     @mail($mail_to,$mail_subj,$mail_msg);
-    //echo ' Email: '.$furl.' ';
-
-/*
-    if ( url.empty() ) url = jraf::loadConf("server");
-
-    if ( url.empty() ) throw gl::ex("jraf::sendmail: empty url");
-    auto i = url.find('?');
-
-    if ( i == string::npos )
-    {
-        if ( url[url.size() - 1] != '/' ) url += '/';
-        url += "jraf?";
-    }
-    else
-        url = url.substr(0, i + 1);
-
-    string furl = url + gl::tos(sid);
-
-    string cmd = jraf::loadConf("phmail");
-    if ( cmd.empty() ) cmd = "phmail";
-
-    cmd += " login " + em + " " + furl;
-
-    cmd = os::THISDIR + cmd;
-    std::system(cmd.c_str());
-*/
-
 }
 
 function Jraf_config($key,$val)
@@ -762,11 +673,6 @@ function Jraf_config($key,$val)
     }
 
     return FALSE;
-}
-
-function Jraf_match_config()
-{
-    
 }
 
 function Jraf_update_ver($pth)
@@ -946,71 +852,6 @@ void Jraf::set_user_quota(User & su)
     string quota = gl::file2word((users() + su.email + "quota").str());
     if ( !quota.empty() ) su.quotaKb = quota;
     else quota = "0";
-}
-
-Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
-{
-    if ( !tok.next() ) return err("need arg");
-    string em = tok.sub();
-
-    if ( !users().isdir() ) return fail("no users");
-
-    os::Path dir = login();
-    if ( !dir.isdir() )
-    {
-        dir.mkdir();
-        if ( !dir.isdir() ) return fail("login directory fails");
-    }
-
-    if ( in )
-    {
-        string server;
-        if ( tok.next() ) server = tok.sub();
-
-        if ( !gl::ismail(em) ) return err("bad email");
-        gl::str2file( (dir + nonce).str(), em);
-
-        jraf::sendmail(server, nonce, em);
-
-        return ok(server);
-    }
-
-    // logout
-
-    (dir + em).erase();
-
-    jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
-
-    return ok();
-}
-
-
-void Jraf::new_user(string email)
-{
-    os::Path udir = users() + email;
-
-    // set quota and uname
-    string quotaKb = "10000";
-    string x = ma::skc::hashHex(email);
-    string uname = ma::skc::enc(x, email, x, x);
-    uname = ma::toHex(uname).substr(0, 16);
-
-    string file_quota = (udir + "quota").str();
-    gl::str2file(file_quota, quotaKb + '\n');
-
-    string file_uname = (udir + "uname").str();
-    gl::str2file(file_uname, uname + '\n');
-
-    // create home dir
-    auto hm = home();
-
-    if ( !hm.isdir() )
-    {
-        hm.mkdir();
-        if ( !hm.isdir() ) throw gl::ex("Cannot create /home");
-    }
-
-    (hm + uname).mkdir();
 }
 
 Jraf::Cmdr Jraf::profile(User & su)
