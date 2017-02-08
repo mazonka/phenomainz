@@ -15,10 +15,10 @@ $thisload = 'jraf.php?';
 $skc_seed = ''.rand().time();
 $skc_salt = '';
 $skc_ivec = '';
-$anonce = '';
+$j_nonce = '';
 function hashHex($x){ return hash('sha256',$x,false); }
 function hex16($x){ return substr(hashHex($x),0,16); }
-function jnonce(){ global $skc_salt; return hex16($skc_salt); }
+function j_anonce(){ global $skc_salt; return hex16($skc_salt); }
 function skc_init()
 {
     global $skc_seed, $skc_salt, $skc_ivec;
@@ -227,7 +227,7 @@ function jraf_request($tokarr)
             if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
-                ///$nonce = jnonce();
+                ///$nonce = j_anonce();
                 $result -> add( Jraf_login($tok, $cmd == 'login') );
                 LockWrite_unlock();
             }
@@ -651,13 +651,21 @@ function Jraf_login($tok, $in)
         
         if ( !Jraf_ismail($em) ) return jerr('bad email');
 
-        global $anonce;
-        $anonce = hex16($anonce . jnonce());
+        global $j_nonce;
         
-        $f = $dir->plus_s($anonce);
+        $j_a = j_anonce();
+        
+        // echo "  j_nonce = $j_nonce  ";
+        // echo "  j_anonce = $j_a  ";
+        
+        $j_nonce = hex16($j_nonce . $j_a);
+        
+        // echo "  j_nonce = $j_nonce  ";
+        
+        $f = $dir->plus_s($j_nonce);
         OsPath::file_put_contents($f->s, $em, 0);
 
-        Jraf_sendmail($server, $anonce, $em);
+        Jraf_sendmail($server, $j_nonce, $em);
 
         return jok2($server);
     }
