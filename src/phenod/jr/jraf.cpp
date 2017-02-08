@@ -72,13 +72,18 @@ string Jraf::request(gl::Token tok, string anonce)
             hq::LockWrite lock(&access);
             result += aurequest(tok);
         }
-        else if ( cmd == "login" ||  cmd == "logout" )
+        else if ( cmd == "login" )
         {
             hq::LockWrite lock(&access);
-            nonce = anonce;
-            result += login(tok, cmd == "login");
-        }
 
+            nonce = ma::skc::hashHex(nonce + anonce).substr(0,16);
+            result += login(tok, true);
+        }
+        else if (cmd == "logout" )
+        {
+            hq::LockWrite lock(&access);
+            result += login(tok, false);
+        }
         else
         {
             result += err("bad command [" + cmd + "]");
