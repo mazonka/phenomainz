@@ -815,6 +815,7 @@ function Jraf_new_user($email)
 {
     $udir = Jraf_users_dir()->plus_s($email);
     
+    //FIXME
     $quotaKb = '10000';
     $uname = hex16($email . hex16($email));
     
