@@ -529,6 +529,34 @@ function Jraf_check_au_path($pth,$su,$write)
     return ( substr($rpth, 0, $hsz) == $hdir );
 }
 
+function Jraf_set_user_uname($su)
+{
+    $u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname')->s;
+    $uname = OsPath::file_get_contents($u);
+    
+    if ( Jraf_isuname($uname) ) $su->uname = $uname;
+}
+
+function Jraf_isuname($s)
+{
+    $ls = strlen($s);
+    if ( $ls < 3) return false;
+    if ( $ls > 16) return false;
+    
+    for ( $i=0; $i<$ls; $i++ )
+    {
+        $c = $s[i];
+        
+        if ( $c >= 'a' && $c <= 'z') continue;
+        if ( $c >= '0' && $c <= '9') continue;
+        if ( $c == '_' || $c == '_') continue;
+        
+        return false;
+    }
+    
+    return true;
+}
+
 function Jraf_user($sess) // => User
 {
     $usr = Jraf_users_dir();
@@ -578,7 +606,8 @@ function Jraf_login($tok, $in)
 {
     if ( !$tok->next() ) return jerr('need arg');
     $em = $tok->sub();
-
+    //echo "email [$em]";
+    //var_dump($tok->ref);
     if ( !Jraf_users_dir()->isdir() ) return jfail('no users');
 
     $dir = Jraf_login_dir();
@@ -622,7 +651,11 @@ function Jraf_login($tok, $in)
 
 function Jraf_ismail($email)
 {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    if ( !$email 
+        || $email = ''
+        || $email[0] == '-' 
+        || !filter_var($email, FILTER_VALIDATE_EMAIL) )
+        return false;
 
     return true;
 }
