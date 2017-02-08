@@ -115,6 +115,22 @@ string Worker2::ph_jraf()
     return aa.jraf.request(tok, nonce);
 }
 
+string Worker2::reseed()
+{
+    KeyArea & ka = gs->keyArea;
+    sgl::Mutex mutex_ka(ka.access2keyArea);
+    string cfgseed = gs->config->skc_seed;
+
+    if ( !cfgseed.empty() )
+    {
+        os::Cout() << "Reseed\n";
+        ka.seed_reset(cfgseed);
+    }
+
+    gs->autArea.jraf.reseed();
+    return er::Code(er::OK);
+}
+
 string Worker2::ph_aucmd()
 {
     if ( !gl::issql(tok.c_str()) )

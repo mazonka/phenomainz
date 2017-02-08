@@ -929,17 +929,3 @@ string Worker2::drop()
     return Drop(gs).process(tok.sub(), tok.rest());
 }
 
-string Worker2::reseed()
-{
-    KeyArea & ka = gs->keyArea;
-    sgl::Mutex mutex_ka(ka.access2keyArea);
-    string cfgseed = gs->config->skc_seed;
-
-    if ( !cfgseed.empty() )
-    {
-        os::Cout() << "Reseed\n";
-        ka.seed_reset(cfgseed);
-    }
-
-    return er::Code(er::OK);
-}

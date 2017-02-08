@@ -103,6 +103,8 @@ class Jraf
         Jraf(string rdir): root_dir(rdir) {}
 
         string request(gl::Token tok, string nonce);
+
+		void reseed(){ nonce = ""; }
 };
 
 
