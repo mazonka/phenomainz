@@ -252,87 +252,6 @@ function jraf_request($tokarr)
     return $result->s;
 }
 
-/*C++
-string Jraf::request(gl::Token tok, string anonce)
-{
-    Cmdr result;
-    while (true)
-    {
-        if ( !tok.next() ) return bad().s;
-        string cmd = tok.sub();
-
-        if ( cmd == "ping" ) result += ok();
-        else if ( cmd == "version" )
-        {
-            if ( !tok.next() ) result += bad();
-            else
-            {
-                string w = tok.sub();
-                if ( w == "backend" ) result += ok(jraf::be_version);
-                else if ( w == "client" ) result += client_version();
-                else result += bad();
-            }
-        }
-
-        else if ( cmd == "read" || cmd == "get" )
-        {
-            if ( !tok.next() ) return err("session id").s;
-            string sess = tok.sub();
-
-            auto usr = user(sess);
-            if( !usr.auth ){ result += auth(); return result.s; }
-
-            hq::LockRead lock(&access);
-
-            string pth;
-            Cmdr er = read_tok_path(tok, pth, usr, false );
-            if ( !er.b ) return result.s += er.s;
-            result += read_obj(pth, cmd == "get", usr );
-        }
-
-        else if ( cmd == "profile" )
-        {
-            if ( !tok.next() ) return err("session id").s;
-            string sess = tok.sub();
-
-            auto usr = user(sess);
-            if( !usr.auth ){ result += auth(); return result.s; }
-
-            hq::LockRead lock(&access);
-            result += profile(usr);
-        }
-
-        else if ( cmd == "au" )
-        {
-            hq::LockWrite lock(&access);
-            result += aurequest(tok);
-        }
-        else if ( cmd == "login" ||  cmd == "logout" )
-        {
-            hq::LockWrite lock(&access);
-            nonce = anonce;
-            result += login(tok, cmd == "login");
-        }
-
-        else
-        {
-            result += err("bad command [" + cmd + "]");
-            break;
-        }
-
-        if ( !result.b ) break;
-        if ( !tok.next() ) break;
-        string ts = tok.sub();
-        if ( ts != ":" ) return result.s + " : " + err("[" + ts + "]").s;
-
-        result.s += " : ";
-    }
-
-    if ( result.s.empty() ) return bad().s;
-    return result.s;
-}
-*/
-
 function Jraf_client_version()
 {
     $p = Jraf_sys_dir() -> plus_s('version');
@@ -412,8 +331,6 @@ function Jraf_aurequest($tok)
     }
 
     return jerr('command [' . cmd . '] unknown');
-
-    ///return jerr('Jraf_aurequest NI '.$sess.' '.$cmd);
 }
 
 function Jraf_aureq_md($pth)
@@ -519,21 +436,21 @@ function Jraf_check_au_path($pth,$su,$write)
 
     Jraf_set_user_uname($su);
     if ( $su->uname == '' ) return false;
-
+    
     $rpth = Jraf_root($pth)->s;
-    $hdir = Jraf_home_dir() -> plus($su->uname) -> s;
+    $hdir = Jraf_home_dir()->plus_s($su->uname)->s;
 
     $hsz = strlen($hdir);
     if ( strlen($rpth) < $hsz ) return false;
-
+    
     return ( substr($rpth, 0, $hsz) == $hdir );
 }
 
 function Jraf_set_user_uname($su)
 {
     $u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname')->s;
-    $uname = OsPath::file_get_contents($u);
-    
+    $uname = trim(OsPath::file_get_contents($u));
+
     if ( Jraf_isuname($uname) ) $su->uname = $uname;
 }
 
@@ -545,7 +462,7 @@ function Jraf_isuname($s)
     
     for ( $i=0; $i<$ls; $i++ )
     {
-        $c = $s[i];
+        $c = $s[$i];
         
         if ( $c >= 'a' && $c <= 'z') continue;
         if ( $c >= '0' && $c <= '9') continue;
