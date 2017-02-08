@@ -1,1 +1,0 @@
-command=jraf au 0 md /.jraf.sys/users : login admim@server.com * : au 22f72bc351bc7723 put /x1234567890x1234567890 0 1 Kg==
