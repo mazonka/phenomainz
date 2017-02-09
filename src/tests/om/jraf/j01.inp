@@ -1,5 +1,5 @@
-print tcp self [ jraf ping : ping ]
-print tcp self [ jraf version backend ]
-print tcp self [ jraf version client ]
-print tcp self [ jraf version blah ]
+print tcp self [ jr ping : ping ]
+print tcp self [ jr version backend ]
+print tcp self [ jr version client ]
+print tcp self [ jr version blah ]
 quit

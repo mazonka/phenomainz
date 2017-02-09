@@ -1,10 +1,10 @@
 
 print [ -- md /aaa/ -- OK /aaa/ ]
-print tcp self [ jraf au 0 md /aaa/ ]
+print tcp self [ jraf md 0 /aaa/ ]
 
 print [ -- put /aaa/bbb -- OK  ]
-print tcp self [ jraf au 0 put /aaa/bbb 0 10 MTIzNDU2Nzg5MA== ]
-print tcp self [ jraf au 0 put /aaa/bbb 10 10 MTIzNDU2Nzg5MA== ]
+print tcp self [ jraf put 0 /aaa/bbb 0 10 MTIzNDU2Nzg5MA== ]
+print tcp self [ jraf put 0 /aaa/bbb 10 10 MTIzNDU2Nzg5MA== ]
 
 print [ -- get /aaa -- ]
 print tcp self [ jraf get 0 /aaa ]

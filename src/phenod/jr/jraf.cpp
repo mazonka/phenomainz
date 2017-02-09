@@ -67,10 +67,10 @@ string Jraf::request(gl::Token tok, string anonce, bool ro)
             result += profile(usr);
         }
 
-        else if ( cmd == "au" && !ro )
+        else if ( isaureq(cmd) && !ro )
         {
             hq::LockWrite lock(&access);
-            result += aurequest(tok);
+            result += aurequest(tok, cmd);
         }
         else if ( cmd == "login" && !ro )
         {
@@ -206,16 +206,26 @@ Jraf::Cmdr Jraf::read_obj(string pth, bool getonly, const User & u)
     return err("bad path " + pth);
 }
 
+bool Jraf::isaureq(const string & cmd) const
+{
+    if (0) {}
+    else if ( cmd == "md" ) return true;
+    else if ( cmd == "rm" ) return true;
+    else if ( cmd == "put" ) return true;
+    else if ( cmd == "save" ) return true;
+    else if ( cmd == "mv" ) return true;
+    return false;
+}
 
-Jraf::Cmdr Jraf::aurequest(gl::Token & tok)
+Jraf::Cmdr Jraf::aurequest(gl::Token & tok, const string & cmd)
 {
     if ( !tok.next() ) return err("session id");
     string sess = tok.sub();
     auto superuser = user(sess);
     if ( !superuser.auth ) return auth();
 
-    if ( !tok.next() ) return err("command");
-    string cmd = tok.sub();
+    ///if ( !tok.next() ) return err("command");
+    ///string cmd = tok.sub();
 
     string pth;
     Cmdr er = read_tok_path(tok, pth, superuser, true);

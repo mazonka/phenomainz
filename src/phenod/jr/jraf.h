@@ -78,7 +78,8 @@ class Jraf
         static Cmdr auth()
         { return Cmdr(er::Code(er::AUTH), false); }
 
-        Cmdr aurequest(gl::Token & tok);
+        bool isaureq(const string & cmd) const;
+        Cmdr aurequest(gl::Token & tok, const string & cmd);
         Cmdr read_obj(string p, bool getonly, const User & su);
         Cmdr aureq_rm(string pth);
         Cmdr aureq_md(string pth);

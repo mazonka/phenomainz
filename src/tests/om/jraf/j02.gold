@@ -1,7 +1,7 @@
 -- JRAF_ERR session id
 JRAF_ERR session id
 -- JRAF_ERR command
-JRAF_ERR command
+JRAF_ERR bad command [xx]
 -- JRAF_ERR path
 JRAF_ERR path
 -- JRAF_ERR ..

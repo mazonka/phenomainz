@@ -49,13 +49,13 @@ string Worker2::process(bool * recog)
     //if ( tok.is("au") && (en || pn.ping) )
     //    return ph_aucmd();
 
-    if ( tok.is("jraf") && pn.jw ) // FIXME change to jr/jw
-        return ph_jraf(false);
+    ///if ( tok.is("jraf") && pn.jw ) // FIXME change to jr/jw
+    ///    return ph_jraf(false);
 
     if ( tok.is("jw") && pn.jw )
         return ph_jraf(false);
 
-    if ( tok.is("jr") && pn.jr ) ///CHECK ME
+    if ( tok.is("jr") && pn.jr )
         return ph_jraf(true);
 
     if ( tok.is("reseed") && pn.reseed )

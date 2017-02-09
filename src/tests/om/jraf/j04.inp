@@ -1,6 +1,6 @@
 
 print [ -- md /aaa/ -- OK /aaa/ ]
-print tcp self [ jraf au 0 md /aaa/ ]
+print tcp self [ jraf md 0 /aaa/ ]
 
 print [ -- save /aaa/bbb -- OK  ]
 print tcp self [ jraf au 0 save /aaa/bbb 10 MTIzNDU2Nzg5MA== ]
