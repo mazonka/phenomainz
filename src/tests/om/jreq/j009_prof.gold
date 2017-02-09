@@ -1,14 +1,14 @@
-jraf profile 270646381a5bbdc1 -> OK a * * * * *
+jr profile 270646381a5bbdc1 -> OK a * * * * *
 
-jraf au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
-jraf profile 270646381a5bbdc1 -> AUTH
+jw md 0 /.jraf.sys/users -> OK /.jraf.sys/users
+jr profile 270646381a5bbdc1 -> AUTH
 
 [N/I] phmail: Sending to [a@b.c] au [http://server/jraf?270646381a5bbdc1]
-jraf login a@b.c http://server/ -> OK http://server/jraf?
-jraf profile 270646381a5bbdc1 -> OK u a@b.c 10000 20170123123456 1 home/19d8be878d0500dc
+jw login a@b.c http://server/ -> OK http://server/jraf?
+jr profile 270646381a5bbdc1 -> OK u a@b.c 10000 20170123123456 1 home/19d8be878d0500dc
 
 [N/I] phmail: Sending to [admin@server.com] au [http://server/jraf?1a3a5a7bf9251824]
-jraf login admin@server.com http://server/ -> OK http://server/jraf?
-jraf profile 1a3a5a7bf9251824 -> OK a admin@server.com 10000 20170123123456 1 home/34d3ae7c5e2cdebb
+jw login admin@server.com http://server/ -> OK http://server/jraf?
+jr profile 1a3a5a7bf9251824 -> OK a admin@server.com 10000 20170123123456 1 home/34d3ae7c5e2cdebb
 
-jraf profile 0 -> OK u * * * * *
+jr profile 0 -> OK u * * * * *

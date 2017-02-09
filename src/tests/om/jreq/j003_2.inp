@@ -1,9 +1,9 @@
 
 print [ -- ]
-print { [ md /a .. ] tcp self [ jraf au 0 md /a ] }
-print { [ md .b .. ] tcp self [ jraf au 0 md /.jraf.sys/b ] }
-print { [ s ver .. ] tcp self [ jraf read 0 /.jraf.ver/.jraf.sys.jraf.ver ] }
-print { [ b ver .. ] tcp self [ jraf read 0 /.jraf.ver/.jraf.sys/b.jraf.ver ] }
+print { [ md /a .. ] tcp self [ jw md 0 /a ] }
+print { [ md .b .. ] tcp self [ jw md 0 /.jraf.sys/b ] }
+print { [ s ver .. ] tcp self [ jr read 0 /.jraf.ver/.jraf.sys.jraf.ver ] }
+print { [ b ver .. ] tcp self [ jr read 0 /.jraf.ver/.jraf.sys/b.jraf.ver ] }
 
 quit
 

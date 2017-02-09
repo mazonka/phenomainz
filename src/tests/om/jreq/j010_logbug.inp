@@ -1,11 +1,11 @@
 set date "20170123"
 set time "123456"
 
-cmd = [ jraf au 0 md /.jraf.sys/users ]
+cmd = [ jw md 0 /.jraf.sys/users ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
-cmd = [ jraf login a@b.c : ping ]
+cmd = [ jw login a@b.c : ping ]
 print { cmd "->" tcp self cmd }
 print [ ]
 
