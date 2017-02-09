@@ -503,7 +503,9 @@ void Jraf::new_user(string email)
     os::Path udir = users() + email;
 
     // set quota and uname
-    string quotaKb = "10000";
+	string quotaKb = jraf::loadConf("quota");
+    if( quotaKb.empty() ) quotaKb = "10000";
+
     string x = ma::skc::hashHex(email).substr(0, 16);
     string uname = ma::skc::hashHex(email + x).substr(0, 16);
     
