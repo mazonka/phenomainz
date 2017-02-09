@@ -1,4 +1,4 @@
-jw au 0 md /.jraf.sys/users -> JRAF_FAIL system path
+jw au 0 md /.jraf.sys/users -> OK /.jraf.sys/users
 
 [N/I] phmail: Sending to [admin@server.com] au [http://127.0.0.1:16000/jraf?4b9a87f859f956e8]
 jw login admin@server.com * -> OK http://127.0.0.1:16000/jraf?
