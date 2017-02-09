@@ -613,7 +613,7 @@ function Jraf_config($key,$val)
 
     $sz = count($words);
 
-    if( $sz%2 ) return FALSE;
+    if( $sz%2 && $words[$sz-1] != '' )  return FALSE;
 
     for( $i=0; $i<$sz; $i += 2 )
     {
