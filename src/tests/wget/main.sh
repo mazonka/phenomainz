@@ -21,5 +21,6 @@ else
 die "ATTENTION: phenod is left running for inspection"
 fi
 
+
 sh phenod_stop.sh
 
