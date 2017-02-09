@@ -319,8 +319,7 @@ void Jraf::set_user_uname(User & su)
 void Jraf::set_user_quota(User & su)
 {
     string quota = gl::file2word((users() + su.email + "quota").str());
-    if ( !quota.empty() ) su.quotaKb = quota;
-    else quota = "0";
+    su.quotaKb = quota;
 }
 
 bool Jraf::check_au_path(string pth, User & su, bool write)
