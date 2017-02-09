@@ -13,6 +13,10 @@ fi
 die(){ echo $1; exit 1; }
 run()
 {
+	if test -f $1_.sh; then
+	sh $1_.sh >> wget.out
+	fi
+
 	cm="$cmd --post-data=command=reseed"
 	#echo $cm
 	$cm

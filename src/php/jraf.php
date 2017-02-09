@@ -72,7 +72,7 @@ if(isset($_POST['command']) )
 var_dump($_POST);
 exit;
 
-// no call to exit beyond this point, FIXME to check
+// no call to exit beyond this point
 
 function loadPhd($auid)
 {
@@ -563,8 +563,7 @@ function Jraf_login($tok, $in)
     // logout
     $dir->plus_s($em)->erase();
 
-    ///FIXME
-    //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
+    Jraf_cleanOldFiles($dir, 10 * 1000 * 1000); // 4 months
     
     return jok1();
 }
@@ -583,7 +582,7 @@ function Jraf_ismail($email)
 function Jraf_sendmail(&$url, $sid, $em) // => void
 {
     if ( $url == '' ) $url = Jraf_config('server','');
-    if ( $url == '' ) { echo 'sendmail: empty url'; return; }
+    if ( $url == false ) { echo 'sendmail: empty url'; return; }
 
     $i = strpos($url,'?');
 
@@ -614,16 +613,16 @@ function Jraf_config($key,$val)
 
     $sz = count($words);
 
-    if( $sz%2 && $words[$sz-1] != '' )  return FALSE;
+    if( $sz%2 && $words[$sz-1] != '' )  return false;
 
     for( $i=0; $i<$sz; $i += 2 )
     {
         if( $words[$i] != $key ) continue;
         if( $val == '' ) return $words[$i+1];
-        else if( $val == $words[$i+1] ) return TRUE;
+        else if( $val == $words[$i+1] ) return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 function Jraf_update_ver($pth)
@@ -768,8 +767,9 @@ function Jraf_new_user($email)
 {
     $udir = Jraf_users_dir()->plus_s($email);
     
-    //FIXME
-    $quotaKb = '10000';
+    $quotaKb = Jraf_config('quota','');
+	if( $quotaKb == false ) $quotaKb = '10000';
+
     $uname = hex16($email . hex16($email));
     
     $file_quota = ($udir->plus_s('quota'));
@@ -789,6 +789,11 @@ function Jraf_new_user($email)
     $hm->plus_s($uname)->trymkdir();
 }
 
+function Jraf_cleanOldFiles($dir, $timems)
+{
+	echo " Jraf_cleanOldFiles ".$dir->s.' '.$timems.' ';
+	exit;
+}
 
 /* C++
 
