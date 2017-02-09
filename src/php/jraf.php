@@ -210,7 +210,7 @@ function jraf_request($tokarr)
 
             if( !$usr->auth )
             {
-                $result -> add( jauth());
+                $result->add( jauth());
                 return $result->s;
             }
 
@@ -230,6 +230,25 @@ function jraf_request($tokarr)
                 $result -> add( Jraf_login($tok, $cmd == 'login') );
                 LockWrite_unlock();
             }
+        }
+
+        else if ( $cmd == 'profile' )
+        {
+            if ( !$tok->next() ) return jerr('session id')->s;
+            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
+            else
+            {
+                $sess = $tok->sub();
+                $usr = Jraf_user($sess);
+
+                if ( !$usr->auth )
+                { 
+                    $result->add( jauth() ); 
+                    return $result->s; 
+                }
+
+                $result->add( Jraf_profile($usr) );
+            }            
         }
         
         else
@@ -449,12 +468,19 @@ function Jraf_check_au_path($pth,$su,$write)
 
 function Jraf_set_user_uname($su)
 {
-    ///$u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname')->s;
-    ///$uname = trim(OsPath::file_get_contents($u));
     $u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname');
     $uname = trim($u->file_get());
 
     if ( Jraf_isuname($uname) ) $su->uname = $uname;
+}
+
+function Jraf_set_user_quota($su)
+{
+    $q = Jraf_users_dir()->plus_s($su->email)->plus_s('quota');
+    $quota = trim($q->file_get());
+    
+    if ( !$quota->empty() ) $su->quotaKb = $quota;
+    else $quota = '0';    
 }
 
 function Jraf_isuname($s)
@@ -808,53 +834,24 @@ function Jraf_cleanOldFiles($dir, $secs)
     }
 }
 
-/* C++
-void jraf::cleanOldFiles(os::Path dir, double secs)
+function Jraf_profile($su)
 {
-    os::Dir d = os::FileSys::readDir(dir);
+    Jraf_set_user_uname($su);
+    // Jraf_set_user_quota($su);
+    
+    $r = $su->su ? 'a' : 'u';
+    $star = create_function('$s', 'return $s->empty() ? "*" : $s');
+    
+    $r .= ' ';
+    $r .= $star($su->email) + ' ';
+    $r .= $star($su->quotaKb) + ' ';
+    $r .= $star($su->last) + ' ';
+    $r .= $star($su->cntr) + ' ';
+    
+    if ( $su->uname->empty() ) $r .= $star($su->uname);
+    else $r .= Jraf_home_dir()->plus_s($su->uname)->s;
 
-    for ( auto i : d.files )
-    {
-        string nm = i.first;
-        auto file = dir + nm;
-        double ho = file.howold();
-        if ( ho > secs ) file.erase();
-        //os::Cout()<<" "<<file.str()<<' '<<ho<<' '<<secs<<os::endl;
-    }
+    return jok2(r);
 }
-*/
-
-/* C++
-
-void Jraf::set_user_quota(User & su)
-{
-    string quota = gl::file2word((users() + su.email + "quota").str());
-    if ( !quota.empty() ) su.quotaKb = quota;
-    else quota = "0";
-}
-
-Jraf::Cmdr Jraf::profile(User & su)
-{
-    set_user_uname(su);
-    set_user_quota(su);
-
-    string r = su.su ? "a" : "u";
-
-    // auto star = [](string s, string d = "*") -> string { return s.empty() ? d : s; };
-    auto star = [](string s) -> string { return s.empty() ? "*" : s; };
-
-    r += " ";
-    r += star(su.email) + ' ';
-    r += star(su.quotaKb) + ' ';
-    r += star(su.last) + ' ';
-    r += star(su.cntr) + ' ';
-
-    if ( su.uname.empty() ) r += star(su.uname);
-    else r += (os::Path(jraf::home) + su.uname).str();
-
-    return ok(r);
-}
-
-*/
 
 ?>
