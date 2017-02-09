@@ -102,9 +102,9 @@ class Jraf
     public:
         Jraf(string rdir): root_dir(rdir) {}
 
-        string request(gl::Token tok, string nonce);
+        string request(gl::Token tok, string nonce, bool ro);
 
-		void reseed(){ nonce = ""; }
+        void reseed() { nonce = ""; }
 };
 
 

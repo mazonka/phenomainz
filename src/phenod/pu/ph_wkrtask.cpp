@@ -79,8 +79,8 @@ string Worker2::ph_login()
 
 string Worker2::ph_script(string cmd, string ag)
 {
-	// set default jraf
-	if( cmd.empty() ) cmd = "jraf";
+    // set default jraf
+    if ( cmd.empty() ) cmd = "jraf";
 
     os::Cout() << "Auth request [" << cmd << "] [" << ag << "]" << os::endl;
 
@@ -95,7 +95,7 @@ string Worker2::ph_script(string cmd, string ag)
     return file;
 }
 
-string Worker2::ph_jraf()
+string Worker2::ph_jraf(bool ro)
 {
     if ( !gl::issql(tok.c_str()) )
     {
@@ -112,7 +112,7 @@ string Worker2::ph_jraf()
         nonce = ka.newSalt().substr(0, 16);
     }
 
-    return aa.jraf.request(tok, nonce);
+    return aa.jraf.request(tok, nonce, ro);
 }
 
 string Worker2::reseed()

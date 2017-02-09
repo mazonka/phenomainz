@@ -18,7 +18,7 @@ inline string zero(string s, string d = "0")
     return s.empty() ? d : s;
 }
 
-string Jraf::request(gl::Token tok, string anonce)
+string Jraf::request(gl::Token tok, string anonce, bool ro)
 {
     Cmdr result;
     while (true)
@@ -67,19 +67,19 @@ string Jraf::request(gl::Token tok, string anonce)
             result += profile(usr);
         }
 
-        else if ( cmd == "au" )
+        else if ( cmd == "au" && !ro )
         {
             hq::LockWrite lock(&access);
             result += aurequest(tok);
         }
-        else if ( cmd == "login" )
+        else if ( cmd == "login" && !ro )
         {
             hq::LockWrite lock(&access);
 
-            nonce = ma::skc::hashHex(nonce + anonce).substr(0,16);
+            nonce = ma::skc::hashHex(nonce + anonce).substr(0, 16);
             result += login(tok, true);
         }
-        else if (cmd == "logout" )
+        else if (cmd == "logout" && !ro )
         {
             hq::LockWrite lock(&access);
             result += login(tok, false);
@@ -428,7 +428,7 @@ Jraf::Cmdr Jraf::aureq_mv(string pth, string pto)
 
     update_ver(pto);
     update_ver(pth);
-	// no parent updating is required as it is automatic
+    // no parent updating is required as it is automatic
 
     return ok(pto);
 }
@@ -475,9 +475,9 @@ Jraf::Cmdr Jraf::login(gl::Token & tok, bool in)
         string server;
 
         if ( tok.next() && (server = tok.sub()) != ":" );
-		else return err("arg required <server> or '*'");
+        else return err("arg required <server> or '*'");
 
-		if( server=="*" ) server = "";
+        if ( server == "*" ) server = "";
 
         if ( !gl::ismail(em) ) return err("bad email");
         gl::str2file( (dir + nonce).str(), em);
@@ -502,12 +502,12 @@ void Jraf::new_user(string email)
     os::Path udir = users() + email;
 
     // set quota and uname
-	string quotaKb = jraf::loadConf("quota");
-    if( quotaKb.empty() ) quotaKb = "10000";
+    string quotaKb = jraf::loadConf("quota");
+    if ( quotaKb.empty() ) quotaKb = "10000";
 
     string x = ma::skc::hashHex(email).substr(0, 16);
     string uname = ma::skc::hashHex(email + x).substr(0, 16);
-    
+
     /// string uname = ma::skc::enc(x, email, x, x);
     /// uname = ma::toHex(uname).substr(0, 16);
 
