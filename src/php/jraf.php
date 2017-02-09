@@ -10,6 +10,7 @@ $users_dir = 'users';
 $login_dir = 'login';
 $home_dir = 'home';
 $thisload = 'jraf.php?';
+$dateset = '';
 
 // encoding section
 $skc_seed = ''.rand().time();
@@ -235,20 +236,17 @@ function jraf_request($tokarr)
         else if ( $cmd == 'profile' )
         {
             if ( !$tok->next() ) return jerr('session id')->s;
-            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
-            else
-            {
-                $sess = $tok->sub();
-                $usr = Jraf_user($sess);
 
-                if ( !$usr->auth )
-                { 
-                    $result->add( jauth() ); 
-                    return $result->s; 
-                }
+            $sess = $tok->sub();
+            $usr = Jraf_user($sess);
 
-                $result->add( Jraf_profile($usr) );
-            }            
+            if ( !$usr->auth )
+            { 
+                $result->add( jauth() ); 
+                return $result->s; 
+            }
+
+            $result->add( Jraf_profile($usr) );
         }
         
         else
@@ -478,9 +476,7 @@ function Jraf_set_user_quota($su)
 {
     $q = Jraf_users_dir()->plus_s($su->email)->plus_s('quota');
     $quota = trim($q->file_get());
-    
-    if ( $quota != '' ) $su->quotaKb = $quota;
-    else $quota = '0';    
+    $su->quotaKb = $quota;
 }
 
 function Jraf_isuname($s)
@@ -539,7 +535,8 @@ function Jraf_user($sess) // => User
 
     //set access
     $file_last = $udir->plus_s('access');
-    $last = @date('YmdHis');
+    /// $last = @date('YmdHis');
+    $last = Jraf_date();
     OsPath::file_put_contents($file_last->s, $last . "\n", 0);
     
     $user = new User($superuser, true);
@@ -548,6 +545,15 @@ function Jraf_user($sess) // => User
     $user->last = $last;
     
     return $user;
+}
+
+function Jraf_date()
+{
+    global $dateset;
+    
+    if ( $dateset != '') return $dateset;
+    
+    return @date('YmdHis');
 }
 
 function Jraf_login($tok, $in)
@@ -852,7 +858,13 @@ function Jraf_profile($su)
     $r .= $star($su->cntr) . ' ';
     
     if ( $su->uname == '' ) $r .= $star($su->uname);
-    else $r .= Jraf_home_dir()->plus_s($su->uname)->s;
+    else 
+    {
+        global $home_dir;
+        
+        $a = new OsPath($home_dir);
+        $r .= $a->plus_s($su->uname)->s;
+    }
 
     return jok2($r);
 }
