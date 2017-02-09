@@ -791,6 +791,7 @@ function Jraf_new_user($email)
 
 function Jraf_cleanOldFiles($dir, $timems)
 {
+	return;
 	echo " Jraf_cleanOldFiles ".$dir->s.' '.$timems.' ';
 	exit;
 }
