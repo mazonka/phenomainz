@@ -837,7 +837,7 @@ function Jraf_cleanOldFiles($dir, $secs)
 function Jraf_profile($su)
 {
     Jraf_set_user_uname($su);
-    // Jraf_set_user_quota($su);
+    Jraf_set_user_quota($su);
     
     $r = $su->su ? 'a' : 'u';
     $star = create_function('$s', 'return $s->empty() ? "*" : $s');
