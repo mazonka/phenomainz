@@ -55,7 +55,7 @@ string Worker2::process(bool * recog)
     if ( tok.is("jw") && pn.jw )
         return ph_jraf(false);
 
-    if ( tok.is("jw") && pn.jr )
+    if ( tok.is("jr") && pn.jr ) ///CHECK ME
         return ph_jraf(true);
 
     if ( tok.is("reseed") && pn.reseed )
