@@ -839,9 +839,12 @@ function Jraf_profile($su)
     Jraf_set_user_uname($su);
     Jraf_set_user_quota($su);
     
-    $r = $su->su ? 'a' : 'u';
-    $star = create_function('$s', 'return ($s == '') ? "*" : $s;');
+    $star = function($s)
+    {
+        return ($s == '') ? '*' : $s; 
+    };
     
+    $r = $su->su ? 'a' : 'u';
     $r .= ' ';
     $r .= $star($su->email) . ' ';
     $r .= $star($su->quotaKb) . ' ';
@@ -851,7 +854,7 @@ function Jraf_profile($su)
     if ( $su->uname == '' ) $r .= $star($su->uname);
     else $r .= Jraf_home_dir()->plus_s($su->uname)->s;
 
-    return jok2(r);
+    return jok2($r);
 }
 
 ?>
