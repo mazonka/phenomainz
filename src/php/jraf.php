@@ -72,7 +72,7 @@ if(isset($_POST['command']) )
 var_dump($_POST);
 exit;
 
-// no call to exit beyond this point
+// no call to exit beyond this point, FIXME to check
 
 function loadPhd($auid)
 {
@@ -227,7 +227,6 @@ function jraf_request($tokarr)
             if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
-                ///$nonce = j_anonce();
                 $result -> add( Jraf_login($tok, $cmd == 'login') );
                 LockWrite_unlock();
             }
@@ -523,8 +522,6 @@ function Jraf_login($tok, $in)
 {
     if ( !$tok->next() ) return jerr('need arg');
     $em = $tok->sub();
-    //echo "email [$em]";
-    //var_dump($tok->ref);
     if ( !Jraf_users_dir()->isdir() ) return jfail('no users');
 
     $dir = Jraf_login_dir();
@@ -560,7 +557,7 @@ function Jraf_login($tok, $in)
     // logout
     $dir->plus_s($em)->erase();
 
-    //FIXME
+    ///FIXME
     //jraf::cleanOldFiles(dir, 10 * 1000 * 1000); // 4 months
     
     return jok1();
@@ -579,8 +576,6 @@ function Jraf_ismail($email)
 
 function Jraf_sendmail(&$url, $sid, $em) // => void
 {
-    ///$server .= 'XXX';
-
     if ( $url == '' ) $url = Jraf_config('server','');
     if ( $url == '' ) { echo 'sendmail: empty url'; return; }
 
@@ -731,6 +726,7 @@ function Jraf_read_obj($pth, $getonly, $u)
     {
         $r = $ver . ' ' . $p->file_size();
         if ( $getonly ) return jok2($r);
+		/// FIXME use file_get and check other places
         // $r .= ' ' . base64_encode( $p->file_get_contents() );
         $r .= ' ' . base64_encode( OsPath::file_get_contents($p->s) );
         return jok2($r);
@@ -784,19 +780,10 @@ function Jraf_new_user($email)
     }
     
     $hm->plus_s($uname)->trymkdir();
-    
-    ///
-    ///echo 'Jraf_new_user NI';
-    ///exit;
 }
 
 
 /* C++
-void Jraf::set_user_uname(User & su)
-{
-    string uname = gl::file2word((users() + su.email + "uname").str());
-    if ( jraf::isuname(uname) ) su.uname = uname;
-}
 
 void Jraf::set_user_quota(User & su)
 {
