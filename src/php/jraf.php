@@ -479,7 +479,7 @@ function Jraf_set_user_quota($su)
     $q = Jraf_users_dir()->plus_s($su->email)->plus_s('quota');
     $quota = trim($q->file_get());
     
-    if ( !$quota->empty() ) $su->quotaKb = $quota;
+    if ( $quota != '' ) $su->quotaKb = $quota;
     else $quota = '0';    
 }
 
@@ -840,15 +840,15 @@ function Jraf_profile($su)
     Jraf_set_user_quota($su);
     
     $r = $su->su ? 'a' : 'u';
-    $star = create_function('$s', 'return $s->empty() ? "*" : $s;');
+    $star = create_function('$s', 'return ($s == '') ? "*" : $s;');
     
     $r .= ' ';
-    $r .= $star($su->email) + ' ';
-    $r .= $star($su->quotaKb) + ' ';
-    $r .= $star($su->last) + ' ';
-    $r .= $star($su->cntr) + ' ';
+    $r .= $star($su->email) . ' ';
+    $r .= $star($su->quotaKb) . ' ';
+    $r .= $star($su->last) . ' ';
+    $r .= $star($su->cntr) . ' ';
     
-    if ( $su->uname->empty() ) $r .= $star($su->uname);
+    if ( $su->uname == '' ) $r .= $star($su->uname);
     else $r .= Jraf_home_dir()->plus_s($su->uname)->s;
 
     return jok2(r);
