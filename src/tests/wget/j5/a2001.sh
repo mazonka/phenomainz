@@ -10,7 +10,7 @@ ls -1 $lg
 echo "DIR ========"
 
 wr=$cwd/wroot
-#rm -rf $wr
+rm -rf $wr
 
 
 
