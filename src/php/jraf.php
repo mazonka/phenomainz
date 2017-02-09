@@ -63,7 +63,8 @@ if(isset($_POST['command']) )
         skc_init();
 
         $thisload = 'jraf?';
-
+        $dateset = '20170123123456';
+        
         jprocess($cmd);
     }
 
