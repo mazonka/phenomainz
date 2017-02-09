@@ -1,0 +1,37 @@
+set date "20170123"
+set time "123456"
+
+cmd = [ jw au 0 md /.jraf.sys/users ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jw login admin@server.com * ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jr au 4b9a87f859f956e8 md /a ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jr au 4b9a87f859f956e8 put /a 0 1 Kg== ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jr au 4b9a87f859f956e8 save /a 0 1 Kg== ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jw au 4b9a87f859f956e8 save /a 1 Kg== ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jr au 4b9a87f859f956e8 rm /a ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+cmd = [ jr au 4b9a87f859f956e8 mv /a /b ]
+print { cmd "->" tcp self cmd }
+print [ ]
+
+quit
+
