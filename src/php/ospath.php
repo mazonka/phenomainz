@@ -46,7 +46,7 @@ class OsPath
         return @file_get_contents($CWD.$p);
     }
 
-    function file_get(){ OsPath::file_get_contents($this->s); }
+    function file_get(){ return OsPath::file_get_contents($this->s); }
 
     static function file_put_contents($p,$t,$f)
     {

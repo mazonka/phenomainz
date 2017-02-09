@@ -254,10 +254,12 @@ function jraf_request($tokarr)
 function Jraf_client_version()
 {
     $p = Jraf_sys_dir() -> plus_s('version');
-    $ps = $p->s;
-    $fever = OsPath::file_get_contents($ps);
+    ///$ps = $p->s;
+    ///$fever = OsPath::file_get_contents($ps);
+	$fever = $p->file_get();
 
-    if ( $fever === false || $fever == '' ) return jerr('no file system found [' . $ps . ']');
+    if ( $fever === false || $fever == '' ) 
+		return jerr('no file system found [' . $p->s . ']');
 
     return jok2($fever);
 }
@@ -447,8 +449,10 @@ function Jraf_check_au_path($pth,$su,$write)
 
 function Jraf_set_user_uname($su)
 {
-    $u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname')->s;
-    $uname = trim(OsPath::file_get_contents($u));
+    ///$u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname')->s;
+    ///$uname = trim(OsPath::file_get_contents($u));
+    $u = Jraf_users_dir()->plus_s($su->email)->plus_s('uname');
+    $uname = trim($u->file_get());
 
     if ( Jraf_isuname($uname) ) $su->uname = $uname;
 }
@@ -484,7 +488,8 @@ function Jraf_user($sess) // => User
     
     if ( !$in->isfile() ) return new User(false, false);
     
-    $email = OsPath::file_get_contents($in->s);
+    ///$email = OsPath::file_get_contents($in->s);
+    $email = $in->file_get();
     
     $superuser = Jraf_config('admin', $email);
 
@@ -499,7 +504,8 @@ function Jraf_user($sess) // => User
     
     //set counter
     $file_cntr = $udir->plus_s('counter');
-    $scntr = OsPath::file_get_contents($file_cntr->s);
+    ///$scntr = OsPath::file_get_contents($file_cntr->s);
+    $scntr = $file_cntr->file_get();
     $icntr = 0;
     if (! empty($scntr) ) $icntr = +$scntr;
     $icntr++;
@@ -652,7 +658,8 @@ function Jraf_ver_path($p)
 function Jraf_getver($p)
 {
     $q = Jraf_ver_path($p);
-    $ver = OsPath::file_get_contents( $q->s );
+    ///$ver = OsPath::file_get_contents( $q->s );
+    $ver = $q->file_get();
     $ver = trim($ver);
     $ver = Jraf_zero($ver);
     return $ver;
@@ -726,9 +733,9 @@ function Jraf_read_obj($pth, $getonly, $u)
     {
         $r = $ver . ' ' . $p->file_size();
         if ( $getonly ) return jok2($r);
-		/// FIXME use file_get and check other places
-        // $r .= ' ' . base64_encode( $p->file_get_contents() );
-        $r .= ' ' . base64_encode( OsPath::file_get_contents($p->s) );
+        /// $r .= ' ' . base64_encode( $p->file_get_contents() );
+        ///$r .= ' ' . base64_encode( OsPath::file_get_contents($p->s) );
+        $r .= ' ' . base64_encode( $p->file_get() );
         return jok2($r);
     }
 
