@@ -789,12 +789,40 @@ function Jraf_new_user($email)
     $hm->plus_s($uname)->trymkdir();
 }
 
-function Jraf_cleanOldFiles($dir, $timems)
+function Jraf_cleanOldFiles($dir, $secs)
 {
-	return;
-	echo " Jraf_cleanOldFiles ".$dir->s.' '.$timems.' ';
-	exit;
+	///return;
+
+	$files = $dir->readDirectory();
+	///$files = $files[1];
+	///var_dump($files);
+
+    foreach ( $files[1] as $i )
+    {
+        $name = $i[0];
+        $size = $i[1];
+		$osfile = $dir->plus_s($name);
+		$ho = $osfile->howold();
+		///echo " AAA ".$ho.' '.$secs.' ';
+        if ( $ho > $secs ) $osfile->erase();
+    }
 }
+
+/* C++
+void jraf::cleanOldFiles(os::Path dir, double secs)
+{
+    os::Dir d = os::FileSys::readDir(dir);
+
+    for ( auto i : d.files )
+    {
+        string nm = i.first;
+        auto file = dir + nm;
+        double ho = file.howold();
+        if ( ho > secs ) file.erase();
+        //os::Cout()<<" "<<file.str()<<' '<<ho<<' '<<secs<<os::endl;
+    }
+}
+*/
 
 /* C++
 

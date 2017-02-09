@@ -212,6 +212,13 @@ class OsPath
 
         return array ( $dirs, $fils );
     }
+
+	function howold()
+	{
+        global $CWD;
+        clearstatcache();
+        return time()-@filemtime($CWD.$this->s);
+	}
 }
 
 $LockWrite_locked = false;
