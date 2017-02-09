@@ -840,7 +840,7 @@ function Jraf_profile($su)
     Jraf_set_user_quota($su);
     
     $r = $su->su ? 'a' : 'u';
-    $star = create_function('$s', 'return $s->empty() ? "*" : $s');
+    $star = create_function('$s', 'return $s->empty() ? "*" : $s;');
     
     $r .= ' ';
     $r .= $star($su->email) + ' ';
