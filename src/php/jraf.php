@@ -1,7 +1,10 @@
 <?php
-error_reporting(-1);
-require 'ospath.php';
+// JRAF - JavaScript Remote Active FileSystem
+// Jraf team (C) 2017
 
+error_reporting(-1);
+
+// jraf globals
 $root_dir = 'jraf';
 $be_version = '10420';
 $sys_name = '.jraf.sys';
@@ -11,6 +14,8 @@ $login_dir = 'login';
 $home_dir = 'home';
 $thisload = 'jraf.php?';
 $dateset = '';
+// end of jraf globals
+
 
 // encoding section
 $skc_seed = ''.rand().time();
@@ -28,6 +33,15 @@ function skc_init()
 }
 skc_init();
 // end of encoding section
+
+
+// FileSystem section
+$CWD = '../';
+$LOCKD = 'jphp_lock';
+$LOCKF_UP = 'jphp.up';
+$LOCKF_DN = 'jphp.dn';
+// end of FileSystem section
+
 
 if( empty($_POST) )
 {
@@ -90,7 +104,6 @@ function jprocess($cmd) // void
     if( empty($toks) ){ echo('REQ_MSG_HEAD'); return; }
     if( count($toks) < 1 ){ echo('REQ_MSG_HEAD'); return; }
     
-    ///if( $toks[0] == 'jraf' ){ echo_jraf_req($toks, true); return; }
     if( $toks[0] == 'jr' || $toks[0] == 'jw' )
     { 
         echo_jraf_req($toks, $toks[0] == 'jw'); 
@@ -171,13 +184,12 @@ function jfail($s){ return new Cmdr('JRAF_FAIL '.$s, 0); }
 function jauth(){ return new Cmdr('AUTH', 0); }
 
 function echo_jraf_req($tokarr, $jw){ echo jraf_request($tokarr, $jw); }
-///function echo_jraf_req2($tokarr, $jw){ echo jraf_request($tokarr, $jw); }
 
 function jraf_request($tokarr, $jw)
 {
     global $be_version;
 
-    $tok = new Token($tokarr); ///return var_dump($tok);
+    $tok = new Token($tokarr);
     $result = new Cmdr('',1);
 
     while(1)
@@ -211,28 +223,9 @@ function jraf_request($tokarr, $jw)
 
         else if ( in_array($cmd, array('md', 'rm', 'put', 'save', 'mv')) && $jw )
         {
-            ///if ( !$tok->next() ) return jerr('session id')->s;
-			
-			/*///
-            $sess = $tok->sub();
-            $usr = Jraf_user($sess);
-
-            if( !$usr->auth )
-            {
-                $result->add( jauth());
-                return $result->s;
-            }
-
-            $pth = '';
-            $er = Jraf_read_tok_path($tok, $pth, $usr, false);
-
-            if ( !$er->b ) return $result->s . $er->s;
-			*/
-            
             if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
-                ///$result -> add( Jraf_aurequest($tok, $pth, $usr, $cmd) );
                 $result -> add( Jraf_aurequest($tok, $cmd) );
                 LockWrite_unlock();
             }
@@ -297,8 +290,6 @@ function jraf_request($tokarr, $jw)
 function Jraf_client_version()
 {
     $p = Jraf_sys_dir() -> plus_s('version');
-    ///$ps = $p->s;
-    ///$fever = OsPath::file_get_contents($ps);
     $fever = $p->file_get();
 
     if ( $fever === false || $fever == '' ) 
@@ -345,7 +336,6 @@ function Jraf_home_dir()
     return Jraf_root($home_dir);
 }
 
-///function Jraf_aurequest($tok, $pth, $usr, $cmd)
 function Jraf_aurequest($tok, $cmd)
 {
     if ( !$tok->next() ) return jerr('session id');
@@ -354,14 +344,9 @@ function Jraf_aurequest($tok, $cmd)
     $usr = Jraf_user($sess);
     if( !$usr->auth ) return jauth();
 
-    /// if ( !$tok->next() ) return jerr('command');
-    /// $cmd = $tok->sub();
-
     $pth = '';
     $er = Jraf_read_tok_path($tok, $pth, $usr, true);
     if ( !$er->b ) return $er;
-
-	///echo ' AAA '.$sess.' ';
 
     if (0) {}
 
@@ -539,7 +524,6 @@ function Jraf_user($sess) // => User
     
     if ( !$in->isfile() ) return new User(false, false);
     
-    ///$email = OsPath::file_get_contents($in->s);
     $email = $in->file_get();
     
     $superuser = Jraf_config('admin', $email);
@@ -555,7 +539,6 @@ function Jraf_user($sess) // => User
     
     //set counter
     $file_cntr = $udir->plus_s('counter');
-    ///$scntr = OsPath::file_get_contents($file_cntr->s);
     $scntr = $file_cntr->file_get();
     $icntr = 0;
     if (! empty($scntr) ) $icntr = +$scntr;
@@ -564,7 +547,6 @@ function Jraf_user($sess) // => User
 
     //set access
     $file_last = $udir->plus_s('access');
-    /// $last = @date('YmdHis');
     $last = Jraf_date();
     OsPath::file_put_contents($file_last->s, $last . "\n", 0);
     
@@ -718,7 +700,6 @@ function Jraf_ver_path($p)
 function Jraf_getver($p)
 {
     $q = Jraf_ver_path($p);
-    ///$ver = OsPath::file_get_contents( $q->s );
     $ver = $q->file_get();
     $ver = trim($ver);
     $ver = Jraf_zero($ver);
@@ -793,8 +774,6 @@ function Jraf_read_obj($pth, $getonly, $u)
     {
         $r = $ver . ' ' . $p->file_size();
         if ( $getonly ) return jok2($r);
-        /// $r .= ' ' . base64_encode( $p->file_get_contents() );
-        ///$r .= ' ' . base64_encode( OsPath::file_get_contents($p->s) );
         $r .= ' ' . base64_encode( $p->file_get() );
         return jok2($r);
     }
@@ -852,11 +831,7 @@ function Jraf_new_user($email)
 
 function Jraf_cleanOldFiles($dir, $secs)
 {
-    ///return;
-
     $files = $dir->readDirectory();
-    ///$files = $files[1];
-    ///var_dump($files);
 
     foreach ( $files[1] as $i )
     {
@@ -864,7 +839,6 @@ function Jraf_cleanOldFiles($dir, $secs)
         $size = $i[1];
         $osfile = $dir->plus_s($name);
         $ho = $osfile->howold();
-        ///echo " AAA ".$ho.' '.$secs.' ';
         if ( $ho > $secs ) $osfile->erase();
     }
 }
@@ -896,6 +870,259 @@ function Jraf_profile($su)
     }
 
     return jok2($r);
+}
+
+//////////////////////////////////////////////////////////////
+// FileSystem functions
+
+class OsPath
+{
+    public $s = '';
+    function __construct($p){ $this->s = $p; }
+
+    function plus_s($x)
+    {
+        $t = clone $this;
+        $t->add_s($x);
+        return $t;
+    }
+
+    function add_s($ps)
+    {
+        //$ps = $p->s;
+        if( $this->s == '' )
+        {
+            $this->s = $ps;
+            return;
+        }
+
+        if( $ps == '' ) return;
+
+        if ( substr($ps,0,1) == '/' )
+        {
+            if ( strlen($ps) > 1 )
+                $this->s .= $ps;
+        }
+        else
+
+            $this->s .= '/' . $ps;
+    }
+
+    static function file_get_contents($p)
+    {
+        global $CWD;
+        clearstatcache();
+        return @file_get_contents($CWD.$p);
+    }
+
+    function file_get(){ return OsPath::file_get_contents($this->s); }
+
+    static function file_put_contents($p,$t,$f)
+    {
+        global $CWD;
+        if ( $f == 0) $r = @file_put_contents($CWD.$p, $t);
+        if ( $f == 1) $r = @file_put_contents($CWD.$p, $t, FILE_APPEND);
+        clearstatcache();
+        return $r;
+    }
+
+    static function rename($f1,$f2)
+    {
+        global $CWD;
+        $r = @rename($CWD.$f1,$CWD.$f2);
+        clearstatcache();
+        return $r;
+    }
+
+    function isdir()
+    {
+        global $CWD;
+        clearstatcache();
+        return is_dir($CWD.$this->s);
+    }
+
+    function isfile()
+    {
+        global $CWD;
+        clearstatcache();
+        return is_file($CWD.$this->s);
+    }
+
+    function file_size()
+    {
+        global $CWD;
+        clearstatcache();
+        if ( !file_exists($CWD.$this->s) ) return 0;
+        $sz = filesize($CWD.$this->s);
+        return $sz;
+    }
+
+    function trymkdir()
+    {
+        global $CWD;
+        $d = $CWD.$this->s;
+        @mkdir($d,0777,true);
+        clearstatcache();
+    }
+
+    static function del_rec($pth)
+    {
+        global $CWD;
+
+        $tp = $CWD.$pth;
+
+        if ( !is_dir($tp) )
+        {
+            return @unlink($tp);
+            clearstatcache();
+        }
+
+        $files = array_diff(scandir($CWD.$pth), array('.','..'));
+        foreach ($files as $f)
+        {
+            $rp = $tp.'/'.$f;
+            if(is_dir($rp))
+            {
+                OsPath::del_rec($pth.'/'.$f);
+            }
+            else
+            {
+                unlink($rp);
+                clearstatcache();
+            }
+        }
+        $r = rmdir($tp);
+        clearstatcache();
+        return $r;
+    }
+
+    function erase(){ return OsPath::del_rec($this->s); }
+
+    function size() // -> int
+    {
+        $n = 1;
+        $pos = 0;
+        while(true)
+        {
+            $pos = strpos($this->s,'/',$pos);
+            if( $pos === false ) break;
+            $n++; $pos++;
+        }
+
+        return $n;
+    }
+
+    function strPstr($i)
+    {
+        $n = 0;
+        $pos = 0;
+        while(true)
+        {
+            $pos = strpos($this->s,'/',$pos);
+            if( $pos === false ) break;
+            $n++;
+            if( $n > $i ) break;
+            $pos++;
+        }
+
+        if ( $n == 0 || $pos === false ) return $this->s;
+        return substr($this->s, 0, $pos);
+    }
+
+    function readDirectory()
+    {
+        global $CWD;
+
+        $dirs = array();
+        $fils = array();
+
+        $d = $this->s;
+
+        $entries = array_diff(scandir($CWD.$d), array('.','..'));
+
+        foreach ($entries as $e)
+        {
+            $rp = $CWD.$d.'/'.$e;
+            if(is_dir($rp))
+            {
+                $dirs[] = $e;
+            }
+            else
+            {
+                $fils[] = array (  $e, filesize($rp) );
+            }
+        }
+
+        return array ( $dirs, $fils );
+    }
+
+	function howold()
+	{
+        global $CWD;
+        clearstatcache();
+        return time()-@filemtime($CWD.$this->s);
+	}
+}
+
+$LockWrite_locked = false;
+$LockWrite_cwd = '';
+function LockWrite_lock()
+{
+    global $LOCKD, $LOCKF_UP, $LOCKF_DN;
+
+    $fup = $LOCKD.'/'.$LOCKF_UP;
+    $fdn = $LOCKD.'/'.$LOCKF_DN;
+
+    if( !is_dir($LOCKD) )
+    {
+        mkdir($LOCKD);
+        if( !is_dir($LOCKD) ) die("Cannot create ".$LOCKD);
+        file_put_contents($fdn,'z');
+    }
+
+    for( $i=0; $i<50; ++$i )
+    {
+        if( !rename($fdn,$fup) )
+        {
+            //echo ' '.$i.' ';
+            usleep(1000*100); // 100ms
+            continue;
+        }
+        clearstatcache();
+
+        global $LockWrite_locked, $LockWrite_cwd;
+        $LockWrite_locked = true;
+        register_shutdown_function('LockWrite_abort');
+        $cwd = getcwd();
+        $LockWrite_cwd = str_replace("\\","/",$cwd);
+        return true;
+    }
+
+    return false;
+}
+
+function LockWrite_unlock()
+{
+    global $LOCKD, $LOCKF_UP, $LOCKF_DN;
+
+    $fup = $LOCKD.'/'.$LOCKF_UP;
+    $fdn = $LOCKD.'/'.$LOCKF_DN;
+
+    rename($fup,$fdn);
+    clearstatcache();
+    global $LockWrite_locked;
+    $LockWrite_locked = false;
+}
+
+function LockWrite_abort()
+{
+    global $LockWrite_locked, $LockWrite_cwd, $LOCKD;
+    if( $LockWrite_locked )
+    {
+        $LOCKD = $LockWrite_cwd.'/'.$LOCKD;
+        echo ' LockWrite_abort ['.$LOCKD.'] ';
+        LockWrite_unlock();
+    }
 }
 
 ?>

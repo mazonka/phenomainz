@@ -1,4 +1,4 @@
-# (C) 2016
+# (C) 2016-2017
 
 ifeq ($(OS),Windows_NT)
 	PLAT=msc
@@ -14,9 +14,8 @@ $(BIN):
 	@mkdir -p $(BIN)
 
 $(BIN)/jraf.php: jraf.php
-	cp *.php $(BIN)
+	cp jraf.php $(BIN)
 
 checkin:
 	cp -fpuv $(BIN)/jraf.php ./
-	cp -fpuv $(BIN)/ospath.php ./
 
