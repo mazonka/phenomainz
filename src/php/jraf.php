@@ -90,7 +90,7 @@ function jprocess($cmd) // void
     if( empty($toks) ){ echo('REQ_MSG_HEAD'); return; }
     if( count($toks) < 1 ){ echo('REQ_MSG_HEAD'); return; }
     
-    if( $toks[0] == 'jraf' ){ echo_jraf_req($toks, true); return; }
+    ///if( $toks[0] == 'jraf' ){ echo_jraf_req($toks, true); return; }
     if( $toks[0] == 'jr' || $toks[0] == 'jw' )
     { 
         echo_jraf_req($toks, $toks[0] == 'jw'); 
@@ -171,7 +171,7 @@ function jfail($s){ return new Cmdr('JRAF_FAIL '.$s, 0); }
 function jauth(){ return new Cmdr('AUTH', 0); }
 
 function echo_jraf_req($tokarr, $jw){ echo jraf_request($tokarr, $jw); }
-function echo_jraf_req2($tokarr, $jw){ echo jraf_request($tokarr, $jw); }
+///function echo_jraf_req2($tokarr, $jw){ echo jraf_request($tokarr, $jw); }
 
 function jraf_request($tokarr, $jw)
 {
@@ -196,6 +196,16 @@ function jraf_request($tokarr, $jw)
                 if ( $w == 'backend' ) $result -> add( jok2($be_version) );
                 else if ( $w == 'client' ) $result -> add( Jraf_client_version() );
                 else $result -> add( jbad() );
+            }
+        }
+
+        else if ( in_array($cmd, array('login', 'logout')) && $jw )
+        {
+            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
+            else
+            {
+                $result -> add( Jraf_login($tok, $cmd == 'login') );
+                LockWrite_unlock();
             }
         }
 
@@ -246,16 +256,6 @@ function jraf_request($tokarr, $jw)
             $result -> add( Jraf_read_obj($pth, $cmd == 'get', $usr) );
         }
         
-        else if ( in_array($cmd, array('login', 'logout')) && $jw )
-        {
-            if( !LockWrite_lock() ) $result -> add( jfail('busy') );
-            else
-            {
-                $result -> add( Jraf_login($tok, $cmd == 'login') );
-                LockWrite_unlock();
-            }
-        }
-
         else if ( $cmd == 'profile' )
         {
             if ( !$tok->next() ) return jerr('session id')->s;
