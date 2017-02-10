@@ -15,6 +15,7 @@ $(BIN):
 
 $(BIN)/jraf.php: jraf.php
 	cp jraf.php $(BIN)
+	cp index.php $(BIN)
 
 checkin:
 	cp -fpuv $(BIN)/jraf.php ./
