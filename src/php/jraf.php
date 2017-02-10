@@ -211,8 +211,9 @@ function jraf_request($tokarr, $jw)
 
         else if ( in_array($cmd, array('md', 'rm', 'put', 'save', 'mv')) && $jw )
         {
-            if ( !$tok->next() ) return jerr('session id')->s;
-
+            ///if ( !$tok->next() ) return jerr('session id')->s;
+			
+			/*///
             $sess = $tok->sub();
             $usr = Jraf_user($sess);
 
@@ -226,11 +227,13 @@ function jraf_request($tokarr, $jw)
             $er = Jraf_read_tok_path($tok, $pth, $usr, false);
 
             if ( !$er->b ) return $result->s . $er->s;
+			*/
             
             if( !LockWrite_lock() ) $result -> add( jfail('busy') );
             else
             {
-                $result -> add( Jraf_aurequest($tok, $pth, $usr, $cmd) );
+                ///$result -> add( Jraf_aurequest($tok, $pth, $usr, $cmd) );
+                $result -> add( Jraf_aurequest($tok, $cmd) );
                 LockWrite_unlock();
             }
         }
@@ -342,20 +345,23 @@ function Jraf_home_dir()
     return Jraf_root($home_dir);
 }
 
-function Jraf_aurequest($tok, $pth, $usr, $cmd)
+///function Jraf_aurequest($tok, $pth, $usr, $cmd)
+function Jraf_aurequest($tok, $cmd)
 {
-    // if ( !$tok->next() ) return jerr('session id');
-    // $sess = $tok->sub();
+    if ( !$tok->next() ) return jerr('session id');
+    $sess = $tok->sub();
 
-    // $usr = Jraf_user($sess);
-    // if( !$usr->auth ) return jauth();
+    $usr = Jraf_user($sess);
+    if( !$usr->auth ) return jauth();
 
-    // if ( !$tok->next() ) return jerr('command');
-    // $cmd = $tok->sub();
+    /// if ( !$tok->next() ) return jerr('command');
+    /// $cmd = $tok->sub();
 
-    // $pth = '';
-    // $er = Jraf_read_tok_path($tok, $pth, $usr, true);
-    // if ( !$er->b ) return $er;
+    $pth = '';
+    $er = Jraf_read_tok_path($tok, $pth, $usr, true);
+    if ( !$er->b ) return $er;
+
+	///echo ' AAA '.$sess.' ';
 
     if (0) {}
 
