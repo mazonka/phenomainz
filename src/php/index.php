@@ -1,1 +1,0 @@
-<?php require 'jraf.php'; ?>
