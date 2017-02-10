@@ -1,1 +1,1 @@
-command=jraf login a@b.c http://server/
+command=jw login a@b.c http://server/

@@ -1,1 +1,1 @@
-command=jraf au 0 md /aaa/bbb/ccc : au 0 rm aaa
+command=jw md 0 /aaa/bbb/ccc : rm 0 aaa

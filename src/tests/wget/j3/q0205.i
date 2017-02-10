@@ -1,1 +1,1 @@
-command=jraf au 0 md /a : read 0 / : get 0 /.jraf.ver/d
+command=jw md 0 /a : read 0 / : get 0 /.jraf.ver/d

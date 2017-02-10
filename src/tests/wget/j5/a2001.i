@@ -1,1 +1,1 @@
-command=jraf login a@b.com * : logout f82d3bb17612458c
+command=jw login a@b.com * : logout f82d3bb17612458c

@@ -1,1 +1,1 @@
-command=jraf read 0 /aaa
+command=jr read 0 /aaa

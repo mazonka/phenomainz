@@ -1,1 +1,1 @@
-command=jraf
+command=jr

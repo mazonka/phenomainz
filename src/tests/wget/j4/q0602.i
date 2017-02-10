@@ -1,1 +1,1 @@
-command=jraf au 0 md /.jraf.sys/users : login admin@server.com * : au f82d3bb17612458c md /.jraf.sys/a : au f82d3bb17612458c put /.jraf.sys/b 0 1 Kg== : read f82d3bb17612458c /.jraf.sys/a : read f82d3bb17612458c /.jraf.sys/b
+command=jw md 0 /.jraf.sys/users : login admin@server.com * : md f82d3bb17612458c /.jraf.sys/a : put f82d3bb17612458c /.jraf.sys/b 0 1 Kg== : read f82d3bb17612458c /.jraf.sys/a : read f82d3bb17612458c /.jraf.sys/b

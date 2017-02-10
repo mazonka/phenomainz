@@ -1,1 +1,1 @@
-command=jraf version blah
+command=jr version blah

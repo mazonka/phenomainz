@@ -1,1 +1,1 @@
-command=jraf au
+command=jr xx

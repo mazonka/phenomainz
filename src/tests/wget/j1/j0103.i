@@ -1,1 +1,1 @@
-command=jraf version client
+command=jr version client

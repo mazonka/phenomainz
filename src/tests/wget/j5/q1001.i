@@ -1,1 +1,1 @@
-command=jraf au 0 md /.jraf.sys/users : login a@b.c : ping
+command=jw md 0 /.jraf.sys/users : login a@b.c : ping

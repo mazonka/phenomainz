@@ -1,1 +1,1 @@
-command=jraf au 0
+command=jw md

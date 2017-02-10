@@ -1,1 +1,1 @@
-command=jraf version backend
+command=jr version backend

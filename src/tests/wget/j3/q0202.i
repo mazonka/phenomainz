@@ -1,1 +1,1 @@
-command=jraf au 0 md /a : read 0 / : au 0 put /.jraf.ver/f 0 1 Kg==
+command=jw md 0 /a : read 0 / : put 0 /.jraf.ver/f 0 1 Kg==

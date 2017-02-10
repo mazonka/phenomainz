@@ -1,1 +1,1 @@
-command=jraf au 0 md / : au 0 save /b 1 Kg== : get 0 /b : read 0 /b
+command=jw md 0 / : save 0 /b 1 Kg== : get 0 /b : read 0 /b

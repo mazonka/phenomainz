@@ -1,1 +1,1 @@
-command=jraf ping
+command=jr ping

@@ -1,1 +1,1 @@
-command=jraf au 0 md /a : au 0 md /.jraf.sys/b
+command=jw md 0 /a : md 0 /.jraf.sys/b
