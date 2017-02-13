@@ -1,1 +1,0 @@
-command=jw md 0 /.jraf.sys/users : login admim@server.com * : put f82d3bb17612458c /x 0 1 Kg==

@@ -1,1 +1,0 @@
-command=jr read 0 /aaa

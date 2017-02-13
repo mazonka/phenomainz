@@ -1,1 +1,0 @@
-command=jw profile 1 : md 0 /.jraf.sys/users : profile 1

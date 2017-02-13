@@ -1,1 +1,0 @@
-command=jw md 0 /.jraf.sys/users : login admin@server.com * : md f82d3bb17612458c /.jraf.sys/a : put f82d3bb17612458c /.jraf.sys/b 0 1 Kg== : read f82d3bb17612458c /.jraf.sys/a : read f82d3bb17612458c /.jraf.sys/b

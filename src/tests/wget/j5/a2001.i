@@ -1,1 +1,0 @@
-command=jw login a@b.com * : logout f82d3bb17612458c

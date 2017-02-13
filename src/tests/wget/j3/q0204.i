@@ -1,1 +1,0 @@
-command=jw md 0 /a : read 0 / : md 0 /.jraf.ver/d

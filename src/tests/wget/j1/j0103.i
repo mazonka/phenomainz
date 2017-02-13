@@ -1,1 +1,0 @@
-command=jr version client

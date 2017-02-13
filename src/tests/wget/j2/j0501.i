@@ -1,1 +1,0 @@
-command=jw md 0 /aaa/bbb : md 0 /aaa/ccc
